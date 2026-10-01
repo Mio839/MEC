@@ -14633,22 +14633,27 @@
       }
      ],
      "ans_label": "ｄ　食道憩室",
-     "ans_sub": "食道造影で食道壁外への嚢状突出→食道憩室の典型像（Zenker憩室・傍気管支性憩室等）。",
+     "ans_sub": "造影（A）では、食道の下端、横隔膜のすぐ上で、<b>食道の右側の壁から外へ丸く袋状にふくらむバリウムのたまり</b>があり、食道本体は胃へつながっている——<b>横隔膜上憩室</b>。内視鏡（B）では、本来の内腔の横にもう一つ<b>丸い開口（憩室の入口）</b>が並び、粘膜はなめらかで腫瘤・潰瘍はない。健診で見つかった無症状の<b>食道憩室</b>。潰瘍・腫瘍・癌なら壁の欠損や隆起、アカラシアなら食道全体の拡張と先細りになる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🕳️ 食道憩室の特徴",
-       "c": "<span class=\"kw\">食道憩室の種類</span>：<br><span class=\"kw\">① Zenker憩室（咽頭食道憩室）</span>：高齢男性・後壁・仮性憩室<br/>② 傍気管支性憩室（中部食道）：真性憩室（全層）<br/>③ 食道横隔膜上憩室（下部食道）：牽引性<br/><br/><span class=\"kw\">症状</span>：嚥下困難・逆流・口臭・誤嚥（Zenker）<br/><span class=\"kw\">診断</span>：バリウム造影（嚢状突出）<br/><span class=\"kw\">治療</span>：無症状→経過観察、症状あり→手術（憩室切除・筋切開）</br>"
+       "h": "🌿 造影と内視鏡で憩室を確かめる",
+       "c": "<span class=\"kw4\"><b>憩室の種類（ツェンカー・中部の牽引性・横隔膜上）は Q.185——ここは2枚の写真の読み方と、見つかったあとの扱い</b></span>。<br/><span class=\"kw\"><b>① 造影（A）</b></span><br/><span class=\"kw3\"><b>下部食道の右側に、壁の外へ丸くはみ出すバリウムの袋——首がくびれ、袋の中にバリウムがたまる</b></span><br/><span class=\"kw3\"><b>食道そのものは太さが保たれ、胃へ流れている</b></span><br/><span class=\"kw3\"><b>横隔膜のすぐ上——横隔膜上憩室</b></span><br/><span class=\"kw\"><b>② 内視鏡（B）</b></span><br/><span class=\"kw4\"><b>内腔が二つ並んで見える——一方が食道の続き、もう一方が憩室の入口</b></span><br/><span class=\"kw3\"><b>粘膜はなめらかで、腫瘤・潰瘍がない</b></span><br/><span class=\"kw\"><b>③ 見つかったあと</b></span><br/><span class=\"kw3\"><b>無症状なら経過観察——この症例のように健診で偶然見つかることが多い</b></span><br/><span class=\"kw3\"><b>つかえ・逆流・誤嚥があれば手術（憩室の切除と筋層の切開）</b></span><br/><span class=\"kw4\"><b>横隔膜上憩室は食道の運動障害（アカラシアなど）を伴うことが多い——食道内圧検査で確かめる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食道潰瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>造影では壁の小さなくぼみ（ニッシェ）、内視鏡では白苔を伴う粘膜の欠損</b></span>。<span class=\"kw3\"><b>内視鏡の粘膜は保たれている</b></span>。</td></tr><tr><td>ｂ　食道良性腫瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>造影では壁から内腔へ出る欠損（へこみではなく出っ張り）</b></span>。<span class=\"kw3\"><b>内視鏡では粘膜に覆われた隆起</b></span>。</td></tr><tr><td>ｃ　食道癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>不整な欠損・狭窄、内視鏡では不整な隆起や潰瘍</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　食道憩室</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>壁の外への袋状のふくらみと、内視鏡で並ぶ二つの開口</b></span>。</td></tr><tr><td>ｅ　食道アカラシア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道全体が拡張し、下端がなめらかに細くなる（Q.194）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：憩室があると何に気をつけるか",
+       "c": "<span class=\"kw\"><b>① 食物のたまり</b></span><br/><span class=\"kw3\"><b>袋に食物がたまって腐る——口臭、未消化物の逆流、夜間の誤嚥</b></span><br/><span class=\"kw\"><b>② 処置のとき</b></span><br/><span class=\"kw4\"><b>内視鏡・胃管を入れると、管が憩室に入り込み穿孔することがある——憩室があると分かっていれば慎重に</b></span><br/><span class=\"kw\"><b>③ 憩室の中の癌</b></span><br/><span class=\"kw3\"><b>袋の中で慢性の炎症が続き、まれに癌が生じる——内視鏡で袋の中まで観察する</b></span><br/><span class=\"kw\"><b>④ 出血・穿孔</b></span><br/><span class=\"kw3\"><b>まれだが起こる</b></span><br/><span class=\"kw\"><b>⑤ 大腸の憩室との違い</b></span><br/><span class=\"kw3\"><b>大腸の憩室は多発し、炎症（憩室炎）と出血が問題——食道の憩室は単発が多く、炎症はまれ</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Zenker憩室：高齢男性・咽頭食道移行部後壁・仮性憩室（粘膜・粘膜下層のみ突出）</span><br/>バリウム造影：咽頭後部の嚢状陰影→Zenker憩室の典型像。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "上部消化管造影＋内視鏡で食道壁の嚢状突出。<br/><b>a 食道潰瘍／b 良性腫瘍／c 食道癌／e 食道アカラシア</b>：合わない。<br/><b>d 食道憩室</b>：<span class=\"kw\">食道壁の限局性の嚢状突出</span>。✓"
+       "c": "<span class=\"kw3\"><b>食道憩室＝造影で壁の外への袋状のバリウムのたまり、内視鏡で並ぶ二つの開口</b></span><br/><span class=\"kw3\"><b>横隔膜上憩室は食道の運動障害を伴いやすい</b></span><br/><span class=\"kw4\"><b>無症状なら経過観察、症状があれば手術</b></span><br/><span class=\"kw3\"><b>内視鏡・胃管の挿入時に穿孔に注意</b></span>"
       }
      ],
      "imgs": [
@@ -14701,22 +14706,27 @@
       }
      ],
      "ans_label": "ａ　胃食道逆流症〈逆流性食道炎〉\nｃ　食道裂孔ヘルニア",
-     "ans_sub": "GERD（胸やけ・前屈悪化）＋食道裂孔ヘルニア（造影で胃が胸腔内）の合併は最も多い組み合わせ。",
+     "ans_sub": "前かがみ・高脂肪食で悪化する胸やけが 10 年続き、薬で治まり、やめると再燃——<b>胃食道逆流症</b>。食道造影では、横隔膜の上に<b>胃のひだを持つ袋状の部分</b>が出て、食道の下端につながっている——<b>食道裂孔ヘルニア</b>。ヘルニアは逆流を防ぐしくみを壊し、逆流性食道炎の大きな原因になる——2 つは合わせて起こることが多い。憩室・狭窄・静脈瘤の像はない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔥 GERDと食道裂孔ヘルニアの合併",
-       "c": "<span class=\"kw\">a逆流性食道炎（正答）</span>：<br>10年来の胸やけ（前屈・高脂肪食で悪化）→酸逆流症状（GERD）<br>内視鏡でびらんあり→逆流性食道炎<br/><br/><span class=\"kw\">c食道裂孔ヘルニア（正答）</span>：<br/>食道造影で胃が横隔膜を超えて胸腔内へ脱出→食道裂孔ヘルニア<br/>→ LESの機能低下→GERDの最多原因<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ b食道憩室：嚢状突出（バリウム造影での嚢形成）<br/>✗ d食道狭窄：びらんではなく明確な狭窄<br/>✗ e食道静脈瘤：青紫色の隆起性病変（内視鏡）</br></br>"
+       "h": "🌿 ヘルニアがあると、なぜ逆流が治りにくいのか",
+       "c": "<span class=\"kw4\"><b>ヘルニアの型は Q.172、造影の読み方は Q.212——ここはヘルニアが逆流を長引かせるしくみ</b></span>。<br/><span class=\"kw\"><b>① 横隔膜の締め付けが外れる</b></span><br/><span class=\"kw3\"><b>下部食道括約筋と横隔膜の脚が同じ高さで重なって門を作っている——ヘルニアで二つが離れ、締める力が弱まる</b></span><br/><span class=\"kw\"><b>② 袋が酸のたまり場になる</b></span><br/><span class=\"kw3\"><b>横隔膜の上に出た胃の部分に酸がたまり、飲み込んで括約筋がゆるむたびに食道へ戻る（再逆流）</b></span><br/><span class=\"kw\"><b>③ 酸が洗い流されにくい</b></span><br/><span class=\"kw3\"><b>食道が酸を胃へ戻す力が弱まる</b></span><br/><span class=\"kw\"><b>④ 結果</b></span><br/><span class=\"kw4\"><b>大きなヘルニアほど食道炎が重く、薬をやめると再燃しやすい——この症例の経過</b></span><br/><span class=\"kw3\"><b>治療は PPI の維持と生活指導、薬で抑えられなければヘルニアの修復と噴門形成術（Q.214）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胃食道逆流症〈逆流性食道炎〉</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>前かがみ・高脂肪食で悪化する胸やけ、薬で治まりやめると再燃</b></span>。</td></tr><tr><td>ｂ　食道憩室</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の壁から外へ出る袋で、胃のひだはない（Q.217）</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　食道裂孔ヘルニア</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>横隔膜の上に胃のひだを持つ袋が出ている</b></span>。</td></tr><tr><td>ｄ　食道狭窄</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>造影で食道が細くなり、口側が拡張する</b></span>。<span class=\"kw3\"><b>この写真は細くなるのではなく、下端がふくらんでいる</b></span>。</td></tr><tr><td>ｅ　食道静脈瘤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>造影では下部食道に数珠状・虫食い状の透亮像</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：内視鏡で裂孔ヘルニアをどう見つけるか",
+       "c": "<span class=\"kw\"><b>① 目印は三つ</b></span><br/><span class=\"kw3\"><b>扁平円柱上皮接合部（白い食道と赤い胃の粘膜の境目）</b></span><br/><span class=\"kw3\"><b>食道胃接合部（胃のひだの口側の端）</b></span><br/><span class=\"kw3\"><b>横隔膜の締め付け（呼吸で動く、内腔のくびれ）</b></span><br/><span class=\"kw\"><b>② 判定</b></span><br/><span class=\"kw4\"><b>食道胃接合部が横隔膜の締め付けより口側にずれている——その間に胃のひだが見えれば滑脱型ヘルニア</b></span><br/><span class=\"kw3\"><b>一般に 2cm 以上のずれでヘルニアとする</b></span><br/><span class=\"kw\"><b>③ 反転して見る</b></span><br/><span class=\"kw3\"><b>胃の中でスコープを反転し、噴門を下から見る——裂孔がゆるく開き、スコープの周りにすき間が見える</b></span><br/><span class=\"kw\"><b>④ 造影との違い</b></span><br/><span class=\"kw3\"><b>造影は大きさと胃の位置がよく分かる、内視鏡は粘膜（食道炎・バレット食道・キャメロン潰瘍）が分かる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GERD＋食道裂孔ヘルニアの合併が最多（95%の逆流性食道炎は裂孔ヘルニアあり）</span><br/>治療：PPI＋生活習慣改善→改善しない場合は腹腔鏡下Nissen手術。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道造影で考えられるものを2つ。<br/><b>b 食道憩室／d 食道狭窄／e 食道静脈瘤</b>：合わない。<br/><b>a 胃食道逆流症〈逆流性食道炎〉</b>：<span class=\"kw\">逆流による食道炎</span>。✓<br/><b>c 食道裂孔ヘルニア</b>：<span class=\"kw\">裂孔ヘルニアがGERDの背景となる</span>。✓"
+       "c": "<span class=\"kw3\"><b>食道裂孔ヘルニアと逆流性食道炎はしばしば合併する</b></span><br/><span class=\"kw3\"><b>ヘルニア＝横隔膜の締め付けが外れ、袋が酸のたまり場になる→逆流が治りにくい</b></span><br/><span class=\"kw4\"><b>造影＝横隔膜の上に胃のひだを持つ袋、内視鏡＝接合部が横隔膜より口側にずれる</b></span>"
       }
      ],
      "imgs": [
@@ -14760,22 +14770,27 @@
       }
      ],
      "ans_label": "ｅ　食道静脈瘤",
-     "ans_sub": "食道静脈瘤は门脈圧亢進による静脈の怒張であり、直接的な嚥下障害の原因にはなりにくい（大きければ軽度の嚥下困難あり）。",
+     "ans_sub": "嚥下障害は<b>通り道が狭くなる（癌・潰瘍の瘢痕）</b>か、<b>送り出す動きが悪くなる（アカラシア・強皮症）</b>で起こる。<b>食道静脈瘤</b>は粘膜の下の静脈がふくらむだけで、柔らかく押されると平らになり、食物の通過をほとんど妨げない——症状がなく、<b>破裂して吐血</b>して初めて見つかることが多い。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🫁 嚥下障害の原因疾患",
-       "c": "<table class=\"tb\"><tr><th>疾患</th><th>嚥下障害</th><th>メカニズム</th></tr><tr><td>疾患</td><td>嚥下障害の有無</td><td>メカニズム</td></tr><tr><td>全身性硬化症（強皮症）（a）</td><td><span class=\"kw\">あり</span></td><td>食道平滑筋線維化→蠕動消失</td></tr><tr><td>食道潰瘍（b）</td><td><span class=\"kw\">あり</span></td><td>炎症・狭窄→通過障害</td></tr><tr><td>食道癌（c）</td><td><span class=\"kw\">あり</span></td><td>腫瘍による閉塞・狭窄</td></tr><tr><td>食道アカラシア（d）</td><td><span class=\"kw\">あり</span></td><td>LES弛緩不全→食物停滞</td></tr><tr><td><span class=\"kw\">食道静脈瘤（e）</span></td><td><span class=\"kw4\">きたしにくい（正答）</span></td><td>静脈の怒張のみ→直接的閉塞は少ない</td></tr></table>"
+       "h": "🌿 嚥下障害の原因を「場所」と「しくみ」で分類する",
+       "c": "<span class=\"kw4\"><b>強皮症の食道は Q.178、嚥下困難の聞き方は Q.192——ここは原因の全体の地図</b></span>。<br/><span class=\"kw\"><b>① 口・喉（口腔咽頭性）</b></span><br/><span class=\"kw3\"><b>脳卒中・パーキンソン病・筋萎縮性側索硬化症・重症筋無力症・多発性筋炎</b></span><br/><span class=\"kw3\"><b>飲み込み始めにむせる、鼻へ逆流</b></span><br/><span class=\"kw\"><b>② 食道——通り道が狭い（器質的）</b></span><br/><span class=\"kw3\"><b>癌、潰瘍の治った後の狭窄（逆流・腐食・薬剤）、食道ウェブ、外からの圧迫（大動脈・縦隔腫瘍）</b></span><br/><span class=\"kw3\"><b>固形物から通らなくなる</b></span><br/><span class=\"kw\"><b>③ 食道——動きが悪い（機能的）</b></span><br/><span class=\"kw3\"><b>アカラシア、強皮症（蠕動が弱く、括約筋もゆるむ）、びまん性食道痙攣</b></span><br/><span class=\"kw3\"><b>はじめから固形物も液体も</b></span><br/><span class=\"kw\"><b>④ 嚥下障害を起こしにくいもの</b></span><br/><span class=\"kw4\"><b>食道静脈瘤——柔らかく、通過を妨げない</b></span><br/><span class=\"kw3\"><b>逆流性食道炎の軽症、マロリー・ワイス症候群</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　全身性硬化症〈強皮症〉</td><td><span class=\"kw4\">誤り</span>（起こす）。<span class=\"kw3\"><b>食道の平滑筋が線維化し蠕動が弱まる</b></span>。<span class=\"kw3\"><b>逆流による狭窄も加わる</b></span>。</td></tr><tr><td>ｂ　食道潰瘍</td><td><span class=\"kw4\">誤り</span>（起こす）。<span class=\"kw3\"><b>痛みで飲み込みにくい（嚥下痛）、治ったあとに瘢痕狭窄</b></span>。</td></tr><tr><td>ｃ　食道癌</td><td><span class=\"kw4\">誤り</span>（起こす）。<span class=\"kw3\"><b>腫瘍が内腔をふさぐ——最も重要な原因</b></span>。</td></tr><tr><td>ｄ　食道アカラシア</td><td><span class=\"kw4\">誤り</span>（起こす）。<span class=\"kw3\"><b>下部食道括約筋がゆるまない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　食道静脈瘤</span></td><td><span class=\"kw3\">これが「きたしにくい」（＝正解）</span>。<span class=\"kw3\"><b>柔らかい静脈のふくらみで、通過を妨げない</b></span>。<span class=\"kw3\"><b>破裂して吐血するまで無症状のことが多い</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：覚えておきたい嚥下障害の原因",
+       "c": "<span class=\"kw\"><b>① プランマー・ヴィンソン症候群</b></span><br/><span class=\"kw3\"><b>鉄欠乏性貧血＋頸部食道の膜（ウェブ）＋舌炎・さじ状爪——中年女性</b></span><br/><span class=\"kw4\"><b>下咽頭・頸部食道癌の危険が高い</b></span><br/><span class=\"kw\"><b>② 薬剤性食道潰瘍</b></span><br/><span class=\"kw3\"><b>錠剤が生理的狭窄部にとどまる——テトラサイクリン系・NSAIDs・ビスホスホネート・塩化カリウム</b></span><br/><span class=\"kw3\"><b>水なしで服用・就寝直前の服用で起こる——強い嚥下痛</b></span><br/><span class=\"kw\"><b>③ 嚥下痛を起こす感染</b></span><br/><span class=\"kw3\"><b>カンジダ・ヘルペス・サイトメガロウイルス——免疫不全の人（Q.196）</b></span><br/><span class=\"kw\"><b>④ 静脈瘤の治療のあと</b></span><br/><span class=\"kw3\"><b>結紮術・硬化療法のあとにできる潰瘍・狭窄で、つかえや痛みが出ることがある——静脈瘤そのものではなく治療の影響</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道静脈瘤：門脈圧亢進で静脈が怒張→吐血が主症状→嚥下障害は起こしにくい</span><br/>強皮症（全身性硬化症）は食道平滑筋線維化→蠕動消失→嚥下困難を起こす。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "嚥下障害をきたし「にくい」もの。<br/><b>a 全身性硬化症／b 食道潰瘍／c 食道癌／d 食道アカラシア</b>：嚥下障害をきたす。<br/><b>e 食道静脈瘤</b>：<span class=\"kw\">通常は嚥下障害を起こさない（出血が主）</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>嚥下障害の原因＝器質的狭窄（癌・瘢痕）、運動障害（アカラシア・強皮症）、口腔咽頭の障害（神経・筋）</b></span><br/><span class=\"kw4\"><b>食道静脈瘤は嚥下障害を起こしにくく、破裂（吐血）で見つかる</b></span><br/><span class=\"kw3\"><b>鉄欠乏性貧血＋食道ウェブ＝プランマー・ヴィンソン症候群</b></span>"
       }
      ],
      "imgs": []
@@ -14834,22 +14849,27 @@
       }
      ],
      "ans_label": "ａ　手　術",
-     "ans_sub": "遠隔転移のない進行胃癌（Stage II/III）は根治手術（胃切除＋リンパ節郭清）が第一選択。",
+     "ans_sub": "内視鏡で胃の中で反転して胃体上部を見ると、<b>縁が周堤のように盛り上がり、中央が浅く陥凹した病変</b>がある。生検は中分化管状腺癌、CT でリンパ節腫大・遠隔転移はない。ESD の適応（粘膜内にとどまる分化型癌）を越える癌で、転移がないので<b>根治をめざした手術（胃切除＋リンパ節郭清）</b>を行う。転移がない癌を経過観察・薬物療法だけにする理由はなく、胃癌に放射線は通常使わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 進行胃癌の治療方針",
-       "c": "<span class=\"kw\">a手術（正答）</span>：遠隔転移なし→<span class=\"kw\">幽門側胃切除術or胃全摘術＋D2リンパ節郭清</span><br>術後：補助化学療法（S-1 or CAPOX/XELOX）を追加<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b経過観察：進行癌で放置は不可<br/>✗ c放射線治療：胃癌には通常適応なし（姑息目的のみ）<br/>✗ d薬物による抗癌治療：遠隔転移例（Stage IV）に適応（今回は遠隔転移なし→手術が先）<br/>✗ eESD：早期癌（T1a）のみ適応</br>"
+       "h": "🌿 胃癌の治療は「深さ」と「転移」で決まる",
+       "c": "<span class=\"kw4\"><b>ここから第 5 章「胃」</b></span>。<br/><span class=\"kw\"><b>① 写真</b></span><br/><span class=\"kw3\"><b>胃の中でスコープを反転し、胃体上部を見上げている（中央の黒い管がスコープ）</b></span><br/><span class=\"kw3\"><b>縁が盛り上がり、中央がくぼんだ不整な病変——粘膜内にとどまらない癌を考える</b></span><br/><span class=\"kw\"><b>② 内視鏡治療（ESD・EMR）の適応</b></span><br/><span class=\"kw3\"><b>リンパ節転移の可能性がほぼない癌に限る</b></span><br/><span class=\"kw3\"><b>粘膜内にとどまる分化型癌で、潰瘍を伴わないもの（潰瘍があれば 3cm 以下）など</b></span><br/><span class=\"kw\"><b>③ 手術</b></span><br/><span class=\"kw4\"><b>適応を越える癌で、遠隔転移がなければ胃切除＋リンパ節郭清——この症例</b></span><br/><span class=\"kw3\"><b>切除の範囲は場所で決まる——胃体上部の癌は胃全摘（早期なら噴門側胃切除）、下部の癌は幽門側胃切除</b></span><br/><span class=\"kw3\"><b>進行癌では術後に補助化学療法（S-1 など）</b></span><br/><span class=\"kw\"><b>④ 遠隔転移がある</b></span><br/><span class=\"kw3\"><b>薬物療法（Q.187 の食道癌と同じ考え方）</b></span><br/><span class=\"kw\"><b>⑤ 腫瘍マーカー</b></span><br/><span class=\"kw3\"><b>CEA・CA19-9 は正常——正常でも癌は否定できない</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 胃癌の治療方針（Stage別）",
-       "c": "<table class=\"tb\"><tr><th>Stage</th><th>深達度/転移</th><th>治療</th></tr><tr><td>Stage</td><td>深達度/転移</td><td>治療</td></tr><tr><td>I（早期）</td><td>T1a（M）</td><td><span class=\"kw\">ESD/EMR（内視鏡切除）</span></td></tr><tr><td>I</td><td>T1b（SM）</td><td><span class=\"kw\">胃切除＋D1郭清</span></td></tr><tr><td>II-III</td><td>T2〜T4・N1〜2</td><td><span class=\"kw\">胃切除＋D2郭清＋術後補助化学療法</span></td></tr><tr><td>IV</td><td>遠隔転移あり</td><td><span class=\"kw4\">化学療法（姑息治療）</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　手　術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>転移のない胃癌で、内視鏡治療の適応を越える——胃切除＋リンパ節郭清</b></span>。</td></tr><tr><td>ｂ　経過観察</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>癌と診断されていて、治せる段階にある</b></span>。</td></tr><tr><td>ｃ　放射線治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃癌は放射線が効きにくく、胃は周りの臓器ごと照射しにくい</b></span>。<span class=\"kw3\"><b>出血・痛みを抑える緩和目的に限る</b></span>。</td></tr><tr><td>ｄ　薬物による抗癌治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>遠隔転移がある・切除できない場合の治療</b></span>。<span class=\"kw3\"><b>切除できるなら手術が先</b></span>。</td></tr><tr><td>ｅ　内視鏡的粘膜下層剝離術〈ESD〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>リンパ節転移がほぼない早期癌が対象</b></span>。<span class=\"kw3\"><b>周堤を伴う陥凹はより深い癌を考え、適応を越える</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡切除の適応外の胃癌で遠隔転移・リンパ節腫大なし。<br/><b>b 経過観察／c 放射線／d 抗癌治療／e ESD（適応外）</b>：本例に不適。<br/><b>a 手術</b>：<span class=\"kw\">リンパ節郭清を伴う外科的胃切除が適応</span>。✓"
+       "h": "🔍 別軸：胃癌の「早期」と「進行」",
+       "c": "<span class=\"kw\"><b>① 早期胃癌</b></span><br/><span class=\"kw3\"><b>癌が粘膜下層までにとどまる——リンパ節転移の有無は問わない</b></span><br/><span class=\"kw3\"><b>肉眼型は 0 型：隆起（I）、表面型（IIa 隆起・IIb 平坦・IIc 陥凹）、陥凹（III）</b></span><br/><span class=\"kw\"><b>② 進行胃癌</b></span><br/><span class=\"kw3\"><b>固有筋層より深い——肉眼型は 1〜4 型（ボールマン分類）</b></span><br/><span class=\"kw3\"><b>1 型：隆起、2 型：周堤のはっきりした潰瘍、3 型：周堤が崩れた潰瘍、4 型：びまん性に壁が硬くなる（スキルス）</b></span><br/><span class=\"kw\"><b>③ 食道癌との共通点</b></span><br/><span class=\"kw3\"><b>0 型と 1〜5 型の分け方は食道癌と同じ枠組み（Q.192）</b></span><br/><span class=\"kw\"><b>④ 深さの見当</b></span><br/><span class=\"kw4\"><b>陥凹の縁が盛り上がる、ひだが途切れる・太る、硬く伸びない——深い癌を疑う</b></span><br/><span class=\"kw3\"><b>超音波内視鏡で深さを補う</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>胃癌の治療＝粘膜内の分化型癌など転移のほぼない早期癌は ESD、それを越え遠隔転移がなければ手術（胃切除＋郭清）、遠隔転移があれば薬物療法</b></span><br/><span class=\"kw4\"><b>胃癌に放射線は通常使わない</b></span><br/><span class=\"kw3\"><b>胃体上部の癌＝胃全摘、下部＝幽門側胃切除</b></span>"
       }
      ],
      "imgs": [
@@ -14897,22 +14917,27 @@
       }
      ],
      "ans_label": "ｅ　甲状腺機能低下",
-     "ans_sub": "甲状腺機能低下（粘液水腫性イレウス）→消化管蠕動↓→腹部膨満・便秘・イレウス様症状を呈する。",
+     "ans_sub": "上腸間膜動脈の閉塞で空腸・回腸の広い範囲が壊死し、回盲弁の 10cm 口側まで切除した——<b>残る小腸が短い（短腸症候群）</b>。吸収する面が減り<b>下痢・脱水</b>、長期の中心静脈栄養と胆汁酸の循環障害で<b>肝障害</b>（胆石も）、脂肪の吸収不良でシュウ酸が大腸から多く吸収され<b>シュウ酸カルシウムの腎結石</b>が起こる。<b>甲状腺機能低下</b>は小腸切除とは関係しない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦋 甲状腺機能低下と腸管症状",
-       "c": "<span class=\"kw\">e甲状腺機能低下（正答）</span>：<br>・甲状腺ホルモン↓→全身代謝↓→消化管蠕動運動↓→<span class=\"kw\">麻痺性イレウス様</span>症状<br/>・腹部膨満・便秘・嘔吐・腹痛<br/>・重症例：粘液水腫性イレウス（myxedema ileus）<br/><br/><span class=\"kw\">胃癌治療との関連</span>：<br/>・化学療法（チロシンキナーゼ阻害薬等）→甲状腺機能低下を引き起こす場合あり<br/>・放射線治療（頸部照射）→甲状腺破壊→機能低下<br/><br/><span class=\"kw4\">他の選択肢</span>：<br/>✗ a下痢・b脱水・c肝障害・d腎結石：今回の腹部膨満・痛みの主原因として低優先</br>"
+       "h": "🌿 小腸を広く失うと何が起きるか——短腸症候群",
+       "c": "<span class=\"kw\"><b>① 何が残ったか</b></span><br/><span class=\"kw3\"><b>空腸・回腸の広い範囲を切除し、回盲弁の手前 10cm の回腸と大腸が残る</b></span><br/><span class=\"kw3\"><b>回盲弁と大腸が残ると、水分の吸収と通過の遅れが少し保たれる</b></span><br/><span class=\"kw\"><b>② 水と電解質</b></span><br/><span class=\"kw4\"><b>吸収する面が足りず、大量の下痢——脱水・低カリウム・低マグネシウム</b></span><br/><span class=\"kw3\"><b>術後早期は中心静脈栄養が必要、時間とともに残った腸が適応して吸収が増える</b></span><br/><span class=\"kw\"><b>③ 回腸の働きが失われる</b></span><br/><span class=\"kw3\"><b>胆汁酸の再吸収：胆汁酸が大腸へ流れて下痢（胆汁酸性下痢）、胆汁酸が減って脂肪が吸収されず脂肪便</b></span><br/><span class=\"kw3\"><b>ビタミン B<sub>12</sub> の吸収：巨赤芽球性貧血——注射で補う</b></span><br/><span class=\"kw\"><b>④ 肝・胆道</b></span><br/><span class=\"kw3\"><b>長期の中心静脈栄養による肝障害（脂肪肝・胆汁うっ滞）</b></span><br/><span class=\"kw3\"><b>胆汁酸が減り胆汁が濃くなる——胆石</b></span><br/><span class=\"kw\"><b>⑤ 腎結石</b></span><br/><span class=\"kw4\"><b>腸に残った脂肪がカルシウムと結合し、シュウ酸が自由になって大腸で吸収される——シュウ酸カルシウム結石（大腸が残っている人に起こる）</b></span><br/><span class=\"kw\"><b>⑥ 胃酸の過剰分泌</b></span><br/><span class=\"kw3\"><b>術後早期に胃酸が増える——酸分泌抑制薬を使う</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　下　痢</td><td><span class=\"kw4\">誤り</span>（起こる）。<span class=\"kw3\"><b>吸収面の不足、胆汁酸・脂肪の吸収不良</b></span>。</td></tr><tr><td>ｂ　脱　水</td><td><span class=\"kw4\">誤り</span>（起こる）。<span class=\"kw3\"><b>大量の下痢で水と電解質を失う</b></span>。</td></tr><tr><td>ｃ　肝障害</td><td><span class=\"kw4\">誤り</span>（起こる）。<span class=\"kw3\"><b>長期の中心静脈栄養、胆汁酸の循環の乱れ</b></span>。</td></tr><tr><td>ｄ　腎結石</td><td><span class=\"kw4\">誤り</span>（起こる）。<span class=\"kw3\"><b>脂肪の吸収不良でシュウ酸が大腸から多く吸収される</b></span>。<span class=\"kw3\"><b>脱水も結石を作りやすくする</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　甲状腺機能低下</span></td><td><span class=\"kw3\">これが「考えにくい」（＝正解）</span>。<span class=\"kw3\"><b>小腸の切除とは関係しない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：どこを切ったかで、足りなくなるものが違う",
+       "c": "<span class=\"kw\"><b>① 十二指腸・上部空腸</b></span><br/><span class=\"kw3\"><b>鉄・カルシウム・葉酸——鉄欠乏性貧血、骨粗鬆症</b></span><br/><span class=\"kw\"><b>② 空腸</b></span><br/><span class=\"kw3\"><b>多くの栄養素を吸収するが、回腸がその働きを代わりに担える</b></span><br/><span class=\"kw\"><b>③ 回腸の末端</b></span><br/><span class=\"kw4\"><b>ビタミン B<sub>12</sub>（内因子と結合したもの）と胆汁酸——代わりがきかない</b></span><br/><span class=\"kw3\"><b>クローン病で回腸を切除した人も同じ問題が起こる</b></span><br/><span class=\"kw\"><b>④ 回盲弁</b></span><br/><span class=\"kw3\"><b>小腸の内容物の通過を遅らせ、大腸の細菌が小腸へ入るのを防ぐ——失うと下痢と小腸の細菌の異常増殖</b></span><br/><span class=\"kw\"><b>⑤ 大腸</b></span><br/><span class=\"kw3\"><b>水分・ナトリウムの吸収——大腸が残っていると下痢が軽い</b></span><br/><span class=\"kw3\"><b>一方でシュウ酸の吸収が起こるのも大腸</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">甲状腺機能低下 → 麻痺性イレウス（腸管蠕動低下）</span><br/>治療：甲状腺ホルモン補充（レボチロキシン）→腸管蠕動改善。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "回腸切除・腸管吻合後の合併症で「考えにくい」もの。<br/><b>a 下痢／b 脱水／c 肝障害／d 腎結石（シュウ酸吸収亢進）</b>：短腸・回腸切除で起こりうる。<br/><b>e 甲状腺機能低下</b>：<span class=\"kw\">腸管切除と関連しない</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>短腸症候群＝下痢・脱水・電解質異常・栄養障害（中心静脈栄養）</b></span><br/><span class=\"kw3\"><b>回腸切除＝ビタミン B<sub>12</sub> 欠乏・胆汁酸性下痢・脂肪便・胆石</b></span><br/><span class=\"kw4\"><b>大腸が残る脂肪吸収不良＝シュウ酸カルシウム結石</b></span><br/><span class=\"kw3\"><b>中心静脈栄養の長期使用＝肝障害</b></span>"
       }
      ],
      "imgs": []
@@ -14958,22 +14983,27 @@
       }
      ],
      "ans_label": "ｅ　ダンピング症候群",
-     "ans_sub": "胃全摘術後に食後早期（30分以内）の動悸・腹痛→早期ダンピング症候群（高浸透圧食物が急速に小腸へ流入）。",
+     "ans_sub": "胃全摘の 4 週後、食事量が増えてきたところで、<b>食後 5〜10 分</b>に腹痛・下痢・めまい・顔面紅潮・動悸が出て、横になると軽くなる——<b>早期ダンピング症候群</b>。胃という貯める袋がなく、食物が一気に小腸へ流れ込み、浸透圧で血管内の水が腸へ移る（循環血液量の減少）とともに、消化管ホルモンが出て血管が広がり腸が動く。血糖・Hb・心拍は正常で、胆石・心房細動・腸閉塞・巨赤芽球性貧血には合わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍽️ ダンピング症候群",
-       "c": "<span class=\"kw\">早期ダンピング症候群（正答e）</span>：<br>・食後<span class=\"kw\">15〜30分以内</span>に発症<br>・機序：食物が急速に小腸に流入→高浸透圧→腸管から血液へ水分移動→循環血液量↓＋腸管蠕動亢進<br/>・症状：動悸・冷汗・腹痛・嘔気・顔面紅潮・下痢<br/><br/><span class=\"kw\">後期ダンピング症候群</span>：<br/>・食後<span class=\"kw\">2〜3時間後</span>に発症<br/>・機序：急速な糖吸収→インスリン過剰分泌→低血糖<br/>・症状：脱力・冷汗・動悸（低血糖症状）<br/><br/><span class=\"kw\">治療</span>：少量頻回食・炭水化物制限・食後臥位・αGI阻害薬（アカルボース）</br></br>"
+       "h": "🌿 胃切除後症候群——術後の時期と症状で並べる",
+       "c": "<span class=\"kw4\"><b>胃管で再建した食道切除後の問題は Q.190——ここは胃を切ったあと</b></span>。<br/><span class=\"kw\"><b>① 早期ダンピング（食後 30 分以内）</b></span><br/><span class=\"kw3\"><b>高浸透圧の食物が小腸へ一気に入る→水が腸へ移り循環血液量が減る＋ホルモン（セロトニン・ブラジキニン等）</b></span><br/><span class=\"kw3\"><b>動悸・冷汗・めまい・顔面紅潮・腹痛・下痢——横になると楽になる</b></span><br/><span class=\"kw\"><b>② 後期ダンピング（食後 2〜3 時間）</b></span><br/><span class=\"kw3\"><b>糖が急に吸収され血糖が急上昇→インスリンが出すぎ→低血糖</b></span><br/><span class=\"kw3\"><b>冷汗・ふるえ・脱力・意識障害——糖をとると治る</b></span><br/><span class=\"kw\"><b>③ 数か月〜年単位</b></span><br/><span class=\"kw3\"><b>鉄欠乏性貧血（酸がなく鉄が吸収されにくい、十二指腸を通らない再建）</b></span><br/><span class=\"kw4\"><b>ビタミン B<sub>12</sub> 欠乏による巨赤芽球性貧血（内因子が失われる）——胃全摘では体内の蓄えが尽きる数年後</b></span><br/><span class=\"kw3\"><b>骨粗鬆症（カルシウムの吸収低下）</b></span><br/><span class=\"kw3\"><b>胆石（迷走神経の切離で胆嚢の動きが落ちる）</b></span><br/><span class=\"kw3\"><b>逆流性食道炎（胆汁・膵液が上がる）</b></span><br/><span class=\"kw\"><b>④ この症例</b></span><br/><span class=\"kw3\"><b>術後 4 週・食後 5〜10 分・横になると軽快——早期ダンピング</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 早期vs後期ダンピング症候群",
-       "c": "<table class=\"tb\"><tr><th>種別</th><th>発症時期</th><th>機序</th><th>症状</th></tr><tr><td>種別</td><td>発症時期</td><td>機序</td><td>症状</td></tr><tr><td><span class=\"kw\">早期</span></td><td>食後15〜30分</td><td>循環血液量↓・腸蠕動↑</td><td>動悸・冷汗・腹痛・下痢</td></tr><tr><td><span class=\"kw\">後期</span></td><td>食後2〜3時間</td><td>インスリン過剰→低血糖</td><td>脱力・冷汗・動悸（低血糖）</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胆石症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃切除後に増えるが、右季肋部痛・発熱・肝胆道系酵素の上昇——本例は正常</b></span>。</td></tr><tr><td>ｂ　心房細動</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>脈拍 64・整</b></span>。<span class=\"kw3\"><b>食後に限って起こる症状ではない</b></span>。</td></tr><tr><td>ｃ　単純性腸閉塞</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹部膨満・嘔吐・排便排ガスの停止</b></span>。<span class=\"kw3\"><b>本例は下痢で、腹部は平坦・軟</b></span>。</td></tr><tr><td>ｄ　巨赤芽球性貧血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃全摘後に起こるが、B<sub>12</sub> の蓄えが尽きる数年後</b></span>。<span class=\"kw3\"><b>本例は Hb 13.7 で正常</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　ダンピング症候群</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>食後すぐの腹痛・下痢・動悸・顔面紅潮、横になると軽快——早期ダンピング</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃切除後の食後（数十分〜数時間）の症状。<br/><b>a 胆石症／b 心房細動／c 単純性腸閉塞／d 巨赤芽球性貧血</b>：合わない。<br/><b>e ダンピング症候群</b>：<span class=\"kw\">急速な食物流入による早期/後期ダンピング</span>。✓"
+       "h": "🔍 別軸：ダンピングを防ぐ食べ方",
+       "c": "<span class=\"kw\"><b>① 食べ方</b></span><br/><span class=\"kw3\"><b>少量ずつ、1 日 5〜6 回に分けて、ゆっくりよく噛む</b></span><br/><span class=\"kw3\"><b>食事中の水分は控え、食間にとる——一度に小腸へ流れ込む量を減らす</b></span><br/><span class=\"kw\"><b>② 何を食べるか</b></span><br/><span class=\"kw3\"><b>糖分（甘い物・炭水化物）を控え、蛋白質・脂質を中心に——浸透圧の上昇と血糖の急上昇を抑える</b></span><br/><span class=\"kw\"><b>③ 食後</b></span><br/><span class=\"kw3\"><b>早期ダンピングでは食後しばらく横になると楽</b></span><br/><span class=\"kw\"><b>④ 後期ダンピング</b></span><br/><span class=\"kw4\"><b>食後 2〜3 時間の冷汗・ふるえは低血糖——飴などで糖をとる</b></span><br/><span class=\"kw3\"><b>食後の血糖の急上昇を抑えるため α-グルコシダーゼ阻害薬を使うこともある</b></span><br/><span class=\"kw\"><b>⑤ 経過</b></span><br/><span class=\"kw3\"><b>多くは食べ方の工夫と時間の経過で軽くなる</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>早期ダンピング＝食後 30 分以内の動悸・冷汗・顔面紅潮・腹痛・下痢（循環血液量の減少）</b></span><br/><span class=\"kw3\"><b>後期ダンピング＝食後 2〜3 時間の低血糖症状（インスリン過剰）</b></span><br/><span class=\"kw4\"><b>胃全摘後の巨赤芽球性貧血は数年後</b></span><br/><span class=\"kw3\"><b>対策＝少量頻回・ゆっくり・糖を控える</b></span>"
       }
      ],
      "imgs": []
