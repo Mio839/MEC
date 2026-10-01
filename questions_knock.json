@@ -35570,22 +35570,27 @@
             {
               "cls": "ept",
               "h": "📎 消化器 Q.242 の解説（同じ国試問題）",
-              "c": "この問題（112C-11）は <b>消化器 Q.242</b> と同じ国試問題なので、その解説を下に併記しています。<br/>胃粘膜下腫瘍（SMT）は粘膜下に存在するため、EUS（超音波内視鏡）で壁層・発生層・内部エコーを評価する。"
+              "c": "この問題（112C-11）は <b>消化器 Q.242</b> と同じ国試問題なので、その解説を下に併記しています。<br/>粘膜下腫瘍（SMT）は表面を正常な粘膜がおおっているので、内視鏡で表面を見ても、生検しても中身がわからない。<b>超音波内視鏡（EUS）</b>なら胃壁の 5 層のうち<b>どの層から出ているか</b>、<b>内部のエコー</b>（低・高・無エコー）、大きさと境界がわかり、そのまま<b>EUS-FNA</b>で組織も取れる。"
             },
             {
               "cls": "ep",
-              "h": "🔬 胃粘膜下腫瘍（SMT）の診断",
-              "c": "<span class=\"kw\">c超音波内視鏡（EUS）（正答）</span>：<br/>・SMTは粘膜で覆われた隆起→通常内視鏡では粘膜表面のみ観察<br/>→ EUSで<span class=\"kw\">腫瘍の発生層（固有筋層・粘膜下層）・内部エコーを評価</span><br/>・hypoechoic（低エコー）＋固有筋層発生→GIST<br/>・高エコー→脂肪腫<br/>・SMTの深達度・大きさを測定→手術適応判断<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a拡大内視鏡：粘膜表面の腺管パターン評価（粘膜下は評価不可）<br/>✗ b色素内視鏡：粘膜表面の染色（粘膜下は評価不可）<br/>✗ dカプセル内視鏡：小腸用<br/>✗ eダブルバルーン内視鏡：小腸用"
+              "h": "🌿 EUS で見える胃壁の 5 層——SMT の「住所」を決める",
+              "c": "<span class=\"kw4\"><b>内視鏡の種類の一覧と深達度の見方は Q.228——ここは EUS の像の読み方</b></span>。<br/><span class=\"kw\"><b>① 5 層（内腔から）</b></span><br/><span class=\"kw3\"><b>第 1 層 高エコー＝境界エコー＋粘膜表層</b></span><br/><span class=\"kw3\"><b>第 2 層 低エコー＝粘膜（粘膜筋板まで）</b></span><br/><span class=\"kw3\"><b>第 3 層 高エコー＝粘膜下層</b></span><br/><span class=\"kw3\"><b>第 4 層 低エコー＝固有筋層</b></span><br/><span class=\"kw3\"><b>第 5 層 高エコー＝漿膜下層・漿膜</b></span><br/><span class=\"kw\"><b>② 層とエコーで中身を推す</b></span><br/><span class=\"kw3\"><b>第 4 層から出る低エコーの腫瘤→GIST・平滑筋腫・神経鞘腫</b></span><br/><span class=\"kw3\"><b>第 3 層の高エコーの腫瘤→脂肪腫（クッションサインで柔らかい）</b></span><br/><span class=\"kw3\"><b>第 3 層の無エコー→嚢胞・リンパ管腫</b></span><br/><span class=\"kw3\"><b>第 2〜3 層の低エコー→カルチノイド（NET）・異所性膵</b></span><br/><span class=\"kw\"><b>③ 悪性を疑う形</b></span><br/><span class=\"kw4\"><b>大きい（2cm 超）、辺縁不整、内部が不均一（壊死・嚢胞変化）、増大する——GIST の高リスク</b></span><br/><span class=\"kw\"><b>④ 組織をとる</b></span><br/><span class=\"kw3\"><b>EUS-FNA（穿刺吸引）で腫瘤そのものから細胞を取り、免疫染色まで行える</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　拡大内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜表面の模様と微小血管を拡大して見る——早期癌の境界診断用</b></span>。<span class=\"kw3\"><b>粘膜下は見えない</b></span>。</td></tr><tr><td>ｂ　色素内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>インジゴカルミンなどで粘膜表面の凹凸を強調する</b></span>。<span class=\"kw3\"><b>これも表面しかわからない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　超音波内視鏡</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>壁の層構造と、腫瘤の発生層・内部エコーがわかる</b></span>。<span class=\"kw3\"><b>EUS-FNA で組織も得られる</b></span>。</td></tr><tr><td>ｄ　カプセル内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>おもに小腸の粘膜を撮る</b></span>。<span class=\"kw3\"><b>胃は広くて見落としが多く、壁の中は見えない</b></span>。</td></tr><tr><td>ｅ　ダブルバルーン内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>小腸の奥まで届かせて処置をするための内視鏡</b></span>。<span class=\"kw3\"><b>胃の SMT は普通の内視鏡で届く</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：SMT を見つけたあとの流れ",
+              "c": "<span class=\"kw\"><b>① 内視鏡でわかること</b></span><br/><span class=\"kw3\"><b>なだらかな立ち上がり、表面は周りと同じ粘膜、橋のようなひだ（bridging fold）</b></span><br/><span class=\"kw3\"><b>鉗子で押してへこむ（クッションサイン）なら脂肪腫やリンパ管腫</b></span><br/><span class=\"kw\"><b>② 大きさで分ける（GIST 診療ガイドライン）</b></span><br/><span class=\"kw3\"><b>2cm 未満で悪性を疑う所見なし→年 1〜2 回の経過観察</b></span><br/><span class=\"kw3\"><b>2〜5cm→EUS-FNA などで組織診断を試みる</b></span><br/><span class=\"kw3\"><b>5cm 以上、または潰瘍・増大・不整など悪性を疑う所見→手術</b></span><br/><span class=\"kw\"><b>③ 確定は免疫染色</b></span><br/><span class=\"kw3\"><b>KIT・DOG1 陽性なら GIST（GIST の詳細は Q.225）</b></span><br/><span class=\"kw\"><b>④ 似ていて違うもの</b></span><br/><span class=\"kw4\"><b>壁外の臓器（脾・胆嚢・血管）による圧排も内視鏡では SMT のように見える——EUS で壁の外にあることがわかる</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">胃粘膜下腫瘍の診断 = 超音波内視鏡（EUS）</span><br/>GIST（固有筋層発生・低エコー）vs 平滑筋腫vs脂肪腫を鑑別。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "胃粘膜下腫瘍の診断に有用なもの。<br/><b>a 拡大内視鏡／b 色素内視鏡／d カプセル内視鏡／e ダブルバルーン内視鏡</b>：表面病変向け。<br/><b>c 超音波内視鏡</b>：<span class=\"kw\">粘膜下腫瘍の内部構造・由来層を評価</span>。✓"
+              "c": "<span class=\"kw3\"><b>粘膜下腫瘍の診断は EUS——発生層と内部エコー</b></span><br/><span class=\"kw3\"><b>第 4 層（固有筋層）の低エコー腫瘤→GIST を疑う</b></span><br/><span class=\"kw4\"><b>拡大・色素内視鏡は粘膜表面を見る道具で、SMT には向かない</b></span>"
             }
           ],
           "imgs": []

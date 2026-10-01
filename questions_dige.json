@@ -16312,17 +16312,27 @@
       }
      ],
      "ans_label": "ａ　胃切除術",
-     "ans_sub": "転移のない進行胃癌は根治切除（胃切除＋D2リンパ節郭清）が第一選択。",
+     "ans_sub": "47 歳女性、2 か月で食欲低下と 3kg の体重減少。便中ピロリ抗原陽性。内視鏡（A）では白苔をのせた不整な陥凹に向かって<b>ひだが集まり、先が太まり・融け合っている</b>。生検（B）では、表層に残る正常な腺管の下の粘膜固有層を、<b>腺管を作らずにばらばらに散らばる淡明な細胞質の癌細胞</b>（印環細胞を含む低分化型＝未分化型腺癌）が埋めている。CT で遠隔転移なし——<b>未分化型で潰瘍を伴う胃癌は ESD の適応外</b>なので、<b>胃切除＋リンパ節郭清</b>をまず行う。除菌は後回し。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 進行胃癌（転移なし）の治療",
-       "c": "<span class=\"kw\">a胃切除術（正答）</span>：<br>Stage I〜III（遠隔転移なし）→<span class=\"kw\">根治的胃切除術＋D2リンパ節郭清</span><br>術後補助化学療法を追加（Stage IIb以上）<br><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b局所放射線照射：胃癌の根治治療には通常使用しない<br/>✗ cESD：早期癌（T1a）にのみ適応（進行癌には不可）<br/>✗ dH.pylori除菌：MALTリンパ腫の治療（進行胃癌には不適）<br/>✗ e免疫チェックポイント阻害薬：Stage IVの化学療法（根治切除可能例には外科手術）</br></br></br>"
+       "h": "🌿 生検の H-E を読む——腺管を作らない癌",
+       "c": "<span class=\"kw4\"><b>ESD の適応と病期別の治療の全体は Q.220——ここは組織型から治療を決める読み方</b></span>。<br/><span class=\"kw\"><b>① B の読み</b></span><br/><span class=\"kw3\"><b>上端に残っているのは丸く管を作る正常な腺管</b></span><br/><span class=\"kw3\"><b>その下を、管を作らない細胞が一面に、ばらばらに埋めている</b></span><br/><span class=\"kw3\"><b>細胞質が淡く泡立ち、核が端に押しやられた細胞（印環細胞）が混じる</b></span><br/><span class=\"kw3\"><b>＝未分化型（低分化腺癌・印環細胞癌）</b></span><br/><span class=\"kw\"><b>② A の読み</b></span><br/><span class=\"kw3\"><b>白苔をのせた不整な陥凹（潰瘍）に向かってひだが集中</b></span><br/><span class=\"kw4\"><b>ひだの先が太まる・融け合う——癌が粘膜の下へ広がっているサイン</b></span><br/><span class=\"kw\"><b>③ なぜ切除か</b></span><br/><span class=\"kw3\"><b>未分化型は粘膜の下を横へ這い、見た目より範囲が広い</b></span><br/><span class=\"kw4\"><b>未分化型＋潰瘍あり（UL1）は ESD の適応外——たとえ深さが粘膜内でも外科切除</b></span><br/><span class=\"kw3\"><b>CT で転移なし→根治をめざせる——胃切除＋リンパ節郭清</b></span><br/><span class=\"kw\"><b>④ ピロリ陽性の扱い</b></span><br/><span class=\"kw3\"><b>発癌の背景だが、癌の治療を遅らせて先に除菌する理由はない（術後に行う）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胃切除術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>転移のない未分化型胃癌に対する根治手術</b></span>。<span class=\"kw3\"><b>範囲を広めにとり、リンパ節も郭清する</b></span>。</td></tr><tr><td>ｂ　局所放射線照射</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃癌は放射線が効きにくく、根治目的では使わない</b></span>。<span class=\"kw3\"><b>使うのは出血や骨転移の痛みを和らげるときだけ</b></span>。</td></tr><tr><td>ｃ　内視鏡的粘膜下層剝離術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>未分化型で潰瘍を伴う病変は適応外</b></span>。<span class=\"kw3\"><b>未分化型は辺縁の見極めが難しく、取り残しやリンパ節転移の危険がある</b></span>。</td></tr><tr><td>ｄ　Helicobacter pylori 除菌療法</td><td><span class=\"kw4\">誤り</span>（まずではない）。<span class=\"kw3\"><b>除菌しても癌は消えない</b></span>。<span class=\"kw3\"><b>先に行えば手術が遅れる</b></span>。</td></tr><tr><td>ｅ　免疫チェックポイント阻害薬による治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>切除できない・再発した胃癌の薬</b></span>。<span class=\"kw3\"><b>切除できる癌にまず使うものではない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃病変（生検で悪性）。<br/><b>b 放射線／c ESD／d H.pylori除菌／e ICI</b>：まず行う対応でない。<br/><b>a 胃切除術</b>：<span class=\"kw\">外科的切除</span>。✓"
+       "h": "🔍 別軸：胃癌の組織型——分化型と未分化型で何が違うか",
+       "c": "<span class=\"kw\"><b>① 日本の分類</b></span><br/><span class=\"kw3\"><b>分化型＝乳頭腺癌（pap）・管状腺癌（tub1 高分化／tub2 中分化）——腺管を作る</b></span><br/><span class=\"kw3\"><b>未分化型＝低分化腺癌（por）・印環細胞癌（sig）——腺管を作らない</b></span><br/><span class=\"kw\"><b>② Lauren 分類（欧米）</b></span><br/><span class=\"kw3\"><b>腸型（intestinal）≒分化型——萎縮・腸上皮化生を背景に高齢男性に多い。血行性に肝へ</b></span><br/><span class=\"kw3\"><b>びまん型（diffuse）≒未分化型——若い人・女性にもみられ、胃壁を這って腹膜へ広がる。4 型（スキルス）の多くがこれ</b></span><br/><span class=\"kw\"><b>③ 治療の違い</b></span><br/><span class=\"kw3\"><b>分化型の粘膜内癌は大きくても潰瘍がなければ ESD の対象になる</b></span><br/><span class=\"kw3\"><b>未分化型は 2cm 以下・潰瘍なしの粘膜内癌に限って ESD を考える</b></span><br/><span class=\"kw\"><b>④ 遺伝</b></span><br/><span class=\"kw3\"><b>若い人のびまん型が家系に続く——CDH1（E-カドヘリン）遺伝子変異の遺伝性びまん性胃癌</b></span><br/><span class=\"kw3\"><b>E-カドヘリンを失った細胞はくっつき合えず、ばらばらに散る——B の形そのもの</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>生検で腺管を作らない・ばらばらの細胞・印環細胞→未分化型</b></span><br/><span class=\"kw3\"><b>潰瘍を伴う未分化型は ESD 適応外→胃切除＋郭清</b></span><br/><span class=\"kw4\"><b>ピロリ陽性でも、癌があれば治療が先、除菌は後</b></span>"
       }
      ],
      "imgs": [
@@ -16367,22 +16377,27 @@
       }
      ],
      "ans_label": "ｃ　超音波内視鏡",
-     "ans_sub": "胃粘膜下腫瘍（SMT）は粘膜下に存在するため、EUS（超音波内視鏡）で壁層・発生層・内部エコーを評価する。",
+     "ans_sub": "粘膜下腫瘍（SMT）は表面を正常な粘膜がおおっているので、内視鏡で表面を見ても、生検しても中身がわからない。<b>超音波内視鏡（EUS）</b>なら胃壁の 5 層のうち<b>どの層から出ているか</b>、<b>内部のエコー</b>（低・高・無エコー）、大きさと境界がわかり、そのまま<b>EUS-FNA</b>で組織も取れる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 胃粘膜下腫瘍（SMT）の診断",
-       "c": "<span class=\"kw\">c超音波内視鏡（EUS）（正答）</span>：<br/>・SMTは粘膜で覆われた隆起→通常内視鏡では粘膜表面のみ観察<br/>→ EUSで<span class=\"kw\">腫瘍の発生層（固有筋層・粘膜下層）・内部エコーを評価</span><br/>・hypoechoic（低エコー）＋固有筋層発生→GIST<br/>・高エコー→脂肪腫<br/>・SMTの深達度・大きさを測定→手術適応判断<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a拡大内視鏡：粘膜表面の腺管パターン評価（粘膜下は評価不可）<br/>✗ b色素内視鏡：粘膜表面の染色（粘膜下は評価不可）<br/>✗ dカプセル内視鏡：小腸用<br/>✗ eダブルバルーン内視鏡：小腸用"
+       "h": "🌿 EUS で見える胃壁の 5 層——SMT の「住所」を決める",
+       "c": "<span class=\"kw4\"><b>内視鏡の種類の一覧と深達度の見方は Q.228——ここは EUS の像の読み方</b></span>。<br/><span class=\"kw\"><b>① 5 層（内腔から）</b></span><br/><span class=\"kw3\"><b>第 1 層 高エコー＝境界エコー＋粘膜表層</b></span><br/><span class=\"kw3\"><b>第 2 層 低エコー＝粘膜（粘膜筋板まで）</b></span><br/><span class=\"kw3\"><b>第 3 層 高エコー＝粘膜下層</b></span><br/><span class=\"kw3\"><b>第 4 層 低エコー＝固有筋層</b></span><br/><span class=\"kw3\"><b>第 5 層 高エコー＝漿膜下層・漿膜</b></span><br/><span class=\"kw\"><b>② 層とエコーで中身を推す</b></span><br/><span class=\"kw3\"><b>第 4 層から出る低エコーの腫瘤→GIST・平滑筋腫・神経鞘腫</b></span><br/><span class=\"kw3\"><b>第 3 層の高エコーの腫瘤→脂肪腫（クッションサインで柔らかい）</b></span><br/><span class=\"kw3\"><b>第 3 層の無エコー→嚢胞・リンパ管腫</b></span><br/><span class=\"kw3\"><b>第 2〜3 層の低エコー→カルチノイド（NET）・異所性膵</b></span><br/><span class=\"kw\"><b>③ 悪性を疑う形</b></span><br/><span class=\"kw4\"><b>大きい（2cm 超）、辺縁不整、内部が不均一（壊死・嚢胞変化）、増大する——GIST の高リスク</b></span><br/><span class=\"kw\"><b>④ 組織をとる</b></span><br/><span class=\"kw3\"><b>EUS-FNA（穿刺吸引）で腫瘤そのものから細胞を取り、免疫染色まで行える</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　拡大内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜表面の模様と微小血管を拡大して見る——早期癌の境界診断用</b></span>。<span class=\"kw3\"><b>粘膜下は見えない</b></span>。</td></tr><tr><td>ｂ　色素内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>インジゴカルミンなどで粘膜表面の凹凸を強調する</b></span>。<span class=\"kw3\"><b>これも表面しかわからない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　超音波内視鏡</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>壁の層構造と、腫瘤の発生層・内部エコーがわかる</b></span>。<span class=\"kw3\"><b>EUS-FNA で組織も得られる</b></span>。</td></tr><tr><td>ｄ　カプセル内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>おもに小腸の粘膜を撮る</b></span>。<span class=\"kw3\"><b>胃は広くて見落としが多く、壁の中は見えない</b></span>。</td></tr><tr><td>ｅ　ダブルバルーン内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>小腸の奥まで届かせて処置をするための内視鏡</b></span>。<span class=\"kw3\"><b>胃の SMT は普通の内視鏡で届く</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：SMT を見つけたあとの流れ",
+       "c": "<span class=\"kw\"><b>① 内視鏡でわかること</b></span><br/><span class=\"kw3\"><b>なだらかな立ち上がり、表面は周りと同じ粘膜、橋のようなひだ（bridging fold）</b></span><br/><span class=\"kw3\"><b>鉗子で押してへこむ（クッションサイン）なら脂肪腫やリンパ管腫</b></span><br/><span class=\"kw\"><b>② 大きさで分ける（GIST 診療ガイドライン）</b></span><br/><span class=\"kw3\"><b>2cm 未満で悪性を疑う所見なし→年 1〜2 回の経過観察</b></span><br/><span class=\"kw3\"><b>2〜5cm→EUS-FNA などで組織診断を試みる</b></span><br/><span class=\"kw3\"><b>5cm 以上、または潰瘍・増大・不整など悪性を疑う所見→手術</b></span><br/><span class=\"kw\"><b>③ 確定は免疫染色</b></span><br/><span class=\"kw3\"><b>KIT・DOG1 陽性なら GIST（GIST の詳細は Q.225）</b></span><br/><span class=\"kw\"><b>④ 似ていて違うもの</b></span><br/><span class=\"kw4\"><b>壁外の臓器（脾・胆嚢・血管）による圧排も内視鏡では SMT のように見える——EUS で壁の外にあることがわかる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃粘膜下腫瘍の診断 = 超音波内視鏡（EUS）</span><br/>GIST（固有筋層発生・低エコー）vs 平滑筋腫vs脂肪腫を鑑別。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃粘膜下腫瘍の診断に有用なもの。<br/><b>a 拡大内視鏡／b 色素内視鏡／d カプセル内視鏡／e ダブルバルーン内視鏡</b>：表面病変向け。<br/><b>c 超音波内視鏡</b>：<span class=\"kw\">粘膜下腫瘍の内部構造・由来層を評価</span>。✓"
+       "c": "<span class=\"kw3\"><b>粘膜下腫瘍の診断は EUS——発生層と内部エコー</b></span><br/><span class=\"kw3\"><b>第 4 層（固有筋層）の低エコー腫瘤→GIST を疑う</b></span><br/><span class=\"kw4\"><b>拡大・色素内視鏡は粘膜表面を見る道具で、SMT には向かない</b></span>"
       }
      ],
      "imgs": []
@@ -16428,22 +16443,27 @@
       }
      ],
      "ans_label": "ａ　経過観察",
-     "ans_sub": "胃底腺ポリープは悪性化リスクが極めて低く、基本的に経過観察でよい。",
+     "ans_sub": "40 歳女性、検診の造影で異常を指摘。内視鏡では胃体上部の大弯を中心に、<b>周りと同じ色の、表面平滑な数 mm の小さな隆起が多発</b>している。背景粘膜は発赤も萎縮もない<b>ピロリ未感染らしい胃</b>——<b>胃底腺ポリープ</b>。癌化はまれで、<b>経過観察</b>でよい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 胃底腺ポリープ",
-       "c": "<span class=\"kw\">a経過観察（正答）</span>：<br>・胃底腺ポリープ＝良性病変（悪性化はほぼない）<br/>・PPI長期使用・FAP関連で増加<br/>・H.pylori感染とは無関係（H.pylori陰性の胃に好発）<br/>・組織学的：胃底腺の囊胞状拡張<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ bPPI投与：PPI使用で胃底腺ポリープが増加→不適切<br/>✗ cH.pylori除菌：胃底腺ポリープはH.pylori非関連（過形成性ポリープがH.pylori関連）<br/>✗ d内視鏡的切除：悪性化リスク低く不要（FAPで多発なら考慮）<br/>✗ e胃全摘：過剰介入</br>"
+       "h": "🌿 背景の胃を読む——未感染・現感染・既感染",
+       "c": "<span class=\"kw4\"><b>背景胃とポリープの種類の対応（胃底腺／過形成／腺腫）は Q.226——ここは「背景の胃がピロリに感染しているか」を内視鏡で読む見方</b></span>。<br/><span class=\"kw\"><b>① この像</b></span><br/><span class=\"kw3\"><b>胃体部に 2〜5mm の半球状の隆起が散らばる</b></span><br/><span class=\"kw3\"><b>色は周りと同じ、表面はつるつる、くびれは目立たない</b></span><br/><span class=\"kw3\"><b>背景粘膜はなめらかで、まだらな発赤・ひだの腫れ・粘液の濁りがない</b></span><br/><span class=\"kw\"><b>② 京都分類の目安</b></span><br/><span class=\"kw3\"><b>未感染：胃体下部小弯の集合細静脈が点状に規則正しく見える（RAC）、稜線状発赤、胃底腺ポリープ</b></span><br/><span class=\"kw3\"><b>現感染：びまん性発赤、ひだの腫大・蛇行、白く濁った粘液、鳥肌状の粘膜</b></span><br/><span class=\"kw3\"><b>既感染（除菌後など）：地図状発赤、萎縮は残るがびまん性発赤が消える</b></span><br/><span class=\"kw\"><b>③ 胃底腺ポリープの中身</b></span><br/><span class=\"kw3\"><b>胃底腺がのう胞状に拡張したもの——腫瘍ではない</b></span><br/><span class=\"kw3\"><b>ピロリがいる胃では消えていくので、未感染の目印になる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　経過観察</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃底腺ポリープは癌化がきわめてまれ</b></span>。<span class=\"kw3\"><b>取る必要はない</b></span>。</td></tr><tr><td>ｂ　プロトンポンプ阻害薬の投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>治す薬ではない</b></span>。<span class=\"kw4\"><b>むしろ PPI を長く飲むと胃底腺ポリープは増え・大きくなる</b></span>。</td></tr><tr><td>ｃ　Helicobacter pylori 除菌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>未感染の胃にできるポリープ——除く菌がいない</b></span>。</td></tr><tr><td>ｄ　内視鏡的粘膜切除</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腺腫や、大きくなる過形成性ポリープを取る手技</b></span>。<span class=\"kw3\"><b>胃底腺ポリープには不要</b></span>。</td></tr><tr><td>ｅ　胃全摘</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>良性のポリープに過大な手術</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：胃底腺ポリープが「ふつうでない」とき",
+       "c": "<span class=\"kw\"><b>① PPI 長期内服</b></span><br/><span class=\"kw3\"><b>壁細胞の過形成とのう胞拡張で、数が増え大きくなる</b></span><br/><span class=\"kw3\"><b>やめれば小さくなることが多い——悪性化の心配は低い</b></span><br/><span class=\"kw\"><b>② 数が非常に多い・若い・男性も</b></span><br/><span class=\"kw4\"><b>家族性大腸腺腫症（FAP）では胃に胃底腺ポリープが密生し、一部に異形成を伴う</b></span><br/><span class=\"kw3\"><b>若い人に多発していたら大腸内視鏡を考える</b></span><br/><span class=\"kw\"><b>③ 形が違う</b></span><br/><span class=\"kw3\"><b>発赤・不整・急な増大・1cm を超える——腺腫や癌を考えて生検</b></span><br/><span class=\"kw\"><b>④ ピロリ陽性の胃に見つかった</b></span><br/><span class=\"kw3\"><b>胃底腺ポリープらしくない——過形成性ポリープを考える（除菌で縮むことがある）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃底腺ポリープ：H.pylori陰性・PPI使用者に多発→経過観察</span><br/>過形成性ポリープ（H.pylori関連）：除菌で縮小することあり→除菌が適応。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡で良性所見。<br/><b>b PPI／c H.pylori除菌／d EMR／e 胃全摘</b>：不要。<br/><b>a 経過観察</b>：<span class=\"kw\">良性病変で経過観察</span>。✓"
+       "c": "<span class=\"kw3\"><b>萎縮のない胃に、同じ色のつるつるの小隆起が多発→胃底腺ポリープ→経過観察</b></span><br/><span class=\"kw3\"><b>ピロリ未感染の胃の目印（RAC と並ぶ）</b></span><br/><span class=\"kw4\"><b>PPI で増える／除菌は不要／切除も不要</b></span>"
       }
      ],
      "imgs": [
@@ -16491,22 +16511,27 @@
       }
      ],
      "ans_label": "ｂ　腹水細胞診",
-     "ans_sub": "腹水中に癌細胞を検出する腹水細胞診（cytology）が腹膜播種の確定診断に最も有用。",
+     "ans_sub": "1 年前に進行胃癌で胃全摘、その後通院を中断。3 週前から食欲不振と腹部膨満、腹部は緊満して波動あり、下腿浮腫。CT では<b>大量の腹水</b>のなかで腸管が中央に寄せ集められている。手掌紅斑・くも状血管腫がなく肝硬変を疑う所見はない。排便・排ガスはあり腸閉塞ではない——<b>胃癌の腹膜播種による癌性腹膜炎</b>を疑い、<b>腹水を穿刺して細胞診</b>で癌細胞を確かめる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 癌性腹膜炎（腹膜播種）の診断",
-       "c": "<span class=\"kw\">b腹水細胞診（正答）</span>：<br>・腹水穿刺→腹水を採取→Papanicolaou染色・HE染色<br>→ 癌細胞（印環細胞等）を検出→腹膜播種確定<br/>・感度は低い（30〜50%）が特異度は高い<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ aFDG-PET：腹膜播種の感度低い（特にびまん性播種は検出困難）<br/>✗ c腹部MRI：形態評価は可能だが細胞レベルの診断はできない<br/>✗ d上部消化管内視鏡：腹膜播種の確認はできない（胃切除後）<br/>✗ e下部消化管内視鏡：腹膜播種の確認はできない</br></br>"
+       "h": "🌿 腹水を見たら——まず抜いて調べる",
+       "c": "<span class=\"kw4\"><b>播種が直腸を締めつけたときの手当ては Q.235——ここは腹水そのものの調べ方</b></span>。<br/><span class=\"kw\"><b>① CT の読み</b></span><br/><span class=\"kw3\"><b>腹腔の外側を広く低吸収の液体が占め、小腸が中央に集まっている</b></span><br/><span class=\"kw3\"><b>肝の形や脾腫で肝硬変を示す所見ははっきりしない</b></span><br/><span class=\"kw\"><b>② 臨床の読み</b></span><br/><span class=\"kw3\"><b>胃全摘後 1 年、通院中断——再発を見逃しやすい時期</b></span><br/><span class=\"kw3\"><b>肝硬変の皮膚所見なし、排便・排ガスあり（腸閉塞ではない）</b></span><br/><span class=\"kw3\"><b>膨満が急に悪化——腹水が増えた</b></span><br/><span class=\"kw\"><b>③ 腹水穿刺でみるもの</b></span><br/><span class=\"kw3\"><b>細胞診：癌細胞があれば癌性腹膜炎と確定（播種の診断で最も直接的）</b></span><br/><span class=\"kw3\"><b>SAAG（血清アルブミン−腹水アルブミン）</b></span><br/><span class=\"kw3\"><b>1.1g/dL 以上→門脈圧亢進（肝硬変・心不全・Budd-Chiari）</b></span><br/><span class=\"kw3\"><b>1.1g/dL 未満→腹膜の病気（癌性腹膜炎・結核性腹膜炎）、膵性腹水、ネフローゼ</b></span><br/><span class=\"kw3\"><b>好中球 250/μL 以上→特発性細菌性腹膜炎</b></span><br/><span class=\"kw3\"><b>ADA 高値→結核、アミラーゼ高値→膵性</b></span><br/><span class=\"kw\"><b>④ そのあと</b></span><br/><span class=\"kw3\"><b>苦しさをとる排液、利尿薬（効きにくい）、全身状態によって化学療法</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　PET/CT</td><td><span class=\"kw4\">誤り</span>（次ではない）。<span class=\"kw3\"><b>小さな播種は写りにくい</b></span>。<span class=\"kw3\"><b>腹水の中の癌細胞は証明できない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　腹水細胞診</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>すぐ抜ける腹水があり、癌細胞が見つかれば診断が決まる</b></span>。<span class=\"kw3\"><b>排液で症状も楽になる</b></span>。</td></tr><tr><td>ｃ　腹部単純 MRI</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>CT 以上の情報が少ない</b></span>。<span class=\"kw3\"><b>診断を確定できない</b></span>。</td></tr><tr><td>ｄ　上部消化管内視鏡検査</td><td><span class=\"kw4\">誤り</span>（次ではない）。<span class=\"kw3\"><b>吻合部再発の確認には使う</b></span>。<span class=\"kw3\"><b>腹水の原因は決まらない</b></span>。</td></tr><tr><td>ｅ　下部消化管内視鏡検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>排便はあり、大腸の閉塞を疑う所見はない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：腹水の外見と蛋白で分ける",
+       "c": "<span class=\"kw\"><b>① 色</b></span><br/><span class=\"kw3\"><b>淡黄色・透明——肝硬変・ネフローゼ・心不全</b></span><br/><span class=\"kw3\"><b>血性——癌性腹膜炎、外傷、肝細胞癌の破裂、子宮外妊娠</b></span><br/><span class=\"kw3\"><b>混濁——細菌性腹膜炎</b></span><br/><span class=\"kw3\"><b>乳び（白濁、トリグリセリド高値）——リンパ管の閉塞（悪性リンパ腫・癌・手術後）</b></span><br/><span class=\"kw\"><b>② 滲出性と漏出性</b></span><br/><span class=\"kw3\"><b>漏出性：蛋白が少ない——低アルブミン・門脈圧亢進</b></span><br/><span class=\"kw3\"><b>滲出性：蛋白・LD が多い——炎症や腫瘍が腹膜にある</b></span><br/><span class=\"kw4\"><b>ただし心不全の腹水は蛋白が多めになる——肝硬変と心不全の区別は SAAG＋腹水蛋白で</b></span><br/><span class=\"kw\"><b>③ 腹膜播種の画像</b></span><br/><span class=\"kw3\"><b>腹膜の肥厚・結節、大網の板状の肥厚（omental cake）、腸間膜の短縮、腸管の固定</b></span><br/><span class=\"kw4\"><b>画像で見えなくても播種はあり得る——だから細胞診が決め手</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">癌性腹膜炎の診断：腹水細胞診（穿刺腹水中の癌細胞を検出）</span><br/>診断ラパロスコピー（腹腔鏡）：腹水細胞診陰性でも播種結節を直接確認可。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "腹水＋下腿浮腫（癌性腹膜炎疑い）で次に行う検査。<br/><b>a PET/CT／c 腹部MRI／d 上部内視鏡／e 下部内視鏡</b>：第一でない。<br/><b>b 腹水細胞診</b>：<span class=\"kw\">腹水中の癌細胞を確認（癌性腹膜炎の診断）</span>。✓"
+       "c": "<span class=\"kw3\"><b>胃癌術後の新たな腹水→まず腹水穿刺・細胞診</b></span><br/><span class=\"kw3\"><b>SAAG 1.1 以上＝門脈圧亢進、未満＝腹膜の病気</b></span><br/><span class=\"kw4\"><b>肝硬変の皮膚所見がない腹水は、悪性・結核・膵を考える</b></span>"
       }
      ],
      "imgs": [
@@ -16550,22 +16575,27 @@
       }
      ],
      "ans_label": "ｄ　低血糖",
-     "ans_sub": "食後2〜3時間後の動悸・冷汗・振戦→後期ダンピング症候群（急速な糖吸収→インスリン過剰→低血糖）。",
+     "ans_sub": "幽門側胃切除・Billroth I 法再建から 3 か月。食べる量が増えてきたころから、<b>食後数時間たって</b>だるさ・冷汗・手のふるえ——<b>後期ダンピング症候群（反応性低血糖）</b>。食べた糖が小腸へ一気に流れ込んで急に吸収され、血糖が急上昇→インスリンが出すぎ→<b>2〜3 時間後に低血糖</b>になる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍽️ 後期ダンピング症候群と低血糖",
-       "c": "<span class=\"kw\">d低血糖（正答）</span>：<br>後期ダンピング症候群のメカニズム：<br>食物が急速に小腸へ→糖の急速吸収→血糖急上昇→インスリン過剰分泌→<span class=\"kw\">低血糖</span><br/>→ 食後2〜3時間に：動悸・冷汗・振戦・脱力感<br/><br/><span class=\"kw\">治療</span>：<br/>・少量頻回食・炭水化物制限<br/>・αグルコシダーゼ阻害薬（アカルボース）：糖の吸収を遅らせる<br/>・発作時：ブドウ糖内服（低血糖への対応）<br/><br/><span class=\"kw4\">鑑別</span>：<br/>a貧血：慢性的症状・動悸はあるが食後時間差なし<br/>b脱水・c低栄養・e低Na：今回の食後2〜3時間のパターンに合わない</br></br>"
+       "h": "🌿 再建法で何が変わるか——B-I・B-II・Roux-en-Y",
+       "c": "<span class=\"kw4\"><b>早期と後期のダンピングの区別と食事指導は Q.222、胃切除後の代謝の障害は Q.223——ここは再建法ごとの違い</b></span>。<br/><span class=\"kw\"><b>① Billroth I 法（B-I）</b></span><br/><span class=\"kw3\"><b>残った胃と十二指腸を直接つなぐ——食べ物が十二指腸を通る、生理的</b></span><br/><span class=\"kw3\"><b>吻合にかかる張りが強いと縫合不全、十二指腸液の逆流で残胃炎</b></span><br/><span class=\"kw\"><b>② Billroth II 法（B-II）</b></span><br/><span class=\"kw3\"><b>十二指腸の断端を閉じ、空腸を持ち上げて胃とつなぐ</b></span><br/><span class=\"kw4\"><b>輸入脚症候群——輸入脚に胆汁・膵液がたまり、腹痛と胆汁性嘔吐</b></span><br/><span class=\"kw3\"><b>胆汁の逆流が多い、ダンピングが起きやすい</b></span><br/><span class=\"kw\"><b>③ Roux-en-Y 法</b></span><br/><span class=\"kw3\"><b>空腸を切って Y 字につなぎ、胆汁・膵液が胃へ戻りにくい</b></span><br/><span class=\"kw3\"><b>胃全摘のほとんどがこれ、幽門側切除でも多い</b></span><br/><span class=\"kw4\"><b>Roux 停滞症候群——持ち上げた空腸の動きが悪く、食べ物がとどまる</b></span><br/><span class=\"kw\"><b>④ この症例</b></span><br/><span class=\"kw3\"><b>食後数時間後の冷汗・ふるえ＝交感神経の症状→低血糖</b></span><br/><span class=\"kw3\"><b>食べる量が増えてきた時期に始まる——後期ダンピングの典型</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　貧　血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>鉄欠乏は術後年単位、ビタミン B12 欠乏は数年後</b></span>。<span class=\"kw3\"><b>食事と関係して発作的には起こらない</b></span>。</td></tr><tr><td>ｂ　脱　水</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食後の決まった時間に出て消える症状ではない</b></span>。</td></tr><tr><td>ｃ　低栄養</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>体重は保たれ、食事量も増えている</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　低血糖</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>食後 2〜3 時間の冷汗・振戦・倦怠感</b></span>。<span class=\"kw3\"><b>インスリン過剰分泌による反応性低血糖</b></span>。</td></tr><tr><td>ｅ　低 Na 血症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食事の時刻と結びついた発作にはならない</b></span>。<span class=\"kw3\"><b>冷汗やふるえより意識障害・けいれんが目立つ</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：低血糖を起こしたときと予防",
+       "c": "<span class=\"kw\"><b>① その場で</b></span><br/><span class=\"kw3\"><b>あめ・ブドウ糖をとる——数分で回復する</b></span><br/><span class=\"kw\"><b>② 予防</b></span><br/><span class=\"kw3\"><b>1 回の量を減らして回数を増やす（分割食）</b></span><br/><span class=\"kw3\"><b>糖質をひかえ、たんぱく質・脂質を組み合わせる</b></span><br/><span class=\"kw3\"><b>食後 2 時間ごろに軽い間食をとって、血糖の谷を埋める</b></span><br/><span class=\"kw\"><b>③ 薬</b></span><br/><span class=\"kw3\"><b>α-グルコシダーゼ阻害薬——糖の吸収をゆっくりにし、インスリンの出すぎを防ぐ</b></span><br/><span class=\"kw\"><b>④ 早期ダンピングとの違い（時刻で分ける）</b></span><br/><span class=\"kw3\"><b>早期：食後 30 分以内、腹痛・下痢・動悸・顔面紅潮——高浸透圧の内容物で体液が腸へ移る</b></span><br/><span class=\"kw3\"><b>後期：食後 2〜3 時間、冷汗・ふるえ・脱力——低血糖</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">後期ダンピング = 食後2〜3時間の低血糖症状（動悸・冷汗・振戦）</span><br/>早期ダンピング（食後15〜30分）vs後期ダンピング（食後2〜3時間）を区別。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃切除後の食後の冷汗・動悸の原因。<br/><b>a 貧血／b 脱水／c 低栄養／e 低Na血症</b>：本症状の原因でない。<br/><b>d 低血糖</b>：<span class=\"kw\">後期ダンピング（反応性低血糖）</span>。✓"
+       "c": "<span class=\"kw3\"><b>胃切除後、食後 2〜3 時間の冷汗・振戦→後期ダンピング＝低血糖</b></span><br/><span class=\"kw3\"><b>B-II は輸入脚症候群、Roux-en-Y は Roux 停滞症候群</b></span><br/><span class=\"kw4\"><b>貧血は年単位の合併症——発作的な食後症状とは別もの</b></span>"
       }
      ],
      "imgs": []
@@ -16611,22 +16641,27 @@
       }
      ],
      "ans_label": "ｅ　4 型",
-     "ans_sub": "4型胃癌（スキルス）は胃壁全体にびまん性硬化浸潤→胃壁の伸展不良・小さく硬い胃（内視鏡像）。",
+     "ans_sub": "上部消化管造影（A）では胃体部の大弯側の輪郭がぎざぎざで硬く、伸びが悪い。内視鏡（B）では胃体部のひだが<b>太く蛇行して腫れ上がり、送気しても伸びない</b>。はっきりした潰瘍や隆起の境界はなく、癌が胃壁の中をびまん性に広げている——<b>4 型（びまん浸潤型）</b>。4 か所の生検のうち 1 か所しか Group 5 でなかったのも、癌が粘膜の下を這う 4 型らしい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 胃癌の肉眼型分類（Borrmann分類）",
-       "c": "<table class=\"tb\"><tr><th>型</th><th>肉眼型</th><th>特徴</th></tr><tr><td>型</td><td>肉眼型</td><td>特徴</td></tr><tr><td>1型</td><td>腫瘤型</td><td>境界明瞭な隆起性病変</td></tr><tr><td>2型</td><td>潰瘍限局型</td><td>潰瘍＋境界明瞭な周囲隆起</td></tr><tr><td>3型</td><td>潰瘍浸潤型</td><td>潰瘍＋周囲への浸潤</td></tr><tr><td><span class=\"kw\">4型</span></td><td><span class=\"kw\">びまん浸潤型（スキルス）</span></td><td>胃壁全体の硬化浸潤・革袋状胃</td></tr><tr><td>0型</td><td>表在型（早期胃癌）</td><td>0-I/IIa/IIb/IIc/III</td></tr></table>"
+       "h": "🌿 肉眼型 0〜5 型——4 型はどこで見分けるか",
+       "c": "<span class=\"kw4\"><b>早期癌の 0 型の細分（0-I〜0-III）は Q.220、スキルス胃癌の性質は Q.240——ここは進行癌の 1〜4 型の見分け方と、この像の読み</b></span>。<br/><span class=\"kw\"><b>① 進行癌の型（Borrmann 分類がもと）</b></span><br/><span class=\"kw3\"><b>1 型（腫瘤型）：周りとの境界がはっきりした隆起</b></span><br/><span class=\"kw3\"><b>2 型（潰瘍限局型）：潰瘍＋周りを堤防のように囲む周堤、境界はっきり</b></span><br/><span class=\"kw3\"><b>3 型（潰瘍浸潤型）：潰瘍＋周堤の一部が崩れ、境界がはっきりしない</b></span><br/><span class=\"kw3\"><b>4 型（びまん浸潤型）：目立つ潰瘍も周堤もなく、壁が広く厚く硬くなる</b></span><br/><span class=\"kw3\"><b>5 型：どれにも当てはまらない</b></span><br/><span class=\"kw\"><b>② A の読み</b></span><br/><span class=\"kw3\"><b>胃体部大弯の輪郭が不整にぎざぎざし、伸びが悪い</b></span><br/><span class=\"kw3\"><b>胃が縮んで硬くなる——進むと革袋状胃（linitis plastica）</b></span><br/><span class=\"kw\"><b>③ B の読み</b></span><br/><span class=\"kw3\"><b>ひだが太く、蛇行し、互いに寄り合う</b></span><br/><span class=\"kw4\"><b>空気を入れてもひだが伸びない＝壁が硬い——4 型の決め手</b></span><br/><span class=\"kw\"><b>④ 生検が当たりにくい</b></span><br/><span class=\"kw4\"><b>癌は粘膜下層から下を広がり、表面の粘膜は保たれることが多い——生検の多くが陰性になる</b></span><br/><span class=\"kw3\"><b>この症例も 4 か所中 1 か所だけ Group 5</b></span><br/><span class=\"kw3\"><b>疑いが強ければ繰り返し深めに生検する、EUS で壁の肥厚を見る</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　0 型</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>表在型（早期癌の形）</b></span>。<span class=\"kw3\"><b>胃の広い範囲が硬くなる像ではない</b></span>。</td></tr><tr><td>ｂ　1 型</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>境界のはっきりした隆起がない</b></span>。</td></tr><tr><td>ｃ　2 型</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>周堤に囲まれた限局した潰瘍がない</b></span>。</td></tr><tr><td>ｄ　3 型</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>周堤の一部が崩れた潰瘍が主役の型</b></span>。<span class=\"kw3\"><b>この像には主となる潰瘍が見えない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　4 型</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>ひだが太く蛇行し、送気で伸びない</b></span>。<span class=\"kw3\"><b>造影で輪郭が不整・伸展不良</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：ひだが太い胃——4 型以外に何があるか",
+       "c": "<span class=\"kw\"><b>① Ménétrier 病</b></span><br/><span class=\"kw3\"><b>胃底腺領域の表層の粘液細胞が過形成し、脳回のような巨大ひだ</b></span><br/><span class=\"kw3\"><b>胃液に蛋白が漏れる——低アルブミン血症・浮腫（蛋白漏出性胃腸症）</b></span><br/><span class=\"kw3\"><b>胃は柔らかく、送気で伸びる</b></span><br/><span class=\"kw\"><b>② 悪性リンパ腫</b></span><br/><span class=\"kw3\"><b>ひだは太いが壁が比較的柔らかく、伸びが保たれることが多い</b></span><br/><span class=\"kw3\"><b>生検の深い部分で診断</b></span><br/><span class=\"kw\"><b>③ Zollinger-Ellison 症候群</b></span><br/><span class=\"kw3\"><b>ガストリン過剰で胃底腺が過形成——巨大ひだ＋多発する潰瘍、難治性の下痢</b></span><br/><span class=\"kw\"><b>④ ピロリ現感染の胃炎</b></span><br/><span class=\"kw3\"><b>ひだの腫大・蛇行（皺襞腫大型胃炎）——未分化型胃癌のリスクが高い</b></span><br/><span class=\"kw\"><b>見分ける一手</b></span><br/><span class=\"kw4\"><b>送気しても伸びない・硬い→4 型を最も疑う</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">4型胃癌（Borrmann 4）= スキルス胃癌 = びまん浸潤型</span><br>内視鏡：胃壁伸展不良・小さく硬い胃（革袋状）。印環細胞癌が多い。予後最悪。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌の肉眼型（内視鏡像）。<br/><b>a 0型／b 1型／c 2型／d 3型</b>：合わない。<br/><b>e 4型</b>：<span class=\"kw\">びまん浸潤型（スキルス胃癌）</span>。✓"
+       "c": "<span class=\"kw3\"><b>潰瘍も隆起も目立たず、ひだが太く蛇行し送気で伸びない→4 型</b></span><br/><span class=\"kw3\"><b>造影では伸展不良・輪郭不整→革袋状胃</b></span><br/><span class=\"kw4\"><b>4 型は生検陰性が多い——1 か所でも Group 5 なら診断は確定</b></span>"
       }
      ],
      "imgs": [
