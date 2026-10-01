@@ -17929,22 +17929,27 @@
       }
      ],
      "ans_label": "ａ　インスリン",
-     "ans_sub": "後期ダンピング症候群：急速な糖吸収→高血糖→インスリン過剰分泌→低血糖→脱力・動悸・冷汗。インスリンが主役。",
+     "ans_sub": "胃全摘の 3 か月後、<b>食後 2〜3 時間</b>に脱力感・動悸・冷汗・手指振戦——<b>後期ダンピング症候群</b>。食べた糖が一気に小腸へ流れ込んで急に吸収され、血糖が跳ね上がる。それに反応して<b>インスリンが出すぎ</b>、遅れて低血糖になる。病態の主役は<b>インスリン</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💉 後期ダンピングの病態とインスリン",
-       "c": "<span class=\"kw\">a インスリン（正答）</span>：<br>胃全摘後→食物が急速に小腸へ流入→糖の急速吸収→急激な血糖上昇<br/>→ 膵β細胞がインスリンを過剰分泌（反応性過剰）<br/>→ インスリン過剰→<span class=\"kw\">低血糖</span>→脱力・動悸・冷汗・手指振戦<br/><br/><span class=\"kw\">治療</span>：<br/>・少量頻回食・低GI食<br/>・αGI阻害薬（アカルボース）→糖吸収を緩徐化<br/>・発作時：ブドウ糖（補糖）<br/><br/><span class=\"kw4\">他のホルモン</span>：<br/>bセロトニン：早期ダンピングの媒介物質<br/>cヒスタミン：アレルギー・胃酸分泌<br/>dブラジキニン：血管拡張・疼痛<br/>eソマトスタチン：全ホルモン抑制（治療に使うことも）</br>"
+       "h": "🌿 インスリンを出しすぎる仕組み——インクレチンの関与",
+       "c": "<span class=\"kw4\"><b>早期と後期の区別と食事指導は Q.222、再建法と手当ては Q.245、インスリノーマとの区別は Q.257——ここはホルモンの側から見た仕組み</b></span>。<br/><span class=\"kw\"><b>① 糖が速く届く</b></span><br/><span class=\"kw3\"><b>胃がなく、食べたものがそのまま空腸へ</b></span><br/><span class=\"kw3\"><b>ブドウ糖が短時間にまとめて吸収され、血糖が急上昇</b></span><br/><span class=\"kw\"><b>② インクレチンが上乗せする</b></span><br/><span class=\"kw3\"><b>小腸の L 細胞が栄養に触れると GLP-1 を出す</b></span><br/><span class=\"kw4\"><b>食べ物が一気に下の小腸まで届くので、GLP-1 が通常よりずっと多く出る</b></span><br/><span class=\"kw3\"><b>GLP-1 は血糖に応じてインスリンを増やす——高血糖＋GLP-1 で、インスリンが過剰に出る</b></span><br/><span class=\"kw\"><b>③ 遅れて下がる</b></span><br/><span class=\"kw3\"><b>糖の吸収が終わっても、インスリンはしばらく残る</b></span><br/><span class=\"kw3\"><b>食後 2〜3 時間で血糖が下がりすぎ、交感神経が反応して動悸・冷汗・振戦</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　インスリン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>過剰分泌による反応性低血糖が後期ダンピングの本体</b></span>。</td></tr><tr><td>ｂ　セロトニン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期ダンピング（腸の動きの亢進・下痢）に関わる</b></span>。<span class=\"kw3\"><b>カルチノイド症候群の主役</b></span>。</td></tr><tr><td>ｃ　ヒスタミン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃酸分泌、アレルギー反応</b></span>。<span class=\"kw3\"><b>ダンピングの低血糖には関わらない</b></span>。</td></tr><tr><td>ｄ　ブラジキニン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血管を広げる物質——早期ダンピングの顔面紅潮・血圧低下に関わる</b></span>。</td></tr><tr><td>ｅ　ソマトスタチン</td><td><span class=\"kw4\">誤り</span>（原因ではない）。<span class=\"kw3\"><b>むしろインスリンや消化管ホルモンを抑える側</b></span>。<span class=\"kw3\"><b>その作用を使ったオクトレオチドが難治のダンピングの治療になる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：早期と後期で働く物質が違う",
+       "c": "<span class=\"kw\"><b>① 早期ダンピング（食後 30 分以内）</b></span><br/><span class=\"kw3\"><b>高浸透圧の食べ物が空腸に入り、血管内の水が腸管へ移る——循環血液量が減る</b></span><br/><span class=\"kw3\"><b>腸から血管作動性の物質が出る：セロトニン、ブラジキニン、VIP、ニューロテンシン</b></span><br/><span class=\"kw3\"><b>症状：腹痛・下痢・腹鳴、動悸・顔面紅潮・めまい</b></span><br/><span class=\"kw\"><b>② 後期ダンピング（食後 2〜3 時間）</b></span><br/><span class=\"kw3\"><b>インスリン（と GLP-1）</b></span><br/><span class=\"kw3\"><b>症状：冷汗・振戦・脱力・動悸——低血糖の交感神経症状</b></span><br/><span class=\"kw\"><b>③ 食事で治らないとき</b></span><br/><span class=\"kw3\"><b>α-グルコシダーゼ阻害薬——糖の吸収を遅らせる（後期に）</b></span><br/><span class=\"kw3\"><b>オクトレオチド（ソマトスタチンの仲間）——インスリンと腸のホルモンを抑え、胃腸の動きを遅くする（早期・後期の両方に）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">後期ダンピング = インスリン過剰→低血糖 → 食後2〜3時間に発症</span><br/>治療：少量頻回食＋αGI阻害薬。低血糖発作時は補糖。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃切除後の食後の反応性低血糖に関係するホルモン。<br/><b>b セロトニン／c ヒスタミン／d ブラジキニン／e ソマトスタチン</b>：主でない。<br/><b>a インスリン</b>：<span class=\"kw\">急速な糖吸収→過剰インスリン分泌→後期ダンピング（低血糖）</span>。✓"
+       "c": "<span class=\"kw3\"><b>後期ダンピング＝インスリン過剰分泌→反応性低血糖（GLP-1 が上乗せ）</b></span><br/><span class=\"kw3\"><b>早期ダンピング＝セロトニン・ブラジキニンなど血管作動性物質と体液移動</b></span><br/><span class=\"kw4\"><b>ソマトスタチン（オクトレオチド）は原因ではなく治療薬</b></span>"
       }
      ],
      "imgs": []
@@ -17990,17 +17995,27 @@
       }
      ],
      "ans_label": "ｄ　GIST〈gastrointestinal stromal tumor〉",
-     "ans_sub": "GIST：内視鏡で粘膜下腫瘍（橋渡しひだ）＋生検でKIT（c-kit）陽性の紡錘形細胞→GISTの診断。",
+     "ans_sub": "40 歳男性、検診で異常。内視鏡（A）では、表面が<b>周りと同じ正常な粘膜</b>におおわれ、<b>なだらかに立ち上がる半球状の隆起</b>——粘膜下腫瘍の形。生検（B）では、<b>紡錘形の細胞が束になって流れるように並ぶ</b>間葉系の腫瘍で、腺管や上皮の異型はない——<b>GIST</b>（確定は KIT・DOG1 の免疫染色）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 GISTの内視鏡・病理所見",
-       "c": "<span class=\"kw\">dGIST（正答）</span>：<br><span class=\"kw\">内視鏡像</span>：粘膜で覆われた隆起→橋渡しひだ（bridging fold）<br/><span class=\"kw\">病理像</span>：<br/>・紡錘形細胞（spindle cells）または上皮様細胞のパターン<br/>・免疫組織化学：CD117（c-kit）陽性・DOG1陽性<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ a胃ポリープ：粘膜表面の隆起（SMTではない）<br/>✗ b胃癌：粘膜の腫瘍（生検で上皮性腫瘍）<br/>✗ cMALTリンパ腫：B細胞腫瘍（CD20陽性）<br/>✗ e迷入膵：胃壁内の異所性膵組織（中臍型の粘膜下腫瘍）</br>"
+       "h": "🌿 粘膜下腫瘍の形をとる病気を並べる",
+       "c": "<span class=\"kw4\"><b>GIST の性質・手術・遺伝子は Q.225・249・255・260——ここは選択肢に並ぶ「似た形の病変」との見分け</b></span>。<br/><span class=\"kw\"><b>① この像</b></span><br/><span class=\"kw3\"><b>A：表面は正常粘膜、なだらかな立ち上がり、潰瘍なし</b></span><br/><span class=\"kw3\"><b>B：細長い核の紡錘形細胞が交差する束を作る——平滑筋・神経・GIST の系統</b></span><br/><span class=\"kw\"><b>② 胃の粘膜下腫瘍の顔ぶれ</b></span><br/><span class=\"kw3\"><b>GIST：固有筋層から、低エコー、大きくなるとデル</b></span><br/><span class=\"kw3\"><b>平滑筋腫：食道に多い、胃では噴門部。desmin 陽性・KIT 陰性</b></span><br/><span class=\"kw3\"><b>神経鞘腫：S-100 陽性、周りにリンパ球の帯</b></span><br/><span class=\"kw3\"><b>迷入膵（異所性膵）：前庭部の大弯に多い、頂上に導管の開口（へそ状のくぼみ）</b></span><br/><span class=\"kw3\"><b>脂肪腫：黄色っぽく柔らかい、押すとへこむ</b></span><br/><span class=\"kw3\"><b>カルチノイド（NET）：黄色っぽい小さな隆起、粘膜深層から</b></span><br/><span class=\"kw3\"><b>嚢胞：透けて見える、柔らかい</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃ポリープ</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜そのものの隆起——表面の模様が周りと違う</b></span>。<span class=\"kw3\"><b>生検で腺窩上皮や胃底腺が見える</b></span>。</td></tr><tr><td>ｂ　胃　癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>上皮の腫瘍——表面が不整で、生検に異型のある腺管・細胞が出る</b></span>。</td></tr><tr><td>ｃ　胃 MALT リンパ腫</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>退色・びらん・潰瘍が主</b></span>。<span class=\"kw3\"><b>生検は小型のリンパ球が上皮に入り込む像</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　GIST〈gastrointestinal stromal tumor〉</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>粘膜下腫瘍の形＋紡錘形細胞の束</b></span>。</td></tr><tr><td>ｅ　迷入膵</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>頂上にへそのようなくぼみ（導管の開口）</b></span>。<span class=\"kw3\"><b>生検で膵の腺房や導管が見える</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃の粘膜下腫瘍（内視鏡＋生検）。<br/><b>a 胃ポリープ／b 胃癌／c MALTリンパ腫／e 迷入膵</b>：合わない。<br/><b>d GIST</b>：<span class=\"kw\">KIT陽性の間葉系腫瘍（粘膜下腫瘍）</span>。✓"
+       "h": "🔍 別軸：粘膜下腫瘍から組織を取る工夫",
+       "c": "<span class=\"kw\"><b>① ふつうの生検の弱点</b></span><br/><span class=\"kw3\"><b>鉗子が取るのは表面の粘膜だけ——腫瘍に届かず「正常粘膜」としか返ってこない</b></span><br/><span class=\"kw\"><b>② 届かせる方法</b></span><br/><span class=\"kw3\"><b>同じ場所を何度もつまむ（ボーリング生検）</b></span><br/><span class=\"kw3\"><b>デル（頂上の潰瘍）があればそこから——腫瘍が顔を出している</b></span><br/><span class=\"kw3\"><b>EUS-FNA——超音波で見ながら針で腫瘍の中心から吸引する（いちばん確実）</b></span><br/><span class=\"kw3\"><b>粘膜を切り開いて腫瘍を出して取る方法もある</b></span><br/><span class=\"kw\"><b>③ 取ったら</b></span><br/><span class=\"kw3\"><b>H-E で紡錘形細胞→免疫染色（KIT・DOG1・CD34・desmin・S-100）で系統を決める</b></span><br/><span class=\"kw3\"><b>核分裂像の数・Ki-67 で悪性度を見る</b></span><br/><span class=\"kw4\"><b>生検で腫瘍が破れて出血・播種することはまれ——ただし嚢胞性の GIST は穿刺を避ける</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>正常粘膜におおわれたなだらかな隆起＝粘膜下腫瘍</b></span><br/><span class=\"kw3\"><b>生検で紡錘形細胞の束→GIST を考え、KIT で確定</b></span><br/><span class=\"kw4\"><b>迷入膵は前庭部大弯、頂上のへそ状のくぼみ</b></span>"
       }
      ],
      "imgs": [
@@ -18049,17 +18064,27 @@
       }
      ],
      "ans_label": "ｂ　癌性腹膜炎",
-     "ans_sub": "胃全摘後の腹水・体重減少・皮膚蒼白→癌性腹膜炎（腹膜播種）が最も考えやすい。",
+     "ans_sub": "10 か月前の胃全摘の標本（A）では、胃の<b>ひだが太く硬く、一点へ向かって集まって</b>いる。組織（B）では<b>細胞質が粘液で膨れ、核が端に押しやられた印環細胞</b>がびまん性に広がる——印環細胞癌（未分化型・びまん浸潤型）。今回の CT（C）では<b>大量の腹水</b>と骨盤内の大きな充実性の腫瘤。腹部膨満・やせ・蒼白とあわせ、<b>腹膜播種による癌性腹膜炎</b>。骨盤の腫瘤は卵巣転移（Krukenberg 腫瘍）も考える。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 胃全摘後の腹水の鑑別",
-       "c": "<span class=\"kw\">b癌性腹膜炎（正答）</span>：<br>胃癌術後10か月で腹水・体重減少→腹膜播種（癌性腹膜炎）が最有力<br>・腹水：血性〜淡黄色・悪性細胞陽性<br/>・体重減少・低アルブミン血症<br/>・診断：腹水細胞診・CT<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a虚血性大腸炎：腹痛・血便（腹水は起こらない）<br/>✗ c後腹膜腫瘍：単発の腫瘤（腹水は起こりにくい）<br/>✗ d消化管穿孔：急性腹症（腹水＋遊離ガス）<br/>✗ e腹腔内膿瘍：発熱・局所圧痛（癌性腹膜炎より可能性低い）</br></br>"
+       "h": "🌿 3 枚をつなげて読む——印環細胞癌の再発",
+       "c": "<span class=\"kw4\"><b>腹水の調べ方（細胞診・SAAG）は Q.244、名前のついた転移は Q.227、播種が直腸を締めつける話は Q.235——ここはこの 3 枚の読みと、腹水の手当て</b></span>。<br/><span class=\"kw\"><b>① A（切除標本、目盛 2cm）</b></span><br/><span class=\"kw3\"><b>胃を開いた像で、ひだが全体に太くこわばり、中央へ寄り集まる</b></span><br/><span class=\"kw3\"><b>はっきりした腫瘤ではなく、壁全体が硬い——びまん浸潤型を思わせる</b></span><br/><span class=\"kw\"><b>② B（H-E）</b></span><br/><span class=\"kw3\"><b>淡く泡立った細胞質で膨れた丸い細胞、核が片側へ押されて三日月形——印環細胞</b></span><br/><span class=\"kw3\"><b>腺管を作らず一面に散らばる</b></span><br/><span class=\"kw\"><b>③ C（CT）</b></span><br/><span class=\"kw3\"><b>骨盤内に大量の液体、その中に大きな充実性の腫瘤、腸管は後ろへ寄せられる</b></span><br/><span class=\"kw3\"><b>若い女性の印環細胞癌は卵巣へ転移しやすい（Krukenberg 腫瘍）</b></span><br/><span class=\"kw\"><b>④ 選択肢の病気の CT</b></span><br/><span class=\"kw3\"><b>消化管穿孔：腹腔内の遊離ガス</b></span><br/><span class=\"kw3\"><b>腹腔内膿瘍：縁が造影される液体の塊、発熱</b></span><br/><span class=\"kw3\"><b>後腹膜腫瘍：腎・大血管を前へ押し出す</b></span><br/><span class=\"kw3\"><b>虚血性大腸炎：左側結腸の壁肥厚、腹痛と血便</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　虚血性大腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>突然の腹痛と血便——腹水と腹部膨隆の像ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　癌性腹膜炎</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>印環細胞癌の切除後、大量の腹水と骨盤の腫瘤</b></span>。<span class=\"kw3\"><b>腹膜播種による再発</b></span>。</td></tr><tr><td>ｃ　後腹膜腫瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腫瘤は腹腔内の腹水の中にある</b></span>。<span class=\"kw3\"><b>大量の腹水も説明できない</b></span>。</td></tr><tr><td>ｄ　消化管穿孔</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>急な激痛と腹膜刺激症状、遊離ガス</b></span>。<span class=\"kw3\"><b>経過が合わない</b></span>。</td></tr><tr><td>ｅ　腹腔内膿瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>発熱・炎症の記載がない</b></span>。<span class=\"kw3\"><b>腹腔全体の大量の液体は膿瘍の形ではない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌の腹膜転移＋腹部CT所見。<br/><b>a 虚血性大腸炎／c 後腹膜腫瘍／d 消化管穿孔／e 腹腔内膿瘍</b>：合わない。<br/><b>b 癌性腹膜炎</b>：<span class=\"kw\">腹膜播種による腹水・腹膜肥厚</span>。✓"
+       "h": "🔍 別軸：たまり続ける悪性腹水の手当て",
+       "c": "<span class=\"kw\"><b>① 穿刺排液</b></span><br/><span class=\"kw3\"><b>苦しさはすぐ楽になる——数日〜数週でまたたまる</b></span><br/><span class=\"kw4\"><b>一度に大量に抜くと、蛋白も失い血圧が下がることがある</b></span><br/><span class=\"kw\"><b>② 腹水濾過濃縮再静注法（CART）</b></span><br/><span class=\"kw3\"><b>抜いた腹水から癌細胞や細菌を濾し取り、蛋白（アルブミン）を濃縮して静脈へ戻す</b></span><br/><span class=\"kw3\"><b>蛋白を捨てずに排液をくり返せる</b></span><br/><span class=\"kw\"><b>③ 利尿薬</b></span><br/><span class=\"kw3\"><b>悪性腹水では効きにくい（門脈圧亢進ではないため）</b></span><br/><span class=\"kw\"><b>④ 化学療法</b></span><br/><span class=\"kw3\"><b>全身状態がよければ、全身投与や腹腔内への抗癌薬の投与</b></span><br/><span class=\"kw\"><b>⑤ 腹腔内に管を留置</b></span><br/><span class=\"kw3\"><b>在宅で少しずつ抜けるようにする</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>印環細胞癌（びまん浸潤型）は腹膜播種で再発しやすい</b></span><br/><span class=\"kw3\"><b>胃癌術後の腹部膨満・大量腹水→癌性腹膜炎</b></span><br/><span class=\"kw4\"><b>若い女性の骨盤の腫瘤は卵巣転移（Krukenberg 腫瘍）を考える</b></span>"
       }
      ],
      "imgs": [
@@ -18109,22 +18134,27 @@
       }
      ],
      "ans_label": "ａ　肝硬変\nｂ　Crohn 病\nｄ　Ménétrier 症候群",
-     "ans_sub": "肝硬変（アルブミン合成↓）、Crohn病（蛋白漏出・吸収不良）、Ménétrier病（蛋白漏出性胃腸症）で低蛋白血症。",
+     "ans_sub": "血清蛋白（主にアルブミン）が下がるのは、<b>作れない</b>（肝硬変）、<b>失う</b>（腸から＝蛋白漏出性胃腸症、腎から＝ネフローゼ）、<b>とれない・吸収できない</b>（低栄養・吸収不良）とき。肝硬変は合成の低下、Crohn 病は潰瘍からの漏出と吸収不良、<b>Ménétrier 症候群</b>は巨大ひだの粘膜から胃液へ蛋白が漏れる。過敏性腸症候群は粘膜に異常がなく、Peutz-Jeghers 症候群のポリープは蛋白を失わせない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 低蛋白血症をきたす疾患",
-       "c": "<span class=\"kw\">a肝硬変（正答）</span>：肝臓でのアルブミン合成能↓→血清アルブミン↓<br/><span class=\"kw\">b Crohn病（正答）</span>：小腸の炎症・蛋白漏出・吸収不良→低蛋白血症<br/><span class=\"kw\">d Ménétrier症候群（正答）</span>：<br/>胃の過形成（巨大粘膜皺襞）→蛋白漏出性胃腸症→低蛋白血症（浮腫・低アルブミン）<br/><br/><span class=\"kw4\">誤りの選択肢（低蛋白血症をきたさない）</span>：<br/>✗ c過敏性腸症候群（IBS）：腸管機能異常（粘膜正常→蛋白漏出なし）<br/>✗ e Peutz-Jeghers症候群：ポリポーシス（消化管ポリープ）→腸重積リスクはあるが低蛋白血症は稀"
+       "h": "🌿 アルブミンが下がる 4 つの道",
+       "c": "<span class=\"kw\"><b>① 作れない</b></span><br/><span class=\"kw3\"><b>肝硬変・劇症肝炎——アルブミンは肝だけが作る</b></span><br/><span class=\"kw3\"><b>あわせて PT 延長、コリンエステラーゼ低値</b></span><br/><span class=\"kw\"><b>② 失う</b></span><br/><span class=\"kw3\"><b>腎から：ネフローゼ症候群（尿蛋白 3.5g/日以上）</b></span><br/><span class=\"kw3\"><b>腸から：蛋白漏出性胃腸症——Ménétrier 病、炎症性腸疾患、腸リンパ管拡張症、収縮性心膜炎・右心不全（リンパ管の圧が上がる）</b></span><br/><span class=\"kw3\"><b>皮膚から：広い熱傷</b></span><br/><span class=\"kw\"><b>③ とれない・吸収できない</b></span><br/><span class=\"kw3\"><b>低栄養、吸収不良症候群、短腸症候群</b></span><br/><span class=\"kw\"><b>④ 壊れる・薄まる</b></span><br/><span class=\"kw3\"><b>感染・手術・癌での異化の亢進、炎症でアルブミンの合成が後回しになる</b></span><br/><span class=\"kw3\"><b>大量の輸液で薄まる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　肝硬変</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>アルブミンの合成が落ちる</b></span>。<span class=\"kw3\"><b>腹水にも逃げる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　Crohn 病</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>潰瘍からの蛋白漏出、吸収不良、炎症による異化</b></span>。</td></tr><tr><td>ｃ　過敏性腸症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸の粘膜に器質的な異常がない</b></span>。<span class=\"kw3\"><b>蛋白を失わない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　Ménétrier 症候群</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胃の巨大ひだから胃液へ蛋白が漏れる</b></span>。</td></tr><tr><td>ｅ　Peutz-Jeghers 症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>過誤腫性ポリープと口唇の色素斑</b></span>。<span class=\"kw3\"><b>腸重積や出血は起こすが、低蛋白血症は特徴でない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：腸から漏れていることをどう証明するか",
+       "c": "<span class=\"kw\"><b>① まず他を除く</b></span><br/><span class=\"kw3\"><b>尿蛋白がない（ネフローゼでない）、肝機能が保たれる、食べられている</b></span><br/><span class=\"kw\"><b>② 漏れを測る</b></span><br/><span class=\"kw3\"><b>α1-アンチトリプシン クリアランス——便中の α1-AT は消化されにくく、腸から漏れた蛋白量の目印になる</b></span><br/><span class=\"kw3\"><b>99mTc 標識ヒト血清アルブミン シンチグラフィ——漏れている場所まで写る</b></span><br/><span class=\"kw\"><b>③ 原因を探す</b></span><br/><span class=\"kw3\"><b>内視鏡で巨大ひだ（Ménétrier）、白い斑点状の絨毛（腸リンパ管拡張症）、潰瘍（炎症性腸疾患）</b></span><br/><span class=\"kw3\"><b>心エコーで収縮性心膜炎・右心不全</b></span><br/><span class=\"kw\"><b>④ リンパ管から漏れるとき</b></span><br/><span class=\"kw4\"><b>アルブミンだけでなく、リンパ球・γグロブリン・コレステロールも下がる——腸リンパ管拡張症の手がかり</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">低蛋白血症の原因：肝合成↓（肝硬変）・蛋白漏出（Ménétrier・炎症性腸疾患）・摂取↓・腎喪失（NS）</span><br/>Ménétrier病：胃の巨大粘膜皺壁（cerebriform pattern）＋蛋白漏出。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "低蛋白血症をきたすものを3つ。<br/><b>c 過敏性腸症候群／e Peutz-Jeghers症候群</b>：低蛋白をきたさない。<br/><b>a 肝硬変</b>：<span class=\"kw\">アルブミン合成低下</span>。✓<br/><b>b Crohn病</b>：<span class=\"kw\">蛋白漏出・吸収不良</span>。✓<br/><b>d Ménétrier症候群</b>：<span class=\"kw\">胃からの蛋白漏出</span>。✓"
+       "c": "<span class=\"kw3\"><b>低蛋白血症＝合成低下・漏出（腸・腎）・摂取吸収の不足・異化</b></span><br/><span class=\"kw3\"><b>Ménétrier 病・Crohn 病・腸リンパ管拡張症は蛋白漏出性胃腸症</b></span><br/><span class=\"kw4\"><b>腸からの漏出の証明は α1-アンチトリプシン クリアランス</b></span>"
       }
      ],
      "imgs": []
@@ -18170,22 +18200,27 @@
       }
      ],
      "ans_label": "ｅ　胃切除術",
-     "ans_sub": "ESD後に切除断端陽性→根治切除不成立→追加治療として胃切除術（幽門側胃切除等）が必要。",
+     "ans_sub": "色素散布した内視鏡（A）では、胃の前庭部〜幽門近くに、<b>盛り上がった縁に囲まれた陥凹</b>があり、底に白苔と色素のたまりが見える——潰瘍を伴う腫瘍。生検（B）では<b>核が大きく核小体の目立つ異型細胞</b>が、腺管をほとんど作らず集まっている——<b>腺癌（低分化）</b>。潰瘍を伴う未分化型の癌は内視鏡切除の適応外で、<b>胃切除術</b>（＋郭清）を行う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 ESD根治判定と追加治療",
-       "c": "<span class=\"kw\">e胃切除術（正答）</span>：<br>ESD根治基準（非根治）：HM1（水平断端陽性）or VM1（垂直断端陽性）<br/>→ 追加手術（胃切除術＋リンパ節郭清）が必要<br/><br/><span class=\"kw\">ESD根治基準</span>：<br/>・HM0（水平断端陰性）・VM0（垂直断端陰性）<br/>・SM1以内（&lt;500μm）・ly（0）・v（0）・分化型<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a胃粘膜保護薬・bPPI：ESD断端陽性には根治治療が必要<br/>✗ cH.pylori除菌：根治の補助（断端陽性の根治にならない）<br/>✗ d内視鏡的粘膜切除術（EMR）：断端陽性→再EMRで根治は困難</br>"
+       "h": "🌿 色素散布像と生検から、内視鏡治療か手術かを決める",
+       "c": "<span class=\"kw4\"><b>内視鏡治療の適応条件は Q.220・263、深い浸潤のサインは Q.228・258——ここはこの 2 枚の読み</b></span>。<br/><span class=\"kw\"><b>① A（インジゴカルミン散布）</b></span><br/><span class=\"kw3\"><b>青い色素がくぼみにたまり、病変の形が浮き出る</b></span><br/><span class=\"kw3\"><b>盛り上がった縁（周堤のような隆起）が陥凹を囲み、陥凹の底に白苔——潰瘍を伴う</b></span><br/><span class=\"kw3\"><b>まわりの粘膜は網目状の模様が色素で強調されている</b></span><br/><span class=\"kw\"><b>② B（生検）</b></span><br/><span class=\"kw3\"><b>大きな核、目立つ核小体、核の大小不同</b></span><br/><span class=\"kw3\"><b>腺管を作らずに充実性に集まる、ばらけた細胞もある——低分化腺癌</b></span><br/><span class=\"kw\"><b>③ 判断</b></span><br/><span class=\"kw3\"><b>未分化型で潰瘍を伴う——内視鏡切除の適応外</b></span><br/><span class=\"kw3\"><b>縁の盛り上がりは粘膜下層より深い浸潤も考えさせる</b></span><br/><span class=\"kw3\"><b>→胃切除＋リンパ節郭清</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃粘膜保護薬投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>癌は治らない</b></span>。</td></tr><tr><td>ｂ　プロトンポンプ阻害薬投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍の部分が一時的に治って見えることがある——癌を見えにくくするだけ</b></span>。</td></tr><tr><td>ｃ　Helicobacter pylori 除菌療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>除菌は発癌予防で、できた癌の治療ではない</b></span>。</td></tr><tr><td>ｄ　内視鏡的粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍を伴う未分化型の癌は適応外</b></span>。<span class=\"kw3\"><b>EMR は大きさの限界もある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　胃切除術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>内視鏡切除の適応を外れた胃癌——リンパ節郭清を伴う切除</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：PPI で治る潰瘍でも癌は消えていない",
+       "c": "<span class=\"kw\"><b>① 悪性サイクル</b></span><br/><span class=\"kw3\"><b>癌の表面にできた潰瘍は、PPI で一時的にふさがり、また開く</b></span><br/><span class=\"kw4\"><b>潰瘍が治った＝良性、とは言えない——治った潰瘍の縁や瘢痕に癌が残る</b></span><br/><span class=\"kw\"><b>② 胃潰瘍を見たら</b></span><br/><span class=\"kw3\"><b>初回の内視鏡で必ず縁から生検する</b></span><br/><span class=\"kw3\"><b>治療後にもう一度内視鏡で、治り方と瘢痕を確かめる</b></span><br/><span class=\"kw\"><b>③ 良性と悪性の潰瘍の見分け（Q.232）を踏まえて</b></span><br/><span class=\"kw3\"><b>縁の盛り上がりが不整・ひだの先が途切れる・底が汚い——悪性を疑う</b></span><br/><span class=\"kw\"><b>④ 色素散布の役目</b></span><br/><span class=\"kw3\"><b>陥凹の範囲と縁の凹凸をはっきりさせる——切る範囲の見積もりにも使う</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ESD断端陽性（HM1/VM1）→ 追加胃切除術が必要</span><br/>ESD根治切除：HM0・VM0・SM1以内・リンパ脈管侵襲（−）が条件。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃病変（内視鏡＋生検で悪性）。<br/><b>a 粘膜保護薬／b PPI／c H.pylori除菌／d EMR</b>：不適。<br/><b>e 胃切除術</b>：<span class=\"kw\">外科的切除</span>。✓"
+       "c": "<span class=\"kw3\"><b>生検で腺癌、潰瘍を伴う未分化型→内視鏡切除の適応外→胃切除</b></span><br/><span class=\"kw3\"><b>色素散布（インジゴカルミン）は陥凹の範囲と形をはっきりさせる</b></span><br/><span class=\"kw4\"><b>PPI で潰瘍がふさがっても癌は残る——除菌・PPI は治療にならない</b></span>"
       }
      ],
      "imgs": [
@@ -18234,22 +18269,27 @@
       }
      ],
      "ans_label": "ａ　偽膜性腸炎\nｂ　Ménétrier 病",
-     "ans_sub": "偽膜性腸炎（Clostridioides difficile）は重症例で低蛋白血症、Ménétrier病は蛋白漏出性胃腸症で低蛋白。",
+     "ans_sub": "<b>Ménétrier 病</b>は胃の巨大ひだの粘膜から胃液へ蛋白が漏れる蛋白漏出性胃腸症。<b>偽膜性腸炎</b>（Clostridioides difficile 腸炎）は大腸粘膜が広く傷み、そこから蛋白が滲み出て低蛋白血症をきたす。胃カルチノイド・過敏性腸症候群・原発性乳糖不耐症は蛋白を失わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 低蛋白血症の原因疾患",
-       "c": "<span class=\"kw\">a偽膜性腸炎（正答）</span>：<br/>C. difficile感染による重症腸炎→腸管からの蛋白漏出・炎症性腸管透過性↑→低蛋白血症<br/><br/><span class=\"kw\">b Ménétrier病（正答）</span>：<br/>胃の巨大粘膜皺壁形成→蛋白漏出性胃腸症（protein-losing gastropathy）→低アルブミン<br/><br/><span class=\"kw4\">低蛋白血症をきたさない疾患</span>：<br/>✗ c胃カルチノイド：腸管ホルモン産生（低蛋白血症は起こさない）<br/>✗ dIBS：機能性腸障害（粘膜正常）<br/>✗ e原発性乳糖不耐症：乳糖分解酵素欠乏→下痢（蛋白漏出なし）"
+       "h": "🌿 偽膜性腸炎——抗菌薬のあとの下痢",
+       "c": "<span class=\"kw4\"><b>低蛋白血症の 4 つの道と漏出の証明は Q.268——ここは偽膜性腸炎そのもの</b></span>。<br/><span class=\"kw\"><b>① どうして起こるか</b></span><br/><span class=\"kw3\"><b>抗菌薬で腸内細菌のバランスが崩れ、C. difficile が増えて毒素（トキシン A・B）を出す</b></span><br/><span class=\"kw3\"><b>クリンダマイシン・セフェム・キノロンなど、ほぼどの抗菌薬でも起こる</b></span><br/><span class=\"kw3\"><b>入院中の高齢者、PPI 内服で増える</b></span><br/><span class=\"kw\"><b>② 症状</b></span><br/><span class=\"kw3\"><b>水様下痢、発熱、腹痛、白血球増多</b></span><br/><span class=\"kw4\"><b>重症では中毒性巨大結腸症・穿孔、大量の蛋白漏出で低アルブミン血症・浮腫</b></span><br/><span class=\"kw\"><b>③ 診断</b></span><br/><span class=\"kw3\"><b>便の GDH 抗原とトキシンの検査、遺伝子検査</b></span><br/><span class=\"kw3\"><b>大腸内視鏡：黄白色の小さな膜（偽膜）が粘膜に点々と付く</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>原因の抗菌薬をやめる</b></span><br/><span class=\"kw3\"><b>バンコマイシン内服かフィダキソマイシン（メトロニダゾールは軽症に）</b></span><br/><span class=\"kw3\"><b>再発をくり返すなら便移植も考える</b></span><br/><span class=\"kw4\"><b>止痢薬は毒素を腸にとどめるので使わない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　偽膜性腸炎</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>広い範囲の粘膜障害から蛋白が漏れる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　Ménétrier 病</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胃の巨大ひだから蛋白が漏れる</b></span>。</td></tr><tr><td>ｃ　胃カルチノイド</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>小さな粘膜下の腫瘍——蛋白は失わない</b></span>。</td></tr><tr><td>ｄ　過敏性腸症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>器質的な異常がない</b></span>。</td></tr><tr><td>ｅ　原発性乳糖不耐症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>乳糖を分解できず、乳製品で下痢・腹部膨満</b></span>。<span class=\"kw3\"><b>乳糖をやめれば治まり、蛋白は失わない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：胃カルチノイド（NET）の 3 つの型",
+       "c": "<span class=\"kw\"><b>① 1 型（最も多い）</b></span><br/><span class=\"kw3\"><b>A 型胃炎（自己免疫性胃炎）で胃酸が出ない→ガストリンが上がる→ECL 細胞が増えて小さな腫瘍が多発</b></span><br/><span class=\"kw3\"><b>悪性度は低く、小さければ内視鏡で切除か経過観察</b></span><br/><span class=\"kw\"><b>② 2 型</b></span><br/><span class=\"kw3\"><b>Zollinger-Ellison 症候群（ガストリノーマ）＋MEN1——高ガストリン</b></span><br/><span class=\"kw\"><b>③ 3 型</b></span><br/><span class=\"kw3\"><b>ガストリンと関係なく単発で出る</b></span><br/><span class=\"kw4\"><b>悪性度が高く、転移しやすい——胃癌に準じて手術</b></span><br/><span class=\"kw\"><b>見分け</b></span><br/><span class=\"kw3\"><b>血中ガストリン、背景の胃（萎縮しているか）、数（多発か単発か）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">蛋白漏出性胃腸症の原因：Ménétrier病・炎症性腸疾患・偽膜性腸炎・腸リンパ管拡張症</span><br/>診断：便中α1-アンチトリプシンクリアランス・99mTc標識アルブミンシンチ。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "低蛋白血症がみられるものを2つ。<br/><b>c 胃カルチノイド／d 過敏性腸症候群／e 原発性乳糖不耐症</b>：低蛋白をきたさない。<br/><b>a 偽膜性腸炎</b>：<span class=\"kw\">腸管からの蛋白漏出</span>。✓<br/><b>b Ménétrier病</b>：<span class=\"kw\">胃からの蛋白漏出</span>。✓"
+       "c": "<span class=\"kw3\"><b>偽膜性腸炎：抗菌薬のあとの下痢、偽膜、重症で低蛋白血症</b></span><br/><span class=\"kw3\"><b>治療は原因薬の中止＋バンコマイシン内服かフィダキソマイシン</b></span><br/><span class=\"kw4\"><b>胃カルチノイドは 1 型（A 型胃炎・高ガストリン）が最多で予後良好、3 型は悪性度が高い</b></span>"
       }
      ],
      "imgs": []
