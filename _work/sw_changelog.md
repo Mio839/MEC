@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-10-01zk: Brass のニキシー管の止まったあとのちらつきを明るく（白い芯の光と橙の光の重ねがけ・ちらつき中の明滅を暗くする brNxFlick から明るくする brNxFlare へ）。
 2026-10-01zj: ハブの Liquid のゲージを今の倍に（ユーザー指摘・他のフィードにかかってよい）。canvas（#gaugeLiquidCanvas）だけを枠の 2 倍（left/top:-50%・width/height:200%）に広げてはみ出させた（index.css。枠と数字の位置は変えない）。
 2026-10-01zi: Brass のニキシー管の止まったあとのちらつきを10秒から30秒へ延長（index.js の BR_NX_IDLE_MS）。
 2026-10-01zh: ハブの Brass のニキシー管の数字をヴィクトリア朝の活字に（Old Standard TT・SIL OFL）。数字と , - . % だけの woff2 を fonts/nixie_oldstandard.woff2 に同梱し SHELL に追加。数字の幅が広がったので Brass では折り返さず、4桁以上のときだけ管を約 0.8 倍に。

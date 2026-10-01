@@ -577,7 +577,9 @@ t('Brass の読み値はニキシー管＋歯車連動（ちらつきは一定�
   assert.ok(/br-nx-glint/.test(idle) && /\.dg\.br-nx-glint\{animation:brNxGlint/.test(HTML), '正しい数字へ戻る瞬間に煌めかせていない');
   assert.ok(!/\.dg\.br-nx-idle\{[^}]*opacity:\./.test(HTML), 'ちらつき中の管を暗くしている（煌々と光らせる）');
   // チカチカで動かすのは数字だけ。opacity・filter は管ごと消えたり光ったりする（2026-10-01 ユーザー指摘）
-  for (const k of ['brNxFlick', 'brNxGlint']) {
+  // ちらつき中の1回ごとの明滅は明るくする向き（暗くする brNxFlick を使わない・2026-10-01「明るさが足りない」）
+  assert.ok(/\.dg\.br-nx-idle\.flick\{animation:brNxFlare/.test(HTML), 'ちらつき中の明滅で数字が暗く沈む');
+  for (const k of ['brNxFlick', 'brNxGlint', 'brNxFlare']) {
     const kf = (HTML.match(new RegExp('@keyframes ' + k + '\\{[\\s\\S]*?\\}\\}')) || [''])[0];
     assert.ok(kf && !/opacity|filter/.test(kf), k + ' が管ごと動かしている（opacity / filter）');
   }
