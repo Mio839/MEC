@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-10-02 (CACHE v689): 消化器 dige 作り直し⑤ ch02 バッチ12（Q.67〜Q.72・Q.67 の正解の理由づけの逆転を是正）。questions_knock.json・questions_hisshu2.json（借用）を再生成。
 2026-10-02 (CACHE v688): 消化器 dige 作り直し⑤ ch02 バッチ11（Q.61〜Q.66・Q.66 の別問題の em を差し替え）。
 2026-10-02 (CACHE v687): 消化器 dige 作り直し⑤ ch02 バッチ10（Q.55〜Q.60・Q.60 の Osler／Janeway の取り違えを是正）。questions_hisshu2.json（借用）を再生成。
 2026-10-02 (CACHE v686): 消化器 dige 作り直し⑤ バッチ9（ch01 Q.49〜Q.51＝ch01 完了／ch02 Q.52〜Q.54）。questions_hisshu2.json（借用）を再生成。
