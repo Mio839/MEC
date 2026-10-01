@@ -2899,7 +2899,13 @@ function _liqFxPulse(el, cls, ms) {
 
 // ── 全8テーマ完全差別化：各テーマ固有の進捗描画ロジック ─────────────────────────
 function _driveThemeGauge(pct, base, over, tier) {
-  // 1. Brass: 機械式メーター針 (-135deg 〜 +135deg の270度アーク)
+  // 1. Brass：蒸気機関・噛み合いの火花・奥行きの歯車群（hub_brass.js が #gaugeBrassEngine に描く・2026-10-01）。
+  //    描くのは ui-brass のときだけ（テーマの切り替えは hub_brass.js が自分で拾う）。ここは値を渡すだけ。
+  //    下の針（#brassNeedle）は Brass では svg ごと隠れている（index.css の html.ui-brass .gauge-ring > svg）
+  if (window.MecBrassGauge) {
+    MecBrassGauge.mount(document.getElementById('gaugeBrassEngine'));
+    MecBrassGauge.set(pct);
+  }
   const bNeedle = document.getElementById('brassNeedle');
   if (bNeedle) {
     const bAngle = -135 + (base / 100) * 270;

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brass ゲージの作り直し</title>
+<!--
+  ハブ（index.html）のヒーローゲージを UIテーマ Brass 向けに作り直すための見比べページ（2026-10-01〜）。
+  方針（ユーザー指定）：噛み合った歯車があり、達成度が上がるほど回転数が上がる。
+
+  5案に共通する約束
+  - 回転数は達成率から連続的に決める（段 data-tier で切り替えない）。目標の回転数へは慣性で寄せる（急に変わらない）。
+  - 歯は本当に噛み合う：子の角度 = -(親の歯数/子の歯数)×親の角度 + 位相。位相は「親の歯の真向かいに子の歯溝」が来るように計算する（mesh()）。
+  - 歯車を読み値（中央の％）の上に重ねない。盤面ごとの拡大縮小（脈打ち）はしない。
+  - 角度は rAF で積分する（CSS の animation-duration を書き換えると位相が飛ぶため）。
+  本物のファイルは1つも変えない。
+-->
+<style>
+:root{
+  --bg:#110d08; --panel:#1b150d; --panel-2:#241b10; --line:rgba(224,194,94,.16); --line-2:rgba(224,194,94,.32);
+  --t1:#f1e6cc; --t2:#bba987; --t3:#85765a;
+  --brass:#C9A227; --brass-hi:#E0C25E; --copper:#B87333; --pick:#3fb68b; --accent:#E0C25E;
+  --gsize:208px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--t1);}
+body{font:13px/1.6 system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;min-height:100vh;}
+button,select,input{font:inherit;color:inherit;}
+.wrap{max-width:1400px;margin:0 auto;padding:14px 16px 48px;}
+h1{font-size:17px;margin-bottom:4px;}
+.lead{color:var(--t2);font-size:12px;line-height:1.8;max-width:980px;}
+.lead b{color:var(--t1);}
+.bar{position:sticky;top:0;z-index:5;background:rgba(17,13,8,.94);border-bottom:1px solid var(--line);margin:12px -16px 14px;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:12px;}
+.bar label{display:inline-flex;align-items:center;gap:6px;color:var(--t2);}
+.bar input[type=range]{width:min(320px,60vw);accent-color:var(--brass-hi);}
+.pv{font:700 18px/1 ui-monospace,Consolas,monospace;color:var(--brass-hi);min-width:4.2em;display:inline-block;text-align:right;}
+.btn{background:var(--panel-2);border:1px solid var(--line-2);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;}
+.btn.on{background:var(--brass);color:#1d1404;border-color:var(--brass);font-weight:700;}
+.btn:hover{filter:brightness(1.15);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px;}
+.card{background:var(--panel);border:1px solid var(--line);border-left:3px solid transparent;border-radius:12px;padding:12px;}
+.card.picked{border-left-color:var(--pick);}
+.card .hd{display:flex;align-items:center;gap:8px;}
+.card .nm{font-weight:700;font-size:14px;flex:1;min-width:0;}
+.card .no{color:var(--brass-hi);margin-right:6px;}
+.pick{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:var(--t2);cursor:pointer;}
+.card.picked .pick{color:var(--pick);font-weight:700;}
+.pick input{accent-color:var(--pick);}
+.card .ds{color:var(--t2);font-size:11.5px;margin-top:4px;line-height:1.7;min-height:5.2em;}
+.stage{display:flex;justify-content:center;align-items:center;padding:16px 0 6px;
+  background:radial-gradient(circle at 50% 45%,rgba(201,162,39,.10),transparent 62%),linear-gradient(145deg,#1a140c,#120e09);
+  border:1px solid rgba(201,162,39,.18);border-radius:10px;margin-top:8px;}
+.stage svg{width:var(--gsize);height:var(--gsize);display:block;overflow:visible;}
+.meter{font:11px/1.5 ui-monospace,Consolas,monospace;color:var(--t3);text-align:center;padding:4px 0 2px;}
+.meter b{color:var(--brass-hi);font-weight:600;}
+.foot{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:12px;color:var(--t2);}
+.foot b{color:var(--pick);}
+.note{margin-top:12px;font-size:11px;color:var(--t3);line-height:1.7;}
+.gnum{font-family:Georgia,"Times New Roman",serif;font-weight:700;fill:#F2D88A;paint-order:stroke;stroke:#1a1206;stroke-width:2.2px;font-variant-numeric:tabular-nums;}
+@media (max-width:420px){ .bar input[type=range]{width:100%;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Brass のヒーローゲージ：作り直し案 5つ</h1>
+  <p class="lead">
+    方針は「<b>噛み合った歯車があり、達成度が上がるほど回転数が上がる</b>」。5案とも<b>回転数を達成率から連続的に決め</b>（現行のように6段で切り替えない）、
+    目標の回転数へは<b>慣性でじわっと寄せる</b>ので、解いて数字が上がると機械が少しずつ回り出します。
+    歯は歯数比どおりに本当に噛み合います（小さい歯車ほど速く、隣とは逆回り）。読み値の上には歯車を重ねず、盤面の拡大縮小もしません。
+    回転の目安は主歯車で <b>0%＝60秒/周 → 100%＝約13秒 → 200%＝3秒</b>（案ごとに少し補正）。
+  </p>
+
+  <div class="bar">
+    <label>達成率 <input type="range" id="pct" min="0" max="200" step="1" value="40"><span class="pv" id="pv">40%</span></label>
+    <span>
+      <button class="btn" data-p="0">0</button>
+      <button class="btn" data-p="25">25</button>
+      <button class="btn" data-p="50">50</button>
+      <button class="btn" data-p="75">75</button>
+      <button class="btn" data-p="100">100</button>
+      <button class="btn" data-p="150">150</button>
+      <button class="btn" data-p="200">200</button>
+    </span>
+    <button class="btn" id="sweep">▶ 0→200% を流す（40秒）</button>
+    <button class="btn" id="jump">＋20%（1セッション解いた想定）</button>
+    <span>
+      <button class="btn on" data-size="208">ハブの大きさ</button>
+      <button class="btn" data-size="300">大きく</button>
+    </span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="foot">
+    <span id="picks">採用する案にチェックを入れてください。</span>
+    <button class="btn" id="copy">選んだ案を文字でコピー</button>
+  </div>
+  <p class="note">
+    ・「＋20%」は1セッション終えてハブへ戻った場面の想定です（回転数がじわっと上がるのを見るため）。<br>
+    ・案2・4 は段ごとに歯車が加わりますが、回転数そのものは段ではなく達成率で連続的に変わります。<br>
+    ・描画は SVG 1枚＋rAF。採用後は画面外・非表示タブでは rAF を止め、省電力 <code>html.mec-lite</code> では2コマに1回描く想定です。
+  </p>
+</div>
+
+<script>
+(function(){
+'use strict';
+const TAU = Math.PI * 2, PI = Math.PI, DEG = 180 / PI;
+const SVGNS = 'http://www.w3.org/2000/svg';
+const C = 84; // 盤面の中心（viewBox 168）
+
+function el(tag, attrs, parent){
+  const e = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const f2 = v => Math.round(v * 100) / 100;
+function circ(r, x, y){ x = x || 0; y = y || 0;
+  return `M${f2(x + r)} ${f2(y)}A${f2(r)} ${f2(r)} 0 1 0 ${f2(x - r)} ${f2(y)}A${f2(r)} ${f2(r)} 0 1 0 ${f2(x + r)} ${f2(y)}Z`; }
+
+// 歯の輪郭。歯は局所角 0 を中心に並ぶ（mesh() の位相計算の前提）
+function teeth(N, m, internal){
+  const r = m * N / 2, pa = TAU / N;
+  const rt = internal ? r - m : r + m, rr = internal ? r + 1.25 * m : r - 1.25 * m;
+  const P = [];
+  for (let i = 0; i < N; i++){
+    const a = i * pa;
+    P.push([rr, a - 0.5 * pa], [rr, a - 0.34 * pa], [rt, a - 0.16 * pa], [rt, a + 0.16 * pa], [rr, a + 0.34 * pa]);
+  }
+  return 'M' + P.map(([q, a]) => f2(q * Math.cos(a)) + ' ' + f2(q * Math.sin(a))).join('L') + 'Z';
+}
+// がんぎ車（脱進機）ののこぎり歯
+function sawteeth(N, rr, rt){
+  const pa = TAU / N, P = [];
+  for (let i = 0; i < N; i++){
+    const a = i * pa;
+    P.push([rr, a], [rt, a - 0.10 * pa], [rt - 1.6, a - 0.26 * pa], [rr, a - 0.85 * pa]);
+  }
+  return 'M' + P.map(([q, a]) => f2(q * Math.cos(a)) + ' ' + f2(q * Math.sin(a))).join('L') + 'Z';
+}
+
+function defs(svg, id){
+  const d = el('defs', {}, svg);
+  // ⚠️ 照りは中心対称にする（回る歯車に片寄った照りを付けると、光源ごと回って見える）
+  const rg = (name, stops) => { const g = el('radialGradient', {id: id + name, cx: '50%', cy: '50%', r: '50%'}, d);
+    stops.forEach(([o, c]) => el('stop', {offset: o, 'stop-color': c}, g)); };
+  rg('br', [['0', '#F6E3A0'], ['.55', '#E0C25E'], ['.84', '#C9A227'], ['1', '#7E5A18']]);
+  rg('cu', [['0', '#F2C08E'], ['.55', '#D08A4A'], ['.84', '#B87333'], ['1', '#6A3A14']]);
+  rg('st', [['0', '#DAD4C6'], ['.6', '#A39C8C'], ['1', '#4A443A']]);
+  const lg = el('linearGradient', {id: id + 'arc', x1: '0', y1: '0', x2: '1', y2: '1'}, d);
+  el('stop', {offset: '0', 'stop-color': '#B87333'}, lg);
+  el('stop', {offset: '1', 'stop-color': '#F2D88A'}, lg);
+  const pf = el('radialGradient', {id: id + 'puff'}, d);
+  el('stop', {offset: '0', 'stop-color': '#efe9dc', 'stop-opacity': '.85'}, pf);
+  el('stop', {offset: '1', 'stop-color': '#efe9dc', 'stop-opacity': '0'}, pf);
+}
+
+// 歯車1枚。角度 = k×Φ + c（Φ はその案の主軸の角度）
+function gear(svg, id, o){
+  const g = el('g', {}, svg);
+  const r = o.m * o.N / 2;
+  let d;
+  if (o.internal) d = circ(o.rim) + teeth(o.N, o.m, true);
+  else {
+    d = teeth(o.N, o.m, false);
+    if (o.hole) d += circ(o.hole);
+    else d += circ(Math.max(1.4, o.m * .55));
+    if (o.holes){
+      const rr = r - 1.25 * o.m, hub = Math.max(2.6, o.m * 1.1);
+      const hr = (rr - hub) * .34, hm = (rr + hub) / 2;
+      for (let i = 0; i < o.holes; i++){ const a = i * TAU / o.holes + PI / o.holes;
+        d += circ(hr, hm * Math.cos(a), hm * Math.sin(a)); }
+    }
+  }
+  el('path', {d, 'fill-rule': 'evenodd', fill: `url(#${id}${o.mat || 'br'})`, stroke: '#2e1f07', 'stroke-width': '.6'}, g);
+  if (!o.internal && !o.hole) el('circle', {r: f2(Math.max(1.4, o.m * .55) + .9), fill: 'none', stroke: '#F2D88A', 'stroke-width': '.5', opacity: '.7'}, g);
+  if (o.rivets) for (let i = 0; i < o.rivets.n; i++){ const a = i * TAU / o.rivets.n;
+    el('circle', {cx: f2(o.rivets.r * Math.cos(a)), cy: f2(o.rivets.r * Math.sin(a)), r: '1.05', fill: '#5a3f12', stroke: '#F2D88A', 'stroke-width': '.35'}, g); }
+  return {g, N: o.N, m: o.m, r, x: o.x, y: o.y, k: o.k || 0, c: o.c || 0, ang: 0,
+    set(a){ this.ang = a; this.g.setAttribute('transform', `translate(${f2(this.x)} ${f2(this.y)}) rotate(${f2(a * DEG)})`); },
+    drive(Phi){ this.set(this.k * Phi + this.c); }};
+}
+// B を A の向き th（ラジアン）に、歯が噛み合う距離で置く
+function at(A, N, m, th){ const d = A.r + m * N / 2; return {x: A.x + d * Math.cos(th), y: A.y + d * Math.sin(th)}; }
+// 噛み合わせ：B の角度 = -(NA/NB)(φA - θ) + θ + π + π/NB
+function mesh(A, B){
+  const th = Math.atan2(B.y - A.y, B.x - A.x), q = A.N / B.N;
+  B.k = -A.k * q; B.c = -q * A.c + q * th + th + PI + PI / B.N;
+}
+
+// 進捗の弧（上から時計回り）。100% 超は2周目を重ねる（200% で頭打ち・数字は素のまま）
+function arc(svg, id, r, w){
+  const g = el('g', {transform: `rotate(-90 ${C} ${C})`}, svg);
+  const Cc = TAU * r;
+  el('circle', {cx: C, cy: C, r, fill: 'none', stroke: 'rgba(201,162,39,.16)', 'stroke-width': w}, g);
+  const val = el('circle', {cx: C, cy: C, r, fill: 'none', stroke: `url(#${id}arc)`, 'stroke-width': w, 'stroke-linecap': 'round',
+    'stroke-dasharray': `${f2(Cc)} ${f2(Cc)}`, 'stroke-dashoffset': f2(Cc)}, g);
+  const ovf = el('circle', {cx: C, cy: C, r, fill: 'none', stroke: '#FFF0BE', 'stroke-width': f2(w * .45), 'stroke-linecap': 'round',
+    'stroke-dasharray': `${f2(Cc)} ${f2(Cc)}`, 'stroke-dashoffset': f2(Cc), opacity: '.95'}, g);
+  for (const t of [.25, .5, .75]){ const a = t * TAU;
+    el('line', {x1: f2(C + (r - w / 2 - 1.5) * Math.cos(a)), y1: f2(C + (r - w / 2 - 1.5) * Math.sin(a)),
+      x2: f2(C + (r + w / 2 + 1.5) * Math.cos(a)), y2: f2(C + (r + w / 2 + 1.5) * Math.sin(a)), stroke: 'rgba(242,216,138,.45)', 'stroke-width': '.8'}, g); }
+  let shown = -1;
+  return { set(p){ const v = Math.round(p * 1000); if (v === shown) return; shown = v;
+    val.setAttribute('stroke-dashoffset', f2(Cc * (1 - Math.min(p, 1))));
+    ovf.setAttribute('stroke-dashoffset', f2(Cc * (1 - Math.min(Math.max(p - 1, 0), 1)))); } };
+}
+function readout(svg, size){
+  const t = el('text', {x: C, y: C + 1, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'gnum', 'font-size': size}, svg);
+  const n = document.createTextNode('0'); t.appendChild(n);
+  const u = el('tspan', {'font-size': '.42em', dx: '1'}, t); u.textContent = '%';
+  let shown = -1;
+  return { set(pct){ const v = Math.round(pct); if (v === shown) return; shown = v; n.nodeValue = v;
+    t.setAttribute('font-size', v >= 100 ? size * .82 : size); } };
+}
+
+// 回転数の目安：主歯車 0%=60秒/周 → 100%≈13.4秒 → 200%=3秒（連続）
+const period = p => 60 * Math.pow(20, -Math.min(Math.max(p, 0), 2) / 2);
+// 慣性：目標の角速度へ時定数 tau で寄せる
+function spin(o){ return {w: -1, Phi: 0, tau: o.tau || .9, scale: o.scale || 1,
+  step(dt, p){ const tw = TAU / period(p) * this.scale;
+    if (this.w < 0) this.w = tw;   // 開いた瞬間は目標の回転数から始める
+    this.w += (tw - this.w) * (1 - Math.exp(-dt / this.tau)); this.Phi += this.w * dt; }}; }
+const ease = (cur, tgt, dt, tau) => cur + (tgt - cur) * (1 - Math.exp(-dt / tau));
+
+/* ════════ 案1 王道の歯車列 ════════ */
+function plan1(svg, id){
+  defs(svg, id);
+  const sp = spin({});
+  const ring = gear(svg, id, {N: 46, m: 3, x: C, y: C, hole: 59.2, k: 1, rivets: {n: 12, r: 62.2}});
+  const specs = [[225, 12, 'br'], [315, 10, 'cu'], [45, 12, 'br'], [135, 10, 'cu']];
+  const small = specs.map(([deg, N, mat]) => { const p = at(ring, N, 3, deg / DEG);
+    const g = gear(svg, id, {N, m: 3, x: p.x, y: p.y, holes: N >= 12 ? 5 : 4, mat}); mesh(ring, g); return g; });
+  const a = arc(svg, id, 54, 7), ro = readout(svg, 30);
+  const all = [ring, ...small];
+  return { sp, step(dt, pct){ const p = pct / 100; sp.step(dt, p); all.forEach(g => g.drive(sp.Phi));
+      a.set(p); ro.set(pct); },
+    meter(){ return `主歯車 <b>${(TAU / sp.w).toFixed(1)}</b> 秒/周 ・ 小歯車 <b>${(TAU / sp.w / 46 * 10).toFixed(1)}</b> 秒/周`; } };
+}
+
+/* ════════ 案2 遊星歯車 ════════ */
+function plan2(svg, id){
+  defs(svg, id);
+  const sp = spin({scale: 1.25});
+  const NS = 26, NP = 10, NR = 46, m = 3, rP = m * NP / 2, rR = m * NR / 2, orbit = m * (NS + NP) / 2;
+  // 内歯車（固定）の位相は遊星0の噛み合いから決める
+  const psi0 = (NS / NP + 1) * 0 + PI + PI / NP, paP = TAU / NP;
+  let dl = ((psi0 % paP) + paP) % paP; if (dl >= paP / 2) dl -= paP;
+  const ringFix = gear(svg, id, {N: NR, m, x: C, y: C, internal: true, rim: 75.5, mat: 'cu'});
+  ringFix.set(dl * rP / rR + PI / NR);
+  el('circle', {cx: C, cy: C, r: orbit, fill: 'none', stroke: 'rgba(90,63,18,.9)', 'stroke-width': '2.2'}, svg); // キャリア
+  const planets = [0, 1, 2, 3].map(j => { const g = gear(svg, id, {N: NP, m, x: C, y: C, holes: 4}); g.th = j * PI / 2; g.op = j === 0 ? 1 : 0; g.g.style.opacity = g.op; return g; });
+  const sun = gear(svg, id, {N: NS, m, x: C, y: C, hole: 31, k: 1, rivets: {n: 8, r: 33.2}});
+  const a = arc(svg, id, 79.5, 4), ro = readout(svg, 26);
+  return { sp, step(dt, pct){ const p = pct / 100; sp.step(dt, p);
+      const Phi = sp.Phi, phc = Phi * NS / (NS + NR), psS = Phi - phc;
+      sun.set(Phi);
+      const n = 1 + Math.min(3, Math.floor(p / .25 + 1e-9));
+      planets.forEach((g, j) => {
+        const pos = g.th + phc; g.x = C + orbit * Math.cos(pos); g.y = C + orbit * Math.sin(pos);
+        g.set(-(NS / NP) * psS + (NS / NP + 1) * g.th + PI + PI / NP + phc);
+        g.op = ease(g.op, j < n ? 1 : 0, dt, .35); g.g.style.opacity = f2(g.op);
+      });
+      a.set(p); ro.set(pct); },
+    meter(){ const ws = sp.w, wc = ws * NS / (NS + NR);
+      return `太陽 <b>${(TAU / ws).toFixed(1)}</b> 秒/周 ・ 公転 <b>${(TAU / wc).toFixed(1)}</b> 秒/周`; } };
+}
+
+/* ════════ 案3 脱進機（チクタク） ════════ */
+function plan3(svg, id){
+  defs(svg, id);
+  const NR = 46, NPin = 10, NE = 15;
+  // がんぎ車（ピニオンと同軸）。大歯車の下の層に置く
+  const pinPos = at({x: C, y: C, r: 69}, NPin, 3, 45 / DEG);
+  const esc = el('g', {}, svg);
+  el('path', {d: sawteeth(NE, 19.5, 23) + circ(4) + [0, 1, 2, 3, 4].map(i => { const a = i * TAU / 5; return circ(4.2, 12 * Math.cos(a), 12 * Math.sin(a)); }).join(''),
+    'fill-rule': 'evenodd', fill: `url(#${id}st)`, stroke: '#2a261f', 'stroke-width': '.6'}, esc);
+  const ring = gear(svg, id, {N: NR, m: 3, x: C, y: C, hole: 59.2, k: 1, rivets: {n: 12, r: 62.2}});
+  const small = [[225, 12, 'br'], [315, 10, 'cu'], [135, 12, 'br']].map(([deg, N, mat]) => { const p = at(ring, N, 3, deg / DEG);
+    const g = gear(svg, id, {N, m: 3, x: p.x, y: p.y, holes: N >= 12 ? 5 : 4, mat}); mesh(ring, g); return g; });
+  const pin = gear(svg, id, {N: NPin, m: 3, x: pinPos.x, y: pinPos.y, holes: 4, mat: 'cu'}); mesh(ring, pin);
+  // アンクル：支点は盤の右下の角、2つの爪ががんぎ車の縁へ届く
+  const P = {x: 161.5, y: 161.5}, W = pinPos, base = Math.atan2(P.y - W.y, P.x - W.x);
+  const anc = el('g', {}, svg);
+  const tip = s => { const a = base + s * 40 / DEG; return {x: W.x + 23.5 * Math.cos(a), y: W.y + 23.5 * Math.sin(a)}; };
+  const L = tip(-1), R = tip(1);
+  el('path', {d: `M${f2(L.x)} ${f2(L.y)}L${P.x} ${P.y}L${f2(R.x)} ${f2(R.y)}`, fill: 'none', stroke: '#D9B85A', 'stroke-width': '2.4', 'stroke-linejoin': 'round', 'stroke-linecap': 'round'}, anc);
+  [L, R].forEach(q => el('circle', {cx: f2(q.x), cy: f2(q.y), r: '1.9', fill: '#B3262B', stroke: '#2e1f07', 'stroke-width': '.4'}, anc));
+  el('circle', {cx: P.x, cy: P.y, r: '3', fill: `url(#${id}br)`, stroke: '#2e1f07', 'stroke-width': '.5'}, svg);
+  const a = arc(svg, id, 54, 7), ro = readout(svg, 30);
+  // 1拍でがんぎ車が半歯ぶん進む。拍の頻度は 0%=0.8Hz → 100%≈2.8Hz → 200%=9.6Hz
+  const freq = p => .8 * Math.pow(12, Math.min(Math.max(p, 0), 2) / 2);
+  const dPhi = (TAU / NE / 2) * NPin / NR; // 1拍あたりの大歯車の進み
+  let beats = 0, fr = 0, f = freq(.4), side = 1, ancAng = 0;
+  const all = [ring, ...small, pin];
+  return { step(dt, pct){ const p = pct / 100;
+      f = ease(f, freq(p), dt, .9);
+      fr += f * dt; while (fr >= 1){ fr -= 1; beats++; side = -side; }
+      const jump = Math.min(1, .075 * f);            // 拍のうち「動いている」割合（速くなるほど連続回転に近づく）
+      let u = Math.min(1, fr / jump); u = 1 - Math.pow(1 - u, 3); u += .07 * Math.sin(PI * Math.min(1, fr / jump)) * (1 - jump); // わずかな跳ね返り
+      const Phi = (beats + u) * dPhi;
+      all.forEach(g => g.drive(Phi));
+      esc.setAttribute('transform', `translate(${f2(pin.x)} ${f2(pin.y)}) rotate(${f2(pin.ang * DEG)})`);
+      ancAng = 5 * side * (2 * Math.min(1, Math.max(0, u)) - 1);   // 拍ごとに左右の爪へ倒れ替わる
+      anc.setAttribute('transform', `rotate(${f2(ancAng)} ${P.x} ${P.y})`);
+      a.set(p); ro.set(pct); },
+    meter(){ return `拍 <b>${f.toFixed(1)}</b> 回/秒 ・ 大歯車 <b>${(TAU / (f * dPhi)).toFixed(0)}</b> 秒/周`; } };
+}
+
+/* ════════ 案4 段ごとに噛み合う歯車 ════════ */
+function plan4(svg, id){
+  defs(svg, id);
+  const sp = spin({scale: 1.35});
+  const ring = gear(svg, id, {N: 36, m: 2.5, x: C, y: C, hole: 38, k: 1, rivets: {n: 9, r: 40}});
+  const pins = [];
+  for (let i = 0; i < 8; i++){
+    const N = i % 2 ? 8 : 10, th = (-90 + 45 * i) / DEG, p = at(ring, N, 2.5, th);
+    const g = gear(svg, id, {N, m: 2.5, x: p.x, y: p.y, holes: N === 10 ? 4 : 3, mat: i % 2 ? 'cu' : 'br'});
+    mesh(ring, g); g.th = th; g.x0 = p.x; g.y0 = p.y; g.e = i === 0 ? 1 : 0; g.hold = 0; pins.push(g);
+  }
+  const a = arc(svg, id, 79.5, 4), ro = readout(svg, 30);
+  return { sp, step(dt, pct){ const p = pct / 100; sp.step(dt, p);
+      ring.drive(sp.Phi);
+      const n = 1 + Math.min(7, Math.floor(p * 8 + 1e-9));   // 12.5% ごとに1枚ずつ噛み合う（100% で8枚）
+      pins.forEach((g, i) => {
+        g.e = ease(g.e, i < n ? 1 : 0, dt, .22);
+        const off = (1 - g.e) * 7; g.x = g.x0 + off * Math.cos(g.th); g.y = g.y0 + off * Math.sin(g.th);
+        if (g.e > .02) { g.hold = g.k * sp.Phi + g.c; }
+        g.set(g.hold); g.g.style.opacity = f2(g.e);
+      });
+      a.set(p); ro.set(pct); },
+    meter(){ return `中心 <b>${(TAU / sp.w).toFixed(1)}</b> 秒/周 ・ 小歯車 <b>${(TAU / sp.w / 36 * 8).toFixed(1)}</b> 秒/周`; } };
+}
+
+/* ════════ 案5 蒸気機関（クランク＋ピストン） ════════ */
+function plan5(svg, id){
+  defs(svg, id);
+  const sp = spin({scale: 1.6});
+  // シリンダー（下の帯）
+  const cylX = 76, cylY = 140, cylW = 36, cylH = 12;
+  el('rect', {x: cylX, y: cylY, width: cylW, height: cylH, rx: 2.5, fill: `url(#${id}cu)`, stroke: '#2e1f07', 'stroke-width': '.6'}, svg);
+  for (let i = 1; i < 4; i++) el('line', {x1: cylX + i * 9, y1: cylY, x2: cylX + i * 9, y2: cylY + cylH, stroke: 'rgba(46,31,7,.55)', 'stroke-width': '.7'}, svg);
+  el('circle', {cx: cylX + cylW, cy: cylY + 2, r: 2.2, fill: `url(#${id}br)`, stroke: '#2e1f07', 'stroke-width': '.5'}, svg); // 排気弁
+  const puffs = el('g', {}, svg);
+  const ring = gear(svg, id, {N: 36, m: 2.5, x: C, y: C, hole: 38, k: 1, rivets: {n: 9, r: 40}});
+  const others = [[225, 8, 'cu'], [315, 10, 'br'], [45, 8, 'cu']].map(([deg, N, mat]) => { const p = at(ring, N, 2.5, deg / DEG);
+    const g = gear(svg, id, {N, m: 2.5, x: p.x, y: p.y, holes: N === 10 ? 4 : 3, mat}); mesh(ring, g); return g; });
+  const dp = at(ring, 10, 2.5, 135 / DEG);
+  const drv = gear(svg, id, {N: 10, m: 2.5, x: dp.x, y: dp.y, mat: 'br'}); mesh(ring, drv);
+  const crank = el('circle', {r: 9, fill: 'rgba(90,63,18,.95)', stroke: '#F2D88A', 'stroke-width': '.5'}, svg);
+  crank.setAttribute('cx', f2(drv.x)); crank.setAttribute('cy', f2(drv.y));
+  const rod = el('line', {stroke: '#E0C25E', 'stroke-width': '2.2', 'stroke-linecap': 'round'}, svg);
+  const prod = el('line', {stroke: '#BDB6A6', 'stroke-width': '1.6'}, svg);
+  const head = el('rect', {width: 4, height: cylH - 3, y: cylY + 1.5, rx: 1, fill: '#e8dcc0', stroke: '#2e1f07', 'stroke-width': '.4'}, svg);
+  const pinDot = el('circle', {r: 2, fill: '#F2D88A', stroke: '#2e1f07', 'stroke-width': '.5'}, svg);
+  const xhead = el('rect', {width: 6, height: 5, y: 146 - 2.5, rx: 1, fill: `url(#${id}br)`, stroke: '#2e1f07', 'stroke-width': '.5'}, svg);
+  const a = arc(svg, id, 79.5, 4), ro = readout(svg, 30);
+  const all = [ring, ...others, drv];
+  const live = []; let lastHalf = null;
+  function puff(big){ const c = el('circle', {cx: cylX + cylW, cy: cylY + 1, r: 2, fill: `url(#${id}puff)`}, puffs);
+    live.push({c, t: 0, life: 1.1 + big * .6, vx: 9 + Math.random() * 6, vy: 3 + Math.random() * 5, x: cylX + cylW, y: cylY + 1, big}); }
+  return { sp, step(dt, pct){ const p = pct / 100; sp.step(dt, p);
+      all.forEach(g => g.drive(sp.Phi));
+      const ph = drv.ang, pin = {x: drv.x + 7 * Math.cos(ph), y: drv.y + 7 * Math.sin(ph)};
+      const dy = 146 - pin.y, xh = pin.x + Math.sqrt(Math.max(0, 36 * 36 - dy * dy));
+      rod.setAttribute('x1', f2(pin.x)); rod.setAttribute('y1', f2(pin.y)); rod.setAttribute('x2', f2(xh)); rod.setAttribute('y2', 146);
+      xhead.setAttribute('x', f2(xh - 3));
+      const hx = Math.min(cylX + cylW - 5, xh + 14);
+      prod.setAttribute('x1', f2(xh)); prod.setAttribute('y1', 146); prod.setAttribute('x2', f2(hx)); prod.setAttribute('y2', 146);
+      head.setAttribute('x', f2(hx));
+      pinDot.setAttribute('cx', f2(pin.x)); pinDot.setAttribute('cy', f2(pin.y));
+      // 行程の折り返し（半回転ごと）で蒸気を吐く。100% を超えると大きく
+      const half = Math.floor(ph / PI);
+      if (lastHalf !== null && half !== lastHalf && live.length < 14) puff(Math.min(1, Math.max(0, p - .6)));
+      lastHalf = half;
+      for (let i = live.length - 1; i >= 0; i--){ const q = live[i]; q.t += dt; const k = q.t / q.life;
+        if (k >= 1){ q.c.remove(); live.splice(i, 1); continue; }
+        q.x += q.vx * dt; q.y += q.vy * dt;
+        q.c.setAttribute('cx', f2(q.x)); q.c.setAttribute('cy', f2(q.y)); q.c.setAttribute('r', f2(2 + k * (6 + q.big * 5)));
+        q.c.setAttribute('opacity', f2((1 - k) * (.55 + q.big * .35))); }
+      a.set(p); ro.set(pct); },
+    meter(){ const wd = sp.w * 36 / 10; return `中心 <b>${(TAU / sp.w).toFixed(1)}</b> 秒/周 ・ 往復 <b>${(wd / TAU).toFixed(2)}</b> 回/秒`; } };
+}
+
+const PLANS = [
+  ['王道の歯車列', '中央の大歯車（46枚・読み値を囲む輪）に四隅の小歯車（12枚／10枚）が噛み合う。歯車の顔ぶれは常に同じで、回転数だけが達成率に連れて連続的に上がる。現行の意匠を残したまま「6段の切り替え」を「連続の加速」に替える案。', plan1],
+  ['遊星歯車', '読み値を囲む太陽歯車が回り、遊星歯車が外周の内歯車（固定）の中を転がって公転する。25%ごとに遊星が1つ加わる（最大4つ）。回るものと公転するものが二重に見えるので、速さの差がいちばん読み取りやすい。進捗の弧は最外周。', plan2],
+  ['脱進機（チクタク）', '右下のがんぎ車とアンクルが「1拍ずつ」歯車列を送る時計仕掛け。拍は 0%で毎秒0.8回 → 100%で約2.8回 → 200%で約10回。低いうちはカチ…カチ…と止まりながら進み、上がるほど連続回転へ溶けていく。', plan3],
+  ['段ごとに噛み合う', '中央の歯車のまわりに、12.5%ごとに小歯車が1枚ずつ外から滑り込んで噛み合う（100%で8枚が環になる）。歯車の数は進捗、回転数は達成率で連続的に上がる。弧は最外周。', plan4],
+  ['蒸気機関', '左下の小歯車にクランクがあり、連接棒がピストンを往復させて歯車列を回す。行程の折り返しで排気弁から蒸気を吐くので、回転数が「往復の速さ」と「蒸気の数」で見える。100%を超えると蒸気が濃くなる。', plan5],
+];
+
+const grid = document.getElementById('grid');
+const cards = PLANS.map(([name, desc, fn], i) => {
+  const card = document.createElement('div'); card.className = 'card';
+  card.innerHTML = `<div class="hd"><div class="nm"><span class="no">案${i + 1}</span>${name}</div>
+    <label class="pick"><input type="checkbox"> 採用</label></div><p class="ds">${desc}</p>
+    <div class="stage"></div><div class="meter"></div>`;
+  grid.appendChild(card);
+  const svg = el('svg', {viewBox: '0 0 168 168', 'aria-hidden': 'true'}, card.querySelector('.stage'));
+  const plan = fn(svg, 'p' + (i + 1));
+  card.querySelector('input').addEventListener('change', e => { card.classList.toggle('picked', e.target.checked); showPicks(); });
+  return {card, plan, name, meter: card.querySelector('.meter')};
+});
+
+// ── 操作 ──
+const rng = document.getElementById('pct'), pv = document.getElementById('pv');
+let pct = 40, sweep = null, jumpAnim = null;
+const qs = new URLSearchParams(location.search);
+function setPct(v){ pct = Math.max(0, Math.min(200, v)); rng.value = Math.round(pct); pv.textContent = Math.round(pct) + '%'; }
+rng.addEventListener('input', () => { sweep = null; jumpAnim = null; setPct(+rng.value); });
+document.querySelectorAll('[data-p]').forEach(b => b.addEventListener('click', () => { sweep = null; jumpAnim = null; setPct(+b.dataset.p); }));
+const sweepBtn = document.getElementById('sweep');
+sweepBtn.addEventListener('click', () => { if (sweep){ sweep = null; sweepBtn.classList.remove('on'); return; }
+  jumpAnim = null; sweep = {t: 0}; setPct(0); sweepBtn.classList.add('on'); });
+document.getElementById('jump').addEventListener('click', () => { sweep = null; sweepBtn.classList.remove('on');
+  jumpAnim = {from: pct, to: Math.min(200, pct + 20), t: 0}; });
+document.querySelectorAll('[data-size]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-size]').forEach(x => x.classList.toggle('on', x === b));
+  document.documentElement.style.setProperty('--gsize', b.dataset.size + 'px'); }));
+
+if (qs.has('p')) setPct(+qs.get('p'));
+if (qs.has('size')) document.documentElement.style.setProperty('--gsize', +qs.get('size') + 'px');
+if (qs.has('only')) cards.forEach((c, i) => { if (i + 1 !== +qs.get('only')) c.card.style.display = 'none'; });
+
+function showPicks(){
+  const ps = cards.map((c, i) => c.card.classList.contains('picked') ? `案${i + 1} ${c.name}` : null).filter(Boolean);
+  document.getElementById('picks').innerHTML = ps.length ? '採用：<b>' + ps.join('・') + '</b>' : '採用する案にチェックを入れてください。';
+  return ps;
+}
+document.getElementById('copy').addEventListener('click', () => {
+  const ps = showPicks(); const txt = ps.length ? 'Brass ゲージ：' + ps.join('・') : 'Brass ゲージ：未選択';
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).catch(() => {});
+});
+
+// ── 描画 ──
+let last = performance.now(), meterT = 0;
+function frame(now){
+  const dt = Math.min(.05, Math.max(0, (now - last) / 1000)); last = now;
+  if (sweep){ sweep.t += dt; setPct(sweep.t / 40 * 200); if (sweep.t >= 40){ sweep = null; sweepBtn.classList.remove('on'); } }
+  if (jumpAnim){ jumpAnim.t += dt; const k = Math.min(1, jumpAnim.t / 1.2), e = 1 - Math.pow(1 - k, 3);
+    setPct(jumpAnim.from + (jumpAnim.to - jumpAnim.from) * e); if (k >= 1) jumpAnim = null; }
+  cards.forEach(c => c.plan.step(dt, pct));
+  meterT -= dt; if (meterT <= 0){ meterT = .25; cards.forEach(c => c.meter.innerHTML = c.plan.meter()); }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

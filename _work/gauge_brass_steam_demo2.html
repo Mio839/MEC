@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蒸気機関ゲージの演出2</title>
+<!--
+  Brass のヒーローゲージ（2026-10-01 に _work/gauge_brass_demo.html の案5「蒸気機関」を採用・外周の円は撤去）に
+  重ねる演出の見比べページ（その3）。_work/gauge_brass_steam_demo.html 第2版の A「噛み合いの火花」を採用したので、
+  ここでは火花を土台に含め（バーのチェックで外せる）、その上に重ねる5案を並べる。土台はどのカードも同じで、カードごとに演出を1つだけ足している。
+  一番上の「組み合わせ」は、チェックを入れた演出を全部重ねて見せる（置き場所が重ならないように配置してある）。
+
+  置き場所（viewBox 168）：A 煙突＝右上の角／B 火室＝左下の角／C 圧力計＝左の中ほど／D 汽笛＝上の中ほど／E 調速機＝右の中ほど。
+  本物のファイルは1つも変えない。
+-->
+<style>
+:root{
+  --bg:#110d08; --panel:#1b150d; --panel-2:#241b10; --line:rgba(224,194,94,.16); --line-2:rgba(224,194,94,.32);
+  --t1:#f1e6cc; --t2:#bba987; --t3:#85765a;
+  --brass:#C9A227; --brass-hi:#E0C25E; --pick:#3fb68b;
+  --gsize:208px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--t1);}
+body{font:13px/1.6 system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;min-height:100vh;}
+button,input{font:inherit;color:inherit;}
+.wrap{max-width:1400px;margin:0 auto;padding:14px 16px 48px;}
+h1{font-size:17px;margin-bottom:4px;}
+.lead{color:var(--t2);font-size:12px;line-height:1.8;max-width:980px;}
+.lead b{color:var(--t1);}
+.bar{position:sticky;top:0;z-index:5;background:rgba(17,13,8,.94);border-bottom:1px solid var(--line);margin:12px -16px 14px;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:12px;}
+.bar label{display:inline-flex;align-items:center;gap:6px;color:var(--t2);}
+.bar input[type=range]{width:min(320px,60vw);accent-color:var(--brass-hi);}
+.pv{font:700 18px/1 ui-monospace,Consolas,monospace;color:var(--brass-hi);min-width:4.2em;display:inline-block;text-align:right;}
+.btn{background:var(--panel-2);border:1px solid var(--line-2);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;}
+.btn.on{background:var(--brass);color:#1d1404;border-color:var(--brass);font-weight:700;}
+.btn:hover{filter:brightness(1.15);}
+.combo{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;padding:12px;margin-bottom:14px;}
+.combo h2{font-size:14px;margin-bottom:4px;}
+.combo p{color:var(--t2);font-size:12px;line-height:1.7;}
+.combo .picks{margin-top:6px;font-size:12px;color:var(--t2);}
+.combo .picks b{color:var(--pick);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px;}
+.card{background:var(--panel);border:1px solid var(--line);border-left:3px solid transparent;border-radius:12px;padding:12px;}
+.card.picked{border-left-color:var(--pick);}
+.card .hd{display:flex;align-items:center;gap:8px;}
+.card .nm{font-weight:700;font-size:14px;flex:1;min-width:0;}
+.card .no{color:var(--brass-hi);margin-right:6px;}
+.pick{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:var(--t2);cursor:pointer;}
+.card.picked .pick{color:var(--pick);font-weight:700;}
+.pick input{accent-color:var(--pick);}
+.card .ds{color:var(--t2);font-size:11.5px;margin-top:4px;line-height:1.7;min-height:6.9em;}
+.stage{display:flex;justify-content:center;align-items:center;padding:16px 0 6px;
+  background:radial-gradient(circle at 50% 45%,rgba(201,162,39,.10),transparent 62%),linear-gradient(145deg,#1a140c,#120e09);
+  border:1px solid rgba(201,162,39,.18);border-radius:10px;margin-top:8px;}
+.combo .stage{margin-top:0;padding:16px 22px 8px;}
+.stage svg{width:var(--gsize);height:var(--gsize);display:block;overflow:visible;}
+.meter{font:11px/1.5 ui-monospace,Consolas,monospace;color:var(--t3);text-align:center;padding:4px 0 2px;}
+.meter b{color:var(--brass-hi);font-weight:600;}
+.note{margin-top:14px;font-size:11px;color:var(--t3);line-height:1.7;}
+.gnum{font-family:Georgia,"Times New Roman",serif;font-weight:700;fill:#F2D88A;paint-order:stroke;stroke:#1a1206;stroke-width:2.2px;font-variant-numeric:tabular-nums;}
+@media (max-width:620px){ .combo{grid-template-columns:minmax(0,1fr);} .bar input[type=range]{width:100%;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>蒸気機関ゲージ＋噛み合いの火花に重ねる演出：5案</h1>
+  <p class="lead">
+    土台は<b>蒸気機関（外周の円なし）＋ 採用済みの「噛み合いの火花」</b>で、どのカードも同じです（火花はバーのチェックで外せます）。
+    その上に重ねる演出を5つ作りました。これまでの10案（煙突・火室・圧力計・汽笛・調速機・赤熱・蒸気の渦・雷撃・光芒）とは別の切り口です。
+    どれも達成率（＝機関の回転数）に連動し、<b>25／50／75／100／150／200% を上向きにまたいだ瞬間</b>に見せ場が一発入ります（「＋20%」で確かめられます）。
+  </p>
+
+  <div class="bar">
+    <label>達成率 <input type="range" id="pct" min="0" max="200" step="1" value="40"><span class="pv" id="pv">40%</span></label>
+    <span>
+      <button class="btn" data-p="0">0</button>
+      <button class="btn" data-p="25">25</button>
+      <button class="btn" data-p="50">50</button>
+      <button class="btn" data-p="75">75</button>
+      <button class="btn" data-p="100">100</button>
+      <button class="btn" data-p="150">150</button>
+      <button class="btn" data-p="200">200</button>
+    </span>
+    <button class="btn" id="sweep">▶ 0→200% を流す（40秒）</button>
+    <button class="btn" id="jump">＋20%（1セッション解いた想定）</button>
+    <label><input type="checkbox" id="sparksOn" checked> 噛み合いの火花を重ねる</label>
+    <span>
+      <button class="btn on" data-size="208">ハブの大きさ</button>
+      <button class="btn" data-size="300">大きく</button>
+    </span>
+  </div>
+
+  <div class="combo">
+    <div class="stage" id="comboStage"></div>
+    <div>
+      <h2>組み合わせ</h2>
+      <p>下のカードで「採用」にチェックを入れた演出を、ここで火花と一緒に全部重ねて見せます。何も選んでいなければ土台（蒸気機関＋火花）だけです。</p>
+      <div class="picks" id="picks">まだ選ばれていません。</div>
+      <div class="meter" id="comboMeter" style="text-align:left"></div>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="note">
+    ・見せ場は「＋20%」を押すか、スライダーで節目を上へまたぐと出ます（下へ戻したときは出ません）。<br>
+    ・粒（火花・火の粉・蒸気・電弧）は1つの演出につき同時に最大40〜90個。採用後は画面外・非表示タブで rAF を止め、省電力 <code>html.mec-lite</code> では粒を半分にする想定です。<br>
+    ・ゲージそのものの拡大縮小・画面全体の明滅は使っていません（光るのはゲージの中と、そのすぐ外の衝撃の輪だけ）。
+  </p>
+</div>
+
+<script>
+(function(){
+'use strict';
+const TAU = Math.PI * 2, PI = Math.PI, DEG = 180 / PI;
+const SVGNS = 'http://www.w3.org/2000/svg';
+const C = 84; // 盤面の中心（viewBox 168）
+
+function el(tag, attrs, parent){
+  const e = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const f2 = v => Math.round(v * 100) / 100;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ease = (cur, tgt, dt, tau) => cur + (tgt - cur) * (1 - Math.exp(-dt / tau));
+function circ(r, x, y){ x = x || 0; y = y || 0;
+  return `M${f2(x + r)} ${f2(y)}A${f2(r)} ${f2(r)} 0 1 0 ${f2(x - r)} ${f2(y)}A${f2(r)} ${f2(r)} 0 1 0 ${f2(x + r)} ${f2(y)}Z`; }
+function teeth(N, m){
+  const r = m * N / 2, pa = TAU / N, rt = r + m, rr = r - 1.25 * m, P = [];
+  for (let i = 0; i < N; i++){ const a = i * pa;
+    P.push([rr, a - 0.5 * pa], [rr, a - 0.34 * pa], [rt, a - 0.16 * pa], [rt, a + 0.16 * pa], [rr, a + 0.34 * pa]); }
+  return 'M' + P.map(([q, a]) => f2(q * Math.cos(a)) + ' ' + f2(q * Math.sin(a))).join('L') + 'Z';
+}
+function defs(svg, id){
+  const d = el('defs', {}, svg);
+  // ⚠️ 照りは中心対称（回る歯車に片寄った照りを付けると光源ごと回って見える）
+  const rg = (name, stops, extra) => { const g = el('radialGradient', Object.assign({id: id + name, cx: '50%', cy: '50%', r: '50%'}, extra || {}), d);
+    stops.forEach(([o, c, op]) => el('stop', {offset: o, 'stop-color': c, 'stop-opacity': op == null ? 1 : op}, g)); };
+  rg('br', [['0', '#F6E3A0'], ['.55', '#E0C25E'], ['.84', '#C9A227'], ['1', '#7E5A18']]);
+  rg('cu', [['0', '#F2C08E'], ['.55', '#D08A4A'], ['.84', '#B87333'], ['1', '#6A3A14']]);
+  rg('puff', [['0', '#efe9dc', .85], ['1', '#efe9dc', 0]]);
+  rg('smoke', [['0', '#8a8172', .8], ['.6', '#5d564b', .45], ['1', '#3a352e', 0]]);
+  rg('fire', [['0', '#FFE7A3'], ['.35', '#FFB347'], ['.75', '#E2541C'], ['1', '#7a1d08']]);
+  rg('glow', [['0', '#FF9A3C', .55], ['1', '#FF9A3C', 0]]);
+  rg('dial', [['0', '#FBF3DC'], ['.8', '#EADBB4'], ['1', '#B79A5A']]);
+  const lg = el('linearGradient', {id: id + 'pipe', x1: '0', y1: '0', x2: '1', y2: '0'}, d);
+  [['0', '#5a3f12'], ['.45', '#D9B85A'], ['1', '#4a320e']].forEach(([o, c]) => el('stop', {offset: o, 'stop-color': c}, lg));
+}
+function gear(parent, id, o){
+  const g = el('g', {}, parent);
+  const r = o.m * o.N / 2;
+  let d = teeth(o.N, o.m);
+  if (o.hole) d += circ(o.hole);
+  else d += circ(Math.max(1.4, o.m * .55));
+  if (o.holes){ const rr = r - 1.25 * o.m, hub = Math.max(2.6, o.m * 1.1), hr = (rr - hub) * .34, hm = (rr + hub) / 2;
+    for (let i = 0; i < o.holes; i++){ const a = i * TAU / o.holes + PI / o.holes; d += circ(hr, hm * Math.cos(a), hm * Math.sin(a)); } }
+  const path = el('path', {d, 'fill-rule': 'evenodd', fill: `url(#${id}${o.mat || 'br'})`, stroke: '#2e1f07', 'stroke-width': '.6'}, g);
+  if (o.rivets) for (let i = 0; i < o.rivets.n; i++){ const a = i * TAU / o.rivets.n;
+    el('circle', {cx: f2(o.rivets.r * Math.cos(a)), cy: f2(o.rivets.r * Math.sin(a)), r: '1.05', fill: '#5a3f12', stroke: '#F2D88A', 'stroke-width': '.35'}, g); }
+  return {g, path, N: o.N, m: o.m, r, x: o.x, y: o.y, k: o.k || 0, c: o.c || 0, ang: 0,
+    set(a){ this.ang = a; this.g.setAttribute('transform', `translate(${f2(this.x)} ${f2(this.y)}) rotate(${f2(a * DEG)})`); },
+    drive(Phi){ this.set(this.k * Phi + this.c); }};
+}
+function at(A, N, m, th){ const d = A.r + m * N / 2; return {x: A.x + d * Math.cos(th), y: A.y + d * Math.sin(th)}; }
+function mesh(A, B){ const th = Math.atan2(B.y - A.y, B.x - A.x), q = A.N / B.N; B.k = -A.k * q; B.c = -q * A.c + q * th + th + PI + PI / B.N; }
+
+// 粒（煙・蒸気・火の粉）。1つの演出に1本
+function particles(parent, max){
+  const live = [];
+  return {
+    get n(){ return live.length; },
+    spawn(o){ if (live.length >= max) return;
+      const node = el('circle', {r: o.r0, fill: o.fill}, parent);
+      live.push(Object.assign({t: 0, node, ax: 0, ay: 0, drag: 0, op: .6, wob: 0, ph: Math.random() * TAU}, o)); },
+    step(dt){
+      for (let i = live.length - 1; i >= 0; i--){ const q = live[i]; q.t += dt; const k = q.t / q.life;
+        if (k >= 1){ q.node.remove(); live.splice(i, 1); continue; }
+        q.vx += q.ax * dt; q.vy += q.ay * dt; const dr = Math.exp(-q.drag * dt); q.vx *= dr; q.vy *= dr;
+        q.x += q.vx * dt; q.y += q.vy * dt;
+        const wx = q.wob ? Math.sin(q.ph + q.t * 5) * q.wob : 0;
+        q.node.setAttribute('cx', f2(q.x + wx)); q.node.setAttribute('cy', f2(q.y));
+        q.node.setAttribute('r', f2(q.r0 + (q.r1 - q.r0) * k));
+        const fade = q.fadeIn ? Math.min(1, k / q.fadeIn) : 1;
+        q.node.setAttribute('opacity', f2(q.op * fade * (1 - k) * (q.flick ? .6 + .4 * Math.sin(q.t * 40 + q.ph) : 1))); }
+    }
+  };
+}
+
+const period = p => 60 * Math.pow(20, -clamp(p, 0, 2) / 2);  // 中心の歯車の周期（案5は ×1.6 速い）
+
+/* ════════ 土台：蒸気機関（案5・外周の円なし） ════════ */
+function engine(svg, id){
+  defs(svg, id);
+  const back = el('g', {}, svg);   // 演出の奥の層（照り返し・炉）
+  const body = el('g', {}, svg);
+  const cylX = 76, cylY = 140, cylW = 36, cylH = 12;
+  el('rect', {x: cylX, y: cylY, width: cylW, height: cylH, rx: 2.5, fill: `url(#${id}cu)`, stroke: '#2e1f07', 'stroke-width': '.6'}, body);
+  for (let i = 1; i < 4; i++) el('line', {x1: cylX + i * 9, y1: cylY, x2: cylX + i * 9, y2: cylY + cylH, stroke: 'rgba(46,31,7,.55)', 'stroke-width': '.7'}, body);
+  el('circle', {cx: cylX + cylW, cy: cylY + 2, r: 2.2, fill: `url(#${id}br)`, stroke: '#2e1f07', 'stroke-width': '.5'}, body);
+  const exhaust = particles(el('g', {}, body), 14);
+  const ring = gear(body, id, {N: 36, m: 2.5, x: C, y: C, hole: 38, k: 1, rivets: {n: 9, r: 40}});
+  const others = [[225, 8, 'cu'], [315, 10, 'br'], [45, 8, 'cu']].map(([deg, N, mat]) => { const p = at(ring, N, 2.5, deg / DEG);
+    const g = gear(body, id, {N, m: 2.5, x: p.x, y: p.y, holes: N === 10 ? 4 : 3, mat}); mesh(ring, g); return g; });
+  const dp = at(ring, 10, 2.5, 135 / DEG);
+  const drv = gear(body, id, {N: 10, m: 2.5, x: dp.x, y: dp.y, mat: 'br'}); mesh(ring, drv);
+  el('circle', {cx: f2(drv.x), cy: f2(drv.y), r: 9, fill: 'rgba(90,63,18,.95)', stroke: '#F2D88A', 'stroke-width': '.5'}, body);
+  const rod = el('line', {stroke: '#E0C25E', 'stroke-width': '2.2', 'stroke-linecap': 'round'}, body);
+  const prod = el('line', {stroke: '#BDB6A6', 'stroke-width': '1.6'}, body);
+  const head = el('rect', {width: 4, height: cylH - 3, y: cylY + 1.5, rx: 1, fill: '#e8dcc0', stroke: '#2e1f07', 'stroke-width': '.4'}, body);
+  const pinDot = el('circle', {r: 2, fill: '#F2D88A', stroke: '#2e1f07', 'stroke-width': '.5'}, body);
+  const xhead = el('rect', {width: 6, height: 5, y: 146 - 2.5, rx: 1, fill: `url(#${id}br)`, stroke: '#2e1f07', 'stroke-width': '.5'}, body);
+  const front = el('g', {}, svg);  // 演出の手前の層（煙・計器）
+  const num = el('text', {x: C, y: C + 1, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'gnum', 'font-size': 30}, svg);
+  const numT = document.createTextNode('0'); num.appendChild(numT);
+  el('tspan', {'font-size': '.42em', dx: '1'}, num).textContent = '%';
+  const all = [ring, ...others, drv];
+  const st = {w: -1, Phi: 0, lastHalf: null, shown: -1, prev: null};
+  const MARKS = [25, 50, 75, 100, 150, 200];
+  return { back, front, id, ring, pinions: [others[0], others[1], others[2], drv], all,
+    step(dt, pct){
+      const p = pct / 100, tw = TAU / period(p) * 1.6;
+      if (st.w < 0) st.w = tw;
+      st.w = ease(st.w, tw, dt, .9); st.Phi += st.w * dt;
+      all.forEach(g => g.drive(st.Phi));
+      const ph = drv.ang, pin = {x: drv.x + 7 * Math.cos(ph), y: drv.y + 7 * Math.sin(ph)};
+      const dy = 146 - pin.y, xh = pin.x + Math.sqrt(Math.max(0, 36 * 36 - dy * dy));
+      rod.setAttribute('x1', f2(pin.x)); rod.setAttribute('y1', f2(pin.y)); rod.setAttribute('x2', f2(xh)); rod.setAttribute('y2', 146);
+      xhead.setAttribute('x', f2(xh - 3));
+      const hx = Math.min(cylX + cylW - 5, xh + 14);
+      prod.setAttribute('x1', f2(xh)); prod.setAttribute('y1', 146); prod.setAttribute('x2', f2(hx)); prod.setAttribute('y2', 146);
+      head.setAttribute('x', f2(hx));
+      pinDot.setAttribute('cx', f2(pin.x)); pinDot.setAttribute('cy', f2(pin.y));
+      const half = Math.floor(ph / PI), stroke = st.lastHalf !== null && half !== st.lastHalf; st.lastHalf = half;
+      const big = clamp(p - .6, 0, 1);
+      if (stroke) exhaust.spawn({x: cylX + cylW, y: cylY + 1, vx: 9 + Math.random() * 6, vy: 3 + Math.random() * 5, r0: 2, r1: 8 + big * 5,
+        life: 1.1 + big * .6, op: .55 + big * .35, fill: `url(#${id}puff)`});
+      exhaust.step(dt);
+      const v = Math.round(pct); if (v !== st.shown){ st.shown = v; numT.nodeValue = v; num.setAttribute('font-size', v >= 100 ? 24.6 : 30); }
+      let mark = 0;   // 節目（25/50/75/100/150/200%）を上向きにまたいだ瞬間だけ値が入る
+      if (st.prev !== null && pct > st.prev) mark = MARKS.filter(x => st.prev < x && pct >= x).pop() || 0;
+      st.prev = pct;
+      return {p, pct, stroke, mark, pin, xh, hx, Phi: st.Phi, w: st.w, strokesPerSec: st.w * 36 / 10 / TAU * 2};
+    }};
+}
+
+// 演出の共通：達成率の強さ k（0〜1.33）。100% で 0.75、150% で 1
+const kOf = p => clamp(p / 1.5, 0, 1.33);
+const rnd = (a, b) => a + Math.random() * (b - a);
+// 大歯車と小歯車の噛み合い点（大歯車のピッチ円上）
+const contacts = E => E.pinions.map(g => { const th = Math.atan2(g.y - C, g.x - C); return {th, x: C + E.ring.r * Math.cos(th), y: C + E.ring.r * Math.sin(th)}; });
+function moreDefs(E){
+  const d = el('defs', {}, E.back);
+  const rg = (name, stops, extra) => { const g = el('radialGradient', Object.assign({id: E.id + name, cx: '50%', cy: '50%', r: '50%'}, extra || {}), d);
+    stops.forEach(([o, c, op]) => el('stop', {offset: o, 'stop-color': c, 'stop-opacity': op == null ? 1 : op}, g)); };
+  rg('hot', [['0', '#FFF6D8', 1], ['.3', '#FFC24A', .8], ['1', '#FF5A1F', 0]]);
+  rg('heat', [['0', '#FF4A1A', 0], ['.66', '#FF4A1A', 0], ['.86', '#FF5A1F', .7], ['1', '#FFE08A', 1]]);
+  rg('core', [['0', '#FFB347', .75], ['.55', '#FF6A1F', .35], ['1', '#FF4A1A', 0]]);
+  rg('elec', [['0', '#FFFFFF', 1], ['.3', '#9FE3FF', .8], ['1', '#3AA8FF', 0]]);
+  rg('rays', [['0', '#FFF2C0', 1], ['.42', '#FFC24A', .75], ['1', '#FF7A2E', 0]], {gradientUnits: 'userSpaceOnUse', cx: C, cy: C, r: 100});
+  rg('steam', [['0', '#FFFFFF', .95], ['.55', '#F1ECE2', .55], ['1', '#E9E3D6', 0]]);
+}
+// 節目（25/50/75/100/150/200%）をまたいだ瞬間の衝撃波の輪
+function shock(parent, color, from, to, life, w){
+  const c = el('circle', {cx: C, cy: C, r: from, fill: 'none', stroke: color, 'stroke-width': w}, parent);
+  return {c, t: 0, life, from, to, w, step(dt){ this.t += dt; const k = Math.min(1, this.t / this.life), e = 1 - Math.pow(1 - k, 3);
+    this.c.setAttribute('r', f2(this.from + (this.to - this.from) * e)); this.c.setAttribute('stroke-width', f2(this.w * (1 - k) + .3));
+    this.c.setAttribute('opacity', f2(1 - k)); if (k >= 1){ this.c.remove(); return false; } return true; }};
+}
+
+/* ════════ A 噛み合いの火花 ════════ */
+function fxSparks(E){
+  moreDefs(E);
+  const glows = contacts(E).map(cp => el('circle', {cx: f2(cp.x), cy: f2(cp.y), r: 11, fill: `url(#${E.id}hot)`, opacity: 0}, E.front));
+  const layer = el('g', {style: 'mix-blend-mode:screen'}, E.front);
+  const sp = [], waves = []; let acc = 0, shown = 0;
+  function spark(x, y, vx, vy, life){ if (sp.length >= 45) return;
+    sp.push({x, y, vx, vy, t: 0, life, n: el('line', {'stroke-linecap': 'round'}, layer)}); }
+  return { meter: () => `火花 <b>${shown}</b> 本`,
+    step(dt, s){
+      const k = kOf(s.p), cps = contacts(E), dir = s.w >= 0 ? 1 : -1;
+      acc += dt * (1.5 + 23 * Math.pow(k, 1.6)) * cps.length;   // 2026-10-01 ユーザー指示で量を半分に（旧 3 + 46k^1.6）
+      while (acc >= 1){ acc -= 1; const cp = cps[(Math.random() * cps.length) | 0];
+        const tx = -Math.sin(cp.th) * dir, ty = Math.cos(cp.th) * dir, a = rnd(-.5, .5), sp0 = rnd(50, 90) + 120 * k;
+        const vx = (tx * Math.cos(a) - ty * Math.sin(a)) * sp0 + Math.cos(cp.th) * 25, vy = (tx * Math.sin(a) + ty * Math.cos(a)) * sp0 + Math.sin(cp.th) * 25;
+        spark(cp.x, cp.y, vx, vy - 20, rnd(.3, .55) + .35 * k); }
+      if (s.mark){ cps.forEach(cp => { for (let i = 0; i < 9; i++){ const a = rnd(0, TAU), v = rnd(80, 190); spark(cp.x, cp.y, Math.cos(a) * v, Math.sin(a) * v - 40, rnd(.5, 1)); } });
+        waves.push(shock(E.front, '#FFC24A', 46, 92, .7, 4)); }
+      glows.forEach((g, i) => g.setAttribute('opacity', f2(clamp(.25 + .9 * k, 0, 1) * (.7 + .3 * Math.sin(s.Phi * 40 + i * 2)))));
+      for (let i = sp.length - 1; i >= 0; i--){ const q = sp[i]; q.t += dt; const a = q.t / q.life;
+        if (a >= 1){ q.n.remove(); sp.splice(i, 1); continue; }
+        q.vy += 220 * dt; q.vx *= Math.exp(-1.2 * dt); q.x += q.vx * dt; q.y += q.vy * dt;
+        const tr = .035;
+        q.n.setAttribute('x1', f2(q.x)); q.n.setAttribute('y1', f2(q.y)); q.n.setAttribute('x2', f2(q.x - q.vx * tr)); q.n.setAttribute('y2', f2(q.y - q.vy * tr));
+        q.n.setAttribute('stroke', a < .25 ? '#FFFBE8' : a < .55 ? '#FFC24A' : '#FF5A1F');
+        q.n.setAttribute('stroke-width', f2(1.5 * (1 - a) + .4)); q.n.setAttribute('opacity', f2(1 - a * a)); }
+      for (let i = waves.length - 1; i >= 0; i--) if (!waves[i].step(dt)) waves.splice(i, 1);
+      shown = sp.length; } };
+}
+
+/* ════════ B 赤熱 ════════ */
+// 進み続ける小物（衝撃の輪と同じ形：step が false を返したら捨てる）
+function runList(list, dt){ for (let i = list.length - 1; i >= 0; i--) if (!list[i].step(dt)) list.splice(i, 1); }
+function flashAt(parent, id, x, y, r, life){
+  const c = el('circle', {cx: f2(x), cy: f2(y), r, fill: `url(#${id}hot)`}, parent);
+  return {t: 0, step(dt){ this.t += dt; const k = this.t / life; if (k >= 1){ c.remove(); return false; }
+    c.setAttribute('opacity', f2(1 - k)); c.setAttribute('r', f2(r * (.6 + .6 * k))); return true; }};
+}
+
+/* ════════ A 動力の伝達 ════════ */
+function fxPulse(E){
+  moreDefs(E);
+  const cyl = el('rect', {x: 77, y: 141, width: 34, height: 10, rx: 2, fill: `url(#${E.id}hot)`, opacity: 0, style: 'mix-blend-mode:screen'}, E.front);
+  const layer = el('g', {style: 'mix-blend-mode:screen'}, E.front);
+  const items = []; let cylFl = 0, sent = 0;
+  const R = E.ring.r;
+  // 1行程の光：ピストン → 連接棒 → 駆動の小歯車 → 大歯車の縁を左右へ分かれて走り、通った小歯車を光らせる
+  function pulse(s, big){
+    if (items.length > 14) return; sent++;
+    const drvTh = Math.atan2(E.pinions[3].y - C, E.pinions[3].x - C);
+    const lead = [{x: s.hx + 2, y: 146}, {x: s.xh, y: 146}, {x: s.pin.x, y: s.pin.y}, {x: E.pinions[3].x, y: E.pinions[3].y}, {x: C + R * Math.cos(drvTh), y: C + R * Math.sin(drvTh)}];
+    const head = el('circle', {r: big ? 4.4 : 3.2, fill: `url(#${E.id}hot)`}, layer);
+    const tail = el('polyline', {fill: 'none', stroke: '#FFE7A3', 'stroke-width': big ? 2.4 : 1.6, 'stroke-linecap': 'round', opacity: .85}, layer);
+    const T1 = .16, hist = [];
+    items.push({t: 0, step(dt){ this.t += dt; const u = Math.min(1, this.t / T1) * (lead.length - 1), i = Math.min(lead.length - 2, Math.floor(u)), f = u - i;
+      const x = lead[i].x + (lead[i + 1].x - lead[i].x) * f, y = lead[i].y + (lead[i + 1].y - lead[i].y) * f;
+      hist.push(f2(x) + ',' + f2(y)); if (hist.length > 6) hist.shift();
+      head.setAttribute('cx', f2(x)); head.setAttribute('cy', f2(y)); tail.setAttribute('points', hist.join(' '));
+      if (this.t >= T1){ head.remove(); tail.remove(); ring(drvTh, 1, big); ring(drvTh, -1, big); items.push(flashAt(layer, E.id, E.pinions[3].x, E.pinions[3].y, 12, .3)); return false; }
+      return true; }});
+  }
+  function ring(th0, dir, big){
+    const head = el('circle', {r: big ? 4 : 2.8, fill: `url(#${E.id}hot)`}, layer);
+    const tail = el('path', {fill: 'none', stroke: '#FFD27A', 'stroke-width': big ? 2.6 : 1.8, 'stroke-linecap': 'round'}, layer);
+    const span = big ? TAU : PI, T = big ? .9 : .42, hit = new Set();
+    items.push({t: 0, step(dt){ this.t += dt; const k = Math.min(1, this.t / T), a = th0 + dir * span * (1 - Math.pow(1 - k, 1.6));
+      const tl = Math.min(.55, span * k) * dir, a0 = a - tl;
+      head.setAttribute('cx', f2(C + R * Math.cos(a))); head.setAttribute('cy', f2(C + R * Math.sin(a)));
+      tail.setAttribute('d', `M${f2(C + R * Math.cos(a0))} ${f2(C + R * Math.sin(a0))}A${f2(R)} ${f2(R)} 0 0 ${dir > 0 ? 1 : 0} ${f2(C + R * Math.cos(a))} ${f2(C + R * Math.sin(a))}`);
+      tail.setAttribute('opacity', f2(.9 * (1 - k * .6)));
+      E.pinions.forEach((g, j) => { if (j === 3 || hit.has(j)) return; const th = Math.atan2(g.y - C, g.x - C);
+        let d = (th - th0) * dir; d = ((d % TAU) + TAU) % TAU;
+        if (d <= span * (1 - Math.pow(1 - k, 1.6))){ hit.add(j); items.push(flashAt(layer, E.id, g.x, g.y, big ? 16 : 12, .35)); } });
+      if (k >= 1){ head.remove(); tail.remove(); return false; } return true; }});
+  }
+  return { meter: () => `伝達 <b>${sent}</b> 回`,
+    step(dt, s){
+      const k = kOf(s.p);
+      if (s.stroke){ cylFl = 1; if (Math.random() < .35 + .65 * Math.min(1, k * 1.2)) pulse(s, false); }
+      if (s.mark){ cylFl = 1.4; pulse(s, true); }
+      cylFl *= Math.exp(-dt * 7);
+      cyl.setAttribute('opacity', f2(Math.min(1, cylFl * (.5 + .5 * k))));
+      runList(items, dt); } };
+}
+
+/* ════════ B 歯先を走る光 ════════ */
+function fxTracer(E){
+  moreDefs(E);
+  // 大歯車の歯の輪郭を一度だけ点列にしておく（大歯車の座標系＝一緒に回る）
+  const probe = el('path', {d: teeth(E.ring.N, E.ring.m), fill: 'none', stroke: 'none'}, E.ring.g);
+  const Ltot = probe.getTotalLength(), NS = 900, pts = [];
+  for (let i = 0; i < NS; i++){ const q = probe.getPointAtLength(i / NS * Ltot); pts.push([f2(q.x), f2(q.y)]); }
+  probe.remove();
+  const layer = el('g', {style: 'mix-blend-mode:screen'}, E.ring.g);
+  const full = el('path', {d: teeth(E.ring.N, E.ring.m), fill: 'none', stroke: '#FFE7A3', 'stroke-width': 1.4, opacity: 0}, layer);
+  const comets = []; let ignite = 0;
+  for (let i = 0; i < 6; i++) comets.push({pos: i / 6 * NS, on: 0,
+    glow: el('polyline', {fill: 'none', stroke: '#FFB347', 'stroke-width': 3.2, opacity: .45, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'}, layer),
+    core: el('polyline', {fill: 'none', stroke: '#FFF6D8', 'stroke-width': 1.1, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'}, layer)});
+  let n = 0;
+  return { setOn(v){ layer.style.display = v ? '' : 'none'; }, meter: () => `光 <b>${n}</b> 筋`,
+    step(dt, s){
+      const k = kOf(s.p); n = 1 + Math.min(5, Math.floor(k * 5));
+      const sp = (90 + 520 * k) * (s.w >= 0 ? -1 : 1);       // 歯の輪郭を点の数/秒で進む（回転と逆向き＝追い越して見える）
+      const len = Math.round(30 + 80 * k);
+      if (s.mark) ignite = 1;
+      ignite *= Math.exp(-dt * 2.2);
+      full.setAttribute('opacity', f2(ignite));
+      comets.forEach((c, i) => { c.on = ease(c.on, i < n ? 1 : 0, dt, .3);
+        c.pos = (c.pos + sp * dt * (1 + ignite * 2) + NS) % NS;
+        if (c.on < .02){ c.glow.setAttribute('points', ''); c.core.setAttribute('points', ''); return; }
+        const arr = [];
+        for (let j = 0; j <= len; j += 3) arr.push(pts[((Math.round(c.pos) - Math.sign(sp) * j) % NS + NS) % NS].join(','));
+        const p = arr.join(' ');
+        c.glow.setAttribute('points', p); c.core.setAttribute('points', p);
+        c.glow.setAttribute('opacity', f2(.45 * c.on)); c.core.setAttribute('opacity', f2(c.on)); }); } };
+}
+
+/* ════════ C 奥行きの歯車群 ════════ */
+function fxDepth(E){
+  moreDefs(E);
+  const d = el('defs', {}, E.back);
+  const sg = el('radialGradient', {id: E.id + 'sil', cx: '50%', cy: '50%', r: '50%'}, d);
+  [['0', '#3a2a14', .9], ['.8', '#2a1d0d', .9], ['1', '#6b4c1c', .9]].forEach(([o, c, op]) => el('stop', {offset: o, 'stop-color': c, 'stop-opacity': op}, sg));
+  // 奥の層は盤の中ほどだけに見せ、外へ向かってぼかして消す（⚠️ 外周に円の縁を作らない＝外周の円は撤去済み）
+  const fg = el('radialGradient', {id: E.id + 'fade', cx: '50%', cy: '50%', r: '50%'}, d);
+  [['0', '#fff'], ['.62', '#fff'], ['1', '#000']].forEach(([o, c]) => el('stop', {offset: o, 'stop-color': c}, fg));
+  const cp = el('mask', {id: E.id + 'win', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: 168, height: 168}, d);
+  el('circle', {cx: C, cy: C, r: 86, fill: `url(#${E.id}fade)`}, cp);
+  const layer = el('g', {mask: `url(#${E.id}win)`}, E.back);
+  // 奥の層：大きな歯車3枚（互いに噛み合う）。手前の機関より遅く回る＝奥行き
+  const mk = (N, m, x, y, op) => { const g = gear(layer, E.id, {N, m, x, y, hole: m * N / 2 * .35, mat: 'sil'}); g.g.setAttribute('opacity', op);
+    const rim = g.path.cloneNode(); rim.setAttribute('fill', 'none'); rim.setAttribute('stroke', '#FFC24A'); rim.setAttribute('stroke-width', '.9'); rim.setAttribute('opacity', 0); g.g.appendChild(rim); g.rim = rim; return g; };
+  const big = mk(30, 4.4, 18, 140, .9);
+  const p2 = at(big, 20, 4.4, -62 / DEG), b2 = mk(20, 4.4, p2.x, p2.y, .75);
+  const p3 = at(b2, 14, 4.4, -18 / DEG), b3 = mk(14, 4.4, p3.x, p3.y, .6);
+  big.k = 1; mesh(big, b2); mesh(b2, b3);
+  const far = mk(26, 3, 150, 22, .5); far.k = -1;
+  const all = [big, b2, b3, far];
+  el('circle', {cx: C, cy: C, r: 38.6, fill: '#140e07'}, E.back);       // 読み値の後ろは暗く（奥の歯車を数字に透かさない）
+  const motes = el('g', {mask: `url(#${E.id}win)`}, E.back), dust = [];
+  for (let i = 0; i < 16; i++) dust.push({x: rnd(0, 168), y: rnd(0, 168), v: rnd(2, 6), r: rnd(.5, 1.2), n: el('circle', {r: 1, fill: '#FFD27A'}, motes)});
+  let Phi = 0, clunk = 0, t = 0;
+  return { meter: () => `奥の歯車 <b>${(TAU / Math.max(.01, Math.abs(E.lastW || 0) * .25)).toFixed(0)}</b> 秒/周`,
+    step(dt, s){
+      const k = kOf(s.p); E.lastW = s.w; t += dt;
+      if (s.mark) clunk = 1;
+      clunk = Math.max(0, clunk - dt * 2.5);
+      Phi += s.w * .25 * dt + (clunk > 0 ? dt * 3 * clunk : 0);   // 節目では奥の歯車が「ガコン」と一歯ぶん送られる
+      all.forEach(g => { g.drive(Phi); g.rim.setAttribute('opacity', f2(clamp(.1 + .7 * k + clunk * .6, 0, 1) * (.8 + .2 * Math.sin(t * 3 + g.x)))); });
+      dust.forEach(q => { q.y -= q.v * (1 + 2 * k) * dt; q.x += Math.sin(t + q.r * 9) * .1; if (q.y < -4){ q.y = 172; q.x = rnd(0, 168); }
+        q.n.setAttribute('cx', f2(q.x)); q.n.setAttribute('cy', f2(q.y)); q.n.setAttribute('r', f2(q.r)); q.n.setAttribute('opacity', f2(clamp(.15 + .6 * k, 0, .8) * (.5 + .5 * Math.sin(t * 2 + q.x)))); }); } };
+}
+
+/* ════════ D 高圧の蒸気ジェット ════════ */
+function fxJets(E){
+  moreDefs(E);
+  const NZ = [{x: 84, y: 30, a: -90}, {x: 30, y: 84, a: 180}, {x: 138, y: 84, a: 0}, {x: 76, y: 146, a: 180, cyl: 1}, {x: 112, y: 146, a: 0, cyl: 1}];
+  const nz = el('g', {}, E.front);
+  NZ.forEach(q => { if (q.cyl) return; const a = q.a / DEG, b = el('g', {transform: `translate(${q.x} ${q.y}) rotate(${q.a})`}, nz);
+    el('rect', {x: -4, y: -3, width: 8, height: 6, rx: 1.2, fill: `url(#${E.id}br)`, stroke: '#2e1f07', 'stroke-width': '.5'}, b);
+    el('rect', {x: 3, y: -2, width: 3, height: 4, fill: `url(#${E.id}cu)`, stroke: '#2e1f07', 'stroke-width': '.4'}, b); q.x += 6 * Math.cos(a); q.y += 6 * Math.sin(a); });
+  const layer = el('g', {}, E.front), pf = [], cores = []; let side = 0, fired = 0;
+  function jet(q, power, dur){
+    fired++;
+    const a = q.a / DEG, L = Math.min(30, 16 + 16 * power);
+    const core = el('line', {x1: q.x, y1: q.y, stroke: '#FFFFFF', 'stroke-linecap': 'round'}, layer);
+    cores.push({t: 0, step(dt){ this.t += dt; const k = this.t / dur; if (k >= 1){ core.remove(); return false; }
+      const ln = L * Math.min(1, k * 5) * (1 - Math.max(0, k - .6) / .4 * .5);
+      core.setAttribute('x2', f2(q.x + Math.cos(a) * ln)); core.setAttribute('y2', f2(q.y + Math.sin(a) * ln));
+      core.setAttribute('stroke-width', f2(2.6 * (1 - k) + .4)); core.setAttribute('opacity', f2(.9 * (1 - k)));
+      for (let i = 0; i < 2; i++) if (pf.length < 80){ const sp = rnd(70, 120) * (.6 + power * .6), aa = a + rnd(-.16, .16);
+        pf.push({x: q.x, y: q.y, vx: Math.cos(aa) * sp, vy: Math.sin(aa) * sp, t: 0, life: rnd(.35, .6), r0: 1.4, r1: 6 + 6 * power, n: el('circle', {fill: `url(#${E.id}steam)`}, layer)}); }
+      return true; }});
+  }
+  return { meter: () => `噴射 <b>${fired}</b> 回`,
+    step(dt, s){
+      const k = kOf(s.p);
+      if (s.stroke){ side ^= 1;   // 行程ごとに左右の弁が交互に吹く
+        const pick = side ? [NZ[1], NZ[3]] : [NZ[2], NZ[4]];
+        pick.forEach(q => { if (Math.random() < .35 + .65 * Math.min(1, k)) jet(q, k, .22 + .12 * k); });
+        if (k > .7 && Math.random() < k - .5) jet(NZ[0], k, .3); }
+      if (s.mark) NZ.forEach(q => jet(q, 1.3, .9));
+      runList(cores, dt);
+      for (let i = pf.length - 1; i >= 0; i--){ const q = pf[i]; q.t += dt; const a = q.t / q.life;
+        if (a >= 1){ q.n.remove(); pf.splice(i, 1); continue; }
+        const dr = Math.exp(-3.2 * dt); q.vx *= dr; q.vy *= dr; q.x += q.vx * dt; q.y += q.vy * dt - 6 * dt;
+        q.n.setAttribute('cx', f2(q.x)); q.n.setAttribute('cy', f2(q.y)); q.n.setAttribute('r', f2(q.r0 + (q.r1 - q.r0) * a)); q.n.setAttribute('opacity', f2(.85 * (1 - a))); } } };
+}
+
+/* ════════ E 速度の残像 ════════ */
+function fxBlur(E){
+  moreDefs(E);
+  const NG = 4;
+  // 歯車ごとに輪郭の写しを NG 枚、少し遅れた角度で重ねる（回る向きの後ろへ尾を引く）
+  const ghosts = E.all.map(g => { const arr = [];
+    for (let j = 1; j <= NG; j++){ const c = g.path.cloneNode(); c.removeAttribute('stroke'); c.setAttribute('opacity', 0); g.g.insertBefore(c, g.path); arr.push(c); }
+    return {g, arr}; });
+  const streak = el('g', {fill: 'none', 'stroke-linecap': 'round', style: 'mix-blend-mode:screen'}, E.front);
+  const arcs = [52, 56, 60, 64].map((r, i) => el('circle', {cx: C, cy: C, r, stroke: i % 2 ? '#FFE7A3' : '#FFB347', 'stroke-width': i % 2 ? .8 : 1.2,
+    'stroke-dasharray': `${f2(8 + i * 5)} ${f2(TAU * r / (3 + i) - 8 - i * 5)}`, opacity: 0}, streak));
+  let rot = 0, kick = 0;
+  return { setOn(v){ if (!v) ghosts.forEach(o => o.arr.forEach(c => c.setAttribute('opacity', 0))); },
+    meter: () => `残像 <b>${Math.round(clamp(kOf(E.lastP || 0) + kick, 0, 1.5) * 100)}</b>%`,
+    step(dt, s){
+      E.lastP = s.p; const k = kOf(s.p);
+      if (s.mark) kick = 1;
+      kick *= Math.exp(-dt * 2.5);
+      const amt = clamp(k * 1.1 + kick, 0, 1.6);
+      ghosts.forEach(o => { const wg = o.g.k * s.w, lag = clamp(Math.abs(wg) * .022 * (1 + kick * 2), 0, .16), sg = Math.sign(wg) || 1;
+        o.arr.forEach((c, j) => { c.setAttribute('transform', `rotate(${f2(-sg * lag * (j + 1) * DEG)})`);
+          c.setAttribute('opacity', f2(clamp(amt * (lag / .16) * (.5 - j * .1), 0, .5))); }); });
+      rot += s.w * (3 + 4 * kick) * dt;
+      arcs.forEach((a, i) => { a.setAttribute('transform', `rotate(${f2(rot * DEG * (i % 2 ? -1 : 1) * (1 + i * .3))} ${C} ${C})`);
+        a.setAttribute('opacity', f2(clamp((k - .2) * 1.2 + kick, 0, 1) * (.5 + i * .12))); }); } };
+}
+
+const FX = [
+  ['A', '動力の伝達', 'ピストンの1行程ごとにシリンダーが光り、光の玉が「ピストン → 連接棒 → 駆動の小歯車」と駆け上がって、大歯車の縁を左右へ分かれて走る。通り過ぎた小歯車がひとつずつ光る。回るほど光の往来が増える。節目では光が大歯車を一周する。', fxPulse],
+  ['B', '歯先を走る光', '大歯車の歯の輪郭をなぞって光の筋が走る（歯の山と谷を上り下りする）。達成率が上がるほど筋が増え（最大6本）、長く、速くなる。節目をまたぐと歯の輪郭全体が一瞬灯り、筋が加速する。', fxTracer],
+  ['C', '奥行きの歯車群', '機関の奥に大きな歯車の影が噛み合って回り、ゲージに奥行きが出る。達成率が上がるほど奥の歯車の縁が金色に照らされ、舞う塵が光る。節目をまたぐと奥の歯車が「ガコン」と送られる。', fxDepth],
+  ['D', '高圧の蒸気ジェット', '上・左・右の弁とシリンダーの両端から、行程に合わせて白い蒸気が「ブシュッ」と真横へ噴き出す（左右交互）。回るほど噴射が長く太くなり、上の弁も吹き始める。節目では5つの弁が一斉に長く噴く。', fxJets],
+  ['E', '速度の残像', '回転が速くなるほど歯車が残像の尾を引き（小さい歯車ほど強く）、大歯車のまわりを速度の筋が走る。止まりかけでは残像は出ない＝速さそのものが見える。節目をまたぐと残像と筋が一瞬強まる。', fxBlur],
+];
+
+// ── 組み合わせの盤：全演出を作っておき、演出ごとの層をチェックで出し入れする ──
+const comboSvg = el('svg', {viewBox: '0 0 168 168', 'aria-hidden': 'true'}, document.getElementById('comboStage'));
+const comboE = engine(comboSvg, 'cx');
+const sparkBoxes = [];
+function withSparks(E){ const box = el('g', {}, E.front); sparkBoxes.push(box); return fxSparks(Object.assign({}, E, {front: box})); }
+const comboFx = FX.map(f => {
+  const bk = el('g', {}, comboE.back), fr = el('g', {}, comboE.front);
+  const o = f[3](Object.assign({}, comboE, {back: bk, front: fr}));
+  o.on = false; o.box = [bk, fr]; o.box.forEach(n => n.style.display = 'none'); if (o.setOn) o.setOn(false); return o; });
+const comboSp = withSparks(comboE);
+
+const grid = document.getElementById('grid');
+const cards = FX.map(([key, name, desc, fn], i) => {
+  const card = document.createElement('div'); card.className = 'card';
+  card.innerHTML = `<div class="hd"><div class="nm"><span class="no">${key}</span>${name}</div>
+    <label class="pick"><input type="checkbox"> 採用</label></div><p class="ds">${desc}</p>
+    <div class="stage"></div><div class="meter"></div>`;
+  grid.appendChild(card);
+  const svg = el('svg', {viewBox: '0 0 168 168', 'aria-hidden': 'true'}, card.querySelector('.stage'));
+  const E = engine(svg, 'f' + key);
+  const fx = fn(E);
+  const sp = withSparks(E);
+  card.querySelector('input').addEventListener('change', e => { card.classList.toggle('picked', e.target.checked); comboFx[i].on = e.target.checked; syncCombo(); });
+  return {card, E, fx, sp, key, name, meter: card.querySelector('.meter')};
+});
+
+function syncCombo(){
+  comboFx.forEach(o => { o.box.forEach(n => n.style.display = o.on ? '' : 'none'); if (o.setOn) o.setOn(o.on); });
+  const ps = cards.filter((c, i) => comboFx[i].on).map(c => `${c.key} ${c.name}`);
+  document.getElementById('picks').innerHTML = ps.length ? '採用：<b>' + ps.join('・') + '</b>' : 'まだ選ばれていません。';
+}
+
+// ── 操作 ──
+let sparksOn = true;
+document.getElementById('sparksOn').addEventListener('change', e => { sparksOn = e.target.checked; sparkBoxes.forEach(b => b.style.display = sparksOn ? '' : 'none'); });
+const rng = document.getElementById('pct'), pv = document.getElementById('pv');
+let pct = 40, sweep = null, jumpAnim = null;
+const qs = new URLSearchParams(location.search);
+function setPct(v){ pct = clamp(v, 0, 200); rng.value = Math.round(pct); pv.textContent = Math.round(pct) + '%'; }
+rng.addEventListener('input', () => { sweep = null; jumpAnim = null; setPct(+rng.value); });
+document.querySelectorAll('[data-p]').forEach(b => b.addEventListener('click', () => { sweep = null; jumpAnim = null; setPct(+b.dataset.p); }));
+const sweepBtn = document.getElementById('sweep');
+sweepBtn.addEventListener('click', () => { if (sweep){ sweep = null; sweepBtn.classList.remove('on'); return; }
+  jumpAnim = null; sweep = {t: 0}; setPct(0); sweepBtn.classList.add('on'); });
+document.getElementById('jump').addEventListener('click', () => { sweep = null; sweepBtn.classList.remove('on');
+  jumpAnim = {from: pct, to: Math.min(200, pct + 20), t: 0}; });
+document.querySelectorAll('[data-size]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-size]').forEach(x => x.classList.toggle('on', x === b));
+  document.documentElement.style.setProperty('--gsize', b.dataset.size + 'px'); }));
+if (qs.has('p')) setPct(+qs.get('p'));
+if (qs.has('size')) document.documentElement.style.setProperty('--gsize', +qs.get('size') + 'px');
+if (!qs.has('pick')) qs.set('pick', 'C');
+if (qs.has('pick')) qs.get('pick').split('').forEach(k => { const i = 'ABCDE'.indexOf(k); if (i >= 0){ const inp = cards[i].card.querySelector('input'); inp.checked = true; inp.dispatchEvent(new Event('change')); } });
+
+// ── 描画 ──
+let last = performance.now(), meterT = 0;
+function frame(now, fixedDt){
+  const dt = fixedDt || Math.min(.05, Math.max(0, (now - last) / 1000)); last = now;
+  if (sweep){ sweep.t += dt; setPct(sweep.t / 40 * 200); if (sweep.t >= 40){ sweep = null; sweepBtn.classList.remove('on'); } }
+  if (jumpAnim){ jumpAnim.t += dt; const k = Math.min(1, jumpAnim.t / 1.2), e = 1 - Math.pow(1 - k, 3);
+    setPct(jumpAnim.from + (jumpAnim.to - jumpAnim.from) * e); if (k >= 1) jumpAnim = null; }
+  cards.forEach(c => { const s = c.E.step(dt, pct); c.s = s; c.fx.step(dt, s); if (sparksOn) c.sp.step(dt, s); });
+  const cs = comboE.step(dt, pct);
+  comboFx.forEach(o => { if (o.on) o.step(dt, cs); });
+  if (sparksOn) comboSp.step(dt, cs);
+  meterT -= dt;
+  if (meterT <= 0){ meterT = .25;
+    cards.forEach(c => c.meter.innerHTML = `往復 <b>${(c.s ? c.s.strokesPerSec / 2 : 0).toFixed(2)}</b> 回/秒 ・ ` + c.fx.meter());
+    document.getElementById('comboMeter').innerHTML = comboFx.filter(o => o.on).map(o => o.meter()).join(' ・ '); }
+  if (!fixedDt) requestAnimationFrame(frame);
+}
+// 確認用：?sim=秒 で開いた時点にその秒数ぶん先へ回しておく（スクリーンショット用）
+if (qs.has('from')){ setPct(+qs.get('from')); jumpAnim = {from: pct, to: +qs.get('p'), t: 0}; }
+for (let i = 0, n = Math.round((+qs.get('sim') || 0) * 60); i < n; i++) frame(performance.now(), 1 / 60);
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

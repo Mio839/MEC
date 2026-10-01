@@ -2407,6 +2407,31 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
    旧 Liquid ゲージ（ガラスの丸窓・ラバ・セル・膜のくびれ・真珠の輪・メニスカス・毛細管の弧）はユーザー判断で撤去した。
    共通の弧・光点・マイルストーン等は「共通円形パーツ非表示化」（html.ui-liquid .gauge-trk …）で消えたまま。
    ───────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   1. Brass：ヒーローゲージは hub_brass.js が #gaugeBrassEngine（.gauge-ring 直下の svg）に描く（2026-10-01）
+   蒸気機関（中央の大歯車・四隅の小歯車・クランクとピストン）＋噛み合いの火花＋奥行きの歯車群。回転数は達成率で連続的に上がる。
+   ⚠️ 外周の円（進捗の弧・光点・真鍮の輪 ::before/::after・週のビーズ・目盛りの輪）は置かない（ユーザー判断）＝旧 svg ごと隠す。
+   ⚠️ 火花・衝撃の輪は盤の外へはみ出してよい（ユーザー判断）＝ .gauge-ring svg の rotate(-90deg) と円形クリップを外す。
+   ───────────────────────────────────────────────────────────── */
+/* ⚠️ .gauge-ring svg{display:block} より詳細度を上げて隠す（.brass-engine だけだと負けて、他テーマで歯車が出る） */
+.gauge-ring svg.brass-engine { display: none; }
+html.ui-brass .gauge-ring svg.brass-engine {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  clip-path: none;
+  overflow: visible;
+  pointer-events: none;
+}
+html.ui-brass .gauge .gauge-ring > svg:not(.brass-engine),
+html.ui-brass .gauge .gauge-ring::before,
+html.ui-brass .gauge .gauge-ring::after { display: none !important; }
+/* 旧 svg を隠すと .gauge-ring の高さが 0 になる（svg が高さを作っていた）ので、正方形を保つ */
+html.ui-brass .gauge .gauge-ring { aspect-ratio: 1 / 1; }
+
 .liq-canvas { display: none; }
 html.ui-liquid .liq-canvas {
   display: block;

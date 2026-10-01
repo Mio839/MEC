@@ -123,7 +123,7 @@ t('小さな雫は 75% から出て、すべて塊の縁より内側で消える
 });
 
 console.log('── 表示の値・段の演出 ──');
-t('set は目標へ弧を伸ばし、通過した段（25/50/75）と 100% でかけら・光を積む', () => {
+t('set は目標へ値を伸ばし、通過した段（25/50/75）と 100% でかけら・光を積む', () => {
   const L = load(), T = L._t, G = T.G;
   G.blob = new T.Blob(11, T.CFG); G.goo = { hot: 0, render() {} };
   L.set(120);
@@ -131,7 +131,7 @@ t('set は目標へ弧を伸ばし、通過した段（25/50/75）と 100% で�
   for (let i = 0; i < 60 * 3; i++) { T.tick(1 / 60, false); glows = Math.max(glows, G.glows.length); }
   assert.ok(Math.abs(G.dv - 120) < 1e-6, 'dv=' + G.dv);
   assert.ok(glows >= 1, '段・到達の光が出ていない');
-  assert.strictEqual(JSON.stringify(Array.from(G.ticks, (k) => +k.toFixed(2))), '[1,1,1]', '目盛りが灯っていない');
+  assert.ok(!('ticks' in G), '外周の目盛り（2026-10-01 撤去）が復活している');
 });
 t('同じ値で何度 set しても伸び直さない（同期のたびに renderHero が走る）', () => {
   const L = load(), T = L._t, G = T.G;

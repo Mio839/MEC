@@ -4,9 +4,9 @@
 
    中央の塊がフヨフヨ揺れ、一部がゆっくりちぎれて漂い（塊のまわりを回らず、ちぎれた場所のあたりで行きつ戻りつ）、
    また戻って溶け込む。75% あたりからかけらの小さな雫も分かれ、漂ったあと中央へ引き寄せられて吸い込まれる。
-   塊の中には光の網（コースティクス）。外周に進捗の弧（r=74）、100% 超は外周 r=80 にもう1本。
+   塊の中には光の網（コースティクス）。外周の進捗の弧・目盛りは 2026-10-01 に撤去した（外周の円はいらない＝ユーザー判断）。
    ⚠️ 100% を超えても色は変えない（以前のデモは金色へ移っていた＝ユーザーの指示で撤去）。派手さは勢い e（達成率/100・160% で頭打ち）で
-      揺れ・にじみ・縁の照り・弧の光・かけらの数（150%で7）・ちぎれる頻度・気泡・小さな雫・光の網の本数を上げる。
+      揺れ・にじみ・縁の照り・かけらの数（150%で7）・ちぎれる頻度・気泡・小さな雫・光の網の本数を上げる。
    ⚠️ 動きの正本はデモ。ここを直したらデモも直す（逆も）。動きを変えるときはデモで 10 分早回しの検査をしてから移すこと
       （止まる・弧へはみ出す・NaN・雫の取り残し。手順はデモ冒頭のコメント）。
    index.js の _driveThemeGauge が MecLiquidGauge.set(pct) を呼ぶだけ。canvas は index.html の #gaugeLiquidCanvas。
@@ -404,32 +404,10 @@ function caustics(c, B, hot) {
   }
 }
 
-/* ══════════════════════ 外周の弧・目盛り・段の光（デモの SVG を canvas で描く） ══════════════════════
-   ⚠️ ハブの .gauge-ring svg には rotate(-90deg) と円形クリップが掛かっているので、弧は SVG に足さず canvas に描く。
-   弧 r=74（シアン→バイオレット→マゼンタ・3px）／100% 超は外周 r=80 に同じ配色でもう1本（2px）／目盛りは 25・50・75%。 */
-const ARC_R = 74, OVF_R = 80;
-function arcGrad(c) {
-  const g = c.createLinearGradient(10, 10, 158, 158);
-  g.addColorStop(0, '#00F2FE'); g.addColorStop(0.5, '#B04CFF'); g.addColorStop(1, '#FF007F');
-  return g;
-}
-function drawArc(c, G, s) {
-  const hot = G.heat / 1.6, b = clamp(G.dv, 0, 100), o = clamp(G.dv - 100, 0, 100), top = -Math.PI / 2;
-  c.lineCap = 'round';
-  c.strokeStyle = 'rgba(255,255,255,.08)'; c.lineWidth = 3;
-  c.beginPath(); c.arc(84, 84, ARC_R, 0, TAU); c.stroke();
-  c.save();
-  c.shadowColor = `rgba(255,0,127,${(0.5 + hot * 0.4).toFixed(2)})`; c.shadowBlur = (1.5 + hot * 4.5) * s * 0.65;   // 弧の光も同じ色のまま広がる
-  c.strokeStyle = arcGrad(c);
-  if (b > 0.05) { c.lineWidth = 3; c.beginPath(); c.arc(84, 84, ARC_R, top, top + b / 100 * TAU); c.stroke(); }
-  if (o > 0.05) { c.lineWidth = 2; c.beginPath(); c.arc(84, 84, OVF_R, top, top + o / 100 * TAU); c.stroke(); }
-  c.restore();
-  c.lineWidth = 1;
-  G.ticks.forEach((k, i) => {   // 通過した目盛りは 0.6 秒かけてマゼンタへ
-    const a = (i + 1) * 0.25 * TAU, x0 = 84 + 67.5 * Math.sin(a), y0 = 84 - 67.5 * Math.cos(a), x1 = 84 + 70.5 * Math.sin(a), y1 = 84 - 70.5 * Math.cos(a);
-    c.strokeStyle = rgba([lerp(255, 255, k), lerp(255, 154, k), lerp(255, 203, k)], lerp(0.28, 1, k));
-    c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke();
-  });
+/* ══════════════════════ 段の光（デモの SVG を canvas で描く） ══════════════════════
+   ⚠️ 外周の進捗の弧（r=74）・100% 超の弧（r=80）・下地の輪・25/50/75% の目盛りは 2026-10-01 に撤去した
+   （外周の円はいらない＝ユーザー判断・Brass と同時）。進み具合は中央の数字と塊の勢いで読む。戻さないこと。 */
+function drawGlows(c, G) {
   for (const g of G.glows) {   // 段・到達のやわらかい光（デモの .soft：2.6秒で 0.3→1.6 倍に広がって消える）
     const k = (g.t - g.delay) / 2.6; if (k <= 0) continue;
     const e2 = 1 - Math.pow(1 - clamp(k, 0, 1), 3), r = g.r * (0.3 + 1.3 * e2), al = k < 0.25 ? 0.9 * k / 0.25 : 0.9 * (1 - (k - 0.25) / 0.75);
@@ -443,7 +421,7 @@ function drawArc(c, G, s) {
    ⚠️ 描くのは html.ui-liquid のときだけ。画面外（IntersectionObserver）・非表示タブでは rAF を止める。
    ⚠️ 省電力 html.mec-lite（iPad・スマホ）では描画を2コマに1回・解像度を 1.5 倍までにする（動きは毎コマ進める）。
    ⚠️ 乱数は種つき（rng(11)）＝開くたびに同じ動きから始まる。 */
-const G = { cv: null, goo: null, blob: null, v: 0, dv: 0, tw: null, heat: 0, cd: 0.8, queue: [], glows: [], ticks: [0, 0, 0],
+const G = { cv: null, goo: null, blob: null, v: 0, dv: 0, tw: null, heat: 0, cd: 0.8, queue: [], glows: [],
   raf: 0, last: 0, vis: true, flip: 0, started: false };
 function isOn() { return document.documentElement.classList.contains('ui-liquid'); }
 function isLite() { return document.documentElement.classList.contains('mec-lite'); }
@@ -478,7 +456,6 @@ function tick(dt, draw) {
   // 勢い e：達成率/100 を 1.6 で頭打ち（160%）。色は変えず、動き・光・かけらの数だけがこれで強くなる
   G.heat += (clamp(G.dv / 100, 0, 1.6) - G.heat) * Math.min(1, dt * 0.8);
   G.goo.hot = G.heat / 1.6;
-  for (let i = 0; i < 3; i++) G.ticks[i] = clamp(G.ticks[i] + (Math.min(100, G.dv) >= (i + 1) * 25 ? dt : -dt) / 0.6, 0, 1);
   for (const g of G.glows) g.t += dt;
   G.glows = G.glows.filter((g) => g.t - g.delay < 2.6);
   const R = G.blob.R;
@@ -496,7 +473,7 @@ function tick(dt, draw) {
     const S = []; G.blob.sources(S);
     G.goo.render(S, G.blob.cx, G.blob.cy, G.blob.heads(), G.blob.bubbles, {
       inside: (c) => caustics(c, G.blob, G.goo.hot),
-      over: (c, p, s) => drawArc(c, G, s)
+      over: (c) => drawGlows(c, G)
     });
   }
 }
@@ -531,5 +508,5 @@ function set(v) {
   G.tw = { from: G.dv, to: v, t: 0, dur: clamp(Math.abs(v - G.dv) * 0.012, 0.6, 1.6) };
   wake();
 }
-window.MecLiquidGauge = { mount, set, _t: { G, tick, Blob, CFG, PathGoo, caustics, drawArc } };
+window.MecLiquidGauge = { mount, set, _t: { G, tick, Blob, CFG, PathGoo, caustics, drawGlows } };
 })();

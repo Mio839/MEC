@@ -45,6 +45,7 @@ CLAUDE.md に残してあるのは各領域の不変条件の要約だけで、*
 | `dup_index.js` | **同じ国試問題の重複コピーの組**（2026-09-27新設・**派生物**・`node _work/build_dup_index.js`）。国試番号・選択肢の集合・正解がすべて一致する uid の組（443組892問・先頭が代表）。progress.js の `MECSync.srsSiblings`/`srsIsShadow`/`srsUnifyDups` が使う＝**SRS の予定だけ組で共有し、件数・出題は代表だけ**（`_work/仕様/学習画面とSRS.md`「重複コピーと新規の上限」）。study/index/stats が progress.js より**前に**読む。**questions_*.json を変えたら作り直すこと** |
 | `hub_opening.js` | **1日の最初のブリーフィング**（2026-09-23新設・`window.MecOpening`）。その日はじめてハブを開いたときに全画面で ①前回のリザルト ②週の結果発表（**その週はじめて開いた日**・ランクS〜C） ③今日のブリーフィング を出す。ヒーローの日付をタップで開き直せる。材料は既存の同期済みデータだけ（fetch を足さない）。⚠️ 前回の結果は「昨日」固定ではなく今日より前の最後の学習日。既視 `mec_hub_opening_v1` は UIローカル。テスト: `node _work/test_hub_opening.js` |
 | `hub_liquid.js` | **ハブのヒーローゲージ（UIテーマ Liquid）**（2026-09-29新設・`window.MecLiquidGauge`）。旧 Liquid ゲージ（ラバ・セル・膜のくびれ等）を撤去し、`#gaugeLiquidCanvas` 1枚に塊・漂うかけら・光の網・弧を描く。index.js は `set(pct)` を呼ぶだけ。⚠️ 100% 超でも色を変えない／かけらを周回させない／雫はその場で消さず塊へ吸い込ませる。正本のデモは `_work/gauge_liquid_demo.html`。詳細は `_work/仕様/ハブ.md`「Liquid のゲージ」。テスト: `node _work/test_hub_liquid.js` |
+| `hub_brass.js` | **ハブのヒーローゲージ（UIテーマ Brass）**（2026-10-01新設・`window.MecBrassGauge`）。`#gaugeBrassEngine` に蒸気機関＋噛み合いの火花＋奥行きの歯車群を描く。回転数は達成率で連続的に上がる。⚠️ 外周の円を置かない（Liquid も同日に弧を撤去）／火花は盤の外へはみ出してよい／歯は `mesh()` で本当に噛み合わせる。詳細は `_work/仕様/ハブ.md`「Brass のゲージ」。テスト: `node _work/test_hub_brass.js` |
 | `trophy.js` | **トロフィー棚**（2026-09-23新設・`window.MecTrophy`・ハブのタイル 🏆）。定着コレクション（科目ごとの宝石）・章メダル（金銀銅＝`gamify.js` の `chapterGrade`＝章の星と同じ式）・科目制覇の👑。**新しいキーを持たず** `mec_srs_v1`/`myrate_v1`/`done_v2` から毎回計算。⚠️ **「定着」＝reps≥3 かつ 間隔≥min(21日, 試験日ゲートの上限)**。固定の「30日以上」にすると試験日ゲートで直前期に誰も届かず宝石が消えていく。study.html の `_updateSRS` が増分を拾い、試験の結果画面で1件の通知にまとめる。index.html と study.html が読む |
 | `boss.js` | **ボス戦**（2026-09-23新設・`window.MecBoss`・`study.html?mode=boss`・ハブのタイル ⚔️）。苦手（誤答率・🚩・直近30日の誤答）から決定論で20問を選び、10問で開戦・10問は控え。正解でダメージ（難問18・通常12・3連続ごとに会心×1.5）、**誤答でボスが回復(+8)し控えから1問増援**。体力0で撃破＝その場で結果画面へ。問題が尽きれば撤退。配管は今日の誤答の再履修と同じホスト出題（`_bossMode`・`_isHostSession()` に含まれる）。体力は `_tallyQuestion`（3採点経路の合流点）で動かす。⚠️ こちらの体力・敗北は作らない（ユーザー判断）。戦績 `mec_boss_v1` は UIローカル。テスト: `node _work/test_trophy_boss.js` |
 | `day_progress.js` | **今日の進み**（2026-10-01新設・`window.MecDay`）。ハブの待機列「今日の復習の結果」（伸びた／明日に戻った）・「定着までの道のり」（高度急性期／急性期／回復期／慢性期＝定着）・試験の結果画面「今日の進み」の集計と図を1本で持つ。⚠️ 旧「今日の復習の減り方」（傾きが必ず一定の階段）は撤去済み＝戻さない。index.html と study.html が読む。⚠️ 新しい同期キーを持たない（定着した日は SRS の札の `md`）。前回の値 `mec_hub_since_v1` は UIローカルで、**離れる瞬間だけ書く**。詳細は `_work/仕様/ハブ.md`「今日の進み」。テスト: `node _work/test_day_progress.js` |
@@ -450,6 +451,7 @@ node _work/test_done_scope.js      「済」と全問題数の正本・全ペー
 node _work/test_hub_notes.js      ハブ「今日の所見」の集計と選抜
 node _work/test_hub_radar.js      ハブ「実力の輪郭」8軸レーダー・全国正答率の索引
 node _work/test_hub_opening.js    1日の最初のブリーフィング／週の結果発表
+node _work/test_hub_brass.js      ハブの Brass ゲージ（噛み合い・回転数・火花の上限・外周の円なし・配線）
 node _work/test_hub_liquid.js     ハブの Liquid ゲージ（止まらない・回らない・はみ出さない・雫は塊へ戻る・金色なし）
 node _work/test_trophy_boss.js    トロフィー棚（定着・章メダル）とボス戦
 node _work/test_ward.js           病棟回診（配線・確信度の撤去）

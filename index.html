@@ -1334,6 +1334,9 @@
           <!-- 🫧 Liquid：ヒーローゲージ本体（hub_liquid.js が描く・2026-09-29）。中央の塊・ちぎれて漂うかけら・中の光の網・進捗の弧を1枚の canvas に描く。
                ⚠️ ここに置く（上の svg の中に入れない）＝ .gauge-ring svg の rotate(-90deg) と円形クリップを受けないため -->
           <canvas class="liq-canvas" id="gaugeLiquidCanvas" aria-hidden="true"></canvas>
+          <!-- ⚙️ Brass：ヒーローゲージ本体（hub_brass.js が描く・2026-10-01）。蒸気機関・噛み合いの火花・奥行きの歯車群。
+               ⚠️ 上の svg の中に入れない＝ rotate(-90deg) と円形クリップを受けない（火花は盤の外へはみ出してよい＝ユーザー判断） -->
+          <svg class="brass-engine" id="gaugeBrassEngine" viewBox="0 0 168 168" aria-hidden="true"></svg>
           <span class="gauge-mid" id="gaugeMid"><span id="statPct">0</span><em>%</em></span>
         </div>
       </div>
@@ -1529,6 +1532,7 @@
 </div>
 
 <script src="hub_liquid.js"></script>
+<script src="hub_brass.js"></script>
 <script src="index.js"></script>
 <!-- 🏆 レベルアップ・アセンション（昇格）カットインオーバーレイ -->
 <div class="level-up-ascension-overlay" id="ascensionOverlay" aria-hidden="true" style="display:none">

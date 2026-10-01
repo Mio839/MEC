@@ -2108,6 +2108,7 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
 }
 .gauge[data-overdrive] .aurora-prism-arc,
 .gauge[data-overdrive] .aurora-prism-arc-sym { filter: drop-shadow(0 0 12px #FFFDF0) drop-shadow(0 0 24px #00DFD8) drop-shadow(0 0 38px #FF0080) !important; }
+.gauge-ring svg.brass-engine { display: none; }
 .liq-canvas { display: none; }
 .liquid-caustics { display: none; }
 .kt-vessel-rim {
