@@ -171,11 +171,12 @@ const other = rows.filter(r => !M.parse(r.al));
 // 計算問題4問を追加したため（2026-08-26）。
 // 56→59 になったのは、夏メック模試（m121s）を統合したため（2026-09-09）。桁入力は
 // A74（クレアチニンクリアランス）・A75（血漿浸透圧）・D75（尿中1日塩分排泄量）の3問。
-t('選択肢を持たない問題は計算問題59件だけ（選択肢欠落は0件）', () => {
-  assert.strictEqual(calc.length, 59, '計算問題が ' + calc.length + '件');
+// 59→77 になったのは、1,000本ノック（knock）の計算問題18問を追加したため（2026-10-01）。
+t('選択肢を持たない問題は計算問題77件だけ（選択肢欠落は0件）', () => {
+  assert.strictEqual(calc.length, 77, '計算問題が ' + calc.length + '件');
   assert.strictEqual(other.length, 0,
     '選択肢欠落: ' + other.map(r => r.uid).join(', '));
-  assert.strictEqual(rows.length, 59, '実際は ' + rows.length + '件');
+  assert.strictEqual(rows.length, 77, '実際は ' + rows.length + '件');
 });
 
 t('計算問題の ans_label は全件が正規形（旧カンマ形式の混入なし）', () => {

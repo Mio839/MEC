@@ -66,6 +66,8 @@ SUBJECTS = {
     'sumresp': ('国試サマライズ・メジャー・呼吸器（表紙2026）.pdf', 'サマライズ呼吸器', ('2026Lesson呼吸器.pdf',)),
     # ⚠️ Lesson消化管の問題20（Q.20）の図は紙面に無く、消化器の 109A-18_1.jpeg を借りている
     'lesdige': ('2026Lesson消化管.pdf', 'Lesson消化管'),
+    # ⚠️ 1,000本ノックは見開き1ページ＝左が問題・右が解説。図は画像の範囲を 300dpi で描き直している
+    'knock':   ('2026年度1,000本ノック.pdf', '1000本ノック'),
 }
 
 # PDFがベクター描画のため、こちらでレンダリング／手作りした画像。rasterと一致しなくて当然。
@@ -81,6 +83,12 @@ VECTOR_RENDERED = {
                '117E-22_1.jpeg'},                  # 心音図の上の「Ⅰ音 Ⅱ音 Ⅰ音」
     # 透過マスク付きの埋め込み画像。実体は黒地だが紙面では白地に見える＝紙面どおりに描き直した方が正しい
     'sumresp': {'l10_1.jpeg', 'l17_1.jpeg'},
+    # 3枚以上の図（画像が選択肢・連続スライス）をラベル①〜⑤／A〜F ごと1枚に切り出したもの
+    # （_work/build_knock_json.py の combine_figs）
+    'knock': {'108B-28_1.jpeg', '109G-9_1.jpeg', '110B-10_1.jpeg', '110E-2_1.jpeg', '110E-36_1.jpeg',
+              '110E-6_1.jpeg', '111E-29_1.jpeg', '111G-4_1.jpeg', '112F-12_1.jpeg', '113F-33_1.jpeg',
+              '114F-15_1.jpeg', '114F-25_1.jpeg', '114F-33_1.jpeg', '115C-10_1.jpeg', '115F-2_1.jpeg',
+              '115F-30_1.jpeg', '117F-8_1.jpeg', '118C-33_1.jpeg', '118F-7_1.jpeg'},
 }
 
 ANCHOR = re.compile(r'(\d{1,3})\s*[.．]\s*[（(]\s*(\d{2,3}[A-Z]-\d+)\s*[）)]')
@@ -325,7 +333,8 @@ def audit(sid, check_images=True):
                 add('画像', q, f'ファイル名の問題コード {m.group(1)} ≠ {eid}')
     if os.path.isdir(img_dir):
         for f in sorted(os.listdir(img_dir)):
-            if f not in used:
+            # images/ex/ は解説の中の図（1,000本ノック）＝ q['imgs'] ではなく解説の本文から参照される
+            if f not in used and not os.path.isdir(os.path.join(img_dir, f)):
                 issues.append(('画像', f'{img_dir_name}/images/{f}', 'どの問題からも参照されていない'))
 
     # ── 画像の中身を PDF と照合 ────────────────────────────────

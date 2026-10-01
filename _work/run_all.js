@@ -36,6 +36,7 @@ const PDF = {
   hisshu2: 'MEC問題文pdf/MEC必修講座Part2（表紙2026）.pdf',
   sumresp: 'MEC問題文pdf/国試サマライズ・メジャー・呼吸器（表紙2026）.pdf',
   lesdige: 'MEC問題文pdf/2026Lesson消化管.pdf',
+  knock: 'MEC問題文pdf/2026年度1,000本ノック.pdf',
 };
 const hasPdf = k => fs.existsSync(path.join(ROOT, PDF[k]));
 
@@ -60,6 +61,7 @@ if (!QUICK) {
   gen('questions_hisshu2.json（必修講座Part2）', PY, ['_work/build_hisshu2_json.py', '--check'], 'hisshu2');
   gen('questions_sumresp.json（サマライズ呼吸器）', PY, ['_work/build_sumresp_json.py', '--check'], 'sumresp');
   gen('questions_lesdige.json（Lesson消化管）', PY, ['_work/build_lesdige_json.py', '--check'], 'lesdige');
+  gen('questions_knock.json（1,000本ノック）', PY, ['_work/build_knock_json.py', '--check'], 'knock');
   jobs.push({ group: '生成物', name: '画像の整合性（validate_images.py A・D）', cmd: PY, argv: ['_work/validate_images.py', '--only', 'A', 'D'],
               judge: out => !/! \[/.test(out) });
 }

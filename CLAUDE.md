@@ -87,6 +87,7 @@ CLAUDE.md に残してあるのは各領域の不変条件の要約だけで、*
 | `必修講座Part2/` ＋ `questions_hisshu2.json` | **必修講座Part2**（prefix `hisshu2`・🎖️・#B8A14A・2026-09-27新設・**Part1 とは別科目**）。`MEC必修講座Part2（表紙2026）.pdf` の A/B/C問題 各60問＝180問（章＝ブロック・表示番号は通し Q.1〜180・紙面番号はバッジ `bb`）。章別HTMLは無く `_work/hisshu2_pdf.py anstable`→`parse`→`_work/build_hisshu2_json.py` で PDF から直接作る（`images/` は `--figs`・27枚）。**解説は書いていない**——同じ国試問題が既存科目・過去問ビューアにある134問だけ借用。⚠️ **MEC が選択肢の並びを入れ替えている**（117問）ので、並びは紙面どおりに保ち、借りた解説の先頭に記号の対応表を置く。⚠️ questions_hisshu2.json は派生物（手書きは `_work/hisshu2_overrides.json`）。⚠️ **この科目に手を入れるときは `_work/必修講座Part2_引き継ぎ.md` を読む** |
 | `サマライズ呼吸器/` ＋ `questions_sumresp.json` | **サマライズ呼吸器**（prefix `sumresp`・🫁・#4FB0D8・2026-09-29新設）。`国試サマライズ・メジャー・呼吸器（表紙2026）.pdf` の8章39問（Q.1〜39＝紙面の NO.）＋ `2026Lesson呼吸器.pdf` の19問（ch09・Q.40〜58・紙面の「問題N」はバッジ `bb`）。章別HTMLは無く `_work/sumresp_pdf.py parse`→`_work/build_sumresp_json.py`（`images/` は `--figs`・34枚）。**解説はテキストの引用＋1行の理由だけ**（ユーザー指定）＝手書きの材料は `_work/sumresp_notes.json`。⚠️ questions_sumresp.json は派生物。⚠️ **この科目に手を入れるときは `_work/サマライズ呼吸器_引き継ぎ.md` を読む** |
 | `Lesson消化管/` ＋ `questions_lesdige.json` | **Lesson消化管**（prefix `lesdige`・🍙・#E0829C・2026-09-30新設）。`2026Lesson消化管.pdf` の問題1〜20（問題9は①②の2問）＝1章21問（Q.1〜21・紙面の「問題N」はバッジ `bb`）。章別HTMLは無く `_work/build_lesdige_json.py` が PDF から直接作る（`--figs` で `images/` に5枚）。**解説は参考資料の引用＋1行の理由（`_work/lesdige_notes.json`）＋消化器 dige の同じ国試番号の解説の借用**（改変問題は注記と原題の選択肢・正解を添える）。⚠️ questions_lesdige.json は派生物。⚠️ **この科目に手を入れるときは `_work/Lesson消化管_引き継ぎ.md` を読む** |
+| `1000本ノック/` ＋ `questions_knock.json` | **1,000本ノック**（prefix `knock`・⚾・#DA62DA・2026-10-01新設）。`2026年度1,000本ノック.pdf` の全968問（Q.1〜968＝紙面の NO.）を出題基準の大項目で11章に（中項目はバッジ `bb`）。章別HTMLは無く `_work/knock_pdf.py anstable`→`parse`→`_work/build_knock_json.py`（`--figs` で `images/` 107枚＋解説の図 `images/ex/` 3枚）。**解説は PDF の解説を先頭に引用し、同じ国試問題の既存科目・過去問の解説を後ろに併記**（借用901問）。⚠️ questions_knock.json は派生物。⚠️ **この科目に手を入れるときは `_work/1000本ノック_引き継ぎ.md` を読む** |
 
 ⚠️ **科目フォルダの行には「何のフォルダで、どう再生成するか」だけを書く。**
 章の軸・PDF固有の罠・最難問・採点除外・図の抽出順といった**章単位の作業ノートは `_work/{科目名}_引き継ぎ.md` が正本**で、2026-08-26 に全10科目ぶんをこの表から移した（CLAUDE.md 全体で約135,000字 → 約88,000字）。表のセルに書くと、**二度と書かない完成科目のぶんまで毎セッション読み込まれる**うえ、セル内改行で表そのものが Markdown として壊れる。**新しい科目を足すときも同じ形にすること。**
@@ -110,6 +111,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 | 横断テーマ | `tox` `emg`（マイナー講座ではない・版面が違う） |
 | 公衆衛生講座 | `ph`（マイナー講座ではない・**全19章619問が完成**） |
 | 必修講座 | `hisshu` `hisshu2`（Part1・Part2 は別科目。解説は既存科目からの借用＋手書きの上書きだけ） |
+| 1,000本ノック | `knock`（全問が国試過去問。解説は PDF＋既存科目の借用） |
 | サマライズ・Lesson | `sumresp`（サマライズ呼吸器＋Lesson 呼吸器。解説はテキストの引用だけ）・`lesdige`（Lesson消化管。引用＋消化器の解説の借用） |
 | 模試 | `m121s`（第121回 夏メック模試・A〜F の6章400問）。⚠️ **模試は回ごとに1科目**（`m122w` 等）＝進捗と弱点が回ごとに独立して見える |
 | 非コア | `jitsu1`（実力試験Ⅰ）・`custom`（自作）・`memo`（暗記メモ） |
@@ -165,7 +167,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 ## UID フォーマット
 
 - 各科目解説: `{prefix}_ch{nn}_q{n}` 例: `endo_ch01_q1`, `resp_ch02_q3`, `jinzo_d_ch03_q136`
-- 科目prefix（全31）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `obg` / `psy` / `derm` / `oph` / `ent` / `uro` / `ortho` / `anes` / `rad` / `tox` / `emg` / `ph` / `hisshu` / `hisshu2` / `sumresp` / `lesdige` / `m121s` / `jitsu1` / `custom` / `memo`
+- 科目prefix（全32）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `obg` / `psy` / `derm` / `oph` / `ent` / `uro` / `ortho` / `anes` / `rad` / `tox` / `emg` / `ph` / `hisshu` / `hisshu2` / `sumresp` / `lesdige` / `knock` / `m121s` / `jitsu1` / `custom` / `memo`
 
 ### ⚠️ 問題番号は科目内の通し番号（章ごとにQ.1へ振り直さない）
 

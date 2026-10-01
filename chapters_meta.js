@@ -1567,6 +1567,80 @@ const MEC_CHAPTERS = [
     ]
   },
   {
+    "id": "knock",
+    "name": "1,000本ノック",
+    "icon": "⚾",
+    "color": "#DA62DA",
+    "chapters": [
+      {
+        "prefix": "knock_ch01",
+        "file": "study.html?sid=knock",
+        "title": "第1章 Ⅱ 予防と健康管理・増進（医学）",
+        "count": 4
+      },
+      {
+        "prefix": "knock_ch02",
+        "file": "study.html?sid=knock",
+        "title": "第2章 Ⅲ 人体の正常構造と機能",
+        "count": 114
+      },
+      {
+        "prefix": "knock_ch03",
+        "file": "study.html?sid=knock",
+        "title": "第3章 Ⅳ 生殖、発生、成長、発達、加齢",
+        "count": 80
+      },
+      {
+        "prefix": "knock_ch04",
+        "file": "study.html?sid=knock",
+        "title": "第4章 Ⅴ 病因、病態生理",
+        "count": 68
+      },
+      {
+        "prefix": "knock_ch05",
+        "file": "study.html?sid=knock",
+        "title": "第5章 Ⅵ 症候",
+        "count": 126
+      },
+      {
+        "prefix": "knock_ch06",
+        "file": "study.html?sid=knock",
+        "title": "第6章 Ⅶ 診察",
+        "count": 15
+      },
+      {
+        "prefix": "knock_ch07",
+        "file": "study.html?sid=knock",
+        "title": "第7章 Ⅷ 検査",
+        "count": 112
+      },
+      {
+        "prefix": "knock_ch08",
+        "file": "study.html?sid=knock",
+        "title": "第8章 Ⅸ 治療",
+        "count": 114
+      },
+      {
+        "prefix": "knock_ch09",
+        "file": "study.html?sid=knock",
+        "title": "第9章 公衆衛生 Ⅰ 保健医療論",
+        "count": 164
+      },
+      {
+        "prefix": "knock_ch10",
+        "file": "study.html?sid=knock",
+        "title": "第10章 公衆衛生 Ⅱ 予防と健康管理・増進",
+        "count": 144
+      },
+      {
+        "prefix": "knock_ch11",
+        "file": "study.html?sid=knock",
+        "title": "第11章 公衆衛生 その他の領域（Ⅳ〜Ⅸ）",
+        "count": 27
+      }
+    ]
+  },
+  {
     "id": "m121s",
     "name": "第121回 夏メック模試",
     "icon": "🏁",

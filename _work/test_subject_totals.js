@@ -38,6 +38,7 @@ const GROUPS = [
   ['公衆衛生講座',  ['ph']],
   ['必修講座',      ['hisshu','hisshu2']],
   ['サマライズ・Lesson', ['sumresp','lesdige']],
+  ['1,000本ノック', ['knock']],
   ['非コア',        ['jitsu1','custom','memo']],
 ];
 function printTable() {

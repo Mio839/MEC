@@ -53,6 +53,7 @@
     { id: 'hisshu2', name: '必修講座Part2', icon: '🎖️', color: '#B8A14A', total: 180 },
     { id: 'sumresp', name: 'サマライズ呼吸器', icon: '🫁', color: '#4FB0D8', total: 58 },
     { id: 'lesdige', name: 'Lesson消化管', icon: '🍙', color: '#E0829C', total: 21 },
+    { id: 'knock',   name: '1,000本ノック', icon: '⚾', color: '#DA62DA', total: 968 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
     { id: 'm121s',   name: '第121回 夏メック模試', icon: '🏁', color: '#F0ABFC', total: 400 },
   ];

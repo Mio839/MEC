@@ -25,7 +25,7 @@ const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'dup_index.js');
 const EXCLUDE = new Set(['custom', 'memo', 'jitsu1', 'm121s']);
 // 代表の優先順。解説がいちばん厚いのは科目の側なので、講座（必修・サマライズ）は後ろに回す。
-const LATE = ['hisshu', 'hisshu2', 'sumresp', 'lesdige'];
+const LATE = ['hisshu', 'hisshu2', 'sumresp', 'lesdige', 'knock'];
 
 const strip = s => String(s || '').replace(/<[^>]+>/g, '').replace(/[\s　\u0001]/g, '');
 const normChoice = t => strip(t).replace(/^[a-hａ-ｈ]/, '');
