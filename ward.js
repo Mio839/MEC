@@ -1,4 +1,4 @@
-// ward.js — 定着プロトコル（旧・病棟回診。今日の復習＝SRS復習セッションの見せ方）（2026-09-25 新設・2026-09-30 拡張）
+// ward.js — 定着プロトコル（旧・病棟回診。今日の復習＝SRS復習セッションの見せ方）（2026-09-25 新設・2026-09-30 拡張・2026-10-01 結果画面の仕上げ）
 //
 // 今日 due の問題を病棟（科目）のベッドに並べ、1問解く＝1床を診る。
 //   ・正解 … 定着。次に会う日＝SRS の次回予定日
@@ -223,6 +223,18 @@ body.ward-on .ct{padding-bottom:130px;}
 .exam-ward-res .ewr-later{font-size:10.5px;opacity:.7;text-align:right;margin-top:4px;}
 .exam-ward-res .ewr-note{font-size:12px;line-height:1.6;margin-top:6px;padding:7px 9px;border-radius:9px;background:rgba(255,255,255,.05);}
 .exam-ward-res .ewr-note.alert{background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.45);}
+/* 結果画面の仕上げ（_work/ward_result_demo.html の E 案をユーザーが採用・2026-10-01）：
+   リングの先端の光る玉・見出しの下線・棒の光沢（棒の箱の中だけを走る）・最後に枠を光が一周して COMPLETE */
+.exam-ward-res{position:relative;}
+.exam-ward-res .ewr-head{position:absolute;inset:0;pointer-events:none;}
+.exam-ward-res .ewr-head i{position:absolute;left:50%;top:0;width:12px;height:12px;margin:-1px 0 0 -6px;border-radius:50%;background:#fff;box-shadow:0 0 8px #6EE7B7,0 0 16px #34D399;}
+.exam-ward-res .ewr-h{position:relative;}
+.exam-ward-res .ewr-h::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:linear-gradient(90deg,#7ED6DF,transparent);transform-origin:left;scale:var(--hl,0) 1;transition:scale .7s cubic-bezier(.16,1,.3,1);}
+.exam-ward-res .bar{position:relative;}
+.exam-ward-res .ewr-glint{position:absolute;top:0;bottom:0;left:-30px;width:26px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);mix-blend-mode:screen;}
+.exam-ward-res .ewr-frame{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);pointer-events:none;overflow:visible;}
+.exam-ward-res .ewr-frame path{fill:none;stroke:#7ED6DF;stroke-width:2;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 5px #7ED6DF);}
+.exam-ward-res .ewr-done{position:absolute;right:12px;top:11px;font-size:10px;font-weight:900;letter-spacing:.28em;color:#6EE7B7;text-shadow:0 0 8px rgba(110,231,183,.7);pointer-events:none;}
 /* 細い画面：科目名はアイコンだけ・ベッドを小さく（2列のまま1行に収める） */
 @media (max-width:560px){#wardHud .wh-ward .n{width:auto;}#wardHud .wh-ward .n .nm{display:none;}#wardHud .wh-ward .bs{gap:2px;}#wardHud .wh-wards .wh-bed{width:7px;height:7px;border-radius:2px;}#wardHud .wh-wards{gap:3px 8px;}}
 @media (prefers-reduced-motion:reduce){#wardHud,#wardHud *,.wh-pop,#wardBrief,#wardBrief *{animation:none!important;transition:none!important}}
@@ -520,7 +532,33 @@ body.ward-on .ct{padding-bottom:130px;}
     const bars = [...R.querySelectorAll('i[data-w]')];
     bars.forEach(i => { i.style.width = '0'; });
     _later(() => bars.forEach(i => { i.style.width = i.dataset.w; }), 500);   // 全科目の棒を同時に伸ばす
-    [...R.querySelectorAll('.ewr-cal .d i')].forEach((i, k) => _anim(i, [{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { duration: 700, delay: 900 + k * 40 }));
+    [...R.querySelectorAll('.ewr-cal .d i')].forEach((i, k) => _anim(i, [{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { duration: 700, delay: 1000 + k * 40 }));
+    // 14日の棒の数字が弾む
+    [...R.querySelectorAll('.ewr-cal .d em')].forEach((em, k) => _anim(em, [{ opacity: 0, transform: 'translateY(6px) scale(.5)' }, { opacity: 1, transform: 'translateY(-3px) scale(1.2)', offset: .6 }, { opacity: 1, transform: 'none' }], { duration: 420, delay: 1350 + k * 40 }));
+    // リングの先端の光る玉（定着の弧の終わりまで回って消える）
+    const head = document.createElement('div'); head.className = 'ewr-head'; head.innerHTML = '<i></i>';
+    R.querySelector('.ewr-ring').appendChild(head);
+    _anim(head, [{ transform: 'rotate(0deg)', opacity: 0 }, { opacity: 1, offset: .1 }, { transform: 'rotate(' + (pct * 3.6) + 'deg)', opacity: 1, offset: .85 }, { transform: 'rotate(' + (pct * 3.6) + 'deg)', opacity: 0 }], { duration: 1000, delay: 300 });
+    // 見出しの下線を上から順に引く
+    [...R.querySelectorAll('.ewr-h')].forEach((h, k) => _later(() => h.style.setProperty('--hl', '1'), 450 + k * 220));
+    // 棒が伸びきったら光沢を1回走らせる（棒の箱の中だけ＝overflow:hidden の内側）
+    _later(() => [...R.querySelectorAll('.bar')].forEach((bar, k) => { const gl = document.createElement('span'); gl.className = 'ewr-glint'; bar.appendChild(gl);
+      const a = _anim(gl, [{ left: '-30px' }, { left: 'calc(100% + 4px)' }], { duration: 900, delay: k * 70, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'none' });
+      if (a) a.onfinish = () => gl.remove(); else gl.remove(); }), 1400);
+    // 最後に枠を光が一周して COMPLETE を残す（枠は viewBox を引き伸ばす＝後で高さが変わってもずれない）
+    _later(() => {
+      if (!R.isConnected) return;
+      const W = 400, H = Math.max(40, Math.round(400 * R.offsetHeight / Math.max(1, R.offsetWidth))), r = 14 * 400 / Math.max(1, R.offsetWidth);
+      const d = 'M' + (W / 2) + ' 0.5 H' + (W - r) + ' Q' + W + ' 0.5 ' + W + ' ' + r + ' V' + (H - r) + ' Q' + W + ' ' + H + ' ' + (W - r) + ' ' + H + ' H' + r + ' Q0 ' + H + ' 0 ' + (H - r) + ' V' + r + ' Q0 0.5 ' + r + ' 0.5 Z';
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'ewr-frame'); svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('preserveAspectRatio', 'none'); svg.setAttribute('aria-hidden', 'true');
+      svg.innerHTML = '<path pathLength="1" d="' + d + '"/>';
+      R.appendChild(svg);
+      const p = svg.querySelector('path'); p.style.strokeDasharray = '1';
+      _anim(p, [{ strokeDashoffset: 1, opacity: 1 }, { strokeDashoffset: 0, opacity: 1, offset: .75 }, { strokeDashoffset: 0, opacity: .35 }], { duration: 1300, easing: 'cubic-bezier(.5,0,.3,1)' });
+      const tag = document.createElement('span'); tag.className = 'ewr-done'; tag.textContent = 'COMPLETE'; R.appendChild(tag);
+      _anim(tag, [{ opacity: 0, letterSpacing: '.8em' }, { opacity: 1, letterSpacing: '.28em' }], { duration: 700, delay: 950 });
+    }, 2200);
     [...R.querySelectorAll('.ewr-note')].forEach((el, k) => _anim(el, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 500, delay: 1300 + k * 150 }));
     // rAF・WAAPI が止まっても（非表示タブ）棒は必ず最終値に着地させる
     setTimeout(() => bars.forEach(i => { i.style.width = i.dataset.w; }), 2600);
