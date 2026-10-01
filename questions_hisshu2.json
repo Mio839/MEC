@@ -8373,23 +8373,23 @@
             },
             {
               "cls": "ep",
-              "h": "🍽️ 経腸栄養vs経静脈栄養",
-              "c": "<span class=\"kw\">e正：経口不可時は経腸栄養を優先</span>：<br/>\"If the gut works, use it\"（腸管が機能するなら腸管を使え）<br/>経腸栄養の利点：腸管バリア保護・腸内細菌叢維持・bacterial translocation↓・免疫機能維持<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a「意識障害患者への挿入は禁忌」→<span class=\"kw4\">禁忌ではない</span>（意識障害患者への経管栄養は一般的。ただし誤嚥リスク管理が必要）<br/>✗ b「挿入時はTrendelenburg位」→ 誤り。座位・半座位・左側臥位が正しい体位<br/>✗ c「気泡音を聴取すれば適正位置」→ 不確実（X線写真が必要）<br/>✗ d「誤嚥性肺炎急性期には経管栄養は禁忌」→<span class=\"kw4\">禁忌ではない</span>（誤嚥性肺炎中でも経腸栄養は継続・早期再開が推奨される）"
+              "h": "🌿 経鼻胃管を「いつ使い、いつ使わないか」——適応と禁忌",
+              "c": "<span class=\"kw3\"><b>経鼻胃管の挿入・位置確認・管理はこの章で繰り返し見た（Q.58・Q.71・Q.76・Q.80）</b></span>。<span class=\"kw4\"><b>ここでは、経鼻胃管の用途と、入れてはいけない・注意すべき場面をまとめる</b></span>。<br/><span class=\"kw\"><b>① 用途</b></span><br/><span class=\"kw3\"><b>栄養：経口摂取ができないが腸が使える短期（4週未満）の経腸栄養</b></span><br/><span class=\"kw3\"><b>減圧：腸閉塞・幽門狭窄（Q.55・Q.84）・術後の胃内容の排出</b></span><br/><span class=\"kw3\"><b>診断・治療：上部消化管出血の確認と胃洗浄、薬物中毒の胃洗浄・活性炭の投与</b></span><br/><span class=\"kw\"><b>② 禁忌・注意</b></span><br/><span class=\"kw4\"><b>頭蓋底骨折・高度の顔面外傷：頭蓋内へ迷入する → 経口で入れる</b></span><br/><span class=\"kw3\"><b>食道の高度狭窄・食道術後早期の吻合部・最近の食道静脈瘤の治療後（相対的）</b></span><br/><span class=\"kw3\"><b>高度の凝固異常（鼻出血）</b></span><br/><span class=\"kw4\"><b>意識障害は禁忌ではない——咳・嚥下反射が弱いので位置確認と誤嚥対策を徹底する（Q.76）</b></span><br/><span class=\"kw\"><b>③ 挿入の体位</b></span><br/><span class=\"kw3\"><b>座位〜半座位で頸部前屈（Q.58）</b></span><br/><span class=\"kw4\"><b>Trendelenburg 位（頭低位）は、胃内容が逆流して誤嚥しやすくなるので行わない</b></span><br/><span class=\"kw2\"><b>頭低位は中心静脈の穿刺（空気塞栓の予防：Q.75）で使う体位</b></span><br/><span class=\"kw\"><b>④ 長期化するなら</b></span><br/><span class=\"kw3\"><b>4週を超える見込みなら胃瘻を考える（Q.53・Q.69）</b></span>"
             },
             {
               "cls": "ee",
-              "h": "□ 経腸栄養vs経静脈栄養の使い分け",
-              "c": "<table class=\"tb\"><tr><th>状況</th><th>優先される栄養法</th></tr><tr><td>状況</td><td>優先される栄養法</td></tr><tr><td>腸管が機能する</td><td><span class=\"kw\">経腸栄養（経管・経口）を優先</span></td></tr><tr><td>腸管が機能しない（腸閉塞・腸管切除）</td><td>経静脈栄養（TPN）</td></tr><tr><td>経口摂取不可・腸管は機能する</td><td><span class=\"kw\">経管栄養（NGT・胃瘻・腸瘻）</span></td></tr></table>"
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　意識障害患者への挿入は禁忌である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>意識障害で経口摂取できない患者こそ経管栄養の主な適応</b></span>。<span class=\"kw3\"><b>気管への誤挿入に気づきにくいので、エックス線での確認と誤嚥対策を徹底する</b></span>。</td></tr><tr><td>ｂ　挿入時は体位を Trendelenburg 位にする。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>頭低位は胃内容が逆流して誤嚥しやすい</b></span>。<span class=\"kw3\"><b>座位〜半座位で頸部を前屈させる</b></span>。</td></tr><tr><td>ｃ　心窩部で気泡音を聴取すれば適正位置と判断できる。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>気管・食道にあっても心窩部で聞こえることがある（Q.80）</b></span>。<span class=\"kw4\"><b>位置の確認はエックス線写真</b></span>。</td></tr><tr><td>ｄ　誤嚥性肺炎の急性期には経管経腸栄養は禁忌である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>全身状態が安定していれば、上体挙上・注入速度の調整・幽門後への留置などで誤嚥を防ぎながら経腸栄養を始めてよい</b></span>。<span class=\"kw3\"><b>長く絶食にすると低栄養と嚥下機能の低下（廃用）が進む</b></span>。<span class=\"kw2\"><b>ショック・腸管虚血・腸閉塞があれば経腸栄養は控える</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　経口摂取不可能時は静脈栄養より経管経腸栄養を優先する。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw4\"><b>If the gut works, use it——腸管のバリアと免疫を保ち、感染性合併症を減らす</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 重症患者の早期経腸栄養——ICU での「腸を使う」",
+              "c": "<span class=\"kw4\"><b>重症患者（敗血症・外傷・熱傷・大手術後）では、ICU 入室後24〜48時間以内に経腸栄養を始めることが勧められる</b></span>。<br/><span class=\"kw\"><b>① なぜ早く始めるのか</b></span><br/><span class=\"kw3\"><b>腸に栄養が入らないと、数日で腸粘膜が萎縮し、腸管の免疫（腸管関連リンパ組織）が落ちる</b></span><br/><span class=\"kw4\"><b>腸内細菌や毒素が血中・リンパへ移行（バクテリアルトランスロケーション）し、感染・多臓器不全の原因になると考えられている</b></span><br/><span class=\"kw3\"><b>早期経腸栄養で感染性合併症が減る</b></span><br/><span class=\"kw\"><b>② 始め方</b></span><br/><span class=\"kw3\"><b>循環動態が安定してから（昇圧薬を増やしている最中のショック、腸管虚血では控える）</b></span><br/><span class=\"kw4\"><b>少量（10〜20mL/時）から始め、1週間ほどかけて目標量へ——最初から全量を入れなくてよい（過剰な栄養はかえって害）</b></span><br/><span class=\"kw3\"><b>胃残量が多い・嘔吐するなら、消化管運動促進薬、幽門後（十二指腸・空腸）への留置</b></span><br/><span class=\"kw\"><b>③ 静脈栄養を加えるとき</b></span><br/><span class=\"kw3\"><b>経腸栄養で目標量に届かない状態が1週間ほど続けば、補足的に静脈栄養を加える</b></span><br/><span class=\"kw3\"><b>入院時から高度の低栄養なら、早めに静脈栄養を併用する</b></span><br/><span class=\"kw\"><b>④ 誤嚥を防ぐ</b></span><br/><span class=\"kw3\"><b>上体を30〜45°挙上、持続投与、口腔ケア、人工呼吸中はカフ圧の管理と声門下吸引</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">栄養管理の大原則：経口＞経腸（経管）＞経静脈</span><br/>経腸栄養のメリット：腸管バリア維持・感染合併症↓・コスト低・QOL良好。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "経鼻胃管について正しいもの。<br/><b>a 意識障害患者に禁忌／b Trendelenburg位／c 気泡音で適正位置と判断／d 誤嚥性肺炎急性期に経管栄養禁忌</b>：誤り。<br/><b>e 経口摂取不可能時は静脈栄養より経管経腸栄養を優先する</b>：<span class=\"kw\">腸管が使えるなら経腸栄養を優先（bacterial translocation予防）</span>。✓"
+              "c": "<span class=\"kw4\"><b>腸が使えるなら静脈栄養より経腸栄養を優先（If the gut works, use it）</b></span>。<br/><span class=\"kw3\"><b>意識障害は経鼻胃管の禁忌ではない（主な適応）。頭蓋底骨折は経鼻の禁忌</b></span>。<br/><span class=\"kw3\"><b>挿入は座位〜半座位で頸部前屈。Trendelenburg 位にしない</b></span>。<br/><span class=\"kw3\"><b>気泡音だけで位置を判断しない（エックス線で確認）</b></span>。<br/><span class=\"kw4\"><b>誤嚥性肺炎の急性期でも経腸栄養は禁忌ではない。重症患者は24〜48時間以内に少量から開始</b></span>。"
             },
             {
               "cls": "ept",

@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-10-02 (CACHE v692): 消化器 dige 作り直し⑤ バッチ15（Q.85〜Q.90・ch02 完了／ch03 着手）。questions_knock/lesdige/hisshu2（借用）を再生成。
 2026-10-02 (CACHE v691): 消化器 dige 作り直し⑤ ch02 バッチ14（Q.79〜Q.84）。questions_hisshu2.json（借用）を再生成。
 2026-10-02 (CACHE v690): 消化器 dige 作り直し⑤ ch02 バッチ13（Q.73〜Q.78・Q.76 の正解の理由づけの逆転と Q.77 の数値の誤りを是正）。questions_hisshu2.json（借用）を再生成。
 2026-10-02 (CACHE v689): 消化器 dige 作り直し⑤ ch02 バッチ12（Q.67〜Q.72・Q.67 の正解の理由づけの逆転を是正）。questions_knock.json・questions_hisshu2.json（借用）を再生成。
