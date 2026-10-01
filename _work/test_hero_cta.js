@@ -574,6 +574,8 @@ t('Brass の読み値はニキシー管＋歯車連動（ちらつきは一定�
   assert.ok(/BR_NX_IDLE_MS/.test(idle) && /const BR_NX_IDLE_MS = 10000;/.test(HTML), 'ちらつきが一定時間（10秒）で終わらない');
   assert.ok(/_brNxIdleStop\) el\._brNxIdleStop\(\)/.test(idle), '始める前に前のちらつきを止めていない');
   assert.ok(/document\.hidden/.test(idle), '非表示タブでも動かしている');
+  assert.ok(/br-nx-glint/.test(idle) && /\.dg\.br-nx-glint\{animation:brNxGlint/.test(HTML), '正しい数字へ戻る瞬間に煌めかせていない');
+  assert.ok(!/\.dg\.br-nx-idle\{[^}]*opacity:\./.test(HTML), 'ちらつき中の管を暗くしている（煌々と光らせる）');
   assert.ok(/theme === 'brass'[\s\S]{0,80}_brNixieIdle\(el\)/.test(extract('_landHeroNumber')), '着地のあとにちらつきを始めていない');
   assert.ok(/\.hero-fig \.br-gt\{display:none;\}/.test(HTML), 'Brass 以外でも歯車が見えている');
   assert.ok(!/html\.ui-brass \.hero-num\[data-goal="\d"\][^{]*\{[^}]*background-clip:text/.test(HTML), '目標達成の日に桁を文字で切り抜いている（管が消える）');

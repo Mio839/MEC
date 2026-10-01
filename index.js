@@ -2336,7 +2336,7 @@ function _brNixieIdle(el) {
     if (el._brNxIdleStop === stop) el._brNxIdleStop = null;
     el.querySelectorAll('.dg').forEach(d => {
       if (d.dataset.real != null) { d.textContent = d.dataset.real; delete d.dataset.real; }
-      d.classList.remove('br-nx-idle', 'flick');
+      d.classList.remove('br-nx-idle', 'flick', 'br-nx-glint');
     });
   };
   el._brNxIdleStop = stop;
@@ -2364,7 +2364,10 @@ function _brNixieIdle(el) {
         d.textContent = r; flick(d);
         timer = setTimeout(swap, 45 + Math.random() * 50);
       } else {
-        d.textContent = real; flick(d); d.classList.remove('br-nx-idle'); delete d.dataset.real;
+        // 正しい数字へ戻る瞬間は、数え終わったときの焼き入れと同じ白熱で煌めかせる（.br-nx-glint）
+        d.textContent = real; d.classList.remove('br-nx-idle', 'flick'); delete d.dataset.real;
+        void d.offsetWidth; d.classList.add('br-nx-glint');
+        setTimeout(() => d.classList.remove('br-nx-glint'), 600);
         next();
       }
     })();
