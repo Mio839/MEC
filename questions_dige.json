@@ -15472,22 +15472,27 @@
       }
      ],
      "ans_label": "ｄ　在宅静脈栄養",
-     "ans_sub": "胃全摘＋腸管短縮で吸収不良が高度なら、在宅中心静脈栄養（HPN）が長期管理の選択肢。",
+     "ans_sub": "胃全摘の 2 年後に、<b>多発肺転移・多発肝転移・腹水</b>で再発した進行胃癌。根治は望めない。食事は普段の 1/3 以下でやせている（BMI 約 15.6）が、悪心・嘔吐・呼吸困難・痛みはなく、<b>本人と家族は在宅医療を希望</b>している。口から足りない分の水分・栄養を、自宅で中心静脈ポートなどから入れる<b>在宅静脈栄養</b>が、希望に沿い今の問題に応える方針。切除は不可能、呼吸困難がないので酸素は不要、ホスピス入院は在宅の希望に反する。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💉 在宅中心静脈栄養（HPN）の適応",
-       "c": "<span class=\"kw\">d在宅静脈栄養（HPN）（正答）</span>：<br>・胃全摘＋大量腸切除による重度吸収不良<br>・経口・経腸栄養では十分なカロリー・栄養素が確保できない<br>→ 自宅でCVポートから高カロリー輸液を投与<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a外科的切除：再切除の対象なし（今回は吸収不良の問題）<br/>✗ b抗癌化学療法：癌の再発治療→今回は吸収不良が主問題<br/>✗ c在宅酸素療法：呼吸不全に適応（今回の問題ではない）<br/>✗ eホスピス入院：終末期ケア→まだHPNで在宅管理可能な状態</br></br></br>"
+       "h": "🌿 治せない再発癌——「いま困っていること」と「本人の希望」から決める",
+       "c": "<span class=\"kw\"><b>① 状態の整理</b></span><br/><span class=\"kw3\"><b>肺・肝の多発転移と腹水——全身に広がった再発、根治は望めない</b></span><br/><span class=\"kw3\"><b>困っていること：倦怠感と食欲不振、食事は 1/3 以下、体重 45kg（BMI 約 15.6）</b></span><br/><span class=\"kw3\"><b>困っていないこと：悪心・嘔吐・呼吸困難・痛み</b></span><br/><span class=\"kw3\"><b>希望：自宅で過ごしたい</b></span><br/><span class=\"kw\"><b>② 方針</b></span><br/><span class=\"kw4\"><b>足りない栄養と水分を自宅で補う——在宅静脈栄養（中心静脈ポートから輸液）</b></span><br/><span class=\"kw3\"><b>訪問診療・訪問看護が輸液の管理を支える</b></span><br/><span class=\"kw\"><b>③ 輸液の量への配慮</b></span><br/><span class=\"kw3\"><b>終末期に多すぎる輸液は、むくみ・腹水・胸水・痰を増やし、かえって苦しくする</b></span><br/><span class=\"kw3\"><b>状態に合わせて量を減らしていく——「たくさん入れれば元気になる」わけではない</b></span><br/><span class=\"kw\"><b>④ 抗癌化学療法</b></span><br/><span class=\"kw3\"><b>全身状態がよければ選択肢になるが、食べられず衰弱している——今の第一の方針ではない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　外科的切除</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肺・肝に多発し、腹水もある——切除しても取り切れない</b></span>。</td></tr><tr><td>ｂ　抗癌化学療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>衰弱して食べられない状態では、副作用の負担が大きい</b></span>。<span class=\"kw3\"><b>本人の希望（自宅で過ごす）に応える方針でもない</b></span>。</td></tr><tr><td>ｃ　在宅酸素療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>呼吸困難・低酸素がない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　在宅静脈栄養</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>今の問題（食べられない）に応え、自宅で過ごす希望もかなえる</b></span>。</td></tr><tr><td>ｅ　ホスピス入院</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>本人と家族は在宅医療を希望している</b></span>。<span class=\"kw3\"><b>症状が強くなったときの選択肢として残しておく</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：自宅で最期まで過ごすための支え",
+       "c": "<span class=\"kw\"><b>① 誰が支えるか</b></span><br/><span class=\"kw3\"><b>在宅療養支援診療所の訪問診療（24 時間連絡がつく）、訪問看護、訪問薬剤師、ケアマネジャー</b></span><br/><span class=\"kw\"><b>② 介護保険</b></span><br/><span class=\"kw4\"><b>末期癌は 40〜64 歳でも介護保険を使える（第 2 号被保険者の特定疾病）——ベッド・訪問介護を整える</b></span><br/><span class=\"kw\"><b>③ 痛み・苦しさへの備え</b></span><br/><span class=\"kw3\"><b>今は痛みがなくても、悪くなったときの薬（医療用麻薬の頓用など）と連絡先を決めておく</b></span><br/><span class=\"kw\"><b>④ 話し合い</b></span><br/><span class=\"kw3\"><b>どこで・どのように過ごしたいか、急変時に病院へ行くか——本人・家族・医療者で繰り返し話し合う（アドバンス・ケア・プランニング）</b></span><br/><span class=\"kw\"><b>⑤ 自宅で亡くなったとき</b></span><br/><span class=\"kw3\"><b>かかりつけ医が診療を続けていれば、死亡診断書を書ける——警察を呼ぶ必要はない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">重度吸収不良（短腸症候群）→ 在宅中心静脈栄養（HPN）</span><br/>HPN適応：腸管不全（放射線腸炎・短腸症候群・腸管難治性瘻孔）で経腸栄養が不十分な場合。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "終末期・在宅希望の消化管閉塞患者の方針。<br/><b>a 外科的切除／b 抗癌化学療法／c 在宅酸素／e ホスピス入院（在宅希望）</b>：本人の希望に合わない。<br/><b>d 在宅静脈栄養</b>：<span class=\"kw\">在宅で栄養・水分を維持</span>。✓"
+       "c": "<span class=\"kw3\"><b>根治できない再発癌＝症状と本人の希望で方針を決める</b></span><br/><span class=\"kw3\"><b>食べられない・在宅希望＝在宅静脈栄養（中心静脈ポート）</b></span><br/><span class=\"kw4\"><b>終末期の輸液は多すぎると腹水・むくみ・痰を増やす</b></span><br/><span class=\"kw3\"><b>末期癌は 40 歳以上で介護保険の対象</b></span>"
       }
      ],
      "imgs": []
@@ -15533,22 +15538,27 @@
       }
      ],
      "ans_label": "ｃ　便　秘",
-     "ans_sub": "吸収不良症候群は腸管内の未消化物・脂肪が腸管を刺激→下痢・腹部膨満が主体。便秘は起こりにくい。",
+     "ans_sub": "吸収不良症候群では、栄養が腸から吸収されず、<b>体重減少</b>、<b>貧血</b>（鉄・葉酸・ビタミン B<sub>12</sub> の不足）、<b>浮腫</b>（低蛋白血症）、未吸収の糖が腸内で発酵して<b>腹部膨満感</b>が出る。吸収されなかった脂肪・糖が腸に残って水を引き込むので、便は<b>下痢・脂肪便</b>になり、<b>便秘は起こりにくい</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 吸収不良症候群の症状",
-       "c": "<span class=\"kw\">典型的症状（高頻度）</span>：<br/>・a貧血：鉄・B12・葉酸吸収↓<br/>・b浮腫：低アルブミン血症→膠質浸透圧↓<br/>・d体重減少：カロリー吸収不全<br/>・e腹部膨満感：腸管ガス産生↑（未消化炭水化物の発酵）<br/>・脂肪便（steatorrhea）：灰白色・悪臭の浮く便<br/>・下痢（水様便）：浸透圧性下痢<br/><br/><span class=\"kw4\">c便秘（頻度低い・正答）</span>：<br/>吸収不良→腸管内の未消化物→腸管刺激→<span class=\"kw4\">下痢が主体</span><br/>便秘は腸管内容物が少ないか腸管運動低下の場合（吸収不良とは逆の状態）"
+       "h": "🌿 吸収不良——どこで吸収が止まるかで原因を分ける",
+       "c": "<span class=\"kw4\"><b>小腸を広く失った短腸症候群は Q.221——ここは吸収不良全体の地図</b></span>。<br/><span class=\"kw\"><b>① 消化の障害（腸の中で分解されない）</b></span><br/><span class=\"kw3\"><b>膵臓：慢性膵炎・膵癌・膵切除——リパーゼが足りず脂肪便</b></span><br/><span class=\"kw3\"><b>胆汁：閉塞性黄疸・回腸切除——胆汁酸が足りず脂肪が溶けない</b></span><br/><span class=\"kw3\"><b>胃切除後：食物と消化液がうまく混ざらない（Q.223）</b></span><br/><span class=\"kw\"><b>② 吸収の障害（腸の壁から取り込めない）</b></span><br/><span class=\"kw3\"><b>小腸の粘膜：セリアック病・クローン病・放射線腸炎・感染（ランブル鞭毛虫）</b></span><br/><span class=\"kw3\"><b>小腸が短い：短腸症候群</b></span><br/><span class=\"kw3\"><b>リンパの流れ：腸リンパ管拡張症——蛋白・脂肪が漏れる</b></span><br/><span class=\"kw3\"><b>細菌の異常増殖：盲係蹄・憩室・運動障害</b></span><br/><span class=\"kw\"><b>③ 症状</b></span><br/><span class=\"kw3\"><b>下痢・脂肪便（白っぽく臭く、水に浮く）・腹部膨満・体重減少</b></span><br/><span class=\"kw3\"><b>欠乏症：貧血、浮腫、ビタミン D 不足で骨軟化症とテタニー、ビタミン K 不足で出血しやすい</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　貧　血</td><td><span class=\"kw4\">誤り</span>（よくみられる）。<span class=\"kw3\"><b>鉄・葉酸・ビタミン B<sub>12</sub> の吸収低下</b></span>。</td></tr><tr><td>ｂ　浮　腫</td><td><span class=\"kw4\">誤り</span>（よくみられる）。<span class=\"kw3\"><b>蛋白が吸収されず低アルブミン血症</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　便　秘</span></td><td><span class=\"kw3\">これが「頻度の低い」（＝正解）</span>。<span class=\"kw3\"><b>吸収されない物が腸に残り水を引き込む——下痢・脂肪便になる</b></span>。</td></tr><tr><td>ｄ　体重減少</td><td><span class=\"kw4\">誤り</span>（よくみられる）。<span class=\"kw3\"><b>エネルギーが吸収されない</b></span>。</td></tr><tr><td>ｅ　腹部膨満感</td><td><span class=\"kw4\">誤り</span>（よくみられる）。<span class=\"kw3\"><b>未吸収の糖が腸内細菌で発酵しガスが増える</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：吸収不良を確かめる検査",
+       "c": "<span class=\"kw\"><b>① 脂肪便の確認</b></span><br/><span class=\"kw3\"><b>便のズダン III 染色：脂肪の滴が赤く染まる</b></span><br/><span class=\"kw3\"><b>便中脂肪の定量：1 日の便中脂肪が多い</b></span><br/><span class=\"kw\"><b>② 膵臓か小腸かを分ける</b></span><br/><span class=\"kw4\"><b>D-キシロース吸収試験：キシロースは消化酵素なしで吸収される——吸収が悪ければ小腸の粘膜の障害、正常なら膵臓の消化の障害</b></span><br/><span class=\"kw3\"><b>膵外分泌機能検査（BT-PABA 試験）</b></span><br/><span class=\"kw\"><b>③ 原因を探す</b></span><br/><span class=\"kw3\"><b>小腸内視鏡・生検（セリアック病・クローン病）、CT（膵臓）</b></span><br/><span class=\"kw3\"><b>呼気試験：乳糖不耐症・細菌の異常増殖</b></span><br/><span class=\"kw\"><b>④ 蛋白の漏れ</b></span><br/><span class=\"kw3\"><b>α<sub>1</sub>-アンチトリプシンの便中クリアランス、アルブミンシンチグラフィ——蛋白漏出性胃腸症</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">吸収不良症候群：下痢・脂肪便・体重減少・浮腫（低アルブミン）・貧血</span><br/><span class=\"kw4\">便秘は起こりにくい</span>（腸管刺激で下痢が主体）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "吸収不良症候群の症状として頻度が「低い」もの。<br/><b>a 貧血／b 浮腫／d 体重減少／e 腹部膨満感</b>：吸収不良でみられる。<br/><b>c 便秘</b>：<span class=\"kw\">脂肪便・下痢が特徴で便秘は頻度が低い</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>吸収不良症候群＝下痢・脂肪便・体重減少・腹部膨満・貧血・浮腫（便秘は起こりにくい）</b></span><br/><span class=\"kw3\"><b>脂肪便の確認＝ズダン III 染色</b></span><br/><span class=\"kw4\"><b>D-キシロース吸収試験の低下＝小腸の吸収障害（膵性なら正常）</b></span>"
       }
      ],
      "imgs": []
@@ -15598,22 +15608,27 @@
       }
      ],
      "ans_label": "ｃ　胃全摘術",
-     "ans_sub": "4型胃癌（びまん浸潤型）は胃全体への浸潤→根治切除には胃全摘術＋D2リンパ節郭清が必要。",
+     "ans_sub": "タール便で来院した 66 歳男性。Hb 10.5、CEA 6.5 と軽度上昇。内視鏡では、<b>白苔と出血を伴う不整な陥凹（潰瘍）があり、周りの粘膜が赤く不整</b>——出血している胃癌。CT で他の臓器に異常はなく、根治をめざした手術を行う。この問題の正解は<b>胃全摘術</b>——病変が胃の上部にあり口側の切除の余裕がとれない、あるいは範囲が広い場合に選ぶ術式で、幽門側胃切除・局所切除では癌が残る。胃空腸吻合は狭窄のバイパス、大網被覆は穿孔の閉鎖に使う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 4型胃癌（スキルス胃癌）の手術",
-       "c": "<span class=\"kw\">c胃全摘術（正答）</span>：<br>4型胃癌（Borrmann型4）：胃壁全体にびまん性浸潤→限局した切除では癌が残る<br>→ <span class=\"kw\">胃全摘術＋D2リンパ節郭清</span>が標準術式<br><br><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a胃局所切除：4型癌には不適（浸潤範囲広い）<br/>✗ b胃空腸吻合術：バイパス手術→姑息的（根治目的でない）<br/>✗ d大網被覆術：穿孔閉鎖に使用（癌の根治ではない）<br/>✗ e幽門側胃切除：胃の一部のみ切除→4型には不十分</br></br></br></br>"
+       "h": "🌿 胃癌の術式は「場所」と「広がり」で決まる",
+       "c": "<span class=\"kw\"><b>① 写真</b></span><br/><span class=\"kw3\"><b>白苔をかぶった不整な陥凹の周りが赤くただれ、新しい血が付着——出血源になっている癌</b></span><br/><span class=\"kw\"><b>② 幽門側胃切除術</b></span><br/><span class=\"kw3\"><b>胃の中部〜下部の癌——胃の上部（噴門側）を残す</b></span><br/><span class=\"kw3\"><b>再建：残った胃と十二指腸（ビルロート I 法）または空腸（ルーワイ法）</b></span><br/><span class=\"kw\"><b>③ 胃全摘術</b></span><br/><span class=\"kw4\"><b>胃の上部の進行癌、口側の切除の余裕がとれない癌、広い範囲に広がる癌（4 型など）</b></span><br/><span class=\"kw3\"><b>再建：食道と空腸をつなぐルーワイ法</b></span><br/><span class=\"kw\"><b>④ そのほかの術式</b></span><br/><span class=\"kw3\"><b>噴門側胃切除：胃の上部の早期癌——幽門側を残す</b></span><br/><span class=\"kw3\"><b>幽門保存胃切除：胃の中部の早期癌——幽門を残してダンピングを減らす</b></span><br/><span class=\"kw3\"><b>局所切除：GIST などリンパ節郭清の要らない腫瘍（Q.225）</b></span><br/><span class=\"kw\"><b>⑤ どの術式でも</b></span><br/><span class=\"kw3\"><b>癌ならリンパ節郭清を一緒に行う——進行癌では D2 郭清</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃局所切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>リンパ節郭清ができず、癌の根治手術にならない</b></span>。</td></tr><tr><td>ｂ　胃空腸吻合術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>切除できない癌で出口がふさがったときのバイパス（Q.224）</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　胃全摘術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃の上部・広い範囲の癌で、口側に十分な余裕をとって取り切るための術式</b></span>。</td></tr><tr><td>ｄ　大網被覆術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍の穿孔を大網でふさぐ手術</b></span>。</td></tr><tr><td>ｅ　幽門側胃切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃の中部〜下部の癌の術式——この病変では口側に癌が残る</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：出血している胃癌の初期対応",
+       "c": "<span class=\"kw\"><b>① まず全身の評価</b></span><br/><span class=\"kw3\"><b>脈拍 88・血圧 102/70——今は保たれているが、出血が続けばショックになる</b></span><br/><span class=\"kw3\"><b>尿素窒素が上がりやすい（腸で吸収された血液の蛋白）</b></span><br/><span class=\"kw\"><b>② 内視鏡での止血</b></span><br/><span class=\"kw3\"><b>癌からの出血は、潰瘍の出血と同じ手技（クリップ・凝固・局注）で一時的に止める</b></span><br/><span class=\"kw4\"><b>ただし癌の表面は再出血しやすい——根治の手術を急ぐ理由になる</b></span><br/><span class=\"kw\"><b>③ 止まらないとき</b></span><br/><span class=\"kw3\"><b>血管内治療（動脈塞栓術）、緊急手術</b></span><br/><span class=\"kw\"><b>④ 切除できない癌の出血</b></span><br/><span class=\"kw3\"><b>緩和目的の放射線照射で出血を抑えることがある</b></span><br/><span class=\"kw\"><b>⑤ 鉄欠乏性貧血</b></span><br/><span class=\"kw3\"><b>少しずつ出血が続けば鉄欠乏性貧血——高齢者の鉄欠乏性貧血は消化管の癌を探す</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">4型胃癌（スキルス）= びまん浸潤型 → 胃全摘術＋D2郭清</span><br/>予後不良（腹膜播種を起こしやすい）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌の手術術式。<br/><b>a 局所切除／b 胃空腸吻合（バイパス）／d 大網被覆／e 幽門側切除</b>：本例に不適。<br/><b>c 胃全摘術</b>：<span class=\"kw\">上部/広範な胃癌はリンパ節郭清を伴う全摘</span>。✓"
+       "c": "<span class=\"kw3\"><b>胃上部・広範な胃癌＝胃全摘術（ルーワイ再建）、中下部＝幽門側胃切除術</b></span><br/><span class=\"kw3\"><b>胃空腸吻合＝切除できない幽門狭窄のバイパス、大網被覆＝穿孔の閉鎖</b></span><br/><span class=\"kw4\"><b>癌の根治手術にはリンパ節郭清が必要</b></span>"
       }
      ],
      "imgs": [
@@ -15669,22 +15684,27 @@
       }
      ],
      "ans_label": "ｃ　③\nｅ　⑤",
-     "ans_sub": "内視鏡治療適応：ESDはT1a（粘膜内）の早期胃癌・食道早期癌。③⑤が適応となる病変の画像。",
+     "ans_sub": "①は<b>正常の粘膜に覆われたなだらかな隆起</b>＝粘膜下腫瘍（GIST など）で外科的切除、②は胃角付近の<b>白苔を伴う境界明瞭な潰瘍</b>＝胃潰瘍で PPI などの内科治療、③は<b>食道の中を縦に走る数珠状の太い静脈</b>＝<b>食道静脈瘤</b>で内視鏡的静脈瘤結紮術・硬化療法の適応、④は<b>辺縁が不整な広い潰瘍</b>＝胃癌で外科的切除、⑤は<b>小さな亜有茎性のポリープ</b>＝<b>内視鏡的ポリープ切除</b>の適応。口からの内視鏡で治療できるのは③と⑤。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 上部消化管内視鏡治療の適応",
-       "c": "<span class=\"kw\">内視鏡治療（EMR/ESD）の適応</span>：<br>① 早期胃癌（T1a）分化型、UL（−）、2cm以下（絶対適応）<br/>② 拡大適応：分化型・UL（−）2cm超、UL（+）3cm以下、未分化型2cm以下<br/>③ 食道早期癌（T1a）：ESD<br/><br/><span class=\"kw4\">内視鏡治療の禁忌</span>：<br/>・T1b（SM）以深：リンパ節転移リスク↑→手術<br/>・静脈瘤：EVL/EIS（切除ではない）<br/>・穿孔・汎発性腹膜炎：禁忌</br>"
+       "h": "🌿 5枚の写真を「何か」→「どう治すか」の順に読む",
+       "c": "<span class=\"kw\"><b>① 粘膜下腫瘍</b></span><br/><span class=\"kw3\"><b>表面は周りと同じ色のなめらかな粘膜——腫瘍は粘膜の下</b></span><br/><span class=\"kw3\"><b>GIST などで、大きければ外科的切除（Q.225）</b></span><br/><span class=\"kw\"><b>② 胃潰瘍</b></span><br/><span class=\"kw3\"><b>胃の中で反転して見た像、境界のはっきりした丸い白苔</b></span><br/><span class=\"kw3\"><b>PPI・除菌などの内科治療——出血していなければ内視鏡処置は不要</b></span><br/><span class=\"kw\"><b>③ 食道静脈瘤</b></span><br/><span class=\"kw4\"><b>食道の中を縦に走る、太く数珠状に盛り上がった静脈——表面に赤い所見</b></span><br/><span class=\"kw3\"><b>内視鏡的静脈瘤結紮術（EVL）・硬化療法（EIS）で治療する</b></span><br/><span class=\"kw\"><b>④ 胃癌</b></span><br/><span class=\"kw3\"><b>幽門の近くの、辺縁が不整で範囲の広い潰瘍——潰瘍を伴う大きな癌で外科的切除</b></span><br/><span class=\"kw\"><b>⑤ 胃ポリープ</b></span><br/><span class=\"kw3\"><b>くびれのある小さな赤いポリープ——内視鏡でスネアをかけて切る（ポリペクトミー）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜下腫瘍——外科的切除の対象</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>良性の胃潰瘍——内科治療</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　③</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>食道静脈瘤——内視鏡的静脈瘤結紮術・硬化療法</b></span>。</td></tr><tr><td>ｄ　④</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍を伴う範囲の広い胃癌——内視鏡治療の適応を越え、手術</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　⑤</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胃ポリープ——内視鏡的ポリペクトミー</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：良性の胃潰瘍と、潰瘍を作る胃癌の見分け",
+       "c": "<span class=\"kw\"><b>① 良性潰瘍（②）</b></span><br/><span class=\"kw3\"><b>丸く整った形、白苔は均一できれい</b></span><br/><span class=\"kw3\"><b>周りの粘膜はなだらかに盛り上がる（浮腫）、集まるひだは先端まで細くなって潰瘍の縁に届く</b></span><br/><span class=\"kw\"><b>② 癌の潰瘍（④）</b></span><br/><span class=\"kw4\"><b>形が不整、縁がぎざぎざ、白苔が汚く厚さが不均一</b></span><br/><span class=\"kw3\"><b>周りに周堤（硬い盛り上がり）、ひだの先端が途切れる・太る・くっつく</b></span><br/><span class=\"kw\"><b>③ 必ず生検</b></span><br/><span class=\"kw4\"><b>見た目が良性でも、胃潰瘍は縁から生検して癌を除く</b></span><br/><span class=\"kw3\"><b>治療で潰瘍が小さくなっても、癌の潰瘍も一時的に治ることがある（悪性サイクル）——治癒後も確かめる</b></span><br/><span class=\"kw\"><b>④ 十二指腸潰瘍</b></span><br/><span class=\"kw3\"><b>十二指腸潰瘍から癌はまれ——ルーチンの生検は不要</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ESD絶対適応：分化型・cT1a・UL（−）・腫瘍径≤2cm</span><br/>拡大適応では根治基準に従って適応を検討。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "経口内視鏡治療の適応となるものを2つ。<br/><b>a ①／b ②／d ④</b>：適応外（深達度/大きさ等）。<br/><b>c ③</b>：<span class=\"kw\">内視鏡治療の適応となる早期病変</span>。✓<br/><b>e ⑤</b>：<span class=\"kw\">内視鏡治療の適応となる早期病変</span>。✓"
+       "c": "<span class=\"kw3\"><b>経口内視鏡で治療＝食道静脈瘤（EVL・EIS）、ポリープ（ポリペクトミー）、粘膜内の早期癌（ESD・EMR）、出血（止血）</b></span><br/><span class=\"kw3\"><b>粘膜下腫瘍・進行癌＝外科的切除、良性潰瘍＝内科治療</b></span><br/><span class=\"kw4\"><b>胃潰瘍は縁から生検して癌を除く</b></span>"
       }
      ],
      "imgs": [
@@ -15740,22 +15760,27 @@
       }
      ],
      "ans_label": "ｅ　深達度が粘膜下層までにとどまる。",
-     "ans_sub": "早期胃癌の定義はリンパ節転移の有無や腫瘍径に関わらず、深達度が粘膜下層（SM）以内のもの。",
+     "ans_sub": "早期胃癌は、<b>癌が粘膜内（M）か粘膜下層（SM）までにとどまるもの</b>と定義され、<b>リンパ節転移の有無は問わない</b>。大きさ・陥凹の有無・隆起の高さは定義に関係しない。固有筋層より深いものが進行癌。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 早期胃癌の定義",
-       "c": "<span class=\"kw\">e粘膜下層までにとどまる（正答）</span>：<br/>早期胃癌（early gastric cancer）の日本の定義：<br/>「深達度がSM（粘膜下層）以内の胃癌」（リンパ節転移の有無は問わない）<br/><br/><span class=\"kw\">浸潤深度分類</span>：<br/>・M（粘膜内）：粘膜上皮〜粘膜筋板以内<br/>・SM（粘膜下層）：SM1（&lt;500μm）・SM2（≥500μm）<br/>→ MとSM合わせて「早期胃癌」<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ aリンパ節転移なし・bびらんなし・c長径1cm未満・d高さ5mm未満：いずれも定義に含まれない"
+       "h": "🌿 「早期」は深さだけで決まる——転移の頻度は深さで大きく違う",
+       "c": "<span class=\"kw\"><b>① 胃の壁の層</b></span><br/><span class=\"kw3\"><b>粘膜（M）→ 粘膜下層（SM）→ 固有筋層（MP）→ 漿膜下層（SS）→ 漿膜（SE）</b></span><br/><span class=\"kw\"><b>② 定義</b></span><br/><span class=\"kw4\"><b>早期胃癌＝M または SM まで（リンパ節転移があってもよい）</b></span><br/><span class=\"kw3\"><b>進行胃癌＝MP 以深</b></span><br/><span class=\"kw\"><b>③ なぜ深さで分けるのか</b></span><br/><span class=\"kw3\"><b>粘膜下層にはリンパ管・血管が豊富——そこに入ると転移が増える</b></span><br/><span class=\"kw3\"><b>M 癌のリンパ節転移は数 %、SM 癌では 20% 前後</b></span><br/><span class=\"kw3\"><b>SM の中でも浅い（粘膜筋板から 500μm 未満：SM1）か深い（SM2）かで転移の危険が違う</b></span><br/><span class=\"kw\"><b>④ 治療とのつながり</b></span><br/><span class=\"kw3\"><b>M 癌の多く：内視鏡治療（ESD）——転移の危険がほぼない</b></span><br/><span class=\"kw3\"><b>SM2 以深：リンパ節郭清を伴う手術</b></span><br/><span class=\"kw\"><b>⑤ 予後</b></span><br/><span class=\"kw3\"><b>早期胃癌の 5 年生存率は 90% 以上</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　陥凹がない。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期胃癌には陥凹型（0-IIc・0-III）も多い</b></span>。<span class=\"kw3\"><b>形は定義に入らない</b></span>。</td></tr><tr><td>ｂ　リンパ節転移がない。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>転移の有無を問わない——転移があっても早期胃癌</b></span>。</td></tr><tr><td>ｃ　長径が1cm 未満である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大きさは定義に入らない——10cm を超える早期胃癌もある</b></span>。</td></tr><tr><td>ｄ　隆起の高さが5mm 未満である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>隆起の高さは定義に入らない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　深達度が粘膜下層までにとどまる。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>深さだけで決まる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：臓器によって「早期」の線が違う",
+       "c": "<span class=\"kw\"><b>① 胃</b></span><br/><span class=\"kw3\"><b>早期胃癌＝SM まで（リンパ節転移は問わない）</b></span><br/><span class=\"kw\"><b>② 大腸</b></span><br/><span class=\"kw3\"><b>早期大腸癌＝SM まで（リンパ節転移は問わない）——胃と同じ</b></span><br/><span class=\"kw\"><b>③ 食道</b></span><br/><span class=\"kw4\"><b>表在癌＝SM まで（リンパ節転移は問わない）</b></span><br/><span class=\"kw4\"><b>早期食道癌＝粘膜内（M）にとどまるもの——食道は粘膜下層に入ると転移が多いため、線が浅い</b></span><br/><span class=\"kw\"><b>④ 理由</b></span><br/><span class=\"kw3\"><b>食道は粘膜下層のリンパ管が豊富で、SM 癌のリンパ節転移は 40% 前後にのぼる</b></span><br/><span class=\"kw\"><b>⑤ まとめ</b></span><br/><span class=\"kw3\"><b>胃・大腸：SM までが早期、食道：M までが早期（SM までは表在癌）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">早期胃癌の定義 = 深達度がSM以内（リンパ節転移有無は問わない）</span><br/>SM以深（固有筋層・漿膜）→進行胃癌。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "早期胃癌の定義。<br/><b>a 陥凹がない／b リンパ節転移がない／c 長径1cm未満／d 隆起5mm未満</b>：定義でない。<br/><b>e 深達度が粘膜下層までにとどまる</b>：<span class=\"kw\">リンパ節転移の有無を問わず粘膜下層までにとどまる癌</span>。✓"
+       "c": "<span class=\"kw3\"><b>早期胃癌＝深達度が粘膜下層まで（リンパ節転移・大きさ・形は問わない）</b></span><br/><span class=\"kw4\"><b>早期食道癌は粘膜内（M）まで——SM までは「表在癌」</b></span><br/><span class=\"kw3\"><b>SM に入るとリンパ節転移が増える</b></span>"
       }
      ],
      "imgs": []
@@ -15805,22 +15830,27 @@
       }
      ],
      "ans_label": "ｄ　④",
-     "ans_sub": "ESD適応：早期胃癌（T1a）で絶対適応または拡大適応を満たす病変。④がその条件を満たす内視鏡像。",
+     "ans_sub": "①食道下部の<b>大きく盛り上がり崩れた腫瘤</b>＝進行食道癌（Q.192 と同じ写真）、②胃体部の<b>ひだが一点へ集中し、先端が太まり融合</b>する病変＝深く浸潤した癌か潰瘍瘢痕を疑い ESD の対象とは言えない、③胃体部の<b>白苔を伴う境界明瞭な潰瘍</b>＝胃潰瘍（内科治療）、④胃前庭部の<b>丈の低い平らな隆起（0-IIa 型）</b>＝粘膜内にとどまる早期胃癌で <b>ESD の適応</b>、⑤S 状結腸の<b>内腔を占める大きな腫瘤</b>＝進行大腸癌（手術）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 ESD（内視鏡的粘膜下層剝離術）の適応",
-       "c": "<span class=\"kw\">ESD絶対適応</span>（腫瘍径制限なし）：<br>・分化型・UL（−）・cT1a<br/><br/><span class=\"kw\">ESD拡大適応</span>：<br/>・分化型・UL（−）・cT1a・2cm超<br/>・分化型・UL（+）・cT1a・3cm以下<br/>・未分化型・UL（−）・cT1a・2cm以下<br/><br/><span class=\"kw\">ESD vs EMR</span>：<br/>ESD→高周波ナイフで粘膜下層を剥離→大型病変でも一括切除<br/>EMR→スネアで切除→小型病変に適する</br>"
+       "h": "🌿 ESD の対象は「浅く、平たく、転移しない」病変",
+       "c": "<span class=\"kw\"><b>① 食道下部の進行癌</b></span><br/><span class=\"kw3\"><b>内腔へ大きく張り出し、表面が崩れた腫瘤——手術・化学放射線療法</b></span><br/><span class=\"kw\"><b>② ひだの集中</b></span><br/><span class=\"kw3\"><b>ひだが一点に向かって集まる——中心に陥凹（潰瘍・癌）がある印</b></span><br/><span class=\"kw4\"><b>ひだの先端が太まる・くっつく（融合）——粘膜下層より深く入った癌を疑う所見で、ESD の対象ではない</b></span><br/><span class=\"kw\"><b>③ 胃潰瘍</b></span><br/><span class=\"kw3\"><b>丸く境界のはっきりした厚い白苔——内科治療、縁から生検して癌を除く（Q.232）</b></span><br/><span class=\"kw\"><b>④ 0-IIa 型の早期胃癌</b></span><br/><span class=\"kw4\"><b>丈の低い平らな隆起で、表面に細かな凹凸——粘膜内にとどまる分化型癌を考える</b></span><br/><span class=\"kw3\"><b>潰瘍を伴わない——ESD で一括切除できる</b></span><br/><span class=\"kw\"><b>⑤ S 状結腸の進行癌</b></span><br/><span class=\"kw3\"><b>内腔の大部分を占める大きな腫瘤——リンパ節郭清を伴う腸切除</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の進行癌——内視鏡治療の対象ではない</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ひだが集中し先端が融合——深い癌や瘢痕を疑い、ESD の適応とは言えない</b></span>。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>良性の胃潰瘍——内科治療</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　④</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>平らな丈の低い隆起の早期胃癌——ESD の適応</b></span>。</td></tr><tr><td>ｅ　⑤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大腸の進行癌——手術</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：ESD で取ったあと「治った」と言える条件",
+       "c": "<span class=\"kw\"><b>① 切った標本で確かめること</b></span><br/><span class=\"kw3\"><b>一括で取れたか、切り口（水平・垂直）に癌がないか</b></span><br/><span class=\"kw3\"><b>深さ：粘膜内か、粘膜下層に入っても浅い（500μm 未満）か</b></span><br/><span class=\"kw3\"><b>組織型：分化型か未分化型か</b></span><br/><span class=\"kw3\"><b>リンパ管・静脈への侵襲がないか</b></span><br/><span class=\"kw\"><b>② 治癒と判断できる</b></span><br/><span class=\"kw3\"><b>上の条件を満たせば、転移の危険はほぼない——年 1 回の内視鏡で経過を見る</b></span><br/><span class=\"kw\"><b>③ 条件を外れた</b></span><br/><span class=\"kw4\"><b>深い浸潤・脈管侵襲がある——リンパ節郭清を伴う追加の外科手術</b></span><br/><span class=\"kw3\"><b>切り口に癌が残るだけ（水平断端陽性）——再 ESD・焼灼・慎重な経過観察</b></span><br/><span class=\"kw\"><b>④ ESD 後も</b></span><br/><span class=\"kw3\"><b>胃の別の場所に新たな癌が出やすい（異時性多発癌）——ピロリ菌は除菌し、内視鏡を続ける</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ESD：高周波ナイフで粘膜下層を直接剥離→一括切除（大型病変も可能）</span><br/>ESD根治基準：HM0・VM0・SM1（&lt;500μm）・脈管侵襲陰性。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡的粘膜下層剝離術（ESD）の適応となる病変。<br/><b>a ①／b ②／c ③／e ⑤</b>：適応外。<br/><b>d ④</b>：<span class=\"kw\">分化型・粘膜内・潰瘍なし等のESD適応病変</span>。✓"
+       "c": "<span class=\"kw3\"><b>ESD＝リンパ節転移のほぼない早期胃癌（粘膜内の分化型・潰瘍なしが代表）</b></span><br/><span class=\"kw4\"><b>ひだの先端の太まり・融合は深い浸潤を疑う</b></span><br/><span class=\"kw3\"><b>ESD 後は標本の病理で根治を判定——外れれば追加手術</b></span>"
       }
      ],
      "imgs": [
