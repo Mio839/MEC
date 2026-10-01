@@ -17543,22 +17543,27 @@
       }
      ],
      "ans_label": "ｄ　表面陥凹型早期癌",
-     "ans_sub": "0-IIc = 表面陥凹型早期癌。粘膜面がわずかに陥凹（深達度M/SMの早期癌）。",
+     "ans_sub": "胃癌の肉眼型で「0」は<b>表在型</b>（早期癌に多い形）、「Ⅱ」は平坦に近い型、「c」は concave（<b>陥凹</b>）。0-Ⅱc＝<b>表面陥凹型の早期癌</b>。ａは 2 型、ｂは 1 型、ｃは 4 型の進行癌、ｅは 0-Ⅱa。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 胃癌の分類体系",
-       "c": "<span class=\"kw\">早期胃癌（0型）の分類</span>：<br/>0-I（隆起型）・0-IIa（表面隆起型）・0-IIb（表面平坦型）・<span class=\"kw\">0-IIc（表面陥凹型）</span>・0-III（凹陥型）<br/><br/><span class=\"kw\">進行胃癌（Borrmann分類）</span>：<br/>1型（腫瘤型）・2型（潰瘍限局型）・3型（潰瘍浸潤型）・4型（びまん浸潤型）<br/><br/><span class=\"kw\">d表面陥凹型早期癌（正答）</span>：0-IIc型の正確な説明<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>a限局潰瘍型進行癌→Borrmann 2型<br/>b腫瘤型進行癌→Borrmann 1型<br/>cびまん浸潤型進行癌→Borrmann 4型<br/>e表面隆起型早期癌→0-IIa型"
+       "h": "🌿 0 型の記号を分解して読む",
+       "c": "<span class=\"kw4\"><b>0 型と 1〜4 型の全体は Q.220、0-Ⅱc の内視鏡像の見分け方は Q.254——ここは記号の読み方と、混ざった形の書き方</b></span>。<br/><span class=\"kw\"><b>① 記号</b></span><br/><span class=\"kw3\"><b>0-Ⅰ：隆起型（高さ約 3mm を超える）</b></span><br/><span class=\"kw3\"><b>0-Ⅱa：表面隆起型（a＝elevated、低く平らに盛り上がる）</b></span><br/><span class=\"kw3\"><b>0-Ⅱb：表面平坦型（b＝flat、高さの差がない）</b></span><br/><span class=\"kw3\"><b>0-Ⅱc：表面陥凹型（c＝depressed／concave、わずかにくぼむ）</b></span><br/><span class=\"kw3\"><b>0-Ⅲ：陥凹型（潰瘍のような深いくぼみ）</b></span><br/><span class=\"kw\"><b>② 混ざった形の書き方</b></span><br/><span class=\"kw3\"><b>広い面積を占める型を先に書き、「＋」でつなぐ</b></span><br/><span class=\"kw3\"><b>0-Ⅱc＋Ⅲ：陥凹の中に潰瘍——陥凹が主</b></span><br/><span class=\"kw3\"><b>0-Ⅲ＋Ⅱc：潰瘍が主で、そのまわりに浅い陥凹</b></span><br/><span class=\"kw3\"><b>0-Ⅱa＋Ⅱc：盛り上がりの中央がくぼむ</b></span><br/><span class=\"kw\"><b>③ 注意</b></span><br/><span class=\"kw4\"><b>肉眼型は「見た目の形」の分類で、深さの分類ではない——0 型でも組織を見たら固有筋層に達していることがある</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　限局潰瘍型進行癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>2 型（潰瘍限局型）</b></span>。</td></tr><tr><td>ｂ　腫瘤型進行癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>1 型</b></span>。</td></tr><tr><td>ｃ　びまん浸潤型進行癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>4 型</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　表面陥凹型早期癌</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>0-Ⅱc</b></span>。</td></tr><tr><td>ｅ　表面隆起型早期癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>0-Ⅱa</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：0-Ⅱc はなぜいちばん多く、なぜ要注意か",
+       "c": "<span class=\"kw\"><b>① 頻度</b></span><br/><span class=\"kw3\"><b>早期胃癌でいちばん多い肉眼型は 0-Ⅱc</b></span><br/><span class=\"kw\"><b>② 潰瘍との関係</b></span><br/><span class=\"kw3\"><b>癌の面は胃酸で傷つきやすく、潰瘍ができては治る（悪性サイクル）</b></span><br/><span class=\"kw4\"><b>潰瘍や瘢痕を伴う（UL1）と、粘膜下層が線維化して ESD がしにくく、適応も狭まる</b></span><br/><span class=\"kw\"><b>③ 組織型との関係</b></span><br/><span class=\"kw3\"><b>分化型の 0-Ⅱc：発赤した陥凹が多い</b></span><br/><span class=\"kw3\"><b>未分化型の 0-Ⅱc：退色した陥凹、境界が断崖状にくっきり。粘膜の下を這って範囲が広い</b></span><br/><span class=\"kw\"><b>④ 見逃しやすい</b></span><br/><span class=\"kw3\"><b>高さの差が小さく、炎症のびらんや発赤と紛れる——色素内視鏡・拡大 NBI で拾う</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">0-IIc（表面陥凹型）= 最多の早期胃癌型</span><br/>Borrmann分類は進行胃癌（深達度T2以深）に使用。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "0-Ⅱc型胃癌に該当するもの。<br/><b>a 限局潰瘍型進行癌／b 腫瘤型進行癌／c びまん浸潤型進行癌／e 表面隆起型早期癌</b>：合わない。<br/><b>d 表面陥凹型早期癌</b>：<span class=\"kw\">0-Ⅱcは表面陥凹型の早期癌</span>。✓"
+       "c": "<span class=\"kw3\"><b>0-Ⅰ 隆起／Ⅱa 表面隆起／Ⅱb 表面平坦／Ⅱc 表面陥凹／Ⅲ 陥凹</b></span><br/><span class=\"kw3\"><b>混合型は面積の広い型を先に書く（0-Ⅱc＋Ⅲ）</b></span><br/><span class=\"kw4\"><b>肉眼型は形の分類で、深達度とは別</b></span>"
       }
      ],
      "imgs": []
@@ -17600,22 +17605,27 @@
       }
      ],
      "ans_label": "ｅ　免疫組織化学染色でKIT〈c-kit 遺伝子産物〉陽性が特徴的である。",
-     "ans_sub": "GISTはKIT（c-kit）蛋白陽性が最大の特徴（95%以上）。これによりGIST診断が確定される。",
+     "ans_sub": "GIST は消化管の壁の筋層にあるカハール介在細胞から出る腫瘍で、<b>KIT（c-kit 遺伝子産物）陽性</b>が特徴（CD34 も多くで陽性）。部位は<b>胃が最も多く</b>（60〜70%）、小腸が次ぐ。転移は肝・腹膜への<b>血行性・播種性</b>で、リンパ節転移はまれ。肉眼的には<b>粘膜下腫瘍</b>の形で、手術は<b>郭清なしの局所切除</b>が基本。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 GIST（消化管間質腫瘍）の特徴",
-       "c": "<span class=\"kw\">e c-kit（KIT）陽性（正答）</span>：<br/>・GISTは間葉系腫瘍→<span class=\"kw\">CD117（c-kit遺伝子産物）が95%以上で陽性</span><br/>・免疫組織化学染色（IHC）でKIT陽性→GIST確定診断<br/>・DOG1陽性も特徴的<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a「胃全摘術が第一選択」→局所切除が原則（リンパ節郭清不要）<br/>✗ b「小腸GISTより頻度低い」→<span class=\"kw4\">胃が最多（60%）</span>、次いで小腸（25%）<br/>✗ c「リンパ節転移が多い」→GISTはリンパ節転移が稀（血行性・腹膜播種で転移）<br/>✗ d「潰瘍浸潤型を呈することが多い」→粘膜下腫瘍（SMT）の形態が典型"
+       "h": "🌿 GIST の 5 つの性質を選択肢に当てる",
+       "c": "<span class=\"kw4\"><b>免疫染色の使い分けは Q.225、手術の原則は Q.249、遺伝子変異は Q.249、育つ向きは Q.255——ここは選択肢の各文の正誤</b></span>。<br/><span class=\"kw\"><b>① どこにできるか</b></span><br/><span class=\"kw3\"><b>胃 60〜70%、小腸 20〜30%、大腸・直腸 5% 前後、食道はまれ</b></span><br/><span class=\"kw\"><b>② どこから出るか</b></span><br/><span class=\"kw3\"><b>固有筋層のカハール介在細胞——粘膜の下にできる</b></span><br/><span class=\"kw3\"><b>だから表面は正常な粘膜におおわれた隆起（粘膜下腫瘍）</b></span><br/><span class=\"kw3\"><b>大きくなると頂上がくぼみ・潰瘍（デル）になって出血する</b></span><br/><span class=\"kw\"><b>③ どう広がるか</b></span><br/><span class=\"kw3\"><b>血行性に肝、腹腔内に播種——リンパ節はまれ</b></span><br/><span class=\"kw\"><b>④ どう診断するか</b></span><br/><span class=\"kw3\"><b>KIT 陽性（約 95%）、DOG1 陽性、CD34 陽性（約 70%）</b></span><br/><span class=\"kw\"><b>⑤ どう治すか</b></span><br/><span class=\"kw3\"><b>局所切除——腫瘍を破らず、郭清はしない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃全摘術が第一選択である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>リンパ節郭清が要らないので、局所切除・部分切除で足りる</b></span>。</td></tr><tr><td>ｂ　小腸 GIST よりも頻度が低い。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃がいちばん多い</b></span>。<span class=\"kw3\"><b>小腸はその次</b></span>。</td></tr><tr><td>ｃ　リンパ節に転移することが多い。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>リンパ節転移はまれ</b></span>。<span class=\"kw3\"><b>転移は肝と腹膜</b></span>。</td></tr><tr><td>ｄ　肉眼的には潰瘍浸潤型を呈することが多い。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍浸潤型（3 型）は胃癌の形</b></span>。<span class=\"kw3\"><b>GIST は粘膜下腫瘍の形で、潰瘍があっても頂上のデル</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　免疫組織化学染色で KIT〈c-kit 遺伝子産物〉陽性が特徴的である。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>KIT 陽性が診断の決め手</b></span>。<span class=\"kw3\"><b>KIT 陰性でも DOG1 陽性なら GIST</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：GIST が見つかるきっかけと、まとまって出る病気",
+       "c": "<span class=\"kw\"><b>① 見つかり方</b></span><br/><span class=\"kw3\"><b>検診の内視鏡・造影で偶然——いちばん多い</b></span><br/><span class=\"kw3\"><b>デルからの出血：吐血・下血、原因不明の貧血</b></span><br/><span class=\"kw3\"><b>大きくなって腹部の腫瘤、圧迫による腹痛</b></span><br/><span class=\"kw3\"><b>小腸 GIST は内視鏡が届きにくく、出血で見つかることが多い——カプセル内視鏡・CT</b></span><br/><span class=\"kw\"><b>② 体質・症候群に伴う GIST</b></span><br/><span class=\"kw3\"><b>神経線維腫症 1 型（NF1）——小腸に多発、KIT の変異がない</b></span><br/><span class=\"kw3\"><b>Carney の三徴——胃の GIST、肺の軟骨腫、傍神経節腫。若い女性</b></span><br/><span class=\"kw3\"><b>家族性 GIST——KIT の生まれつきの変異、皮膚の色素沈着</b></span><br/><span class=\"kw4\"><b>若い人・多発・小腸——体質性の GIST を考える</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GIST = CD117（c-kit）陽性（95%以上）</span><br/>c-kit遺伝子変異→自己リン酸化→腫瘍増殖→イマチニブ（KIT阻害）が有効。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "GISTについて正しいもの。<br/><b>a 胃全摘が第一／b 小腸GISTより頻度が低い／c リンパ節転移が多い／d 潰瘍浸潤型が多い</b>：誤り。<br/><b>e KIT〈c-kit遺伝子産物〉陽性が特徴的</b>：<span class=\"kw\">免疫染色でKIT/CD34陽性</span>。✓"
+       "c": "<span class=\"kw3\"><b>GIST：胃に最多、KIT 陽性、粘膜下腫瘍の形</b></span><br/><span class=\"kw3\"><b>転移は肝・腹膜（リンパ節はまれ）→郭清なしの局所切除</b></span><br/><span class=\"kw4\"><b>「潰瘍浸潤型」「リンパ節転移が多い」は胃癌の性質</b></span>"
       }
      ],
      "imgs": []
@@ -17661,22 +17671,27 @@
       }
      ],
      "ans_label": "ａ　胆石症\nｅ　巨赤芽球性貧血",
-     "ans_sub": "胃全摘後：迷走神経切断→胆嚢収縮力↓→胆石、内因子消失→B12吸収不能→巨赤芽球性貧血。",
+     "ans_sub": "胃全摘では<b>壁細胞が全部なくなる</b>——内因子がなくビタミン B12 が吸収できず、体の貯えが尽きる<b>数年後に巨赤芽球性貧血</b>。郭清で<b>迷走神経の肝枝・腹腔枝</b>が切れ、胆嚢の動きが悪くなって胆汁がよどみ<b>胆石</b>ができやすい。ペラグラ（ナイアシン欠乏）・高尿酸血症・門脈圧亢進症は胃全摘とは結びつかない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 胃全摘術後の合併症",
-       "c": "<span class=\"kw\">a胆石症（正答）</span>：<br/>迷走神経切断（vagotomy）→胆嚢収縮力↓→胆汁うっ滞→コレステロール結晶化→胆石<br/><br/><span class=\"kw\">e巨赤芽球性貧血（正答）</span>：<br/>壁細胞消失→内因子（intrinsic factor）産生↓→ビタミンB12吸収不能→B12欠乏→DNA合成障害→巨赤芽球性貧血<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ bペラグラ：ニコチン酸（B3）欠乏（消化管切除との直接関連は低い）<br/>✗ c高尿酸血症：痛風（胃切除との直接関連なし）<br/>✗ d門脈圧亢進症：肝硬変の合併症（胃切除との直接関連なし）"
+       "h": "🌿 胃全摘後に足りなくなるビタミン・ミネラル",
+       "c": "<span class=\"kw4\"><b>胆石・貧血・耐糖能・骨の起こる仕組みは Q.223——ここは不足しやすい栄養素の全体と、正しくない選択肢がなぜ起こらないか</b></span>。<br/><span class=\"kw\"><b>① ビタミン B12</b></span><br/><span class=\"kw3\"><b>内因子がない→回腸で吸収できない</b></span><br/><span class=\"kw3\"><b>肝の貯えが 3〜5 年もつ——術後数年で巨赤芽球性貧血、亜急性連合性脊髄変性症</b></span><br/><span class=\"kw3\"><b>予防：定期的な筋注（大量の内服でも一部は吸収される）</b></span><br/><span class=\"kw\"><b>② 鉄</b></span><br/><span class=\"kw3\"><b>胃酸がなく Fe3+ が Fe2+ に還元されない、十二指腸を通らない（Roux-en-Y）</b></span><br/><span class=\"kw3\"><b>術後 1〜2 年で小球性貧血</b></span><br/><span class=\"kw\"><b>③ カルシウム・ビタミン D</b></span><br/><span class=\"kw3\"><b>十二指腸を通らず、脂肪の吸収も落ちる——骨粗鬆症・骨軟化症</b></span><br/><span class=\"kw\"><b>④ ビタミン B1</b></span><br/><span class=\"kw4\"><b>食べられない・嘔吐が続くと数週で欠乏——Wernicke 脳症（眼振・失調・意識障害）</b></span><br/><span class=\"kw\"><b>⑤ 胆石</b></span><br/><span class=\"kw3\"><b>迷走神経の切離で胆嚢の収縮が落ちる＋十二指腸を通らずコレシストキニンが出にくい</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胆石症</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>迷走神経の切離と食物の通り道の変化で、胆嚢の収縮が落ちる</b></span>。</td></tr><tr><td>ｂ　ペラグラ</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ナイアシン（ニコチン酸）欠乏——アルコール依存、カルチノイド症候群（トリプトファンをセロトニンに使う）、イソニアジド、Hartnup 病</b></span>。</td></tr><tr><td>ｃ　高尿酸血症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃の切除とは関係しない</b></span>。</td></tr><tr><td>ｄ　門脈圧亢進症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝硬変・門脈の閉塞で起こる</b></span>。<span class=\"kw3\"><b>胃全摘は門脈の流れを変えない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　巨赤芽球性貧血</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>内因子の喪失による B12 欠乏</b></span>。<span class=\"kw3\"><b>術後数年で出る</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：ビタミン欠乏の症状を一覧で",
+       "c": "<span class=\"kw\"><b>水溶性</b></span><br/><span class=\"kw3\"><b>B1：脚気（心不全・末梢神経障害）、Wernicke 脳症、乳酸アシドーシス</b></span><br/><span class=\"kw3\"><b>B2：口角炎・舌炎・脂漏性皮膚炎</b></span><br/><span class=\"kw3\"><b>ナイアシン：ペラグラ（皮膚炎・下痢・認知症の 3D）</b></span><br/><span class=\"kw3\"><b>B6：末梢神経障害、けいれん（イソニアジド内服中）</b></span><br/><span class=\"kw3\"><b>B12：巨赤芽球性貧血、亜急性連合性脊髄変性症、Hunter 舌炎</b></span><br/><span class=\"kw3\"><b>葉酸：巨赤芽球性貧血（神経症状はない）、胎児の神経管閉鎖障害</b></span><br/><span class=\"kw3\"><b>C：壊血病（歯肉出血・毛包周囲の出血）</b></span><br/><span class=\"kw\"><b>脂溶性（脂肪の吸収障害で一緒に落ちる）</b></span><br/><span class=\"kw3\"><b>A：夜盲、D：骨軟化症・くる病、E：溶血・神経障害、K：出血傾向（PT 延長）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃全摘術後：①胆石（迷走神経切断）②B12欠乏→巨赤芽球性貧血（内因子消失）</span><br/>B12補充は筋注（内因子がなく経口吸収不可）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃全摘術後にきたしやすいものを2つ。<br/><b>b ペラグラ／c 高尿酸血症／d 門脈圧亢進症</b>：関連しない。<br/><b>a 胆石症</b>：<span class=\"kw\">胆囊収縮低下で胆石</span>。✓<br/><b>e 巨赤芽球性貧血</b>：<span class=\"kw\">内因子欠乏でビタミンB12吸収障害</span>。✓"
+       "c": "<span class=\"kw3\"><b>胃全摘後：B12 欠乏（数年後の巨赤芽球性貧血）、鉄欠乏、骨病変、胆石</b></span><br/><span class=\"kw3\"><b>B12 は内因子がないと吸収されない——定期的な補充</b></span><br/><span class=\"kw4\"><b>ペラグラはナイアシン欠乏（アルコール・カルチノイド・イソニアジド）</b></span>"
       }
      ],
      "imgs": []
@@ -17722,22 +17737,27 @@
       }
      ],
      "ans_label": "ｃ　Crohn 病",
-     "ans_sub": "Crohn病は小腸（特に回腸末端）に炎症→腸管吸収面積の減少・腸管バリア破綻→吸収不良症候群。",
+     "ans_sub": "Crohn 病は<b>小腸、特に回腸末端</b>を好んで侵す全層性の炎症。回腸末端は<b>ビタミン B12 と胆汁酸</b>を吸収する場所で、そこが傷む・切除されると B12 欠乏と脂肪の吸収不良（脂肪便）が起こる。瘻孔・狭窄・腸切除の繰り返しで吸収面積も減る。逆流性食道炎・十二指腸潰瘍・大腸憩室症・過敏性腸症候群は小腸の吸収面を損なわない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 吸収不良をきたす疾患",
-       "c": "<span class=\"kw\">c Crohn病（正答）</span>：<br/>小腸（特に終末回腸）の全層性炎症→<br/>① 吸収面積↓（潰瘍・狭窄・切除）<br/>② B12吸収障害（回腸末端障害）<br/>③ 胆汁酸吸収障害→脂肪性下痢<br/>→ 低栄養・貧血・体重減少<br/><br/><span class=\"kw4\">誤りの選択肢（吸収不良を伴わない）</span>：<br/>✗ aGERD：食道の病変（消化吸収には関係なし）<br/>✗ b十二指腸潰瘍：消化性潰瘍（吸収不良は軽微）<br/>✗ d大腸憩室症：大腸の病変（吸収は主に小腸）<br/>✗ eIBS：腸管機能異常（粘膜は正常→吸収不良なし）"
+       "h": "🌿 回腸末端が傷むと何が起こるか",
+       "c": "<span class=\"kw4\"><b>吸収不良の原因の一覧と検査（Sudan Ⅲ・D-キシロース）は Q.230、短腸症候群は Q.221——ここは回腸末端に絞った吸収のしくみ</b></span>。<br/><span class=\"kw\"><b>① 小腸の場所ごとの役割</b></span><br/><span class=\"kw3\"><b>十二指腸・空腸上部：鉄・カルシウム・葉酸</b></span><br/><span class=\"kw3\"><b>空腸：糖・アミノ酸・脂肪の大部分</b></span><br/><span class=\"kw3\"><b>回腸末端：ビタミン B12（内因子と結合したもの）・胆汁酸</b></span><br/><span class=\"kw\"><b>② 回腸末端が傷む・切除されると</b></span><br/><span class=\"kw3\"><b>B12 欠乏→巨赤芽球性貧血</b></span><br/><span class=\"kw3\"><b>胆汁酸が吸収されず大腸へ→大腸の水分分泌が増えて下痢（胆汁酸性下痢）</b></span><br/><span class=\"kw3\"><b>胆汁酸のプールが減る→脂肪をミセルにできず脂肪便・脂溶性ビタミン欠乏</b></span><br/><span class=\"kw\"><b>③ そこから連鎖する合併症</b></span><br/><span class=\"kw4\"><b>腸内でカルシウムが脂肪酸とくっつき、シュウ酸が余って吸収される→シュウ酸カルシウムの尿路結石</b></span><br/><span class=\"kw3\"><b>胆汁中の胆汁酸が減る→コレステロール胆石</b></span><br/><span class=\"kw\"><b>④ Crohn 病の他の吸収不良</b></span><br/><span class=\"kw3\"><b>狭窄の手前で細菌が増える（細菌の過剰増殖）、瘻孔で腸がつながって近道する</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃食道逆流症〈逆流性食道炎〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の病気——吸収の場ではない</b></span>。</td></tr><tr><td>ｂ　十二指腸潰瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>局所の潰瘍で、吸収面は保たれる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　Crohn 病</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>回腸末端の炎症と切除で、B12・胆汁酸・脂肪の吸収が落ちる</b></span>。</td></tr><tr><td>ｄ　大腸憩室症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大腸は水と電解質を吸収する場で、栄養素の吸収不良は起こさない</b></span>。</td></tr><tr><td>ｅ　過敏性腸症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>機能性の病気で、腸の粘膜に異常がない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：Crohn 病の栄養療法",
+       "c": "<span class=\"kw\"><b>① 経腸栄養</b></span><br/><span class=\"kw3\"><b>成分栄養剤（エレンタール）——脂肪がほとんどなく、アミノ酸と糖でできている</b></span><br/><span class=\"kw3\"><b>消化を要さず、腸を休めながら栄養をとれる。小児では寛解導入にも使う</b></span><br/><span class=\"kw\"><b>② 食事</b></span><br/><span class=\"kw3\"><b>低脂肪・低残渣（狭窄があれば繊維の多いものを避ける）</b></span><br/><span class=\"kw\"><b>③ 補うもの</b></span><br/><span class=\"kw3\"><b>回腸切除後はビタミン B12 の注射</b></span><br/><span class=\"kw3\"><b>鉄・亜鉛・葉酸・ビタミン D</b></span><br/><span class=\"kw\"><b>④ 静脈栄養</b></span><br/><span class=\"kw3\"><b>高度の狭窄・瘻孔・広い範囲の切除後で、腸から入らないとき</b></span><br/><span class=\"kw4\"><b>潰瘍性大腸炎は大腸だけの病気——Crohn 病ほど栄養療法の役割は大きくない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">吸収不良症候群の原因：Crohn病・膵外分泌不全・乳糖不耐症・短腸症候群・Whipple病</span><br/>IBS・大腸憩室・GERD・PUD：吸収不良を起こさない。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "吸収不良を伴う疾患。<br/><b>a GERD／b 十二指腸潰瘍／d 大腸憩室症／e 過敏性腸症候群</b>：吸収不良を伴わない。<br/><b>c Crohn病</b>：<span class=\"kw\">小腸病変・切除で吸収不良</span>。✓"
+       "c": "<span class=\"kw3\"><b>回腸末端＝ B12 と胆汁酸の吸収——Crohn 病で傷む</b></span><br/><span class=\"kw3\"><b>回腸末端の障害→B12 欠乏・脂肪便・胆汁酸性下痢・シュウ酸結石・胆石</b></span><br/><span class=\"kw4\"><b>過敏性腸症候群・大腸憩室症は吸収不良を起こさない</b></span>"
       }
      ],
      "imgs": []
@@ -17779,22 +17799,27 @@
       }
      ],
      "ans_label": "ａ　部　位",
-     "ans_sub": "早期胃癌のESD適応は浸潤深度・組織型・潰瘍形成・腫瘍径・リンパ節転移で決まる。腫瘍の「部位」は適応に影響しない。",
+     "ans_sub": "内視鏡治療の適応は「<b>リンパ節に転移している可能性がきわめて低く、一括で取れる</b>」こと。だから転移の危険を左右する<b>深達度・組織型・潰瘍の有無・大きさ</b>と、<b>リンパ節転移が実際にあるか</b>で決まる。<b>部位</b>は手技の難しさや術後の狭窄には関わるが、適応の基準には入らない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 ESD適応決定因子",
-       "c": "<span class=\"kw\">適応に影響するもの</span>：<br/>b<span class=\"kw\">深達度（T分類）</span>：M→適応あり、SM2以深→原則手術<br/>c<span class=\"kw\">組織型</span>：分化型→適応広い、未分化型→適応狭い<br/>d<span class=\"kw\">潰瘍形成（UL）</span>：UL（+）→適応を縮小（3cm以下）<br/>e<span class=\"kw\">リンパ節転移</span>：転移あり→ESDの根治性なし→手術<br/><br/><span class=\"kw4\">a部位（適応に影響しない・正答）</span>：<br/>胃のどの部位（噴門部・胃体部・幽門前庭部）でもESD適応は同じ基準<br/>（ただし技術的難易度は部位による差異あり）"
+       "h": "🌿 適応の条件は「転移の危険」の言い換え",
+       "c": "<span class=\"kw4\"><b>適応の具体的な条件は Q.220、取ったあとの治癒の判定は Q.234——ここはなぜその因子が入るか</b></span>。<br/><span class=\"kw\"><b>① 内視鏡治療の弱点</b></span><br/><span class=\"kw3\"><b>胃の壁の一部を取るだけで、リンパ節は取れない</b></span><br/><span class=\"kw3\"><b>だからリンパ節転移がない（危険が 1% 未満と見込める）病変に限る</b></span><br/><span class=\"kw\"><b>② リンパ節転移の危険を上げる因子</b></span><br/><span class=\"kw3\"><b>深達度：粘膜内（T1a）より粘膜下層（T1b）が深いほど転移が増える</b></span><br/><span class=\"kw3\"><b>組織型：未分化型は分化型より転移しやすい</b></span><br/><span class=\"kw3\"><b>潰瘍：潰瘍・瘢痕（UL1）があると転移が増え、剝離も難しい</b></span><br/><span class=\"kw3\"><b>大きさ：大きいほど転移が増える</b></span><br/><span class=\"kw3\"><b>リンパ節転移がある（cN+）なら、その時点で外科</b></span><br/><span class=\"kw\"><b>③ 部位が入らない理由</b></span><br/><span class=\"kw3\"><b>噴門でも前庭部でも、同じ条件の病変ならリンパ節転移の率は大きく変わらない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　部　位</span></td><td><span class=\"kw3\">これが「影響しない」（＝正解）</span>。<span class=\"kw3\"><b>手技の難しさは変わるが、適応の基準には入らない</b></span>。</td></tr><tr><td>ｂ　深達度</td><td><span class=\"kw4\">誤り</span>（影響する）。<span class=\"kw3\"><b>粘膜内か粘膜下層かで転移の率が変わる</b></span>。</td></tr><tr><td>ｃ　組織型</td><td><span class=\"kw4\">誤り</span>（影響する）。<span class=\"kw3\"><b>未分化型は条件が厳しい</b></span>。</td></tr><tr><td>ｄ　潰瘍形成</td><td><span class=\"kw4\">誤り</span>（影響する）。<span class=\"kw3\"><b>UL1 では適応となる大きさが小さくなる</b></span>。</td></tr><tr><td>ｅ　リンパ節転移</td><td><span class=\"kw4\">誤り</span>（影響する）。<span class=\"kw3\"><b>転移があれば内視鏡治療の対象外</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：部位が効いてくるのは「合併症」",
+       "c": "<span class=\"kw\"><b>① 狭窄</b></span><br/><span class=\"kw4\"><b>噴門・幽門で周りの 3/4 を超えて剝がすと、治る過程で狭くなる——通過障害</b></span><br/><span class=\"kw3\"><b>予防：ステロイドの局注・内服、早めのバルーン拡張</b></span><br/><span class=\"kw\"><b>② 出血</b></span><br/><span class=\"kw3\"><b>術中の出血、術後数日〜2 週の遅発性出血（約 5%）——吐血・下血・Hb 低下</b></span><br/><span class=\"kw3\"><b>抗血栓薬を飲んでいる人で多い。前庭部に多い</b></span><br/><span class=\"kw3\"><b>手当て：内視鏡で止血</b></span><br/><span class=\"kw\"><b>③ 穿孔</b></span><br/><span class=\"kw3\"><b>胃壁の薄い胃体上部・穹窿部で起こりやすい</b></span><br/><span class=\"kw3\"><b>小さければ内視鏡のクリップで閉じ、絶食・抗菌薬</b></span><br/><span class=\"kw3\"><b>遅れて起こる穿孔は腹膜炎——緊急手術のことがある</b></span><br/><span class=\"kw\"><b>④ 手技の難しさ</b></span><br/><span class=\"kw3\"><b>胃体上部の小弯・後壁、噴門・幽門は内視鏡を操りにくい</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ESD適応：①深達度 ②組織型 ③潰瘍有無 ④腫瘍径 ⑤リンパ節転移</span><br/><span class=\"kw4\">腫瘍の「部位」はESD適応の決定因子に含まれない</span>。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "早期胃癌の内視鏡治療の適応決定に「影響しない」もの。<br/><b>b 深達度／c 組織型／d 潰瘍形成／e リンパ節転移</b>：適応決定に影響する。<br/><b>a 部位</b>：<span class=\"kw\">病変の部位は内視鏡治療の適応決定に影響しない</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>内視鏡治療の適応＝リンパ節転移の危険がきわめて低い病変</b></span><br/><span class=\"kw3\"><b>決めるのは深達度・組織型・潰瘍・大きさ・リンパ節転移</b></span><br/><span class=\"kw4\"><b>部位は適応に関わらない——関わるのは手技の難しさと狭窄などの合併症</b></span>"
       }
      ],
      "imgs": []
@@ -17840,17 +17865,27 @@
       }
      ],
      "ans_label": "ａ　手　術",
-     "ans_sub": "5cm以上のGIST（高リスク）は手術適応→胃局所切除術（腫瘍切除）が標準治療。",
+     "ans_sub": "62 歳女性、Hb 7.9 の貧血。内視鏡（胃内で反転して見た像、黒い管は内視鏡）では噴門部のそばに、<b>表面が不整な顆粒状で発赤し、白苔と出血を伴う分葉状の大きな隆起</b>——表面が正常粘膜でおおわれた粘膜下腫瘍（GIST）の形ではなく、<b>上皮から出た腫瘍（1 型の進行胃癌）</b>の形。CT で胃以外に病変がない——切除できる胃癌は<b>手術</b>（胃切除＋郭清）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 大型GISTの治療",
-       "c": "<span class=\"kw\">a手術（正答）</span>：<br>5cm以上→高リスクGIST→<span class=\"kw\">外科的切除（胃局所切除術）</span>が第一選択<br>術前イマチニブ（neoadjuvant）で腫瘍縮小後に手術する場合もある<br/><br/><span class=\"kw\">GISTのリスク分類（Miettinen分類）</span>：<br/>低リスク：&lt;2cm・核分裂数少<br/>高リスク：&gt;5cm or 核分裂数多<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b動脈塞栓術：出血止血（腫瘍根治ではない）<br/>✗ c放射線治療：GISTは放射線抵抗性<br/>✗ dステント留置：食道・大腸の閉塞緩和<br/>✗ e抗癌化学療法：切除不能例にイマチニブ（切除可能例は手術先行）</br></br>"
+       "h": "🌿 隆起の表面を見る——上皮性か粘膜下か",
+       "c": "<span class=\"kw\"><b>① この像</b></span><br/><span class=\"kw3\"><b>内視鏡を反転して胃の上部を見上げた像——左上の黒い管は内視鏡</b></span><br/><span class=\"kw3\"><b>噴門のそばに、こぶがいくつも集まったような大きな隆起</b></span><br/><span class=\"kw4\"><b>表面全体が赤く粗いつぶつぶで、白い苔と出血がこびりつく——粘膜そのものが腫瘍になっている</b></span><br/><span class=\"kw\"><b>② 上皮性か粘膜下か</b></span><br/><span class=\"kw3\"><b>上皮性の腫瘍（癌・腺腫）：表面が周りと違う色・模様、境界がはっきり</b></span><br/><span class=\"kw3\"><b>粘膜下腫瘍（GIST など）：表面は周りと同じ正常な粘膜、なだらかに立ち上がり、橋のようなひだ。潰瘍は頂上のデルだけ</b></span><br/><span class=\"kw3\"><b>この像は前者——境界のはっきりした隆起の 1 型進行癌を考える</b></span><br/><span class=\"kw\"><b>③ 臨床</b></span><br/><span class=\"kw3\"><b>腫瘍の表面からの出血で貧血（Hb 7.9）</b></span><br/><span class=\"kw3\"><b>CT で遠隔転移なし→根治をめざす手術</b></span><br/><span class=\"kw3\"><b>噴門に近い——胃全摘または噴門側胃切除、郭清を行う</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　手　術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>転移のない胃の腫瘍——切除して治す</b></span>。</td></tr><tr><td>ｂ　動脈塞栓術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>内視鏡で止められない大出血のときの止血法</b></span>。<span class=\"kw3\"><b>腫瘍の治療ではない</b></span>。</td></tr><tr><td>ｃ　放射線治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃癌は放射線が効きにくい</b></span>。</td></tr><tr><td>ｄ　ステント留置</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>切除できない腫瘍で通過障害があるときの手当て</b></span>。<span class=\"kw3\"><b>この症例は通過障害も遠隔転移もない</b></span>。</td></tr><tr><td>ｅ　抗癌化学療法</td><td><span class=\"kw4\">誤り</span>（第一ではない）。<span class=\"kw3\"><b>切除できない・再発したときが主</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌（内視鏡像・限局）。<br/><b>b 動脈塞栓／c 放射線／d ステント／e 抗癌化学療法</b>：第一でない。<br/><b>a 手術</b>：<span class=\"kw\">外科的切除が根治治療</span>。✓"
+       "h": "🔍 別軸：腫瘍マーカーが正常でも癌は否定できない",
+       "c": "<span class=\"kw\"><b>① この症例</b></span><br/><span class=\"kw3\"><b>CEA 2.8、CA19-9 26——どちらも基準内</b></span><br/><span class=\"kw3\"><b>それでも内視鏡の像は進行癌を示す</b></span><br/><span class=\"kw\"><b>② 胃癌でのマーカーの陽性率</b></span><br/><span class=\"kw4\"><b>CEA・CA19-9 とも、胃癌全体での陽性率は 2〜4 割程度——早期癌ではもっと低い</b></span><br/><span class=\"kw3\"><b>だから診断（見つける・否定する）には使わない</b></span><br/><span class=\"kw\"><b>③ 何に使うか</b></span><br/><span class=\"kw3\"><b>術前に高かった人では、手術や化学療法の効果、再発の目安になる</b></span><br/><span class=\"kw3\"><b>AFP 産生胃癌（肝転移しやすい）では AFP が上がる</b></span><br/><span class=\"kw\"><b>④ 貧血をみたら</b></span><br/><span class=\"kw3\"><b>鉄欠乏なら消化管からの出血を探す——上部と下部の内視鏡</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>表面が不整で発赤・白苔の隆起＝上皮性の腫瘍（1 型進行癌）、正常粘膜でおおわれた隆起＝粘膜下腫瘍</b></span><br/><span class=\"kw3\"><b>遠隔転移のない胃癌→手術</b></span><br/><span class=\"kw4\"><b>腫瘍マーカーが正常でも癌は否定できない</b></span>"
       }
      ],
      "imgs": [
