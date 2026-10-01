@@ -16714,22 +16714,27 @@
       }
      ],
      "ans_label": "ａ　禁　煙\nｃ　栄養管理\nｅ　呼吸器リハビリテーション",
-     "ans_sub": "胃癌手術前：禁煙（肺合併症↓）、栄養管理（低栄養例に術前栄養補正）、呼吸器リハビリ（術後肺炎予防）。",
+     "ans_sub": "4 型胃癌で胃全摘が予定される 78 歳男性。<b>喫煙 30 本×58 年、FEV1% 54%・PaCO2 50Torr</b>——高二酸化炭素血症を伴う閉塞性障害（COPD）で、術後の肺合併症の危険が高い。体重 48kg、<b>アルブミン 3.0、総コレステロール 57、コリンエステラーゼ 300</b>——明らかな低栄養。だから<b>禁煙・栄養管理・呼吸器リハビリテーション</b>を術前に行う。Hb 10.6 は輸血の基準に遠く、アルブミン製剤では栄養は改善しない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 胃癌手術前管理（ERAS）",
-       "c": "<span class=\"kw\">a禁煙（正答）</span>：<br>術前4週間以上の禁煙→術後肺炎・創感染↓・組織治癒↑<br><br><span class=\"kw\">c栄養管理（正答）</span>：<br>4型胃癌→嚥下困難・低栄養が多い→術前栄養評価＋栄養補正（経腸/TPN）<br><br><span class=\"kw\">e呼吸器リハビリ（正答）</span>：<br>術前呼吸訓練（incentive spirometry等）→術後肺炎リスク↓<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ b輸血：貧血があれば術前に考慮するが術前管理として必須ではない<br>✗ dアルブミン製剤：低アルブミン是正目的だが、カロリー補給にならない（栄養管理の代替にならない）</br></br></br></br></br></br></br></br></br></br></br>"
+       "h": "🌿 検査値から術前のリスクを拾う",
+       "c": "<span class=\"kw\"><b>① 肺</b></span><br/><span class=\"kw3\"><b>FEV1% 54%——70% 未満で閉塞性障害</b></span><br/><span class=\"kw3\"><b>％VC 68%——80% 未満で拘束性障害も合併（混合性）</b></span><br/><span class=\"kw4\"><b>PaCO2 50Torr、HCO3− 29、pH 7.39——慢性の CO2 貯留を腎が代償している</b></span><br/><span class=\"kw3\"><b>上腹部の開腹は横隔膜の動きと咳を弱め、術後の無気肺・肺炎が増える</b></span><br/><span class=\"kw\"><b>② 栄養</b></span><br/><span class=\"kw3\"><b>アルブミン 3.0g/dL、総コレステロール 57mg/dL、コリンエステラーゼ低値——肝が作る蛋白・脂質がどれも低い</b></span><br/><span class=\"kw3\"><b>肝酵素・ビリルビンはほぼ正常——肝硬変より、食べられていない（低栄養）と読む</b></span><br/><span class=\"kw3\"><b>BMI は約 17——やせ</b></span><br/><span class=\"kw\"><b>③ 貧血</b></span><br/><span class=\"kw3\"><b>Hb 10.6——腫瘍からのじわじわした出血と低栄養。すぐの輸血は要らない</b></span><br/><span class=\"kw\"><b>④ 術前にできること</b></span><br/><span class=\"kw3\"><b>禁煙：できれば 4 週以上前から——痰と気道の過敏が減る</b></span><br/><span class=\"kw3\"><b>栄養：経口の栄養剤から。食べられなければ経腸・静脈栄養を 7〜14 日</b></span><br/><span class=\"kw3\"><b>呼吸訓練：深呼吸・インセンティブスパイロメトリー・咳の練習・歩行</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　禁　煙</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>術後の肺炎・無気肺・創の治りの遅れを減らす</b></span>。<span class=\"kw3\"><b>手術直前でも、やめる意味はある</b></span>。</td></tr><tr><td>ｂ　輸　血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>Hb 10.6 で、症状のある貧血でもない</b></span>。<span class=\"kw3\"><b>輸血は感染・免疫抑制の不利がある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　栄養管理</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>低アルブミン・低コレステロール・やせ</b></span>。<span class=\"kw3\"><b>術前の栄養補給で、縫合不全や感染が減る</b></span>。</td></tr><tr><td>ｄ　アルブミン製剤投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>入れたアルブミンは分解されてしまい、体の蛋白にはならない</b></span>。<span class=\"kw3\"><b>低栄養そのものは治らない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　呼吸器リハビリテーション</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>COPD があり、上腹部の手術</b></span>。<span class=\"kw3\"><b>術前から呼吸訓練をして、術後に痰を出せるようにする</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：栄養状態をどう数えるか",
+       "c": "<span class=\"kw\"><b>① 体重</b></span><br/><span class=\"kw3\"><b>BMI 18.5 未満、6 か月で 10% 以上の体重減少——重い低栄養の目安</b></span><br/><span class=\"kw\"><b>② 血液の指標</b></span><br/><span class=\"kw3\"><b>アルブミン（半減期約 3 週）——長い期間の栄養を映す</b></span><br/><span class=\"kw3\"><b>トランスサイレチン（プレアルブミン、約 2 日）・トランスフェリン（約 1 週）——短い期間の変化を見る</b></span><br/><span class=\"kw3\"><b>総リンパ球数、総コレステロール、コリンエステラーゼ</b></span><br/><span class=\"kw\"><b>③ 組み合わせた指数</b></span><br/><span class=\"kw3\"><b>小野寺の PNI＝10×アルブミン（g/dL）＋0.005×総リンパ球数——40 以下で術後合併症が増える</b></span><br/><span class=\"kw3\"><b>CONUT（アルブミン・リンパ球・コレステロール）、GNRI（高齢者）</b></span><br/><span class=\"kw\"><b>④ 補い方の順番</b></span><br/><span class=\"kw4\"><b>腸が使えるなら腸から（経口→経腸）——静脈栄養より感染が少なく、腸の粘膜も保たれる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">術前管理3点：①禁煙（4週以上）②栄養補正③呼吸リハビリ</span><br>口腔ケアも術後肺炎予防に有効（食道癌で特に重要）。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌手術の術前管理として必要なものを3つ。<br/><b>b 輸血／d アルブミン製剤</b>：ルーチンでない。<br/><b>a 禁煙</b>：<span class=\"kw\">術後呼吸器合併症を減らす</span>。✓<br/><b>c 栄養管理</b>：<span class=\"kw\">低栄養の是正</span>。✓<br/><b>e 呼吸器リハビリテーション</b>：<span class=\"kw\">術後肺炎・無気肺を予防</span>。✓"
+       "c": "<span class=\"kw3\"><b>術前管理の 3 本柱：禁煙・栄養・呼吸リハビリ</b></span><br/><span class=\"kw3\"><b>低栄養はアルブミン・コレステロール・コリンエステラーゼの低さで読む</b></span><br/><span class=\"kw4\"><b>アルブミン製剤は栄養療法ではない／Hb 10 前後なら輸血しない</b></span>"
       }
      ],
      "imgs": [
@@ -16778,17 +16783,27 @@
       }
      ],
      "ans_label": "ａ　全摘術",
-     "ans_sub": "4型胃癌は胃全体にびまん性浸潤→部分切除では根治不能→胃全摘術＋D2リンパ節郭清が必要。",
+     "ans_sub": "4 型胃癌は胃壁の中を広く這い、<b>見えている範囲より実際の広がりが大きい</b>。造影（A）では胃体部の大弯を中心に硬くなっており、内視鏡（B）でも胃体部のひだが太い。噴門側や幽門側だけを切ると断端に癌が残る——<b>胃全摘術</b>（＋リンパ節郭清、Roux-en-Y 再建）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 4型胃癌の手術術式",
-       "c": "<span class=\"kw\">a全摘術（正答）</span>：<br>4型（スキルス）胃癌→胃全体の壁内浸潤→根治切除には胃全摘が必要<br>→ 再建：Roux-en-Y法（食道-空腸吻合）<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ b局所切除術：粘膜下腫瘍（GIST等）の小さな腫瘍に適応<br>✗ c噴門側切除術：胃上部（噴門部）の癌<br>✗ d幽門側胃切除術：胃下部（幽門側）の癌→4型には不十分<br>✗ e膵頭十二指腸切除術：膵頭部癌・十二指腸乳頭部癌の手術</br></br></br></br></br></br></br></br>"
+       "h": "🌿 切除範囲は「断端に癌を残さない距離」で決まる",
+       "c": "<span class=\"kw4\"><b>病変の部位ごとの術式の選び方の全体は Q.231——ここは 4 型で全摘になる理由</b></span>。<br/><span class=\"kw\"><b>① 切離線までの距離（胃癌治療ガイドライン）</b></span><br/><span class=\"kw3\"><b>T1（早期癌）：肉眼的に 2cm 以上</b></span><br/><span class=\"kw3\"><b>T2 以深で限局型（1・2 型）：3cm 以上</b></span><br/><span class=\"kw3\"><b>T2 以深で浸潤型（3・4 型）：5cm 以上</b></span><br/><span class=\"kw\"><b>② 4 型でこの距離をとると</b></span><br/><span class=\"kw3\"><b>胃体部に広がる病変から上下に 5cm 以上——噴門も幽門も残せない</b></span><br/><span class=\"kw4\"><b>しかも癌は粘膜の下を進み、内視鏡で見える境界より外にいる</b></span><br/><span class=\"kw\"><b>③ 術中に確かめる</b></span><br/><span class=\"kw3\"><b>切った断端を術中迅速病理診断に出し、癌がないことを確かめる</b></span><br/><span class=\"kw3\"><b>陽性なら追加で切る</b></span><br/><span class=\"kw\"><b>④ この症例</b></span><br/><span class=\"kw3\"><b>胃体部中心の 4 型、遠隔転移の記載なし——胃全摘＋D2 郭清＋Roux-en-Y 再建</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　全摘術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>4 型は胃壁内を広く浸潤する</b></span>。<span class=\"kw3\"><b>十分な切離距離をとると胃は残らない</b></span>。</td></tr><tr><td>ｂ　局所切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>リンパ節郭清をしない手術——GIST などの対象</b></span>。<span class=\"kw3\"><b>進行癌には使わない</b></span>。</td></tr><tr><td>ｃ　噴門側切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃上部の早期癌（cT1N0）が対象</b></span>。<span class=\"kw3\"><b>幽門側に残した胃に癌が残る</b></span>。</td></tr><tr><td>ｄ　幽門側切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>病変が胃の下部に限られ、口側に十分な距離がとれるとき</b></span>。<span class=\"kw3\"><b>胃体部の 4 型では断端に癌が残る</b></span>。</td></tr><tr><td>ｅ　膵頭十二指腸切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>膵頭部・胆管下部・十二指腸乳頭部の腫瘍の手術</b></span>。<span class=\"kw3\"><b>胃癌の標準術式ではない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌の手術術式（内視鏡像）。<br/><b>b 局所切除／c 噴門側切除／d 幽門側切除／e 膵頭十二指腸切除</b>：本例に不適。<br/><b>a 全摘術</b>：<span class=\"kw\">広範/上部の胃癌は全摘</span>。✓"
+       "h": "🔍 別軸：4 型でも「すぐ切らない」場合",
+       "c": "<span class=\"kw\"><b>① 腹膜に広がっていないかを先に確かめる</b></span><br/><span class=\"kw3\"><b>4 型は CT で見えない小さな腹膜播種が多い</b></span><br/><span class=\"kw3\"><b>審査腹腔鏡で腹膜を見て、腹腔洗浄細胞診をとる</b></span><br/><span class=\"kw\"><b>② 播種や洗浄細胞診陽性なら</b></span><br/><span class=\"kw3\"><b>P1（播種あり）や CY1（洗浄液に癌細胞）はステージ IV——まず化学療法</b></span><br/><span class=\"kw3\"><b>よく効いて播種が消えれば、あとから切除を考える（コンバージョン手術）</b></span><br/><span class=\"kw\"><b>③ 全摘のあとの暮らし</b></span><br/><span class=\"kw3\"><b>胃の貯留がなくなり、1 回に食べられる量が減る——少量頻回食</b></span><br/><span class=\"kw4\"><b>内因子がなくなり、数年でビタミン B12 欠乏——定期的な注射</b></span><br/><span class=\"kw3\"><b>高齢・低栄養の人では、術後の体重減少と筋力低下が大きい——術前からの栄養・リハビリが効く（Q.247）</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>4 型胃癌→胃全摘（断端に癌を残さない）</b></span><br/><span class=\"kw3\"><b>浸潤型（3・4 型）の切離距離は 5cm 以上、断端は術中迅速診断で確認</b></span><br/><span class=\"kw4\"><b>膵頭十二指腸切除は胃癌の術式ではない</b></span>"
       }
      ],
      "imgs": [
@@ -16837,22 +16852,27 @@
       }
      ],
      "ans_label": "ｄ　胃部分切除術",
-     "ans_sub": "2cm以上のGIST（固有筋層由来）は手術適応→リンパ節郭清不要の局所切除（胃部分切除）。",
+     "ans_sub": "71 歳女性、胃体部の 3cm の可動性良好な粘膜下腫瘍、CT で他臓器に病変なし。H-E（A・B）は粘膜の下に<b>紡錘形の細胞が束になって渦を巻く腫瘍</b>、免疫染色で<b>KIT（C）と CD34（D）が陽性</b>——<b>GIST</b>。2cm を超え手術の適応。GIST はリンパ節に転移しにくいので、<b>腫瘍を被膜ごと取る胃部分切除</b>でよく、郭清は要らない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 胃GISTの手術適応と術式",
-       "c": "<span class=\"kw\">d胃部分切除術（正答）</span>：<br>・2cm以上のGIST→手術適応<br>・術式：<span class=\"kw\">腫瘍を含む胃部分切除（局所切除）</span>→リンパ節郭清は不要<br>・腹腔鏡下手術も可能<br><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a胃全摘術：過剰な手術（リンパ節郭清不要→局所切除で十分）<br/>✗ b放射線療法：GISTは放射線抵抗性<br/>✗ c抗癌化学療法：切除不能・再発GISTにイマチニブ（切除可能例は手術先行）<br/>✗ eH.pylori除菌：MALTリンパ腫の治療（GISTには適応なし）</br></br></br></br>"
+       "h": "🌿 GIST の手術——小さく取って、破らない",
+       "c": "<span class=\"kw4\"><b>免疫染色の使い分けとリスク分類・イマチニブは Q.225、SMT を見つけたあとの流れは Q.242——ここは手術の考え方</b></span>。<br/><span class=\"kw\"><b>① 画像の読み</b></span><br/><span class=\"kw3\"><b>A：上に胃の腺管、その下の壁の中に、粘膜とは別の細胞の塊が広がる（出血を伴う）</b></span><br/><span class=\"kw3\"><b>B：細長い核の紡錘形の細胞が束になって流れる。核のそばに小さな空胞</b></span><br/><span class=\"kw3\"><b>C・D：腫瘍の細胞が褐色に染まる（KIT 陽性・CD34 陽性）</b></span><br/><span class=\"kw\"><b>② なぜ部分切除か</b></span><br/><span class=\"kw3\"><b>GIST は血行性（肝）や腹膜へ広がり、リンパ節にはほとんど転移しない——郭清は不要</b></span><br/><span class=\"kw3\"><b>腫瘍から少し離れたところで胃壁ごと切り取れば十分</b></span><br/><span class=\"kw3\"><b>胃の機能を残せる——全摘の後遺症を避ける</b></span><br/><span class=\"kw\"><b>③ 破らない</b></span><br/><span class=\"kw4\"><b>手術で腫瘍を破る（被膜破綻）と、腹膜に再発しやすい——それだけで高リスクに分類される</b></span><br/><span class=\"kw3\"><b>やわらかく扱い、取り出すときは袋に入れる</b></span><br/><span class=\"kw\"><b>④ 低侵襲</b></span><br/><span class=\"kw3\"><b>5cm 以下なら腹腔鏡下の切除が多い</b></span><br/><span class=\"kw3\"><b>内腔と外側から一緒に切る腹腔鏡・内視鏡合同手術（LECS）で、切る胃壁を最小にできる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃全摘術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>郭清の要らない腫瘍に、胃をすべて取る必要はない</b></span>。<span class=\"kw3\"><b>術後の栄養障害だけが残る</b></span>。</td></tr><tr><td>ｂ　放射線療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GIST は放射線が効きにくい</b></span>。</td></tr><tr><td>ｃ　抗癌化学療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ふつうの殺細胞性抗癌薬は効かない</b></span>。<span class=\"kw3\"><b>使うのはイマチニブ（分子標的薬）で、それも切除できない・転移した・再発の危険が高いときに限る</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　胃部分切除術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>転移のない 3cm の GIST</b></span>。<span class=\"kw3\"><b>被膜を破らずに、郭清なしで切除する</b></span>。</td></tr><tr><td>ｅ　Helicobacter pylori 除菌治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>除菌で縮むのは MALT リンパ腫</b></span>。<span class=\"kw3\"><b>GIST には関係しない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：遺伝子変異でイマチニブの効き方が変わる",
+       "c": "<span class=\"kw\"><b>① GIST のもと</b></span><br/><span class=\"kw3\"><b>消化管の動きのペースメーカーであるカハール介在細胞（ICC）から出る</b></span><br/><span class=\"kw3\"><b>ICC はもともと KIT と CD34 をもつ——だから C・D が染まる</b></span><br/><span class=\"kw\"><b>② 変異の場所</b></span><br/><span class=\"kw3\"><b>KIT エクソン 11 の変異（いちばん多い）——イマチニブがよく効く</b></span><br/><span class=\"kw3\"><b>KIT エクソン 9 の変異（小腸に多い）——イマチニブを増量する</b></span><br/><span class=\"kw4\"><b>PDGFRA の D842V 変異（胃に多い）——イマチニブが効かない</b></span><br/><span class=\"kw3\"><b>変異がない（SDH 欠損型など）——若い人・多発、効きが悪い</b></span><br/><span class=\"kw\"><b>③ 効かなくなったら</b></span><br/><span class=\"kw3\"><b>二次治療スニチニブ、三次治療レゴラフェニブ</b></span><br/><span class=\"kw\"><b>④ 再発しやすさを決めるもの</b></span><br/><span class=\"kw3\"><b>大きさ・核分裂像の数・部位（胃は小腸より良好）・被膜破綻——術後の補助療法を決める</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃GIST&gt;2cm → 腹腔鏡下胃部分切除術（リンパ節郭清不要）</span><br/>切除不能・再発 → イマチニブ（KIT/PDGFRA阻害薬）が第一選択。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "CD34陽性の胃粘膜下腫瘍（GIST）。<br/><b>a 胃全摘／b 放射線／c 抗癌化学療法／e H.pylori除菌</b>：第一でない。<br/><b>d 胃部分切除術</b>：<span class=\"kw\">GISTは局所切除（リンパ節郭清不要）</span>。✓"
+       "c": "<span class=\"kw3\"><b>紡錘形細胞＋KIT・CD34 陽性→GIST</b></span><br/><span class=\"kw3\"><b>転移のない GIST→郭清なしの部分切除（腹腔鏡・LECS）</b></span><br/><span class=\"kw4\"><b>被膜を破ると高リスク／殺細胞性抗癌薬・放射線は効かない</b></span>"
       }
      ],
      "imgs": [
@@ -16903,22 +16923,27 @@
       }
      ],
      "ans_label": "ｄ　腹膜播種をきたしやすい。",
-     "ans_sub": "4型胃癌（スキルス）は印環細胞癌・未分化型が多く、腹膜播種を起こしやすく予後不良。",
+     "ans_sub": "造影像では食道から入ったバリウムの先で、<b>胃体部が細く筒状に縮み、壁が伸びず、粘膜のひだが太く不整</b>になっている。前庭部にバリウムがたまるが、胃全体として小さく硬い——<b>4 型（びまん浸潤型）胃癌</b>の像。4 型は多くが未分化型（印環細胞癌）で、胃壁を突き抜けて<b>腹膜に播種しやすい</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 4型胃癌（スキルス胃癌）の特徴",
-       "c": "<span class=\"kw\">d腹膜播種をきたしやすい（正答）</span>：<br>4型胃癌（びまん浸潤型）：<br/>・胃壁にびまん性に浸潤（革袋状胃：linitis plastica）<br/>・未分化型（印環細胞癌）が多い<br/>・<span class=\"kw\">腹膜播種（Krukenberg腫瘍含む）を高頻度に合併</span><br/>・予後不良（5年生存率が最も低い型）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a扁平上皮癌：食道癌が多い（胃癌のほとんどは腺癌）<br/>✗ b潰瘍限局型：Borrmann 2型（4型ではない）<br/>✗ c放射線照射が奏功：胃癌は放射線感受性が低い<br/>✗ eH.pylori感染なし：4型胃癌でもH.pylori感染は多い</br>"
+       "h": "🌿 造影で 4 型を読む",
+       "c": "<span class=\"kw4\"><b>内視鏡で 4 型を見分けるところと巨大ひだの鑑別は Q.246、スキルス胃癌の性質は Q.240——ここは造影像の読み方と播種の調べ方</b></span>。<br/><span class=\"kw\"><b>① この像</b></span><br/><span class=\"kw3\"><b>胃体部が筒のように細くなり、膨らまない</b></span><br/><span class=\"kw3\"><b>その部分の粘膜像が粗く、ひだが太い</b></span><br/><span class=\"kw3\"><b>潰瘍のくぼみ（ニッシェ）や、境界のはっきりした隆起はない</b></span><br/><span class=\"kw\"><b>② 4 型の造影所見の言葉</b></span><br/><span class=\"kw3\"><b>伸展不良——バリウムや空気を入れても広がらない</b></span><br/><span class=\"kw3\"><b>胃角の開大——胃が硬くなり、小弯の折れ曲がりが鈍くなる</b></span><br/><span class=\"kw3\"><b>革袋状胃（linitis plastica）——全体が小さく硬い管になる</b></span><br/><span class=\"kw3\"><b>ひだの太まり・不整、辺縁の硬さ</b></span><br/><span class=\"kw\"><b>③ 内視鏡より造影が役に立つ</b></span><br/><span class=\"kw4\"><b>4 型は表面の粘膜が保たれ、内視鏡では見逃されやすい——造影で胃の「形と硬さ」を見るほうが拾える</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　扁平上皮癌である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃癌はほとんどが腺癌</b></span>。<span class=\"kw3\"><b>4 型は未分化型（低分化腺癌・印環細胞癌）が多い</b></span>。</td></tr><tr><td>ｂ　潰瘍限局型である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍限局型は 2 型</b></span>。<span class=\"kw3\"><b>この像は潰瘍がなく、壁全体が硬い 4 型</b></span>。</td></tr><tr><td>ｃ　放射線照射が奏功する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃癌は放射線が効きにくい</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　腹膜播種をきたしやすい。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>壁の中を広がって漿膜に出て、腹腔に散る</b></span>。<span class=\"kw3\"><b>再発の多くが腹膜</b></span>。</td></tr><tr><td>ｅ　Helicobacter pylori 感染がない。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>4 型を含む胃癌の多くはピロリ感染を背景にもつ</b></span>。<span class=\"kw3\"><b>未感染の胃にも起こり得るが、「感染がない」とは言えない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：腹膜播種をどう調べるか",
+       "c": "<span class=\"kw\"><b>① CT の限界</b></span><br/><span class=\"kw3\"><b>数 mm の播種結節は CT に写らない</b></span><br/><span class=\"kw3\"><b>腹水・大網の肥厚・腸管の固定があれば疑う</b></span><br/><span class=\"kw\"><b>② 審査腹腔鏡（staging laparoscopy）</b></span><br/><span class=\"kw3\"><b>手術の前に小さな穴からカメラを入れて腹膜を直接見る</b></span><br/><span class=\"kw3\"><b>4 型や大きな 3 型など播種の多い胃癌で行う</b></span><br/><span class=\"kw\"><b>③ 腹腔洗浄細胞診</b></span><br/><span class=\"kw3\"><b>生理食塩水で腹腔を洗い、その液に癌細胞がいるかを見る</b></span><br/><span class=\"kw4\"><b>CY1（陽性）は肉眼で播種が見えなくても遠隔転移と同じ扱い——ステージ IV</b></span><br/><span class=\"kw\"><b>④ 記号</b></span><br/><span class=\"kw3\"><b>P0／P1：腹膜播種なし／あり</b></span><br/><span class=\"kw3\"><b>CY0／CY1：洗浄細胞診 陰性／陽性</b></span><br/><span class=\"kw3\"><b>どちらかがあれば、まず化学療法を考える（Q.248）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">4型胃癌（スキルス）= 腹膜播種を起こしやすい・予後最悪</span><br/>Krukenberg腫瘍：胃癌の卵巣転移（印環細胞癌）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "上部消化管造影のスキルス胃癌で正しいもの。<br/><b>a 扁平上皮癌（腺癌）／b 潰瘍限局型／c 放射線が奏功／e H.pylori感染がない</b>：誤り。<br/><b>d 腹膜播種をきたしやすい</b>：<span class=\"kw\">4型（スキルス）は腹膜播種しやすい</span>。✓"
+       "c": "<span class=\"kw3\"><b>造影で胃が小さく硬い・伸展不良・ひだの太まり→4 型（革袋状胃）</b></span><br/><span class=\"kw3\"><b>4 型＝未分化型が多い・腹膜播種しやすい・予後不良</b></span><br/><span class=\"kw4\"><b>播種は CT に写りにくい——審査腹腔鏡と腹腔洗浄細胞診（CY1 はステージ IV）</b></span>"
       }
      ],
      "imgs": [
@@ -16966,17 +16991,27 @@
       }
      ],
      "ans_label": "ｄ　胃底腺ポリープ",
-     "ans_sub": "PPI使用者・FAP患者に多発する胃底部の小型隆起病変→胃底腺ポリープが最も考えやすい。",
+     "ans_sub": "PPI を 3 年飲み続けている 62 歳女性。内視鏡（A・B）では胃体部の大弯のひだの上や周りに、<b>周りの粘膜と同じ色で表面がなめらかな、数 mm〜1cm ほどの半球状〜亜有茎性の隆起が多発</b>している。背景粘膜に萎縮や発赤は目立たない——<b>胃底腺ポリープ</b>（PPI の長期内服で増え、大きくなる）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 胃底腺ポリープ",
-       "c": "<span class=\"kw\">d胃底腺ポリープ（正答）</span>：<br/>・胃底腺の囊胞状拡張→小型の半球状〜亜有茎性隆起<br/>・<span class=\"kw\">H.pylori陰性</span>の胃に好発（PPI使用・FAP）<br/>・悪性化リスク：散発性では極めて低い<br/>・多発するのが特徴<br/><br/><span class=\"kw4\">鑑別</span>：<br/>・胃GIST：単発・粘膜下腫瘍・固有筋層発生<br/>・1型胃癌：腫瘤状隆起・不整な表面<br/>・0-IIa型：表面隆起型の早期癌<br/>・MALT lymphoma：発赤・不整な粘膜変化"
+       "h": "🌿 選択肢の 5 つを内視鏡の見た目で並べる",
+       "c": "<span class=\"kw4\"><b>背景胃の読み方（未感染・現感染・既感染）と、PPI・FAP で増える話は Q.243——ここは似た形の病変との見分け方</b></span>。<br/><span class=\"kw\"><b>① 胃底腺ポリープ（この像）</b></span><br/><span class=\"kw3\"><b>胃体部〜穹窿部（胃底腺のある所）に多発</b></span><br/><span class=\"kw3\"><b>周りと同じ色、表面なめらか、数 mm〜1cm</b></span><br/><span class=\"kw\"><b>② 胃 GIST</b></span><br/><span class=\"kw3\"><b>ふつう単発の粘膜下腫瘍——なだらかな立ち上がり、表面は正常粘膜、橋のようなひだ</b></span><br/><span class=\"kw3\"><b>大きくなると頂上に潰瘍（デル）</b></span><br/><span class=\"kw\"><b>③ 1 型胃癌</b></span><br/><span class=\"kw3\"><b>単発の大きな隆起（数 cm）、表面は凹凸・発赤・びらん、周りとの境界がはっきり</b></span><br/><span class=\"kw\"><b>④ 0-IIa 型胃癌</b></span><br/><span class=\"kw3\"><b>低い平らな隆起（2〜3mm 程度の高さ）、色は白っぽいか発赤、表面に不整な模様</b></span><br/><span class=\"kw3\"><b>背景は萎縮した胃</b></span><br/><span class=\"kw\"><b>⑤ 胃 MALT リンパ腫</b></span><br/><span class=\"kw3\"><b>退色した粘膜、多発するびらん・浅い潰瘍、敷石状の粘膜——隆起だけの像は少ない</b></span><br/><span class=\"kw3\"><b>ピロリ感染を背景にもつ</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃 GIST</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>多発する小さな隆起ではなく、単発の粘膜下腫瘍</b></span>。</td></tr><tr><td>ｂ　1 型胃癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大きく、表面が不整で赤い単発の隆起</b></span>。<span class=\"kw3\"><b>この像の隆起は小さく、なめらかで周りと同じ色</b></span>。</td></tr><tr><td>ｃ　0-Ⅱa 型胃癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>萎縮粘膜に出る、低く平らで色調の違う隆起</b></span>。<span class=\"kw3\"><b>多発する半球状の隆起とは違う</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　胃底腺ポリープ</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃体部の多発する同色・平滑な小隆起</b></span>。<span class=\"kw3\"><b>PPI 長期内服が背景にある</b></span>。</td></tr><tr><td>ｅ　胃 MALT リンパ腫</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>退色・びらん・潰瘍が主で、ピロリ感染を背景にもつ</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃体部の小隆起（内視鏡）。<br/><b>a GIST／b 1型胃癌／c 0-Ⅱa型胃癌／e MALTリンパ腫</b>：合わない。<br/><b>d 胃底腺ポリープ</b>：<span class=\"kw\">胃底腺領域の良性ポリープ</span>。✓"
+       "h": "🔍 別軸：PPI を長く飲むと胃と体に何が起こるか",
+       "c": "<span class=\"kw\"><b>① 胃の粘膜</b></span><br/><span class=\"kw3\"><b>胃酸が減る→ガストリンが上がる→壁細胞が増える</b></span><br/><span class=\"kw3\"><b>胃底腺ポリープの増大、敷石状粘膜、黒い点状の色素（黒点）、壁細胞の突出——どれも良性</b></span><br/><span class=\"kw\"><b>② 体の側</b></span><br/><span class=\"kw3\"><b>吸収の低下：ビタミン B12・鉄・カルシウム・マグネシウム（低 Mg 血症）</b></span><br/><span class=\"kw3\"><b>骨折がやや増える</b></span><br/><span class=\"kw3\"><b>胃酸のバリアが弱まり、Clostridioides difficile 腸炎・肺炎が増える</b></span><br/><span class=\"kw3\"><b>顕微鏡的大腸炎（collagenous colitis）——ランソプラゾールで有名</b></span><br/><span class=\"kw\"><b>③ 使い方</b></span><br/><span class=\"kw4\"><b>逆流性食道炎で再燃をくり返すなら維持療法は必要——やめることより、必要最小量にすることを考える</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>PPI 長期内服者の胃体部に多発する同色・平滑な小隆起→胃底腺ポリープ</b></span><br/><span class=\"kw3\"><b>0-IIa は萎縮粘膜の低く平らな隆起、GIST は単発の粘膜下腫瘍</b></span><br/><span class=\"kw4\"><b>PPI で増えるが良性——内視鏡治療の対象ではない</b></span>"
       }
      ],
      "imgs": [
@@ -17025,17 +17060,27 @@
       }
      ],
      "ans_label": "ｃ　③",
-     "ans_sub": "胃底腺ポリープの病理：胃底腺の囊胞状拡張、腺腔の拡大、壁細胞・主細胞が内壁を形成。",
+     "ans_sub": "胃底腺ポリープの組織は、<b>胃底腺がのう胞状に拡張した腺腔</b>を、壁細胞・主細胞を含む胃底腺の上皮が囲む像——<b>③</b>。表面の腺窩上皮はほぼ正常で、異型はない。①は杯細胞の並ぶまっすぐな陰窩（大腸型の粘膜）、②は正常の胃底腺粘膜、④は異型の強い細胞が不規則な腺管を作る腺癌、⑤は腺窩上皮とその下の幽門腺からなる幽門腺領域の粘膜。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 胃底腺ポリープの病理組織像",
-       "c": "<span class=\"kw\">③が胃底腺ポリープ（正答）</span>：<br/>・胃底腺の嚢胞状拡張（cystic dilation）<br/>・拡張した腺腔に壁細胞（parietal cells：好酸性）と主細胞（chief cells：好塩基性）が並ぶ<br/>・間質の増生は少ない<br/>・異形成なし（良性）<br/><br/><span class=\"kw\">病理的特徴の覚え方</span>：<br/>胃底腺ポリープ＝「囊胞＋壁細胞・主細胞がそのまま」"
+       "h": "🌿 5 枚の H-E を見分ける",
+       "c": "<span class=\"kw\"><b>① 杯細胞が並ぶまっすぐな陰窩</b></span><br/><span class=\"kw3\"><b>白く抜けた杯細胞がびっしり並ぶ、試験管のような腺管が規則正しく並ぶ</b></span><br/><span class=\"kw3\"><b>大腸の粘膜（胃ならば腸上皮化生）</b></span><br/><span class=\"kw\"><b>② 正常な胃底腺粘膜</b></span><br/><span class=\"kw3\"><b>表面に浅い腺窩、その下に好酸性の壁細胞と好塩基性の主細胞がぎっしり詰まった胃底腺</b></span><br/><span class=\"kw3\"><b>拡張した腺腔はない</b></span><br/><span class=\"kw\"><b>③ 胃底腺ポリープ（正解）</b></span><br/><span class=\"kw4\"><b>胃底腺の腺腔が大小ののう胞状に広がっている——これが決め手</b></span><br/><span class=\"kw3\"><b>のう胞を壁細胞・主細胞が囲み、表面の腺窩上皮は正常、異型なし</b></span><br/><span class=\"kw\"><b>④ 腺癌</b></span><br/><span class=\"kw3\"><b>核が大きく濃く、極性を失った細胞が、形の不規則な腺管を作ったりばらけたりする</b></span><br/><span class=\"kw\"><b>⑤ 幽門腺領域の粘膜</b></span><br/><span class=\"kw3\"><b>表面の腺窩上皮の下に、淡く泡立つ粘液を作る幽門腺が集まる</b></span><br/><span class=\"kw3\"><b>壁細胞が目立たない——前庭部の粘膜</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>杯細胞の並ぶ大腸型の粘膜</b></span>。<span class=\"kw3\"><b>胃底腺がない</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>正常の胃底腺粘膜</b></span>。<span class=\"kw3\"><b>のう胞状の拡張がない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　③</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃底腺がのう胞状に拡張</b></span>。<span class=\"kw3\"><b>異型のない上皮——胃底腺ポリープ</b></span>。</td></tr><tr><td>ｄ　④</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>核異型の強い細胞と不規則な腺管——腺癌</b></span>。<span class=\"kw3\"><b>患者の希望（早期癌の内視鏡治療）に沿う像だが、この病変ではない</b></span>。</td></tr><tr><td>ｅ　⑤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>幽門腺の粘膜</b></span>。<span class=\"kw3\"><b>胃底腺ポリープは胃底腺の領域にできる</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "本病変の生検組織像。<br/><b>a ①／b ②／d ④／e ⑤</b>：合わない。<br/><b>c ③</b>：<span class=\"kw\">本病変に一致する組織像</span>。✓"
+       "h": "🔍 別軸：胃の 3 つの腺と、そこから出る病変",
+       "c": "<span class=\"kw\"><b>① 噴門腺（噴門のまわり、狭い）</b></span><br/><span class=\"kw3\"><b>粘液を作る腺</b></span><br/><span class=\"kw\"><b>② 胃底腺（穹窿部・胃体部）</b></span><br/><span class=\"kw3\"><b>壁細胞：胃酸と内因子（好酸性で大きい）</b></span><br/><span class=\"kw3\"><b>主細胞：ペプシノゲン（好塩基性）</b></span><br/><span class=\"kw3\"><b>副細胞（頸部粘液細胞）：粘液</b></span><br/><span class=\"kw3\"><b>ここから出る：胃底腺ポリープ、胃底腺型胃癌（主細胞に似た癌、ピロリ未感染に多い）、自己免疫性胃炎で萎縮</b></span><br/><span class=\"kw\"><b>③ 幽門腺（前庭部）</b></span><br/><span class=\"kw3\"><b>粘液を作る腺と、ガストリンを作る G 細胞</b></span><br/><span class=\"kw3\"><b>ピロリの萎縮はここから口側へ広がる</b></span><br/><span class=\"kw\"><b>④ 表面を覆う腺窩上皮（全域共通）</b></span><br/><span class=\"kw3\"><b>ここが伸びて増えると過形成性ポリープ——ピロリ感染の胃に多い</b></span><br/><span class=\"kw4\"><b>ポリープの組織が「どの細胞の増殖か」で、背景の胃も読める</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>胃底腺ポリープの組織＝胃底腺ののう胞状拡張、異型なし</b></span><br/><span class=\"kw3\"><b>壁細胞（好酸性・胃酸と内因子）・主細胞（好塩基性・ペプシノゲン）</b></span><br/><span class=\"kw4\"><b>過形成性ポリープは腺窩上皮の過形成——胃底腺ポリープとは増える細胞が違う</b></span>"
       }
      ],
      "imgs": [
