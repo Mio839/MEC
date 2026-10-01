@@ -59,7 +59,9 @@ def load(sid='circ', pdf=None):
             continue
         # 章区切り行（「　9　〔 問題 〕末梢動静脈・リンパ」）が NO列に食い込むので、
         # 「〔」を含む行の単語はどのアンカーにも配らない
-        skip_y = {round(w[1], 1) for w in words if w[4] in ('〔', '〕')}
+        # ⚠️ 消化管では「〔」が単独の単語にならず「　5　〔」「〕胃」の形で取れる（章の最後の行の
+        #    解答に「問題」が、出題テーマに章名が混ざっていた）。部分一致で拾うこと。
+        skip_y = {round(w[1], 1) for w in words if '〔' in w[4] or '〕' in w[4]}
         for i, (y, no) in enumerate(anchors):
             y1 = anchors[i + 1][0] if i + 1 < len(anchors) else 1e9
             cells = {n: [] for n, _ in COLS}
