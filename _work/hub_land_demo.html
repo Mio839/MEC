@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>読み値の着地の作り直し</title>
+<!--
+  ハブ（index.html）の「大きな読み値の着地」（_landHeroNumber）をテーマごとに作り直すための見比べページ（2026-10-01〜）。
+  Frost は現行のまま。ほかの7テーマを1テーマずつ作り直す（いまは Celestial の5案）。
+  方針（ユーザー判断）：①テーマ固有の素材で作る ②現行と同じかそれ以上の手応え ③数字そのものが反応する。
+  前回の共通案5つ（光の下線・刻印・こだま・湧き上がる粒・周回）は「テーマらしさが無い・地味・数字と一体感が無い」で全部不採用。
+
+  仕組みは _work/hub_fx_demo.html と同じ：本物の ../index.html を iframe（srcdoc）に流し込み、
+  localStorage / sessionStorage は写しで動かす（Gist のトークンは抜く・リンクは移動しない）。
+  index.js の直後に「選んだ案の _landHeroNumber で置き換える」スクリプトを差し込む。本物のファイルは1つも変えない。
+  案の中で「そのテーマでないとき」は現行へ回す（ほかのテーマの見た目を変えない）。
+-->
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel-2:#1c232d; --line:rgba(255,255,255,.12); --line-2:rgba(255,255,255,.22);
+  --t1:#e6edf3; --t2:#9aa7b4; --t3:#6e7b88;
+  --pick:#3fb68b; --accent:#58a6ff; --amber:#e3b341;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--t1);}
+body{font:13px/1.6 system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;min-height:100vh;}
+button,select{font:inherit;color:inherit;}
+.wrap{max-width:1360px;margin:0 auto;padding:14px 16px 40px;display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:16px;align-items:start;}
+header.top{grid-column:1/-1;}
+h1{font-size:17px;margin-bottom:4px;}
+.lead{color:var(--t2);font-size:12px;line-height:1.75;}
+.lead b{color:var(--t1);}
+.list{display:flex;flex-direction:column;gap:14px;}
+.grp h2{font-size:13px;margin:4px 0 6px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+.grp h2 small{font-weight:400;color:var(--t3);font-size:11px;}
+.item{background:var(--panel);border:1px solid var(--line);border-left:3px solid transparent;border-radius:10px;padding:9px 10px 9px 11px;margin-bottom:6px;cursor:pointer;}
+.item.picked{border-left-color:var(--pick);background:#14201b;}
+.item.playing{outline:1px solid var(--accent);}
+.item .hd{display:flex;align-items:center;gap:8px;}
+.item .nm{font-weight:600;font-size:13px;flex:1;min-width:0;}
+.item .no{color:var(--t3);font-weight:400;font-size:11px;margin-right:4px;}
+.item .ds{color:var(--t2);font-size:11.5px;margin-top:3px;line-height:1.6;}
+.pick{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:var(--t2);flex:none;cursor:pointer;}
+.item.picked .pick{color:var(--pick);font-weight:700;}
+.pick input{accent-color:var(--pick);}
+.see{background:transparent;border:1px solid var(--line-2);border-radius:7px;padding:2px 9px;font-size:11.5px;cursor:pointer;color:var(--accent);flex:none;}
+.see:hover{filter:brightness(1.25);}
+.side{position:sticky;top:10px;display:flex;flex-direction:column;gap:8px;}
+.bar{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 10px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12px;}
+.bar label{display:inline-flex;align-items:center;gap:5px;color:var(--t2);}
+.bar select{background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:3px 6px;}
+.btn{background:var(--panel-2);border:1px solid var(--line-2);border-radius:8px;padding:6px 11px;cursor:pointer;font-size:12px;}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#04101f;font-weight:700;}
+.btn:hover{filter:brightness(1.15);}
+.btn:disabled{opacity:.45;cursor:default;filter:none;}
+.status{font-size:11.5px;color:var(--t2);min-height:1.4em;}
+.status b{color:var(--amber);}
+.stage{background:#000;border:1px solid var(--line);border-radius:10px;overflow:hidden;height:min(78vh,900px);position:relative;}
+.stage .scaler{position:absolute;top:0;left:0;transform-origin:0 0;}
+.stage iframe{border:0;display:block;background:#000;}
+.picks{font-size:12px;color:var(--t2);display:flex;flex-direction:column;gap:2px;}
+.picks b{color:var(--pick);}
+.out{width:100%;min-height:90px;background:var(--panel-2);color:var(--t1);border:1px solid var(--line-2);border-radius:8px;padding:8px;font:12px/1.5 ui-monospace,Consolas,monospace;display:none;}
+.out.show{display:block;}
+.note{font-size:11px;color:var(--t3);line-height:1.6;}
+@media (max-width:900px){
+  .wrap{grid-template-columns:minmax(0,1fr);}
+  .side{position:static;order:-1;}
+  .stage{height:62vh;}
+}
+@media (max-width:420px){ .out{font-size:16px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>読み値の着地の作り直し</h1>
+    <p class="lead">
+      「今日解いた問題」の数字が数え上がって止まった瞬間の演出を、<b>テーマごとに</b>作り直す。いまは <b>Celestial の5案</b>（＋現行）。
+      行の<b>「▶ 見る」</b>で本物のハブをその案に差し替えて読み込み、<b>「もう一度」</b>で読み込み直さずに着地だけを出し直す。
+      数字が0だと桁が1つしか無いので、右上の<b>「数字」</b>で仮の値にして見るとよい（本物の進捗には書かない）。
+      気に入った案に<b>「採用」</b>の印を付けて<b>結果をコピー</b>で貼ってください。
+    </p>
+  </header>
+
+  <div class="list" id="list"></div>
+
+  <aside class="side">
+    <div class="bar">
+      <button class="btn pri" id="again" disabled>もう一度</button>
+      <label>数字 <select id="num">
+        <option value="128" selected>128</option>
+        <option value="7">7</option>
+        <option value="1024">1,024</option>
+        <option value="">実データのまま</option>
+      </select></label>
+      <label>今日の達成率 <select id="pct">
+        <option value="">実データのまま</option>
+        <option value="60">60%</option>
+        <option value="110">110%（目標達成）</option>
+        <option value="160">160%（大幅超過）</option>
+      </select></label>
+      <label>幅 <select id="width">
+        <option value="fit">この枠に合わせる</option>
+        <option value="390">スマホ 390</option>
+        <option value="820">iPad 820</option>
+        <option value="1180">PC 1180</option>
+      </select></label>
+    </div>
+    <div class="status" id="status">左の「▶ 見る」で再生します。</div>
+    <div class="stage" id="stage"><div class="scaler" id="scaler"><iframe id="frame" title="ハブのプレビュー"></iframe></div></div>
+    <div class="bar">
+      <div class="picks" id="picks"></div>
+      <button class="btn" id="copy" style="margin-left:auto">結果をコピー</button>
+    </div>
+    <textarea class="out" id="out" readonly></textarea>
+    <p class="note">⚠️ 粒子は「画面に見えている」「タブが表になっている」ときにしか撒かれない（本物と同じ判定）。
+      目標達成の日（達成率110%・160%）は、どの案も量と輪が増える。110%以上にすると目標達成の刻印（紙吹雪）も一緒に降るので、案どうしを比べるときは「実データのまま」か60%がよい。</p>
+  </aside>
+</div>
+
+<script>
+/* ═══ 共通の下ごしらえ（iframe の中で index.js の後に走る） ═══ */
+function PRELUDE() {
+  window.__CEL = { gold: '#FFD166', pale: '#FFF8E1', violet: '#8A2BE2', lilac: '#C084FC', cyan: '#48CAE4', white: '#FFFFFF' };
+  // 着地で桁を span に組み直す（「桁が1つずつ立ち上がる」は残すと決まっているので全案で共通）
+  window.__wrapDigits = function (el) {
+    var s = el.textContent, d = 0;
+    el.innerHTML = Array.from(s).map(function (ch) {
+      return (ch >= '0' && ch <= '9') ? '<span class="dg" style="--i:' + (d++) + '">' + ch + '</span>' : '<span class="dg-s">' + ch + '</span>';
+    }).join('');
+    return d;
+  };
+  // クラスを付け直してアニメを頭から流し、ms 後に外す
+  window.__pulse = function (el, cls, ms) {
+    if (!el) return;
+    el.classList.remove(cls); void el.getBoundingClientRect(); el.classList.add(cls);
+    clearTimeout(el['__t_' + cls]);
+    el['__t_' + cls] = setTimeout(function () { el.classList.remove(cls); }, ms);
+  };
+  // 画面に固定した飾りを置き、ms 後に外す
+  window.__layer = function (html, css, ms) {
+    var e = document.createElement('div');
+    e.innerHTML = html;
+    e = e.firstElementChild;
+    e.style.cssText += ';' + css;
+    document.body.appendChild(e);
+    setTimeout(function () { e.remove(); }, ms);
+    return e;
+  };
+  window.__isCel = function () { return document.documentElement.classList.contains('ui-celestial'); };
+  // 仮の数字（デモ用）：数え上がりの行き先だけ差し替える
+  if (window.__forceN != null) {
+    var tw = _tweenNum;
+    _tweenNum = function (el, to, dur, done) { return tw(el, (el && el.id === 'heroNum') ? window.__forceN : to, dur, done); };
+  }
+}
+
+// 案の共通 CSS（数字の枠が一瞬まぶしくなる・暗くなる）
+const COMMON_CSS = `
+.hero-fig.__flare{animation:__flare .8s ease-out;}
+@keyframes __flare{0%{filter:brightness(1);}18%{filter:brightness(2.1) saturate(1.25);}100%{filter:brightness(1);}}
+.hero-fig.__dim{animation:__dim .62s ease-in-out;}
+@keyframes __dim{0%{filter:brightness(1);}35%,70%{filter:brightness(.38) saturate(.6);}100%{filter:brightness(1);}}
+`;
+
+/* ═══ 案の台帳 ═══
+   fn … _landHeroNumber を置き換える関数（toString して iframe へ流す）。
+        ⚠️ 冒頭で「そのテーマでなければ現行（__origLand）へ回す」こと。 */
+const THEMES_DEF = [
+ { key: 'celestial', name: 'Celestial', items: [
+  { id: 'cur', nm: '現行', ds: '天球儀ルーンの魔法陣が画面いっぱいに回り、星と星を光の線が結び、紫と金の閃光（画面全体が一瞬染まる）・輪・星屑が広がる。数字の下からグリフ（★⭐✦）と星。' },
+
+  { id: 'C1', nm: '星座が数字を描く', ds: '数字の輪郭の上に星が1つずつ灯り、金の線で結ばれて「数字の形の星座」になる。描き終えた瞬間に数字が強く輝き、星が瞬いて散る。目標達成の日は星が増え、線が菫色で二重になる。',
+    fn: function (el) {
+      if (!__isCel()) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var C = __CEL, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var fig = el.closest('.hero-fig');
+        var spans = el.querySelectorAll('.dg');
+        var cv = document.createElement('canvas'), cx = cv.getContext('2d');
+        var all = [];
+        spans.forEach(function (sp) {
+          var r = sp.getBoundingClientRect(), cs = getComputedStyle(sp);
+          var W = Math.ceil(r.width) + 8, H = Math.ceil(r.height) + 8;
+          cv.width = W; cv.height = H;
+          cx.clearRect(0, 0, W, H);
+          cx.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+          var m = cx.measureText(sp.textContent);
+          var ink = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+          cx.fillStyle = '#000';
+          cx.textBaseline = 'alphabetic';
+          cx.textAlign = 'center';
+          var by = (H - ink) / 2 + m.actualBoundingBoxAscent;
+          cx.fillText(sp.textContent, W / 2, by);
+          var px = cx.getImageData(0, 0, W, H).data, edge = [];
+          var A = function (x, y) { return (x < 0 || y < 0 || x >= W || y >= H) ? 0 : px[(y * W + x) * 4 + 3]; };
+          for (var y = 0; y < H; y += 2) for (var x = 0; x < W; x += 2) {
+            if (A(x, y) > 140 && (A(x - 2, y) < 60 || A(x + 2, y) < 60 || A(x, y - 2) < 60 || A(x, y + 2) < 60)) edge.push([x, y]);
+          }
+          if (!edge.length) return;
+          // 遠い点から順に拾う（farthest point sampling）＝輪郭に均等に散る
+          var K = Math.max(5, Math.min(11, Math.round(edge.length / 22))) + (g ? 2 : 0), pick = [edge[0]];
+          var dist = edge.map(function (p) { return Math.hypot(p[0] - edge[0][0], p[1] - edge[0][1]); });
+          while (pick.length < K) {
+            var bi = 0; for (var i = 1; i < dist.length; i++) if (dist[i] > dist[bi]) bi = i;
+            pick.push(edge[bi]);
+            for (var j = 0; j < dist.length; j++) dist[j] = Math.min(dist[j], Math.hypot(edge[j][0] - edge[bi][0], edge[j][1] - edge[bi][1]));
+          }
+          // 一筆書きの順（近い星へ渡る）
+          var rest = pick.slice(1), path = [pick[0]];
+          while (rest.length) {
+            var last = path[path.length - 1], ni = 0;
+            for (var k = 1; k < rest.length; k++) if (Math.hypot(rest[k][0] - last[0], rest[k][1] - last[1]) < Math.hypot(rest[ni][0] - last[0], rest[ni][1] - last[1])) ni = k;
+            path.push(rest.splice(ni, 1)[0]);
+          }
+          var ox = r.left - 4, oy = r.top - 4;
+          all.push(path.map(function (p) { return { x: ox + p[0], y: oy + p[1] }; }));
+        });
+        var step = 55, n = 0;
+        all.forEach(function (path) {
+          path.forEach(function (p, i) {
+            var t = n++ * step;
+            setTimeout(function () {
+              MecFX.orbit(p.x, p.y, { count: 1, r: .01, spread: .01, va: 0, jitter: false, size: g ? 9 : 7.5, colors: [i % 3 ? C.gold : C.white], shapes: ['star'], ttl: 1.5 - t / 2000 });
+              if (i > 0) {
+                var q = path[i - 1];
+                MecFX.ribbon(q.x, q.y, p.x, p.y, { color: C.gold, width: 1.6, bow: 0, tail: 1, grow: .25, ttl: 1.45 - t / 2000 });
+                if (g) MecFX.ribbon(q.x, q.y + 2, p.x, p.y + 2, { color: C.lilac, width: 1, bow: 0, tail: 1, grow: .25, ttl: 1.4 - t / 2000 });
+              }
+            }, t);
+          });
+        });
+        setTimeout(function () {
+          __pulse(fig, '__flare', 820);
+          all.forEach(function (path) { path.forEach(function (p) { MecFX.sparks(p.x, p.y, { count: g ? 5 : 3, colors: [C.gold, C.white, C.cyan] }); }); });
+          var c = _centerOf(el);
+          if (c) MecFX.diamondSparkle(c.x, c.y, { count: g ? 40 : 24, colors: [C.gold, C.pale, C.lilac, C.white] });
+        }, n * step + 120);
+      }, d * 55 + 120);
+    } },
+
+  { id: 'C2', nm: '日食', ds: '月の影が左から数字を覆い、数字が翳る。皆既の瞬間、影の縁から金のコロナが放射状に噴き出し（光の筋14本・輪・星屑）、影が右へ抜けると数字がまぶしく戻る。目標達成の日はコロナが長く、輪が二重。',
+    fn: function (el) {
+      if (!__isCel()) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var C = __CEL, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var c = _centerOf(el); if (!c) return;
+        var fig = el.closest('.hero-fig');
+        var D = Math.max(c.r.height * 1.15, c.r.width * .95);
+        var moon = __layer('<div></div>',
+          'position:fixed;z-index:60;pointer-events:none;left:' + (c.x - D / 2) + 'px;top:' + (c.y - D / 2) + 'px;width:' + D + 'px;height:' + D + 'px;border-radius:50%;' +
+          'background:radial-gradient(circle at 42% 40%,#2B1754 0%,#120726 62%,#07020F 100%);box-shadow:0 0 0 1px rgba(255,209,102,.35);', 1400);
+        moon.animate([
+          { translate: (-1.5 * D) + 'px 0', opacity: 0, boxShadow: '0 0 0 1px rgba(255,209,102,.2)' },
+          { translate: '0 0', opacity: 1, boxShadow: '0 0 0 1px rgba(255,209,102,.4)', offset: .34 },
+          { translate: '0 0', opacity: 1, boxShadow: '0 0 26px 8px rgba(255,209,102,.95), 0 0 70px 26px rgba(138,43,226,.65)', offset: .44 },
+          { translate: '0 0', opacity: 1, boxShadow: '0 0 18px 5px rgba(255,209,102,.7), 0 0 50px 18px rgba(138,43,226,.45)', offset: .6 },
+          { translate: (1.5 * D) + 'px 0', opacity: 0, boxShadow: '0 0 0 1px rgba(255,209,102,.2)' }
+        ], { duration: 1150, easing: 'cubic-bezier(.45,0,.3,1)', fill: 'forwards' });
+        __pulse(fig, '__dim', 640);
+        setTimeout(function () {
+          var R = D / 2, n = g ? 18 : 14;
+          for (var i = 0; i < n; i++) {
+            var a = i / n * Math.PI * 2 + Math.random() * .2, L = R * (g ? 1.9 : 1.5) + Math.random() * R * .8;
+            MecFX.slashRibbon(c.x + Math.cos(a) * R * .95, c.y + Math.sin(a) * R * .95, c.x + Math.cos(a) * L, c.y + Math.sin(a) * L,
+              { color: i % 3 ? C.gold : C.pale, width: 2.6, ttl: .5, delay: Math.random() * .06 });
+          }
+          MecFX.rings(c.x, c.y, { count: g ? 2 : 1, maxR: R * 2.4, color: 'rgba(255,209,102,.85)', thickness: 2.4, additive: true, stagger: .12 });
+          MecFX.diamondSparkle(c.x, c.y, { count: g ? 40 : 26, colors: [C.gold, C.pale, C.lilac, C.white] });
+          MecFX.sparks(c.x, c.y, { count: 18, colors: [C.gold, C.white, C.cyan] });
+        }, 420);
+        setTimeout(function () { __pulse(fig, '__flare', 820); }, 760);
+      }, d * 55 + 120);
+    } },
+
+  { id: 'C3', nm: '超新星', ds: '数字が白い光の一点まで吸い込まれるように縮み、一拍おいて爆発する。星と宝石の破片・金と菫の衝撃波の輪・中心の白い閃光とともに、数字が勢いよく元の大きさへ戻る（少し行き過ぎて止まる）。目標達成の日は破片と輪が増える。',
+    css: `
+.hero-num.__nova-in{transition:scale .34s cubic-bezier(.6,0,.9,.4), filter .34s ease-in;scale:.1;filter:brightness(3) drop-shadow(0 0 18px #FFFFFF) drop-shadow(0 0 30px #FFD166)!important;transform-origin:50% 55%;}
+.hero-num.__nova-out{animation:__novaOut .7s cubic-bezier(.2,1.5,.4,1) both!important;transform-origin:50% 55%;}
+@keyframes __novaOut{0%{scale:.1;filter:brightness(3) drop-shadow(0 0 18px #FFFFFF);}55%{scale:1.16;}100%{scale:1;}}`,
+    fn: function (el) {
+      if (!__isCel()) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var C = __CEL, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var c = _centerOf(el); if (!c) return;
+        el.classList.add('__nova-in');
+        // 縮む間に周りの星屑が中心へ引き込まれる
+        MecFX.orbit(c.x, c.y, { count: 14, r: c.r.height * 1.3, spread: c.r.height * .3, dr: -c.r.height * 3.4, va: 3.5, ttl: .38, colors: [C.gold, C.white, C.lilac], shapes: ['circle'], size: 3 });
+        setTimeout(function () {
+          el.classList.remove('__nova-in');
+          __pulse(el, '__nova-out', 760);
+          var H = c.r.height;
+          __layer('<div></div>', 'position:fixed;z-index:61;pointer-events:none;left:' + (c.x - H) + 'px;top:' + (c.y - H) + 'px;width:' + (H * 2) + 'px;height:' + (H * 2) + 'px;border-radius:50%;' +
+            'background:radial-gradient(circle,#FFFFFF 0%,rgba(255,248,225,.9) 18%,rgba(255,209,102,.55) 38%,rgba(138,43,226,.25) 60%,transparent 72%);', 700)
+            .animate([{ scale: .2, opacity: 1 }, { scale: 2.6, opacity: 0 }], { duration: 650, easing: 'cubic-bezier(.1,.7,.3,1)', fill: 'forwards' });
+          MecFX.burst(c.x, c.y, { tier: 4, count: g ? 60 : 42, colors: [C.gold, C.pale, C.lilac, C.cyan, C.white], shapes: ['star', 'gem'], speed: g ? 620 : 500, upBias: 60, gravity: 260, glow: true });
+          MecFX.rings(c.x, c.y, { count: g ? 3 : 2, maxR: H * 2.6, color: 'rgba(255,209,102,.9)', thickness: 2.6, additive: true, stagger: .1 });
+          MecFX.rings(c.x, c.y, { count: 1, maxR: H * 3.4, color: 'rgba(138,43,226,.75)', thickness: 3.2, additive: true });
+          MecFX.sparks(c.x, c.y, { count: 30, colors: [C.white, C.gold, C.cyan] });
+        }, 360);
+      }, d * 55 + 120);
+    } },
+
+  { id: 'C4', nm: '天球儀の環', ds: '傾きの違う3本の環（金・菫・水色）が数字の周りに描かれ、環の上を小さな星が走る。環がひと回りしながら数字へ縮んで吸い込まれ、数字が輝いて星屑が弾ける。ハブのゲージ（天球儀）と同じ言葉で話す。目標達成の日は環が4本になり、弾けが大きくなる。',
+    css: `
+.__armil{position:fixed;z-index:60;pointer-events:none;overflow:visible;}
+.__armil ellipse{fill:none;stroke-width:1.6;stroke-dasharray:100;stroke-dashoffset:100;animation:__armDraw .5s cubic-bezier(.3,.7,.3,1) forwards;}
+@keyframes __armDraw{to{stroke-dashoffset:0;}}`,
+    fn: function (el) {
+      if (!__isCel()) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var C = __CEL, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var c = _centerOf(el); if (!c) return;
+        var fig = el.closest('.hero-fig');
+        var S = Math.max(c.r.width, c.r.height) * 2.3, rx = S * .46, ry = S * .15;
+        var rings = [[-18, C.gold], [24, C.lilac], [76, C.cyan]];
+        if (g) rings.push([-58, C.pale]);
+        var svg = '<svg class="__armil" viewBox="' + (-S / 2) + ' ' + (-S / 2) + ' ' + S + ' ' + S + '" width="' + S + '" height="' + S + '">' +
+          rings.map(function (q, i) {
+            return '<g transform="rotate(' + q[0] + ')"><ellipse rx="' + rx + '" ry="' + ry + '" stroke="' + q[1] + '" pathLength="100" style="animation-delay:' + (i * .08) + 's;filter:drop-shadow(0 0 4px ' + q[1] + ')"/>' +
+              '<circle r="3.2" fill="#FFFFFF" style="filter:drop-shadow(0 0 5px ' + q[1] + ')"><animateMotion dur="' + (.9 + i * .15) + 's" repeatCount="indefinite" begin="' + (.25 + i * .08) + 's" path="M ' + rx + ' 0 A ' + rx + ' ' + ry + ' 0 1 1 ' + (-rx) + ' 0 A ' + rx + ' ' + ry + ' 0 1 1 ' + rx + ' 0"/></circle></g>';
+          }).join('') + '</svg>';
+        var box = __layer(svg, 'left:' + (c.x - S / 2) + 'px;top:' + (c.y - S / 2) + 'px;', 1500);
+        box.animate([
+          { rotate: '0deg', scale: .9, opacity: 0 },
+          { rotate: '20deg', scale: 1, opacity: 1, offset: .15 },
+          { rotate: '120deg', scale: 1, opacity: 1, offset: .6 },
+          { rotate: '230deg', scale: .08, opacity: .2 }
+        ], { duration: 1350, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' });
+        setTimeout(function () {
+          __pulse(fig, '__flare', 820);
+          MecFX.burst(c.x, c.y, { tier: 3, count: g ? 46 : 30, colors: [C.gold, C.pale, C.lilac, C.cyan], shapes: ['star', 'gem'], speed: g ? 480 : 380, upBias: 60, gravity: 300, glow: true });
+          MecFX.diamondSparkle(c.x, c.y, { count: g ? 34 : 20, colors: [C.gold, C.white, C.lilac] });
+          MecFX.rings(c.x, c.y, { count: 1, maxR: c.r.height * 2.2, color: 'rgba(255,209,102,.85)', thickness: 2.2, additive: true });
+        }, 1300);
+      }, d * 55 + 120);
+    } },
+
+  { id: 'C5', nm: '流星群', ds: '右上から流星が次々と数字へ降り注ぐ（1桁に2つずつ）。流星が当たった桁はその場で弾むように光り、着弾点に星が散る。全部降り終えると数字全体が輝き、金の星が立ちのぼる。目標達成の日は流星が増え、最後に輪が広がる。',
+    css: `
+.hero-num .dg.__hit{animation:__hit .45s cubic-bezier(.2,1.6,.4,1)!important;}
+@keyframes __hit{0%{scale:1;filter:brightness(1);}30%{scale:1.22;filter:brightness(2.4);}100%{scale:1;filter:brightness(1);}}`,
+    fn: function (el) {
+      if (!__isCel()) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var C = __CEL, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var spans = Array.from(el.querySelectorAll('.dg'));
+        if (!spans.length) return;
+        var per = g ? 3 : 2, n = Math.min(14, Math.max(5, spans.length * per)), gap = 95, fly = 260;
+        for (var i = 0; i < n; i++) (function (i) {
+          var sp = spans[i % spans.length], r = sp.getBoundingClientRect();
+          var tx = r.left + r.width * (.25 + Math.random() * .5), ty = r.top + r.height * (.2 + Math.random() * .6);
+          var len = 240 + Math.random() * 140, sx = tx + len * .72, sy = ty - len * .7;
+          MecFX.slashRibbon(sx, sy, tx, ty, { color: i % 3 === 2 ? C.cyan : (i % 2 ? C.gold : C.pale), width: 2.6, ttl: .42, delay: i * gap / 1000 });
+          setTimeout(function () {
+            __pulse(sp, '__hit', 480);
+            MecFX.sparks(tx, ty, { count: 6, colors: [C.white, C.gold, C.cyan] });
+            MecFX.burst(tx, ty, { tier: 1, count: 6, colors: [C.gold, C.pale, C.lilac], shapes: ['star'], speed: 220, upBias: 90, glow: true });
+          }, i * gap + fly * .55);
+        })(i);
+        setTimeout(function () {
+          var c = _centerOf(el); if (!c) return;
+          __pulse(el.closest('.hero-fig'), '__flare', 820);
+          MecFX.burst(c.x, c.r.bottom - 6, { tier: 2, count: g ? 34 : 22, colors: [C.gold, C.pale, C.white], shapes: ['star'], speed: 260, upBias: 260, gravity: 120, glow: true });
+          if (g) MecFX.rings(c.x, c.y, { count: 2, maxR: c.r.height * 2.4, color: 'rgba(255,209,102,.85)', thickness: 2.2, additive: true, stagger: .12 });
+        }, n * gap + fly * .55 + 160);
+      }, d * 55 + 120);
+    } }
+ ]}
+];
+
+const SAVE_KEY = 'mec_hubland_pick_v1';   // このデモ専用（採用の印だけ）
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let picks = {};
+try { picks = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}') || {}; } catch (e) {}
+function save() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(picks)); } catch (e) {} }
+
+let playing = null;   // { key, id }
+function renderList() {
+  $('list').innerHTML = THEMES_DEF.map(g => '<section class="grp"><h2>' + esc(g.name) + '<small>読み値の着地</small></h2>' +
+    g.items.map(it => {
+      const on = picks[g.key] === it.id, pl = playing && playing.key === g.key && playing.id === it.id;
+      return '<div class="item' + (on ? ' picked' : '') + (pl ? ' playing' : '') + '" data-key="' + g.key + '" data-id="' + it.id + '">' +
+        '<div class="hd"><div class="nm"><span class="no">' + (it.id === 'cur' ? '' : it.id) + '</span>' + esc(it.nm) + '</div>' +
+        '<button class="see" data-act="see">▶ 見る</button>' +
+        '<label class="pick"><input type="radio" name="p-' + g.key + '" data-act="pick"' + (on ? ' checked' : '') + '>採用</label></div>' +
+        '<div class="ds">' + esc(it.ds) + '</div></div>';
+    }).join('') + '</section>').join('');
+  $('picks').innerHTML = THEMES_DEF.map(g => {
+    const it = g.items.find(x => x.id === picks[g.key]);
+    return '<span>' + esc(g.name) + '：' + (it ? '<b>' + esc((it.id === 'cur' ? '' : it.id + ' ') + it.nm) + '</b>' : '未選択') + '</span>';
+  }).join('');
+}
+$('list').addEventListener('click', e => {
+  const row = e.target.closest('.item');
+  if (!row) return;
+  const act = e.target.closest('[data-act]');
+  if (act && act.dataset.act === 'pick') { picks[row.dataset.key] = row.dataset.id; save(); renderList(); return; }
+  if (e.target.closest('label')) return;
+  play(row.dataset.key, row.dataset.id);
+});
+
+/* ── プレビュー（_work/hub_fx_demo.html と同じ写しの仕組み） ── */
+let hubSrc = null;
+async function loadHub() {
+  if (hubSrc) return hubSrc;
+  const r = await fetch('../index.html', { cache: 'no-cache' });
+  if (!r.ok) throw new Error('index.html を読めない（' + r.status + '）');
+  return (hubSrc = await r.text());
+}
+function snapshot() {
+  const o = {};
+  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); o[k] = localStorage.getItem(k); } } catch (e) {}
+  delete o.mec_gist_token; delete o.mec_gist_id; delete o[SAVE_KEY];
+  return o;
+}
+function today() { return new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10); }
+function mondayOf(d) { const t = new Date(d + 'T00:00:00Z'); const w = (t.getUTCDay() + 6) % 7; t.setUTCDate(t.getUTCDate() - w); return t.toISOString().slice(0, 10); }
+function shimScript(ls, ss) {
+  return '<script>(function(){' +
+    'function mk(seed){var m=new Map(Object.entries(seed));' +
+    'var api={getItem:function(k){k=String(k);return m.has(k)?m.get(k):null;},setItem:function(k,v){m.set(String(k),String(v));},' +
+    'removeItem:function(k){m.delete(String(k));},clear:function(){m.clear();},key:function(i){var a=Array.from(m.keys());return i<a.length?a[i]:null;}};' +
+    'Object.defineProperty(api,"length",{configurable:true,get:function(){return m.size;}});' +
+    'return new Proxy(api,{get:function(t,p){if(p in t)return t[p];if(typeof p==="string"&&m.has(p))return m.get(p);return undefined;},' +
+    'set:function(t,p,v){if(p in t)return true;m.set(String(p),String(v));return true;},' +
+    'has:function(t,p){return (p in t)||m.has(p);},deleteProperty:function(t,p){m.delete(p);return true;},' +
+    'ownKeys:function(){return Array.from(m.keys());},' +
+    'getOwnPropertyDescriptor:function(t,p){return m.has(p)?{value:m.get(p),enumerable:true,configurable:true,writable:true}:undefined;}});}' +
+    'var LS=mk(' + JSON.stringify(ls).replace(/</g, '\\u003c') + '),SS=mk(' + JSON.stringify(ss).replace(/</g, '\\u003c') + ');' +
+    'try{Object.defineProperty(window,"localStorage",{configurable:true,get:function(){return LS;}});}catch(e){}' +
+    'try{Object.defineProperty(window,"sessionStorage",{configurable:true,get:function(){return SS;}});}catch(e){}' +
+    'document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(a)e.preventDefault();},true);' +
+    '})();<\/script>';
+}
+
+let playSeq = 0;
+async function play(key, id) {
+  const seq = ++playSeq;
+  let src;
+  try { src = await loadHub(); }
+  catch (e) { $('status').innerHTML = '<b>' + esc(e.message) + '</b>（GitHub Pages か http のサーバーで開くこと。file:// では動かない）'; return; }
+  if (seq !== playSeq) return;
+  const grp = THEMES_DEF.find(g => g.key === key), it = grp.items.find(x => x.id === id);
+  playing = { key, id }; renderList();
+
+  const pct = $('pct').value, num = $('num').value;
+  const ls = snapshot();
+  ls.mec_ui_theme_v1 = key;
+  ls.mec_hub_opening_v1 = JSON.stringify({ day: today(), week: mondayOf(today()) });   // ブリーフィングで画面を塞がない
+
+  let js = (num !== '' ? 'window.__forceN = ' + Number(num) + ';\n' : '') +
+           'window.__origLand = _landHeroNumber;\n(' + PRELUDE.toString() + ')();\n';
+  if (it.fn) js += '_landHeroNumber = (' + it.fn.toString() + ');\n';
+  if (pct !== '') {
+    js += '(function(){var G=window.MecGamify;if(!G||!G.dailyGoal)return;var o=G.dailyGoal;G.dailyGoal=function(){var g=o.apply(G,arguments)||{};var p=' + Number(pct) + ';' +
+          'var t=g.target||200;return Object.assign({},g,{pct:p,count:Math.round(t*p/100),target:t});};})();\n';
+  }
+  js += 'window.__replay = function () { var el = document.getElementById("heroNum"); if (el) _landHeroNumber(el); };\n';
+
+  let h = src;
+  h = h.replace(/<head>/i, '<head><base href="../">' + shimScript(ls, {}));
+  h = h.replace(/<script>\s*if\('serviceWorker'in navigator\)[^<]*<\/script>/, '');
+  h = h.replace('<script src="index.js"><\/script>', '<script src="index.js"><\/script><script>(function(){try{\n' + js + '\n}catch(e){console.error("[hub_land_demo]",e);}})();<\/script>');
+  h = h.replace(/<\/head>/i, '<style id="hubLandDemo">' + COMMON_CSS + (it.css || '') + '</style></head>');
+
+  $('status').innerHTML = '▶ ' + esc(grp.name) + '：<b>' + esc((id === 'cur' ? '' : id + ' ') + it.nm) + '</b>' +
+    (num !== '' ? '（数字 ' + esc(num) + '）' : '') + (pct !== '' ? '（達成率 ' + esc(pct) + '%）' : '');
+  $('again').disabled = false;
+  $('frame').srcdoc = h;
+  fit();
+}
+$('again').onclick = () => {
+  if (!playing) return;
+  try { $('frame').contentWindow.__replay(); } catch (e) { play(playing.key, playing.id); }
+};
+['pct', 'num'].forEach(k => $(k).onchange = () => { if (playing) play(playing.key, playing.id); });
+
+function fit() {
+  const stage = $('stage'), sc = $('scaler'), fr = $('frame');
+  const W = stage.clientWidth, H = stage.clientHeight, v = $('width').value;
+  const w = v === 'fit' ? W : Number(v);
+  const k = Math.min(1, W / w);
+  fr.style.width = w + 'px';
+  fr.style.height = Math.round(H / k) + 'px';
+  sc.style.transform = k < 1 ? 'scale(' + k + ')' : '';
+}
+addEventListener('resize', fit);
+$('width').onchange = () => { fit(); if (playing) play(playing.key, playing.id); };
+
+$('copy').onclick = async () => {
+  const lines = THEMES_DEF.map(g => {
+    const it = g.items.find(x => x.id === picks[g.key]);
+    return '- ' + g.name + '：' + (it ? (it.id === 'cur' ? '現行のまま' : it.id + ' ' + it.nm) : '未選択');
+  });
+  const t = '読み値の着地（採用案）\n\n' + lines.join('\n') + '\n';
+  const out = $('out');
+  out.value = t; out.classList.add('show');
+  try { await navigator.clipboard.writeText(t); $('copy').textContent = 'コピーしました ✓'; }
+  catch (e) { out.focus(); out.select(); $('copy').textContent = '下の枠から手でコピー'; }
+  setTimeout(() => { $('copy').textContent = '結果をコピー'; }, 2200);
+};
+
+renderList();
+fit();
+</script>
+</body>
+</html>
