@@ -4421,25 +4421,6 @@ function checkSyncWarning() {
   if (banner) banner.style.display = (!hasToken && Object.keys(done).length > 0) ? '' : 'none';
 }
 
-// ── 最終更新日時（GitHub API） ────────────────────────────────────
-(function fetchLastUpdated() {
-  const el = document.getElementById('lastUpdatedBadge');
-  if (!el) return;
-  fetch('https://api.github.com/repos/Mio839/MEC/commits?per_page=1', { cache: 'no-store' })
-    .then(r => r.json())
-    .then(data => {
-      if (!data[0]) return;
-      const d = new Date(data[0].commit.committer.date);
-      const mm = d.getMonth() + 1, dd = d.getDate();
-      const hh = String(d.getHours()).padStart(2, '0'), min = String(d.getMinutes()).padStart(2, '0');
-      const stamp = mm + '/' + dd + ' ' + hh + ':' + min;
-      // ヘッダーは幅が足りないので表示は時刻だけ。説明と最新コミット題は title に回す
-      el.textContent = '🕐 ' + stamp;
-      el.title = '最終更新 ' + stamp + '\n' + data[0].commit.message.split('\n')[0];
-    })
-    .catch(() => { el.textContent = ''; });
-})();
-
 // ── 効果音設定 ────────────────────────────────────────────────────
 // ── テーマ選択 ────────────────────────────────────────────────────
 // 実際の配色は vars.css の html.th-*、クラス付与は theme.js（<head>で同期実行）。

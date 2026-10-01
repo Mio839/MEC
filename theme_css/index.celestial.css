@@ -23,7 +23,7 @@ body { font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;back
 .hub-header {
   position:relative;position:sticky;top:0;z-index:var(--z-hdr);
   display:flex;align-items:center;gap:var(--sp-3);
-  padding:var(--sp-3) var(--sp-4);
+  padding:8px var(--sp-4);
   background:rgba(var(--hdr-rgb),.94);border-bottom:1px solid var(--hair);
 }
 .hub-mark {
@@ -36,11 +36,6 @@ body { font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;back
   overflow:hidden;text-overflow:ellipsis;
 }
 .hub-mark i { width:1px;height:11px;flex-shrink:0;background:var(--hair-3);align-self:center; }
-.hub-upd {
-  flex-shrink:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-  font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--ts);
-  font-variant-numeric:tabular-nums;
-}
 .hub-upd-btn {
   flex-shrink:0;height:24px;padding:0 7px;border-radius:var(--r-sm);
   border:1px solid var(--hair);background:rgba(var(--glass-rgb),.05);color:var(--tx);
@@ -90,7 +85,7 @@ body { font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;back
 @media (prefers-reduced-motion: reduce) {
   .mec-sync-badge[data-fx="spin"] { animation:none; }
 }
-.hub-main { max-width:var(--hub-max);margin:0 auto;padding:var(--sp-5) var(--sp-4) var(--sp-7); }
+.hub-main { max-width:var(--hub-max);margin:0 auto;padding:19px var(--sp-4) var(--sp-7); }
 .hero {
   position:relative;isolation:isolate;overflow:hidden;
   padding:var(--sp-6) var(--sp-5) var(--sp-5);
@@ -536,8 +531,7 @@ html:not([class*="ui-"]) .hero-num .dg {
 }
 @media (max-width:720px) {
   .hub-header { flex-wrap:wrap;row-gap:4px; }
-  .hub-mark,
-  .hub-upd { flex:1 1 0; }
+  .hub-mark { flex:1 1 0; }
   .hub-day { order:10;flex-basis:100%;justify-content:center; }
 }
 .hero-body { position:relative; }
