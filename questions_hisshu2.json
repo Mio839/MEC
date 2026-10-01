@@ -960,18 +960,23 @@
             },
             {
               "cls": "ep",
-              "h": "🩸 喀血と吐血の鑑別",
-              "c": "<table class=\"tb\"><tr><th>特徴</th><th>喀血</th><th>吐血</th></tr><tr><td>特徴</td><td><span class=\"kw\">喀血</span></td><td><span class=\"kw4\">吐血</span></td></tr><tr><td>出血源</td><td>気道（肺・気管支）</td><td>消化管（食道・胃・十二指腸）</td></tr><tr><td>排出様式</td><td><span class=\"kw\">咳嗽（cough）とともに</span>←正答</td><td><span class=\"kw4\">嘔吐（nausea）とともに</span></td></tr><tr><td>色調</td><td>鮮赤色・泡立ちあり</td><td>暗赤色・コーヒー残渣様</td></tr><tr><td>混入物</td><td>痰・泡沫</td><td>食物残渣</td></tr><tr><td>便への影響</td><td>（なし）</td><td><span class=\"kw\">タール便（メレナ）</span></td></tr><tr><td>pH</td><td>アルカリ性</td><td>酸性</td></tr></table>"
+              "h": "🌿 口から出た血は肺からか、胃からか——出方・色・混じり物・その後",
+              "c": "<span class=\"kw4\"><b>口から血が出たら、まず喀血（気道）か吐血（消化管）かを分ける——検査（気管支鏡か上部消化管内視鏡か）も、危険（窒息かショックか）も違う</b></span>。<br/><span class=\"kw\"><b>① 出方</b></span><br/><span class=\"kw3\"><b>喀血：咳嗽とともに。前に喉のむずむず感・胸の違和感</b></span><br/><span class=\"kw3\"><b>吐血：悪心とともに嘔吐する</b></span><br/><span class=\"kw\"><b>② 色と性状</b></span><br/><span class=\"kw3\"><b>喀血：鮮紅色、泡を含む（空気と混じる）、アルカリ性</b></span><br/><span class=\"kw3\"><b>吐血：暗赤色〜コーヒー残渣様（胃酸でヘモグロビンがヘマチンに変わる）、酸性。大量・急速なら鮮紅色</b></span><br/><span class=\"kw\"><b>③ 混じる物</b></span><br/><span class=\"kw3\"><b>喀血：痰</b></span><br/><span class=\"kw3\"><b>吐血：食物残渣</b></span><br/><span class=\"kw\"><b>④ その後</b></span><br/><span class=\"kw3\"><b>喀血：数日、血の混じった痰が続く。飲み込んだ血で黒色便が出ることもある</b></span><br/><span class=\"kw3\"><b>吐血：タール便、BUN の上昇（Q.106）</b></span><br/><span class=\"kw\"><b>⑤ 既往と所見</b></span><br/><span class=\"kw3\"><b>喀血：肺の病気（気管支拡張症・肺結核・肺癌・肺アスペルギルス症）、呼吸音の異常</b></span><br/><span class=\"kw3\"><b>吐血：潰瘍・NSAIDs・肝硬変・飲酒、心窩部痛</b></span><br/><span class=\"kw2\"><b>鼻出血・口腔からの出血を飲み込んで吐くこともある——鼻・口を先に見る</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　悪心を伴う。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>嘔吐に先立つ悪心は吐血の特徴</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　咳嗽を伴う。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>気道の血は咳で出される</b></span>。</td></tr><tr><td>ｃ　食物残渣を伴う。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃の内容が混じる——吐血</b></span>。</td></tr><tr><td>ｄ　タール便を伴う。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>上部消化管出血の血液が腸を通って黒くなる——吐血</b></span>。<span class=\"kw2\"><b>大量の喀血を飲み込めば黒色便になることもあるが、典型的ではない</b></span>。</td></tr><tr><td>ｅ　暗赤色の色調である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃酸で変色した血——吐血</b></span>。<span class=\"kw3\"><b>喀血は鮮紅色で泡を含む</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 喀血の原因と、大量喀血で命を守る手順",
+              "c": "<span class=\"kw4\"><b>喀血で死ぬ原因は出血量ではなく窒息——気道に血がたまって呼吸ができなくなる</b></span>。<br/><span class=\"kw\"><b>① 主な原因</b></span><br/><span class=\"kw3\"><b>気管支拡張症、肺結核（活動性・後遺症）、肺癌、肺アスペルギルス症（菌球）、肺炎・肺膿瘍</b></span><br/><span class=\"kw3\"><b>肺血栓塞栓症（肺梗塞）、僧帽弁狭窄症、肺動静脈瘻、血管炎（多発血管炎性肉芽腫症・抗 GBM 病）、抗凝固薬</b></span><br/><span class=\"kw\"><b>② 大量喀血の初期対応</b></span><br/><span class=\"kw4\"><b>出血している側を下にして寝かせる（健側の肺に血が流れ込まないように）</b></span><br/><span class=\"kw3\"><b>酸素投与、静脈路、止血薬（トラネキサム酸）、咳止め</b></span><br/><span class=\"kw4\"><b>呼吸が保てなければ気管挿管——健側の気管支に挿管して健側の肺を守ることもある</b></span><br/><span class=\"kw\"><b>③ 出血部位の特定と止血</b></span><br/><span class=\"kw3\"><b>胸部 CT（造影）で出血部位と原因を探す</b></span><br/><span class=\"kw3\"><b>気管支鏡で出血部位を確かめ、血液を吸引する</b></span><br/><span class=\"kw4\"><b>気管支動脈塞栓術：喀血の多くは体循環の気管支動脈からの出血——カテーテルで塞ぐ</b></span><br/><span class=\"kw3\"><b>止まらなければ肺切除</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">喀血：咳とともに出血・泡立ち・鮮赤色</span><br/><span class=\"kw\">吐血：悪心・嘔吐とともに・タール便を伴う</span>"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "吐血よりも喀血を示唆する所見。<br/><b>a 悪心／c 食物残渣／d タール便／e 暗赤色</b>：吐血を示唆。<br/><b>b 咳嗽を伴う</b>：<span class=\"kw\">喀血は咳嗽とともに鮮紅色・泡沫状の血を喀出</span>。✓"
+              "c": "<span class=\"kw4\"><b>喀血：咳嗽とともに、鮮紅色・泡沫・アルカリ性・痰が混じる</b></span>。<br/><span class=\"kw4\"><b>吐血：悪心・嘔吐とともに、暗赤色〜コーヒー残渣様・酸性・食物残渣・タール便</b></span>。<br/><span class=\"kw3\"><b>鼻出血・口腔の出血の飲み込みも考える</b></span>。<br/><span class=\"kw3\"><b>大量喀血は窒息が危険——出血側を下に、必要なら気管挿管</b></span>。<br/><span class=\"kw3\"><b>喀血の止血は気管支動脈塞栓術</b></span>。"
             },
             {
               "cls": "ept",
