@@ -10608,22 +10608,27 @@
             }
           ],
           "ans_label": "ｄ　Sims 位",
-          "ans_sub": "Sims位（シムス位）は左側臥位で左下肢を伸展し右膝を胸に引き寄せる体位。直腸肛門診察の標準体位。",
+          "ans_sub": "直腸・肛門診察の基本体位は<b>Sims 位</b>——左側臥位で、上になる右の股関節と膝を深く曲げ、下の左脚は軽く曲げる。患者の負担が少なく羞恥心も比較的小さく、高齢者や重症者でも取りやすい。膝胸位は直腸前壁の観察に向くが負担が大きく、jack-knife 位（腹臥位で腰を曲げ殿部を上げる）は肛門手術の体位、腹臥位・仰臥位は殿部が開かず肛門の診察に適さない。",
           "eg": [
             {
               "cls": "ep",
-              "h": "🛌 直腸肛門診察の体位",
-              "c": "<table class=\"tb\"><tr><th>体位</th><th>説明</th><th>適応</th></tr><tr><td>体位</td><td>説明</td><td>適応</td></tr><tr><td><span class=\"kw\">Sims位（正答）</span></td><td>左側臥位＋右膝屈曲（膝を胸へ）</td><td><span class=\"kw\">直腸肛門指診・直腸鏡</span>の標準</td></tr><tr><td>膝胸位</td><td>うつ伏せで膝と胸を床に</td><td>直腸鏡・S状結腸鏡（視野良好）</td></tr><tr><td>jack-knife位</td><td>腹臥位で腰を高く屈曲</td><td>痔瘻・肛門手術</td></tr><tr><td>截石位</td><td>仰臥位で両膝屈曲・開脚</td><td>会陰・膀胱鏡・婦人科手術</td></tr><tr><td>仰臥位</td><td>通常の仰臥</td><td>直腸指診には適さない</td></tr></table>"
+              "h": "🌿 肛門を診る5つの体位——それぞれ何のために使うか",
+              "c": "<span class=\"kw3\"><b>直腸・肛門の診察と処置の体位は、「患者の負担」「肛門の見やすさ」「術者の操作のしやすさ」の兼ね合いで選ぶ</b></span>。<span class=\"kw4\"><b>外来の診察で最もよく使うのは Sims 位</b></span>（Q.2・Q.9）。<br/><span class=\"kw\"><b>① Sims 位（左側臥位）</b></span><br/><span class=\"kw4\"><b>左を下にした側臥位で、上の右脚を深く曲げ、下の左脚は軽く曲げる。殿部をベッドの端に寄せる</b></span><br/><span class=\"kw3\"><b>利点：負担が少なく、顔が術者から見えず羞恥心が少ない、高齢者・重症者・妊婦でも取れる</b></span><br/><span class=\"kw3\"><b>欠点：術者は殿部を手で開く必要がある</b></span><br/><span class=\"kw\"><b>② 砕石位（截石位）</b></span><br/><span class=\"kw3\"><b>仰臥位で両脚を開いて支脚台に乗せる</b></span><br/><span class=\"kw3\"><b>会陰・肛門がよく見え、双手診（腟と直腸から挟む）ができる——婦人科・泌尿器科・肛門手術</b></span><br/><span class=\"kw3\"><b>位置の記載（時計表示）の基準になる体位（Q.40）</b></span><br/><span class=\"kw\"><b>③ 膝胸位</b></span><br/><span class=\"kw3\"><b>膝と胸をベッドに着け、殿部を高く上げる</b></span><br/><span class=\"kw3\"><b>腸管が頭側へ落ちて直腸がまっすぐになり、直腸鏡・前壁や前立腺の観察に向く</b></span><br/><span class=\"kw4\"><b>負担が大きく、高齢者・心肺疾患のある人には向かない</b></span><br/><span class=\"kw\"><b>④ jack-knife 位（ジャックナイフ位）</b></span><br/><span class=\"kw3\"><b>腹臥位で股関節を曲げて殿部を最も高くし、両殿部をテープで左右に引く</b></span><br/><span class=\"kw4\"><b>肛門が最もよく見え、静脈のうっ血も少ないので痔核・痔瘻の手術の標準的な体位</b></span><br/><span class=\"kw3\"><b>脊髄くも膜下麻酔（サドルブロック）の後に取ることが多い</b></span><br/><span class=\"kw\"><b>⑤ 腹臥位・仰臥位</b></span><br/><span class=\"kw3\"><b>殿部が閉じ、肛門が露出しない——直腸・肛門の診察には適さない</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　膝胸位</td><td><span class=\"kw4\">最も適切とはいえない</span>。<span class=\"kw3\"><b>直腸鏡や直腸前壁の観察には有用だが、患者の負担と羞恥心が大きい</b></span>。<span class=\"kw3\"><b>高齢者・心肺疾患・関節疾患の患者では取りにくい</b></span>。<span class=\"kw2\"><b>腹臥位の亜型として、内視鏡（硬性鏡）の時代に好まれた</b></span>。</td></tr><tr><td>ｂ　腹臥位</td><td><span class=\"kw4\">不適切</span>。<span class=\"kw3\"><b>うつ伏せのままでは殿部が閉じ、肛門が見えず、指も入れにくい</b></span>。</td></tr><tr><td>ｃ　仰臥位</td><td><span class=\"kw4\">不適切</span>。<span class=\"kw3\"><b>脚を伸ばした仰臥位では肛門が露出しない</b></span>。<span class=\"kw2\"><b>砕石位（仰臥位で脚を開き挙上）なら診察できるが、それは別の体位として区別する</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　Sims 位</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>左側臥位で右脚を深く曲げ、殿部を突き出す</b></span>。<span class=\"kw4\"><b>外来での直腸指診・肛門鏡検査・直腸の診察の標準体位</b></span>。<span class=\"kw2\"><b>浣腸・坐薬の挿入、下部内視鏡の挿入開始も左側臥位で行う</b></span>。</td></tr><tr><td>ｅ　jack-knife 位</td><td><span class=\"kw4\">最も適切とはいえない</span>。<span class=\"kw3\"><b>肛門の視野は最もよいが、手術室で麻酔をかけて行う手術の体位</b></span>。<span class=\"kw3\"><b>外来の診察で取らせる体位ではない</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 肛門鏡と直腸脱——外から見えないものを見る",
+              "c": "<span class=\"kw4\"><b>直腸指診で触れない病変は、肛門鏡や内視鏡で「見て」確かめる</b></span>。<br/><span class=\"kw\"><b>① 肛門鏡検査</b></span><br/><span class=\"kw3\"><b>筒状の器具を肛門から挿入し、肛門管と直腸下部を直接見る</b></span><br/><span class=\"kw3\"><b>内痔核（指診では軟らかく触れにくい）・裂肛・肛門ポリープ・痔瘻の一次口・直腸下部の腫瘍を観察する</b></span><br/><span class=\"kw3\"><b>体位は Sims 位。挿入後に内筒を抜き、ゆっくり引きながら全周を見る</b></span><br/><span class=\"kw\"><b>② 内視鏡の反転観察</b></span><br/><span class=\"kw3\"><b>大腸内視鏡を直腸で U ターンさせ、歯状線と肛門管の口側を見る——直腸下端の病変の見落としを防ぐ</b></span><br/><span class=\"kw\"><b>③ 直腸脱</b></span><br/><span class=\"kw3\"><b>直腸の壁が全層で肛門から脱出する。高齢女性・多産・慢性便秘・骨盤底の脆弱化・精神疾患に多い</b></span><br/><span class=\"kw4\"><b>脱出した粘膜に同心円状のひだが見える（内痔核の脱出は放射状の溝で区分された塊）</b></span><br/><span class=\"kw3\"><b>しゃがんでいきませる（排便姿勢）と脱出が分かる</b></span><br/><span class=\"kw3\"><b>治療：経肛門的手術（Gant-三輪法・Delorme 法）、経腹的手術（直腸固定術、腹腔鏡下）</b></span><br/><span class=\"kw\"><b>④ 女性の骨盤臓器脱との関係</b></span><br/><span class=\"kw3\"><b>直腸瘤（直腸前壁が腟側へ膨らむ）・子宮脱・膀胱瘤は骨盤底の脆弱化という共通の背景を持つ（Q.48）</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">Sims位（シムス位）= 左側臥位 + 右膝屈曲</span><br/>直腸肛門診察の標準体位。括約筋が弛緩し指の挿入がしやすい。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "直腸・肛門診察で最も適切な体位。<br/><b>a 膝胸位／b 腹臥位／c 仰臥位／e jack-knife位</b>：一般診察に不適/特殊。<br/><b>d Sims位</b>：<span class=\"kw\">左側臥位で膝を曲げるSims位が基本</span>。✓"
+              "c": "<span class=\"kw4\"><b>直腸・肛門診察の標準体位＝Sims 位（左側臥位、上の右脚を深く曲げる）</b></span>。<br/><span class=\"kw3\"><b>砕石位：婦人科・泌尿器科・肛門手術、双手診。位置記載の基準</b></span>。<br/><span class=\"kw3\"><b>膝胸位：直腸鏡・前壁の観察（負担大）。jack-knife 位：肛門手術の体位</b></span>。<br/><span class=\"kw3\"><b>肛門鏡で内痔核・裂肛・痔瘻の一次口を見る。内視鏡は反転して直腸下端を見る</b></span>。<br/><span class=\"kw3\"><b>直腸脱は同心円状のひだ、内痔核脱出は放射状の溝</b></span>。"
             },
             {
               "cls": "ept",

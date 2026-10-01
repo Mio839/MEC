@@ -1103,18 +1103,23 @@
             },
             {
               "cls": "ep",
-              "h": "🔬 胃酸分泌の調節",
-              "c": "<span class=\"kw\">胃酸分泌3大促進因子</span>：<br/>① <span class=\"kw\">ガストリン（正答a）</span>：G細胞（幽門前庭部）→壁細胞のCCK-B受容体→胃酸↑<br/>② <span class=\"kw\">ヒスタミン（正答e）</span>：ECL細胞→壁細胞のH₂受容体→cAMP↑→胃酸↑（H₂ブロッカーはここを阻害）<br/>③ アセチルコリン（M₃受容体）：迷走神経→壁細胞→IP₃↑→胃酸↑<br/><br/><span class=\"kw4\">胃酸分泌抑制因子</span>：<br/>・セクレチン：胃酸↓（膵液HCO₃⁻↑）<br/>・ソマトスタチン：ガストリン・ヒスタミン・ACh分泌↓→胃酸↓<br/>・GIP：胃酸分泌抑制"
+              "h": "🌿 胃酸分泌の3相——頭で見て、胃で受けて、腸でブレーキをかける",
+              "c": "<span class=\"kw3\"><b>壁細胞を動かす3つのアクセル（アセチルコリン・ガストリン・ヒスタミン）とブレーキ（酸→ソマトスタチン）は Q.12 で見た</b></span>。<span class=\"kw4\"><b>ここでは食事の流れに沿った「3つの相」で分泌の調節を整理する</b></span>。<br/><span class=\"kw\"><b>① 脳相（頭相）——分泌の約30％</b></span><br/><span class=\"kw3\"><b>食物を見る・嗅ぐ・味わう・思い浮かべる → 迷走神経 → 壁細胞へアセチルコリン、G 細胞へ GRP（ガストリン放出ペプチド）</b></span><br/><span class=\"kw2\"><b>迷走神経切離術（かつての潰瘍の手術）はこの相を断つ</b></span><br/><span class=\"kw\"><b>② 胃相——分泌の約60％</b></span><br/><span class=\"kw3\"><b>胃の伸展 → 迷走神経反射・壁内反射でアセチルコリン</b></span><br/><span class=\"kw4\"><b>蛋白質・アミノ酸（ペプチド） → G 細胞からガストリン → ECL 細胞のヒスタミン → 壁細胞</b></span><br/><span class=\"kw3\"><b>酸が増えて前庭部の pH が下がると、D 細胞のソマトスタチンがガストリンを止める</b></span><br/><span class=\"kw\"><b>③ 腸相——主に抑制</b></span><br/><span class=\"kw3\"><b>十二指腸に酸・脂肪・高浸透圧の内容が来ると、セクレチン・CCK・GIP・ソマトスタチンが出て胃酸と胃排出を抑える（腸胃反射）</b></span><br/><span class=\"kw4\"><b>十二指腸を酸と過剰な内容物から守り、膵液と胆汁が働く時間を作る</b></span><br/><span class=\"kw\"><b>④ 壁細胞の内側</b></span><br/><span class=\"kw3\"><b>ヒスタミン（H<sub>2</sub>）→ cAMP 上昇、アセチルコリン（M<sub>3</sub>）とガストリン（CCK<sub>2</sub>）→ Ca²⁺ 上昇</b></span><br/><span class=\"kw4\"><b>どの経路も最後は H⁺/K⁺-ATPase（プロトンポンプ）に行きつく——PPI はこの最終共通路を止めるので最も強力</b></span><br/><span class=\"kw\"><b>⑤ 薬の標的</b></span><br/><span class=\"kw3\"><b>H<sub>2</sub> 受容体拮抗薬（ファモチジン）、PPI（ランソプラゾールなど）、P-CAB（ボノプラザン）、抗コリン薬（ピレンゼピン：M<sub>1</sub>）、ガストリン受容体拮抗薬（プログルミド）</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　ガストリン</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>前庭部・十二指腸の G 細胞から、蛋白質・胃の伸展・迷走神経（GRP）の刺激で分泌される</b></span>。<span class=\"kw4\"><b>主に ECL 細胞からヒスタミンを出させ、間接的に酸分泌を増やす（直接の作用は弱い）</b></span>。<span class=\"kw2\"><b>胃粘膜（特に ECL 細胞）の増殖も促す</b></span>。</td></tr><tr><td>ｂ　セクレチン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>十二指腸の酸で S 細胞から出て、膵・胆管から HCO<sub>3</sub>⁻ を分泌させ、ガストリンと胃酸を抑える（Q.20）</b></span>。<span class=\"kw2\"><b>ガストリノーマでは逆にガストリンを上げる（診断に使う）</b></span>。</td></tr><tr><td>ｃ　ソマトスタチン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>D 細胞から出て、G 細胞のガストリン・ECL 細胞のヒスタミン・壁細胞の酸分泌をすべて抑える</b></span>。<span class=\"kw3\"><b>酸が増えると分泌が増える——酸の負のフィードバックの担い手</b></span>。</td></tr><tr><td>ｄ　糖依存性インスリン放出ペプチド〈GIP〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>十二指腸・空腸の K 細胞から糖・脂肪で分泌されるインクレチンで、血糖依存性にインスリン分泌を促す</b></span>。<span class=\"kw3\"><b>かつては gastric inhibitory polypeptide（胃抑制ペプチド）と呼ばれたように、胃酸分泌を抑える作用もある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　ヒスタミン</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胃底腺の ECL 細胞から出て、壁細胞の H<sub>2</sub> 受容体に働く——最も強力な直接の刺激</b></span>。<span class=\"kw4\"><b>ガストリンとアセチルコリンの作用の多くがヒスタミンを介するので、H<sub>2</sub> 受容体拮抗薬で酸分泌が大きく下がる</b></span>。<span class=\"kw2\"><b>H<sub>1</sub> 受容体拮抗薬（抗アレルギー薬）は胃酸に影響しない</b></span>。</td></tr></table>"
             },
             {
               "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "胃酸分泌を亢進させるものを2つ。b セクレチン：十二指腸S細胞から分泌され胃酸分泌を抑制する。c ソマトスタチン：D細胞から分泌されガストリン・胃酸を抑制する。d GIP：胃酸分泌を抑制し、インスリン分泌を促進する。a ガストリン：幽門前庭部G細胞から分泌され、壁細胞のCCK-B受容体を介して胃酸↑。✓e ヒスタミン：ECL細胞から分泌され、壁細胞のH₂受容体を介して胃酸↑。✓"
+              "h": "🔍 胃酸が多すぎる・少なすぎる——それぞれの病気",
+              "c": "<span class=\"kw4\"><b>胃酸の量の異常は、潰瘍・逆流から、吸収不良・感染まで幅広い病気につながる</b></span>。<br/><span class=\"kw\"><b>① 酸が多い</b></span><br/><span class=\"kw3\"><b>十二指腸潰瘍（Helicobacter pylori の前庭部優位の胃炎で、ソマトスタチンが減りガストリンが増える）</b></span><br/><span class=\"kw4\"><b>Zollinger-Ellison 症候群（ガストリノーマ）：難治・多発・非典型部位の潰瘍、下痢（酸で膵リパーゼが失活し脂肪便）</b></span><br/><span class=\"kw3\"><b>胃食道逆流症（酸の量よりも下部食道括約筋の一過性弛緩が主因）</b></span><br/><span class=\"kw3\"><b>全身性肥満細胞症（ヒスタミンの過剰）、短腸症候群（ガストリンの上昇）</b></span><br/><span class=\"kw\"><b>② 酸が少ない（低酸・無酸）</b></span><br/><span class=\"kw4\"><b>萎縮性胃炎（H. pylori の長期感染・自己免疫性胃炎）、胃切除後、PPI の長期内服</b></span><br/><span class=\"kw3\"><b>影響：鉄・B<sub>12</sub>・Ca の吸収低下、胃内の細菌増殖、腸管感染症・C. difficile のリスク</b></span><br/><span class=\"kw4\"><b>高ガストリン血症（フィードバックの解除）→ ECL 細胞の過形成・胃神経内分泌腫瘍（自己免疫性胃炎で）</b></span><br/><span class=\"kw\"><b>③ 胃酸の量を推定する検査</b></span><br/><span class=\"kw3\"><b>血清ペプシノゲン I・I/II 比（萎縮で低下）、血清ガストリン、胃内 pH モニタリング</b></span><br/><span class=\"kw3\"><b>胃癌リスク層別化（ABC 分類）：H. pylori 抗体とペプシノゲンで萎縮の程度を推定</b></span>"
             },
             {
-              "cls": "em",
-              "h": "💡 PPIとH₂ブロッカーの標的",
-              "c": "<span class=\"kw\">PPI（プロトンポンプ阻害薬）</span>：壁細胞のH⁺/K⁺-ATPase（最終共通経路）を阻害<br/><span class=\"kw\">H₂ブロッカー</span>：H₂受容体（ヒスタミン受容体）を阻害<br/>→ PPIの方がより強力な胃酸分泌抑制"
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "<span class=\"kw4\"><b>胃酸分泌の促進：ヒスタミン（H<sub>2</sub>）・ガストリン（CCK<sub>2</sub>、ECL 細胞経由）・アセチルコリン（M<sub>3</sub>）</b></span>。<br/><span class=\"kw4\"><b>抑制：ソマトスタチン・セクレチン・GIP・CCK（腸相）</b></span>。<br/><span class=\"kw3\"><b>3相：脳相（迷走神経）・胃相（伸展と蛋白→ガストリン、最大）・腸相（主に抑制）</b></span>。<br/><span class=\"kw3\"><b>最終共通路は H⁺/K⁺-ATPase——PPI が最も強力</b></span>。<br/><span class=\"kw3\"><b>酸過多：十二指腸潰瘍・ガストリノーマ。低酸：萎縮性胃炎・胃切除・PPI → 高ガストリン血症</b></span>。"
             }
           ],
           "imgs": []
