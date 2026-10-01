@@ -10953,17 +10953,27 @@
       }
      ],
      "ans_label": "ｅ　消化性潰瘍穿孔",
-     "ans_sub": "急激な上腹部痛＋腹膜刺激症状＋腹部遊離ガス→消化性潰瘍穿孔（汎発性腹膜炎）が最も可能性高い。",
+     "ans_sub": "腹部単純 CT では、前腹壁のすぐ下（肝の前面から胃の前）に大量の<b>遊離ガス</b>（黒く抜けた空気）があり、肝の周りに液体もたまっている。食後3時間に急に起こった上腹部痛、発熱、白血球の増加——<b>消化性潰瘍穿孔</b>。腸閉塞は拡張した腸管と液面、急性胃炎は CT で特徴的な所見に乏しく、急性膵炎は膵の腫大と周りの脂肪の濁り、急性胆囊炎は胆囊の腫大・壁の肥厚・結石が所見で、いずれも腹腔の遊離ガスは出ない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💥 消化性潰瘍穿孔の診断",
-       "c": "<span class=\"kw\">腹部遊離ガス＋急激な腹痛＋腹膜刺激 → 消化性潰瘍穿孔</span>：<br>・消化性潰瘍（胃/十二指腸）が深達→穿孔→腸管内容物が腹腔内へ流出<br/>・板状硬（board-like rigidity）・Blumberg徴候陽性<br/>・腹部X線/CT：横隔膜下遊離ガス（free air）<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ a腸閉塞：腹部X線でニボー像（鏡面像）→遊離ガスでなく貯留ガス<br/>✗ b急性胃炎：腹膜炎・遊離ガスなし<br/>✗ c急性膵炎：Amy/Lip↑、CT（膵炎所見）→遊離ガスなし<br/>✗ d急性胆囊炎：右上腹部痛・Murphy徴候→遊離ガスなし</br>"
+       "h": "🌿 上腹部の急な痛み——CT の所見で5つを見分ける",
+       "c": "<span class=\"kw3\"><b>遊離ガスの写り方は Q.108、穿孔を疑うときの検査の選び方は Q.162 で見た</b></span>。<span class=\"kw4\"><b>ここでは、選択肢の5つの病気を CT の所見で並べる</b></span>。<br/><span class=\"kw\"><b>① 消化性潰瘍穿孔</b></span><br/><span class=\"kw4\"><b>腹腔の遊離ガス（仰向けの CT では前腹壁の下・肝の前にたまる）、腹水、十二指腸・胃の周りの脂肪の濁り</b></span><br/><span class=\"kw\"><b>② 腸閉塞</b></span><br/><span class=\"kw3\"><b>拡張した小腸と、急に細くなる場所（閉塞点）、腸管内の液面</b></span><br/><span class=\"kw3\"><b>腸管の壁の造影が悪い・腸間膜の渦巻き状のねじれ——絞扼を疑う</b></span><br/><span class=\"kw\"><b>③ 急性膵炎</b></span><br/><span class=\"kw3\"><b>膵の腫大、周りの脂肪の濁り・液体、壊死（造影されない部分）</b></span><br/><span class=\"kw\"><b>④ 急性胆囊炎</b></span><br/><span class=\"kw3\"><b>胆囊の腫大・壁の肥厚・周りの液体、胆囊頸部の結石</b></span><br/><span class=\"kw3\"><b>胆石は CT で写らないことがある——超音波のほうが得意</b></span><br/><span class=\"kw\"><b>⑤ 急性胃炎</b></span><br/><span class=\"kw3\"><b>胃壁の肥厚くらいで、CT の特徴的な所見に乏しい——内視鏡で診断する</b></span><br/><span class=\"kw\"><b>⑥ 本例</b></span><br/><span class=\"kw3\"><b>前腹壁下の大量の遊離ガスと肝周囲の液体——腹腔に消化管の穴があいている</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　腸閉塞</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>拡張した腸管と液面が所見——遊離ガスは出ない</b></span>。</td></tr><tr><td>ｂ　急性胃炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹腔に空気は漏れない</b></span>。</td></tr><tr><td>ｃ　急性膵炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>膵の腫大と周りの脂肪の濁りが所見</b></span>。</td></tr><tr><td>ｄ　急性胆囊炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胆囊の腫大・壁の肥厚が所見</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　消化性潰瘍穿孔</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>前腹壁の下に大量の遊離ガス</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "急性腹症＋腹部CTの診断。<br/><b>a 腸閉塞／b 急性胃炎／c 急性膵炎／d 急性胆囊炎</b>：所見が合わない。<br/><b>e 消化性潰瘍穿孔</b>：<span class=\"kw\">遊離ガス（free air）を伴う穿孔</span>。✓"
+       "h": "🔍 穿孔からの時間で、腹部の所見は変わる",
+       "c": "<span class=\"kw4\"><b>穿孔の腹膜炎は、最初は胃酸による化学的な炎症、時間がたつと細菌による炎症へ移る</b></span>。<br/><span class=\"kw\"><b>① 直後（数時間以内）</b></span><br/><span class=\"kw3\"><b>胃酸・胆汁が腹膜を刺激——突然の激痛、板状硬、体を動かせない</b></span><br/><span class=\"kw\"><b>② 少し落ち着く時期</b></span><br/><span class=\"kw4\"><b>腹水で胃酸が薄まり、痛みや板状硬が一時的に和らぐことがある——「良くなった」と見誤りやすい</b></span><br/><span class=\"kw\"><b>③ 細菌性腹膜炎（6〜12時間以降）</b></span><br/><span class=\"kw3\"><b>発熱、腹部の膨満、腸の動きが止まる（麻痺性イレウス）、敗血症・ショック</b></span><br/><span class=\"kw\"><b>④ 所見が出にくい人</b></span><br/><span class=\"kw4\"><b>高齢者、ステロイド・免疫抑制薬を使う人、意識の低下、糖尿病——板状硬がはっきりしない</b></span><br/><span class=\"kw3\"><b>β遮断薬を飲む人は頻脈が出ない（本例は脈拍72でも重い病態がありうる）</b></span><br/><span class=\"kw\"><b>⑤ 本例</b></span><br/><span class=\"kw3\"><b>発症からの時間は短いが、発熱・白血球の増加・血圧の低め——早く手術か保存的治療かを決める（Q.90・Q.113）</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>急な上腹部痛＋CT で前腹壁下の遊離ガス → 消化性潰瘍穿孔</b></span>。<br/><span class=\"kw3\"><b>腸閉塞：拡張腸管と閉塞点。膵炎：膵の腫大・周りの濁り。胆囊炎：胆囊の腫大・壁肥厚</b></span>。<br/><span class=\"kw3\"><b>急性胃炎は CT で所見に乏しい</b></span>。<br/><span class=\"kw4\"><b>穿孔の腹膜炎は化学的 → 細菌性へ。一時的に痛みが和らぐことがある</b></span>。<br/><span class=\"kw3\"><b>高齢者・ステロイド使用者は腹膜刺激症状が出にくい</b></span>。"
       }
      ],
      "imgs": [
@@ -11011,22 +11021,27 @@
       }
      ],
      "ans_label": "ｂ　胃\nｃ　十二指腸",
-     "ans_sub": "NSAIDsは胃・十二指腸に潰瘍・出血を起こしやすい。PGE₁産生↓→胃酸からの粘膜保護↓が原因。",
+     "ans_sub": "NSAIDs は胃粘膜を守るプロスタグランジンを減らし、さらに胃の中で直接粘膜を傷つける——潰瘍・出血は<b>胃</b>と<b>十二指腸</b>に最も多い。小腸（回腸）・大腸も傷つける（Q.146）が、出血の頻度は胃・十二指腸ほど高くない。食道は錠剤がとどまって起こる薬剤性の潰瘍があるが、NSAIDs の出血の主な場所ではない。直腸は坐薬で潰瘍を作ることがあるが、頻度は低い。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 NSAIDs消化管傷害の部位",
-       "c": "<table class=\"tb\"><tr><th>部位</th><th>NSAIDsリスク</th></tr><tr><td>部位</td><td>NSAIDs潰瘍リスク</td></tr><tr><td><span class=\"kw\">胃（b）</span></td><td><span class=\"kw\">高リスク</span>（特に胃前庭部・胃角部）</td></tr><tr><td><span class=\"kw\">十二指腸（c）</span></td><td><span class=\"kw\">高リスク</span>（球部〜下行部）</td></tr><tr><td>食道（a）</td><td>低い（NSAIDs主要傷害部位でない）</td></tr><tr><td>回腸（d）</td><td>低い（NSAID腸症は起こるが出血は少ない）</td></tr><tr><td>直腸（e）</td><td>低い（坐剤NSAIDsは局所刺激あるが出血少ない）</td></tr></table>"
+       "h": "🌿 NSAIDs が胃・十二指腸を傷つける2つの道——飲み方を変えても防げない理由",
+       "c": "<span class=\"kw3\"><b>プロスタグランジンが減るしくみは Q.96、小腸・大腸の障害は Q.146 で見た</b></span>。<span class=\"kw4\"><b>ここでは、なぜ胃・十二指腸に多いのか、坐薬や腸溶錠でも防げないのはなぜかを考える</b></span>。<br/><span class=\"kw\"><b>① 局所の直接の傷害</b></span><br/><span class=\"kw3\"><b>酸性の胃の中で NSAIDs は脂に溶けやすい形になり、粘膜の細胞に入り込む</b></span><br/><span class=\"kw3\"><b>細胞の中（中性）では電離して出られなくなり、たまって細胞を傷つける（イオントラッピング）</b></span><br/><span class=\"kw\"><b>② 全身の作用</b></span><br/><span class=\"kw4\"><b>血液から運ばれた NSAIDs が胃粘膜の COX-1 を阻害し、プロスタグランジンを減らす——粘液・重炭酸の分泌と粘膜の血流が落ちる</b></span><br/><span class=\"kw3\"><b>胃酸にさらされる胃・十二指腸で、防御が落ちた分だけ潰瘍ができる</b></span><br/><span class=\"kw\"><b>③ だから</b></span><br/><span class=\"kw4\"><b>腸溶錠・坐薬・注射・貼付剤でも潰瘍は起こる——②の全身の作用は防げない</b></span><br/><span class=\"kw3\"><b>腸溶錠は胃の直接の傷害を減らすが、潰瘍の頻度は大きくは下がらない</b></span><br/><span class=\"kw\"><b>④ 防ぐのは</b></span><br/><span class=\"kw3\"><b>胃酸を抑える（PPI）、プロスタグランジンを補う（ミソプロストール）、COX-2 選択的阻害薬（Q.144）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食　道</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>錠剤がとどまって起こる薬剤性食道潰瘍はあるが、NSAIDs の出血の主な場所ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　胃</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>前庭部を中心に潰瘍・びらんが多発する</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　十二指腸</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胃と並んで潰瘍・出血が多い</b></span>。</td></tr><tr><td>ｄ　回　腸</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>小腸のびらん・潰瘍・膜様狭窄は起こるが、出血の頻度は胃・十二指腸より低い</b></span>。</td></tr><tr><td>ｅ　直　腸</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>坐薬で直腸の潰瘍ができることはあるが頻度は低い</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 薬剤性食道潰瘍——薬が食道に「貼りつく」",
+       "c": "<span class=\"kw4\"><b>錠剤やカプセルが食道にとどまり、その場で溶けて粘膜を傷つける</b></span>。<br/><span class=\"kw\"><b>① 起こしやすい薬</b></span><br/><span class=\"kw3\"><b>テトラサイクリン系（ドキシサイクリン）、ビスホスホネート、塩化カリウム、NSAIDs、鉄剤、ダビガトラン</b></span><br/><span class=\"kw\"><b>② 起こりやすい状況</b></span><br/><span class=\"kw4\"><b>少ない水で飲む、飲んですぐ横になる、寝る直前に飲む</b></span><br/><span class=\"kw3\"><b>高齢者、食道の狭窄・運動の低下、左心房の拡大で食道が圧迫される場所</b></span><br/><span class=\"kw\"><b>③ 症状</b></span><br/><span class=\"kw3\"><b>飲み込むときの痛み（嚥下痛）、胸骨の後ろの痛み——薬を飲んだ数時間〜数日後に急に始まる</b></span><br/><span class=\"kw\"><b>④ 内視鏡</b></span><br/><span class=\"kw3\"><b>食道の中部（大動脈弓・左主気管支で狭くなるところ）に、境界のはっきりした潰瘍、向かい合う潰瘍（kissing ulcer）</b></span><br/><span class=\"kw\"><b>⑤ 治療と予防</b></span><br/><span class=\"kw3\"><b>原因の薬をやめる・変える、PPI・粘膜保護薬</b></span><br/><span class=\"kw4\"><b>コップ1杯の水で飲み、30分は横にならない——ビスホスホネートは特にこの飲み方を守る</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">NSAIDs消化管傷害：胃・十二指腸が主要部位</span><br/>COX-1阻害→胃粘膜のPGE₂産生↓→胃酸↑・粘液↓・血流↓→潰瘍。<br/>予防：PPIまたはミソプロストール（PGE₁製剤）の同時投与。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "NSAIDsで出血をきたしやすい部位を2つ。<br/><b>a 食道／d 回腸／e 直腸</b>：主要でない。<br/><b>b 胃</b>：<span class=\"kw\">NSAIDsで胃粘膜障害・潰瘍</span>。✓<br/><b>c 十二指腸</b>：<span class=\"kw\">十二指腸潰瘍も生じる</span>。✓"
+       "c": "<span class=\"kw4\"><b>NSAIDs の潰瘍・出血は胃・十二指腸に多い</b></span>。<br/><span class=\"kw3\"><b>局所の傷害（イオントラッピング）と全身の作用（COX-1 阻害でプロスタグランジン低下）</b></span>。<br/><span class=\"kw4\"><b>坐薬・注射・腸溶錠でも潰瘍は起こる</b></span>。<br/><span class=\"kw3\"><b>薬剤性食道潰瘍：ドキシサイクリン・ビスホスホネート・KCl。食道中部、嚥下痛</b></span>。<br/><span class=\"kw3\"><b>コップ1杯の水で飲み、すぐ横にならない</b></span>。"
       }
      ],
      "imgs": []
@@ -11068,22 +11083,27 @@
       }
      ],
      "ans_label": "ｄ　十二指腸潰瘍穿孔",
-     "ans_sub": "消化管穿孔があるとバリウムが腹腔内に流出→バリウム腹膜炎（化学性）→致死的。絶対禁忌。",
+     "ans_sub": "消化管に穴があいていると、バリウムが腹腔に漏れて取り除けず、重い腹膜炎（バリウム腹膜炎）を起こす——<b>十二指腸潰瘍穿孔</b>ではバリウムによる造影は禁忌。漏れを確かめる必要があれば水溶性造影剤を使う。食道アカラシア・胃炎・胃潰瘍（穿孔のないもの）・十二指腸乳頭部腫瘍は、バリウム造影を行ってよい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚫 バリウム上部消化管造影の禁忌",
-       "c": "<span class=\"kw\">d消化管穿孔（正答）</span>：<span class=\"kw4\">絶対禁忌</span><br/>バリウムが腹腔内に漏出→バリウム腹膜炎（化学性・慢性炎症）→癒着・致死的<br/>→ 穿孔疑いには<span class=\"kw\">水溶性造影剤（Gastrografin）</span>を使用（体内で吸収される）<br/><br/><span class=\"kw\">その他の禁忌</span>：<br/>・腸閉塞（バリウムが閉塞部に詰まる）<br/>・大量の消化管出血（検査で出血悪化）<br/>・重篤な嚥下障害（誤嚥→バリウム肺炎）<br/><br/><span class=\"kw4\">禁忌でない疾患</span>：<br/>食道アカラシア・胃炎・胃潰瘍（穿孔がなければ可）・十二指腸乳頭部腫瘍"
+       "h": "🌿 バリウム造影の禁忌と注意——穿孔だけではない",
+       "c": "<span class=\"kw3\"><b>穿孔を疑うときに避ける検査と水溶性造影剤は Q.162 で見た</b></span>。<span class=\"kw4\"><b>ここでは、穿孔のほかにバリウムを避ける・注意する場面を整理する</b></span>。<br/><span class=\"kw\"><b>① 禁忌</b></span><br/><span class=\"kw4\"><b>消化管穿孔（またはその疑い）——バリウム腹膜炎</b></span><br/><span class=\"kw3\"><b>腸閉塞（特に大腸の閉塞）——閉塞部の手前でバリウムが固まり、閉塞を悪化させる</b></span><br/><span class=\"kw\"><b>② 注意する人</b></span><br/><span class=\"kw3\"><b>誤嚥しやすい人（嚥下障害・高齢・意識の低下）——気管に入ったバリウムは肺に残る</b></span><br/><span class=\"kw3\"><b>妊娠（または可能性）——エックス線の被曝</b></span><br/><span class=\"kw3\"><b>急性期の消化管出血——内視鏡を妨げる（Q.167）</b></span><br/><span class=\"kw3\"><b>発泡剤・鎮痙薬（抗コリン薬）が使えない人（Q.137）</b></span><br/><span class=\"kw\"><b>③ 検査の後</b></span><br/><span class=\"kw4\"><b>バリウムが腸で固まって便秘・腸閉塞・まれに穿孔を起こす——下剤を飲み、水分を多くとる</b></span><br/><span class=\"kw3\"><b>白い便が出きるまで（1〜2日）確かめ、出なければ受診してもらう</b></span><br/><span class=\"kw\"><b>④ 胃がん検診の X 線</b></span><br/><span class=\"kw3\"><b>偶発症は誤嚥と便秘・腸閉塞が多い（Q.135）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食道アカラシア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>むしろ食道造影は診断に役立つ（bird beak sign：Q.157）</b></span>。<span class=\"kw2\"><b>食道にたまった食物の逆流・誤嚥に注意</b></span>。</td></tr><tr><td>ｂ　胃　炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>禁忌ではない</b></span>。</td></tr><tr><td>ｃ　胃潰瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>穿孔していなければ造影できる——ニッシェ（潰瘍のくぼみにたまるバリウム）が写る</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　十二指腸潰瘍穿孔</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>漏れたバリウムで重い腹膜炎</b></span>。</td></tr><tr><td>ｅ　十二指腸乳頭部腫瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>禁忌ではない</b></span>。<span class=\"kw3\"><b>今は内視鏡（側視鏡）・CT・超音波内視鏡で調べることが多い</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 造影剤を「誤嚥」したら——バリウム・高浸透圧・低浸透圧",
+       "c": "<span class=\"kw4\"><b>消化管の造影剤は、腹腔に漏れたとき・気管に入ったときの害がそれぞれ違う</b></span>。<br/><span class=\"kw\"><b>① バリウム</b></span><br/><span class=\"kw3\"><b>腹腔：重いバリウム腹膜炎（取り除けず、癒着・肉芽腫）</b></span><br/><span class=\"kw3\"><b>気管：少量なら大きな害は少ないが、肺の中に残る</b></span><br/><span class=\"kw\"><b>② 高浸透圧の水溶性造影剤（ガストログラフィン）</b></span><br/><span class=\"kw3\"><b>腹腔：吸収されるので安全</b></span><br/><span class=\"kw4\"><b>気管：浸透圧で水を引き込み、肺水腫・化学性肺炎を起こす——誤嚥の危険がある人には使わない</b></span><br/><span class=\"kw3\"><b>腸に水を引き込むので、脱水・下痢にも注意（逆に癒着性の腸閉塞の治療に使うこともある）</b></span><br/><span class=\"kw\"><b>③ 低浸透圧の非イオン性ヨード造影剤</b></span><br/><span class=\"kw3\"><b>気管に入っても害が少ない</b></span><br/><span class=\"kw4\"><b>誤嚥の危険がある人、気管食道瘻を疑う人（食道癌・新生児の食道閉鎖）に使う</b></span><br/><span class=\"kw\"><b>④ 選び方のまとめ</b></span><br/><span class=\"kw3\"><b>穿孔の疑い → 水溶性。誤嚥の危険もある → 低浸透圧の非イオン性。どちらもない → バリウムで細かく見る</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">バリウム造影の絶対禁忌：消化管穿孔（バリウム腹膜炎）</span><br/>穿孔疑いでの造影が必要な場合→水溶性造影剤（Gastrografin）を使用。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "バリウムによる上部消化管造影が禁忌となるもの。<br/><b>a 食道アカラシア／b 胃炎／c 胃潰瘍／e 十二指腸乳頭部腫瘍</b>：禁忌でない。<br/><b>d 十二指腸潰瘍穿孔</b>：<span class=\"kw\">穿孔ではバリウムが腹腔に漏れるため禁忌（水溶性造影剤を用いる）</span>。✓"
+       "c": "<span class=\"kw4\"><b>バリウム造影の禁忌：消化管穿孔（バリウム腹膜炎）、大腸の閉塞</b></span>。<br/><span class=\"kw3\"><b>検査の後は下剤と水分——バリウムが固まって便秘・腸閉塞</b></span>。<br/><span class=\"kw3\"><b>誤嚥・妊娠・急性期の出血では避ける・慎重に</b></span>。<br/><span class=\"kw4\"><b>ガストログラフィンは誤嚥で肺水腫——誤嚥の危険・気管食道瘻には低浸透圧の非イオン性造影剤</b></span>。<br/><span class=\"kw3\"><b>アカラシアの食道造影は bird beak sign</b></span>。"
       }
      ],
      "imgs": []
@@ -11133,22 +11153,27 @@
       }
      ],
      "ans_label": "ｄ　クリッピング\nｅ　エタノール局注",
-     "ans_sub": "露出血管（Forrest IIa）を伴う消化性潰瘍出血→クリッピングまたはエタノール局注が内視鏡的止血の標準。",
+     "ans_sub": "脈拍120/分・血圧76/42——出血性ショック。内視鏡像は胃を反転して見た像で、胃内に黒い凝血と血液が多く、胃角付近に白苔のある潰瘍があり、その中に<b>赤黒い小さな盛り上がり（露出血管）</b>と、横に黒い凝血塊が見える——再出血の危険が高い潰瘍で、内視鏡で止血する。方法は<b>クリッピング</b>（血管を挟む）と<b>局注法</b>（純エタノールで血管を脱水・固定する）。結紮と硬化療法は静脈瘤の治療、粘膜切除は早期癌の治療。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔧 消化性潰瘍出血の内視鏡的止血法",
-       "c": "<table class=\"tb\"><tr><th>止血法</th><th>機序</th><th>適応</th></tr><tr><td>止血法</td><td>機序</td><td>適応</td></tr><tr><td><span class=\"kw\">クリッピング（d）</span></td><td>露出血管を金属クリップで把持</td><td><span class=\"kw\">消化性潰瘍の露出血管</span>（第一選択）</td></tr><tr><td><span class=\"kw\">エタノール局注（e）</span></td><td>血管周囲に局注→収縮・圧迫止血</td><td>露出血管・出血点（クリッピングと同等効果）</td></tr><tr><td>高周波凝固（APC）</td><td>熱凝固</td><td>小血管・びらん出血</td></tr><tr><td><span class=\"kw4\">結紮術（a）</span></td><td>食道静脈瘤専用</td><td><span class=\"kw4\">消化性潰瘍には不適</span></td></tr><tr><td><span class=\"kw4\">硬化療法（b）</span></td><td>静脈瘤専用</td><td><span class=\"kw4\">消化性潰瘍には不適</span></td></tr><tr><td><span class=\"kw4\">粘膜切除（c）</span></td><td>早期癌切除</td><td><span class=\"kw4\">活動性出血には不適</span></td></tr></table>"
+       "h": "🌿 局注による止血——純エタノールと高張食塩水エピネフリン",
+       "c": "<span class=\"kw3\"><b>止血の3つの方法（機械的・局注・熱凝固）は Q.125、Forrest 分類は Q.100 で見た</b></span>。<span class=\"kw4\"><b>ここでは、局注法の2つの薬の違いを考える</b></span>。<br/><span class=\"kw\"><b>① 純エタノール局注</b></span><br/><span class=\"kw3\"><b>血管の周りに 0.1〜0.2mL ずつ少量を何か所かに注入</b></span><br/><span class=\"kw4\"><b>組織を脱水・固定し、血管の壁を壊して血栓で詰める——血管そのものを閉じる</b></span><br/><span class=\"kw3\"><b>入れすぎると組織が壊死し、潰瘍が深くなって穿孔する——量を守る</b></span><br/><span class=\"kw\"><b>② 高張食塩水エピネフリン（HSE）局注</b></span><br/><span class=\"kw3\"><b>エピネフリンで血管を締め、周りを膨らませて圧迫する</b></span><br/><span class=\"kw3\"><b>高張食塩水でエピネフリンが長くとどまる</b></span><br/><span class=\"kw4\"><b>効果が一時的——単独では再出血が多く、クリップ・熱凝固と組み合わせる</b></span><br/><span class=\"kw3\"><b>局注で出血の勢いを弱め、視野を良くしてからクリップをかけることが多い</b></span><br/><span class=\"kw\"><b>③ 組み合わせる理由</b></span><br/><span class=\"kw3\"><b>1つの方法より2つを組み合わせたほうが再出血が少ない</b></span><br/><span class=\"kw\"><b>④ 結紮・硬化療法を使わない理由</b></span><br/><span class=\"kw3\"><b>潰瘍の底は硬く、ゴムバンドで吸い込めない。硬化剤は静脈瘤の中に入れる薬で、潰瘍の動脈は詰められない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　結　紮</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>静脈瘤の治療——潰瘍の底は硬く吸い込めない</b></span>。<span class=\"kw2\"><b>Dieulafoy 潰瘍など、周りが柔らかい小さな病変では使うことがある（Q.160）</b></span>。</td></tr><tr><td>ｂ　硬化療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>硬化剤を静脈瘤の中に注入する方法</b></span>。</td></tr><tr><td>ｃ　粘膜切除</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期癌の治療——出血している潰瘍には行わない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　クリッピング</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>露出血管を周りの組織ごと挟む</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　エタノール局注</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>血管を脱水・固定して詰める</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 露出血管の正体——動脈の側面にあいた穴の「栓」",
+       "c": "<span class=\"kw4\"><b>潰瘍の底に見える露出血管は、潰瘍が深く掘れて動脈の側面に穴があき、そこを血栓がふさいでいるもの</b></span>。<br/><span class=\"kw\"><b>① 見え方</b></span><br/><span class=\"kw3\"><b>赤・紫・黒・白っぽい小さな盛り上がり——平らな色素沈着（Forrest Ⅱc）とは違い、盛り上がっている</b></span><br/><span class=\"kw3\"><b>大きいほど（太い動脈ほど）再出血しやすい</b></span><br/><span class=\"kw\"><b>② クリップのかけ方</b></span><br/><span class=\"kw4\"><b>血管だけでなく、両側の組織ごと挟む——動脈は穴の両側へ続いている</b></span><br/><span class=\"kw3\"><b>潰瘍の底が硬いとクリップがかかりにくい・外れやすい——局注・熱凝固を組み合わせる</b></span><br/><span class=\"kw\"><b>③ 止まったかを確かめる</b></span><br/><span class=\"kw3\"><b>ドップラープローブで血管の流れを確かめ、流れが消えるまで処置する方法もある</b></span><br/><span class=\"kw\"><b>④ 太い動脈</b></span><br/><span class=\"kw3\"><b>十二指腸球部の後壁（胃十二指腸動脈）、胃の小弯の高い位置（左胃動脈の枝）——再出血の危険が高く、止まらなければ TAE（Q.123）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">消化性潰瘍出血の止血：クリッピング（第一選択）or エタノール局注</span><br>露出血管（Forrest IIa）→ 再出血リスク高（50%）→ 必ず内視鏡的止血。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃の出血病変の内視鏡治療を2つ。<br/><b>a 結紮／b 硬化療法／c 粘膜切除</b>：本病変に不適。<br/><b>d クリッピング</b>：<span class=\"kw\">露出血管をクリップで止血</span>。✓<br/><b>e エタノール局注</b>：<span class=\"kw\">局注による止血</span>。✓"
+       "c": "<span class=\"kw4\"><b>露出血管のある出血性潰瘍 → 内視鏡的止血（クリッピング・局注・熱凝固）</b></span>。<br/><span class=\"kw3\"><b>純エタノール局注：脱水・固定で血管を詰める。少量ずつ（入れすぎると穿孔）</b></span>。<br/><span class=\"kw4\"><b>HSE 局注は効果が一時的——クリップ・熱凝固と組み合わせる</b></span>。<br/><span class=\"kw3\"><b>結紮・硬化療法は静脈瘤の治療</b></span>。<br/><span class=\"kw3\"><b>クリップは露出血管を両側の組織ごと挟む</b></span>。"
       }
      ],
      "imgs": [
@@ -11196,22 +11221,27 @@
       }
      ],
      "ans_label": "ｄ　上部消化管造影",
-     "ans_sub": "大量吐血によるショック時に上部消化管造影（バリウム）を行うのは不適切。緊急内視鏡・輸液が優先。",
+     "ans_sub": "大量の吐血、脈拍120/分・血圧76/50、顔面蒼白——出血性ショック。<b>酸素投与</b>、<b>静脈路の確保</b>（輸液・輸血）、<b>膀胱カテーテル</b>で尿量を測って循環の回復を見る、循環を立て直して<b>上部消化管内視鏡検査</b>で出血源を確かめて止血する——いずれも適切。<b>上部消化管造影</b>は止血ができず、胃に残ったバリウムが内視鏡の妨げになり、出血の急性期には行わない——適切でない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚨 大量吐血時の初期対応",
-       "c": "<span class=\"kw\">a〜c・e（行うべき対応）</span>：<br>✅ a酸素投与：ショック→組織低酸素を防ぐ<br>✅ b静脈路確保：輸液・輸血のため（2本以上の大口径）<br>✅ c膀胱カテーテル：尿量モニタリング（輸液効果確認）<br>✅ e上部消化管内視鏡：出血源同定・止血（輸液安定後に実施）<br/><br/><span class=\"kw4\">d上部消化管造影（行うべきでない・正答）</span>：<br/>・バリウム造影は急性出血時に禁忌（出血悪化・穿孔リスク）<br/>・内視鏡の方が診断・治療を同時に行えて優れる<br/>・バリウムが残存すると内視鏡視野を妨げる</br></br></br></br>"
+       "h": "🌿 ショックの治療がうまくいっているか——何を見て判断するか",
+       "c": "<span class=\"kw3\"><b>院内の急変での初動は Q.138、最初の輸液の入れ方は Q.150 で見た</b></span>。<span class=\"kw4\"><b>ここでは、膀胱カテーテルを入れる理由——治療の効果をどう測るか——を考える</b></span>。<br/><span class=\"kw\"><b>① 尿量</b></span><br/><span class=\"kw4\"><b>腎臓は循環の良し悪しを敏感に映す——0.5mL/kg/時以上（成人で約30mL/時以上）を目標</b></span><br/><span class=\"kw3\"><b>1時間ごとに正確に測るため、膀胱カテーテルを入れる</b></span><br/><span class=\"kw\"><b>② バイタルサイン</b></span><br/><span class=\"kw3\"><b>脈拍の低下、血圧の回復、呼吸数の正常化、意識の改善</b></span><br/><span class=\"kw\"><b>③ 末梢の循環</b></span><br/><span class=\"kw3\"><b>皮膚の温かさ・色、毛細血管再充満時間（爪を押して2秒以内に赤みが戻るか）</b></span><br/><span class=\"kw\"><b>④ 検査値</b></span><br/><span class=\"kw3\"><b>乳酸値の低下——組織に酸素が届くようになった</b></span><br/><span class=\"kw3\"><b>Hb は輸液で薄まるので、回復の指標にはしにくい</b></span><br/><span class=\"kw\"><b>⑤ 改善しなければ</b></span><br/><span class=\"kw4\"><b>出血が続いている——輸血を急ぎ、内視鏡・IVR・手術で止血する</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　酸素投与</td><td><span class=\"kw3\">適切</span>。<span class=\"kw3\"><b>ショックで組織への酸素の運搬が落ちている</b></span>。</td></tr><tr><td>ｂ　静脈路確保</td><td><span class=\"kw3\">適切</span>。<span class=\"kw3\"><b>太い静脈路から輸液・輸血</b></span>。</td></tr><tr><td>ｃ　膀胱カテーテル挿入</td><td><span class=\"kw3\">適切</span>。<span class=\"kw3\"><b>尿量で循環の回復を見る</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　上部消化管造影</span></td><td><span class=\"kw3\">これが「適切でない」（＝正解）</span>。<span class=\"kw3\"><b>止血ができず、残ったバリウムが内視鏡を妨げる</b></span>。</td></tr><tr><td>ｅ　上部消化管内視鏡検査</td><td><span class=\"kw3\">適切</span>。<span class=\"kw3\"><b>循環を立て直しながら、出血源を確かめて止血する</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 大量輸血のときに起こること",
+       "c": "<span class=\"kw4\"><b>大量の出血では赤血球だけでなく、凝固因子・血小板も失われ、輸血そのものにも合併症がある</b></span>。<br/><span class=\"kw\"><b>① 何を入れるか</b></span><br/><span class=\"kw3\"><b>赤血球液（RBC）：酸素を運ぶ</b></span><br/><span class=\"kw3\"><b>新鮮凍結血漿（FFP）：凝固因子を補う——赤血球だけを大量に入れると凝固因子が薄まる</b></span><br/><span class=\"kw3\"><b>血小板：5万未満で出血が続くとき</b></span><br/><span class=\"kw3\"><b>大量輸血では、RBC と FFP をほぼ同じ割合で早めに入れる</b></span><br/><span class=\"kw\"><b>② 合併症</b></span><br/><span class=\"kw4\"><b>低カルシウム血症：保存液のクエン酸がカルシウムと結合——Ca を測って補う</b></span><br/><span class=\"kw3\"><b>高カリウム血症：保存中に赤血球から K が漏れる</b></span><br/><span class=\"kw3\"><b>低体温：冷たい血液——加温して入れる。低体温は凝固を悪くする</b></span><br/><span class=\"kw3\"><b>輸血関連循環過負荷〈TACO〉：入れすぎで心不全・肺水腫</b></span><br/><span class=\"kw3\"><b>輸血関連急性肺障害〈TRALI〉：輸血後6時間以内の非心原性肺水腫</b></span><br/><span class=\"kw\"><b>③ 致死的な三徴</b></span><br/><span class=\"kw4\"><b>低体温・アシドーシス・凝固障害——互いに悪化させ合う。早く止血することが最大の対策</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">大量吐血時の優先順位：輸液→酸素→静脈路→内視鏡</span><br/><span class=\"kw4\">バリウム造影は急性出血時禁忌</span>（内視鏡が標準）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管出血の対応として「適切でない」もの。<br/><b>a 酸素投与／b 静脈路確保／c 膀胱カテーテル／e 上部消化管内視鏡</b>：適切。<br/><b>d 上部消化管造影</b>：<span class=\"kw\">出血時のバリウム造影は禁忌（内視鏡の妨げにもなる）</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw4\"><b>大量吐血のショック：酸素・静脈路・輸液と輸血・尿道カテーテル・上部消化管内視鏡</b></span>。<br/><span class=\"kw4\"><b>出血の急性期にバリウム造影は行わない（止血できず内視鏡を妨げる）</b></span>。<br/><span class=\"kw3\"><b>尿量 0.5mL/kg/時以上が循環回復の目安</b></span>。<br/><span class=\"kw3\"><b>大量輸血：RBC と FFP を早めに。低 Ca・高 K・低体温に注意</b></span>。<br/><span class=\"kw3\"><b>低体温・アシドーシス・凝固障害は致死的な三徴</b></span>。"
       }
      ],
      "imgs": []
@@ -11266,22 +11296,27 @@
       }
      ],
      "ans_label": "ａ　咳　嗽",
-     "ans_sub": "GERDは食道外症状として慢性咳嗽・嗄声・咽頭炎を起こす。逆流した胃酸が咽喉頭・気道を刺激する。",
+     "ans_sub": "胃食道逆流症〈GERD〉の典型的な症状は胸やけと呑酸（酸っぱい液が上がってくる）。逆流した胃酸が咽頭・喉頭・気道を刺激したり、食道の神経反射を介したりして、<b>慢性の咳嗽</b>、声がれ、のどの違和感、喘息の悪化などの<b>食道外症状</b>を起こす。過食・動悸は GERD の症状ではない。喘鳴・呼吸困難は GERD で喘息が悪化したときに見られることはあるが、GERD の症状として挙げるのは咳嗽。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔥 GERD（胃食道逆流症）の症状",
-       "c": "<span class=\"kw\">典型的症状（食道症状）</span>：<br/>・胸やけ（heartburn）：胸骨後部の灼熱感<br/>・呑酸（acid regurgitation）：口に酸っぱい液が上がる<br/><br/><span class=\"kw\">食道外症状（atypical symptoms）</span>：<br/>・<span class=\"kw\">慢性咳嗽（正答a）</span>：逆流胃酸が咽喉頭・気管を刺激→咳嗽反射<br/>・嗄声（声帯の酸刺激）<br/>・咽頭炎・喉の違和感<br/>・喘息様症状（気管支への微小誤嚥）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：過食・喘鳴・動悸・呼吸困難はGERDの典型症状ではない"
+       "h": "🌿 GERD の症状——食道の症状と、食道の外の症状",
+       "c": "<span class=\"kw3\"><b>GERD の治療は Q.153 で見た</b></span>。<span class=\"kw4\"><b>ここでは、GERD がどんな症状で現れるかと、どう診断するかを整理する</b></span>。<br/><span class=\"kw\"><b>① 典型的な症状</b></span><br/><span class=\"kw3\"><b>胸やけ（胸骨の後ろの焼けるような感じ）、呑酸——食後・前かがみ・横になったときに強い</b></span><br/><span class=\"kw\"><b>② 食道外症状</b></span><br/><span class=\"kw4\"><b>慢性の咳嗽（特に夜間・食後）、声がれ（喉頭炎）、のどの違和感（咽喉頭異常感）</b></span><br/><span class=\"kw3\"><b>喘息の悪化、歯の酸蝕、睡眠障害</b></span><br/><span class=\"kw4\"><b>非心臓性胸痛——心臓の病気を否定してから GERD を考える</b></span><br/><span class=\"kw\"><b>③ 咳が出るしくみ</b></span><br/><span class=\"kw3\"><b>逆流した酸が咽喉頭・気道を直接刺激する</b></span><br/><span class=\"kw3\"><b>食道下部の酸が迷走神経の反射で咳を起こす（気道まで届かなくても起こる）</b></span><br/><span class=\"kw\"><b>④ 診断</b></span><br/><span class=\"kw3\"><b>典型的な症状があれば PPI を試して、良くなれば GERD と考える（PPI テスト）</b></span><br/><span class=\"kw3\"><b>内視鏡：びらんのある逆流性食道炎と、症状だけでびらんのない非びらん性胃食道逆流症〈NERD〉</b></span><br/><span class=\"kw3\"><b>24時間食道 pH・インピーダンス検査：酸以外の逆流も、症状と逆流の時間の一致も分かる</b></span><br/><span class=\"kw\"><b>⑤ 慢性咳嗽の三大原因</b></span><br/><span class=\"kw3\"><b>咳喘息、アトピー咳嗽、GERD（日本では副鼻腔気管支症候群も多い）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　咳　嗽</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>代表的な食道外症状——逆流による咽喉頭・気道の刺激と、迷走神経の反射</b></span>。</td></tr><tr><td>ｂ　過　食</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GERD の症状ではない</b></span>。<span class=\"kw2\"><b>食べすぎは GERD を悪化させる要因</b></span>。</td></tr><tr><td>ｃ　喘　鳴</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GERD そのものの症状ではない</b></span>。<span class=\"kw2\"><b>GERD で喘息が悪化すれば聞こえることはある</b></span>。</td></tr><tr><td>ｄ　動　悸</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GERD の症状ではない</b></span>。</td></tr><tr><td>ｅ　呼吸困難</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GERD の症状として挙げるものではない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 ロサンゼルス分類——食道のびらんの広がりで重さを分ける",
+       "c": "<span class=\"kw4\"><b>逆流性食道炎の内視鏡の重さは、粘膜の傷（粘膜傷害）の長さと、ひだをまたいでつながっているかで分ける</b></span>。<br/><span class=\"kw\"><b>① 分類</b></span><br/><span class=\"kw3\"><b>Grade N：変化なし</b></span><br/><span class=\"kw3\"><b>Grade M：色の変化（白く濁る・赤い）だけ——日本で加えられた分類</b></span><br/><span class=\"kw3\"><b>Grade A：5mm 未満の粘膜傷害</b></span><br/><span class=\"kw3\"><b>Grade B：5mm 以上だが、ひだとひだの間でつながっていない</b></span><br/><span class=\"kw4\"><b>Grade C：ひだをまたいでつながるが、全周の75％未満</b></span><br/><span class=\"kw4\"><b>Grade D：全周の75％以上</b></span><br/><span class=\"kw\"><b>② 使い方</b></span><br/><span class=\"kw3\"><b>C・D は重症——ボノプラザンなどで強く酸を抑え、治った後も維持療法が必要なことが多い</b></span><br/><span class=\"kw\"><b>③ 重症の合併症</b></span><br/><span class=\"kw3\"><b>狭窄（嚥下困難）、出血、Barrett 食道（食道の扁平上皮が円柱上皮に置き換わる——食道腺癌の素地）</b></span><br/><span class=\"kw\"><b>④ 症状と内視鏡は一致しない</b></span><br/><span class=\"kw4\"><b>症状が強くても内視鏡で異常のない人（NERD）が多く、逆に食道炎があっても症状の乏しい高齢者もいる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GERD食道外症状：慢性咳嗽・嗄声・咽頭炎</span><br/>原因不明の慢性咳嗽→GERDを鑑別に入れてPPI試験投与。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "成人のGERDでみられる症状。<br/><b>b 過食／d 動悸</b>：GERDの症状でない。<br/><b>c 喘鳴／e 呼吸困難</b>：典型的でない。<br/><b>a 咳嗽</b>：<span class=\"kw\">逆流による慢性咳嗽（食道外症状）</span>。✓"
+       "c": "<span class=\"kw4\"><b>GERD：胸やけ・呑酸＋食道外症状（慢性咳嗽・声がれ・咽喉頭異常感・喘息の悪化・非心臓性胸痛）</b></span>。<br/><span class=\"kw3\"><b>慢性咳嗽の原因：咳喘息・アトピー咳嗽・GERD</b></span>。<br/><span class=\"kw3\"><b>PPI テスト、内視鏡（逆流性食道炎と NERD）、24時間 pH・インピーダンス検査</b></span>。<br/><span class=\"kw4\"><b>ロサンゼルス分類：A・B はひだの間でつながらない、C・D はつながる（D は全周の75％以上）</b></span>。<br/><span class=\"kw3\"><b>重症で狭窄・出血・Barrett 食道</b></span>。"
       }
      ],
      "imgs": []
