@@ -38,13 +38,16 @@ ok(tr.length === 12, '今日の行だけを拾う（一昨日の行を落とす�
 const ss = D.sessions(tr);
 ok(ss.length === 3 && ss[0].sess === 'A' && ss[0].n === 5 && ss[0].pct === 80 && ss[1].pct === 100, 'セッションごとの解答数と正答率（最初に解いた順）');
 
-// [2] 復習の減り方：起点＝いまの復習待ち＋今日 SRS で解いた数、終点＝いまの復習待ち
-const b = D.srsBurn(tr, 100);
-ok(b.start === 105 && b.done === 5 && b.left === 100 && b.pts[b.pts.length - 1].left === 100, '減り方の起点と終点');
-ok(b.goal === Math.min(D.SRS_TARGET, 105), '目標＝min(1日の復習目標, 起点)');
-ok(/<path class="dp-bn-line"/.test(D.burnSvg(b, base + 10 * 60000)) && /dp-bn-goal/.test(D.burnSvg(b, base + 10 * 60000)), '減り方の図に線と目標ラインが出る');
-const b2 = D.srsBurn(tr, 300);
-ok(b2.goal === D.SRS_TARGET, '起点が目標より大きい日は目標＝1日の復習目標');
+// [2] 今日の復習の結果：SRS 復習の行だけ・同じ問題は最後の1回・伸びた問題の平均間隔は札の interval
+const srsR = { x_ch01_q0: { reps: 2, interval: 6 }, x_ch01_q2: { reps: 3, interval: 15 }, x_ch01_q3: { reps: 1, interval: 1 }, x_ch01_q1: { reps: 0, interval: 1 } };
+const rs = D.srsResult(tr, srsR);
+ok(rs.n === 5 && rs.up === 4 && rs.back === 1, '結果：SRS 復習の5問を伸びた4／明日に戻った1に分ける（試験モードの行は数えない）');
+ok(rs.avgNext === Math.round((6 + 15 + 1) / 3), '次は平均 N日後＝伸びた問題の札の interval の平均（札の無い問題は平均に入れない）');
+const rs2 = D.srsResult(tr.concat([row(5, true, 's', 'A2')].map(r => ({ ...r, uid: 'x_ch01_q1' }))), srsR);
+ok(rs2.n === 5 && rs2.up === 5 && rs2.back === 0, '同じ問題を2回解いたら最後の1回で数える');
+ok(D.srsResult([], srsR).n === 0, '今日 SRS で解いていなければ 0');
+// 旧「今日の復習の減り方」（右下がりの階段）は 2026-10-01 に撤去（「全く無意味」・ユーザー判断）
+ok(!D.srsBurn && !D.burnSvg && !/srsBurn|burnSvg|dp-burn|srs-viz-bn/.test(read('index.js') + read('index.css')), '減り方の階段を戻さない');
 
 // [3] 正答率の推移：5問未満のセッションは外す（ただし結果画面の「今回」は残す）
 const sp = D.sparkHtml(ss);
@@ -62,6 +65,12 @@ store.mec_srs_v1 = JSON.stringify({
 });
 ok(D.masteredToday() === 1, '今日の定着＝md が今日で、いまも定着');
 ok(D.masteredTotal() === 3, '定着の総数（md の有無は問わない）');
+// [4b] 段階ごとの問題数：慢性期＝定着を先に判定、残りを間隔で 1日／2〜6日／7日〜
+const sg = D.srsStages(Object.assign(JSON.parse(store.mec_srs_v1), {
+  e: { reps: 1, interval: 6 }, f: { reps: 2, interval: 7 }, g: { reps: 2, interval: 20 }, h: { reps: 0, interval: 0 },
+}));
+ok(sg.n.join() === '2,1,2,3' && sg.total === 8 && sg.today === 1, '段階：高度急性期2（1日・0日）／急性期1／回復期2（定着していない7〜20日）／慢性期3＝定着の総数');
+ok(D.STAGES.map(x => x.label).join() === '高度急性期,急性期,回復期,慢性期', '段階の名前は地域医療構想の病床区分');
 
 // [5] 結果画面：このセッションのぶんを引いて「前」を出す
 ctx.window.MecAttempts = { all: () => rows };
@@ -75,7 +84,7 @@ ok(/あと <b>80<\/b>問/.test(D.summaryHtml({ sess: 'B' })), '未達なら「�
 // [6] 定数の一致と配線
 const IDX = read('index.js');
 ok(new RegExp('const SRS_DAILY_TARGET = ' + D.SRS_TARGET + ';').test(IDX), 'index.js の SRS_DAILY_TARGET と MecDay.SRS_TARGET が一致');
-ok(/_srsVizHtml\(srsDoneToday, srsGoal, fc, due, burn\)/.test(IDX), 'ハブが減り方を描く');
+ok(/_srsVizHtml\(srsDoneToday, srsGoal, fc, due, dp\)/.test(IDX) && /MecDay\.srsResult\(/.test(IDX) && /MecDay\.srsStages\(/.test(IDX), 'ハブが今日の復習の結果と定着までの道のりを描く');
 // 今日の歩み（#heroDay）は 2026-10-01 に撤去（待機列を画面に収めるため・ユーザー判断）
 ok(!/_renderHeroDay|id="heroDay"/.test(IDX + read('index.html')), '今日の歩み（#heroDay）を戻さない');
 ok(/if \(document\.visibilityState === 'hidden'\) _saveSince\(\)/.test(IDX) && !/^_saveSince\(\);/m.test(IDX), '前回の値は離れるときだけ書く（開いた瞬間に書かない）');

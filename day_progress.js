@@ -1,7 +1,7 @@
 // day_progress.js — 今日の進み（2026-10-01 新設・window.MecDay）
 //
 // 「1日の学習を進めるなかで、その日の進捗が感じられる」ための集計と小さな図をまとめた共有モジュール。
-// 読むのは index.html（待機列の「今日の復習の減り方」・ヒーローの「今日の歩み」）と
+// 読むのは index.html（待機列の「今日の復習の結果」「定着までの道のり」）と
 // study.html（試験の結果画面の「今日の進み」）。数え方を2ページに書き分けないためにここへ置く。
 //
 // ⚠️ 新しい同期キーを持たない。材料は既存の mec_attempts_v1（MecAttempts）・mec_srs_v1・
@@ -46,15 +46,22 @@
     return [...map.values()].sort((x, y) => x.t0 - y.t0).map(s => ({ ...s, pct: Math.round(s.ok / s.n * 100) }));
   }
 
-  // 今日の復習（SRS復習モードの解答）の減り方。
-  // 起点＝いまの復習待ち＋今日すでに SRS で解いた数（保存せずに逆算する）。終点は必ずいまの復習待ち。
-  // ⚠️ 予定日は1日の中で動かない（誤答も翌日へ送られる）ので、今日の復習待ちは解いた数だけ減る。
-  function srsBurn(rows, due) {
-    const s = rows.filter(a => a.mode === 's');
-    const start = (due || 0) + s.length;
-    const pts = [];
-    s.forEach((a, i) => pts.push({ ms: a.ms, left: start - i - 1 }));
-    return { start, done: s.length, left: due || 0, pts, goal: Math.min(SRS_TARGET, start) };
+  // 今日の復習の結果（2026-10-01・デモ _work/queue_result_demo.html の A1 案）。
+  // 今日 SRS 復習で解いた問題を「間隔が伸びた（正解）」と「明日に戻った（誤答）」に分ける。
+  // 同じ問題を2回解いていたら最後の1回で数える。伸びた問題の「次は平均 N日後」は SRS の札の interval の平均。
+  // ⚠️ SRS 復習の採点は正解／誤答の2つだけ（△ 据え置きは通常モードの自己採点にしか無い）。
+  function srsResult(rows, srs) {
+    srs = srs || _srs();
+    const last = new Map();
+    rows.forEach(a => { if (a.mode === 's' && a.uid) last.set(a.uid, a); });
+    let up = 0, back = 0, sum = 0, nIv = 0;
+    last.forEach((a, uid) => {
+      if (!a.ok) { back++; return; }
+      up++;
+      const e = srs[uid];
+      if (e && e.interval > 0) { sum += e.interval; nIv++; }
+    });
+    return { n: up + back, up, back, avgNext: nIv ? Math.round(sum / nIv) : 0 };
   }
 
   function _srs() { try { return JSON.parse(localStorage.getItem('mec_srs_v1') || '{}') || {}; } catch { return {}; } }
@@ -74,6 +81,29 @@
     let n = 0;
     for (const uid in srs) { const e = srs[uid]; if (e && e.md === day && _isM(e) && !_shadow(uid)) n++; }
     return n;
+  }
+
+  // 段階ごとの問題数（2026-10-01・デモの B1 案）。地域医療構想の病床区分に倣って4つに分ける。
+  //   慢性期＝定着（MecTrophy.isMastered が正本）／それ以外を次に会うまでの間隔で
+  //   高度急性期＝1日（新しく覚えた・間違えて戻った）／急性期＝2〜6日／回復期＝7日〜。
+  // ⚠️ 慢性期の判定を先にする（試験日ゲートで定着の閾値が21日より下がる直前期も、トロフィーと数が揃う）。
+  // ⚠️ 重複コピーの影は数えない（件数は代表だけ・CLAUDE.md「重複コピーと新規の上限」）。
+  const STAGES = [
+    { k: 'hacute', label: '高度急性期', span: '1日' },
+    { k: 'acute', label: '急性期', span: '2〜6日' },
+    { k: 'recov', label: '回復期', span: '7日〜' },
+    { k: 'chron', label: '慢性期', span: '定着' },
+  ];
+  function stageOf(e) {
+    if (_isM(e)) return 3;
+    const iv = (e && e.interval) || 0;
+    return iv <= 1 ? 0 : iv <= 6 ? 1 : 2;
+  }
+  function srsStages(srs, day) {
+    srs = srs || _srs();
+    const n = [0, 0, 0, 0];
+    for (const uid in srs) { if (srs[uid] && !_shadow(uid)) n[stageOf(srs[uid])]++; }
+    return { n, total: n[0] + n[1] + n[2] + n[3], today: masteredToday(srs, day) };
   }
 
   // ── 小さな図 ───────────────────────────────────────────────
@@ -100,29 +130,6 @@
         line + dots + '</svg>',
       first: ss[0].pct, last: ss[ss.length - 1].pct, n: ss.length,
     };
-  }
-
-  // 今日の復習の減り方（右下がりの階段）。目標の高さに点線を引く。
-  function burnSvg(b, nowMs) {
-    const W = 300, H = 56, P = 3;
-    const t0 = b.pts.length ? b.pts[0].ms - 60000 : (nowMs || Date.now()) - 60000;
-    const t1 = Math.max(nowMs || Date.now(), t0 + 60000);
-    // 縦軸は「目標の高さ・いまの残りの低い方」〜起点。0 からにすると、復習待ちが多い日は減り方が平らに潰れる。
-    const lo = Math.max(0, Math.min(b.left, b.start - b.goal) - Math.max(1, Math.round(b.start * 0.04)));
-    const span = Math.max(1, b.start - lo);
-    const x = ms => P + (ms - t0) / (t1 - t0) * (W - 2 * P);
-    const y = v => P + (1 - (v - lo) / span) * (H - 2 * P);
-    let d = 'M' + x(t0).toFixed(1) + ',' + y(b.start).toFixed(1);
-    b.pts.forEach(p => { d += ' H' + x(p.ms).toFixed(1) + ' V' + y(p.left).toFixed(1); });
-    d += ' H' + x(t1).toFixed(1);
-    const area = d + ' V' + (H - P) + ' H' + x(t0).toFixed(1) + ' Z';
-    const goalLv = b.start - b.goal;
-    const goal = b.goal > 0
-      ? '<line class="dp-bn-goal" x1="' + P + '" x2="' + (W - P) + '" y1="' + y(goalLv).toFixed(1) + '" y2="' + y(goalLv).toFixed(1) + '"></line>'
-      : '';
-    return '<svg class="dp-burn" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">' +
-      '<path class="dp-bn-area" d="' + area + '"></path>' + goal +
-      '<path class="dp-bn-line" d="' + d + '"></path></svg>';
   }
 
   // ── 結果画面（study.html）：このセッションで今日の進みがどれだけ動いたか ──────────
@@ -184,7 +191,7 @@
 
   window.MecDay = {
     SRS_TARGET, SPARK_MIN_N,
-    today, todayRows, sessions, srsBurn, masteredTotal, masteredToday,
-    sparkHtml, burnSvg, summaryHtml, decorateSummary, hm,
+    today, todayRows, sessions, srsResult, srsStages, STAGES, stageOf, masteredTotal, masteredToday,
+    sparkHtml, summaryHtml, decorateSummary, hm,
   };
 })();

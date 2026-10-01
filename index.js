@@ -178,8 +178,9 @@ function _srsSubjColor(sid) {
 // プロトコル待機列の図（2026-10-01・デモ _work/protocol_feed_demo.html の E 案）:
 //   本日消化の大きいリング／今後14日の予定（今日は数字の箱・明日以降は別の縮尺の棒）／科目別の復習待ち（上位5科目の横棒）。
 // ⚠️ 数字の正本はカード上段（本日消化・復習待ち）と同じ値を受け取って描くだけ＝ここで数え直さない。
-// burn（2026-10-01・day_progress.js の MecDay.srsBurn）があれば、横幅いっぱいの段に「今日の復習の減り方」を足す。
-function _srsVizHtml(done, goal, fc, due, burn) {
+// dp（2026-10-01・day_progress.js の MecDay.srsResult / srsStages）があれば、横幅いっぱいの段に
+// 「今日の復習の結果」と「定着までの道のり」を足す（デモ _work/queue_result_demo.html の A1・B1 案）。
+function _srsVizHtml(done, goal, fc, due, dp) {
   const ringR = 40, ringC = 2 * Math.PI * ringR;
   const ratio = goal > 0 ? Math.min(1, done / goal) : (done > 0 ? 1 : 0);
   const ok = goal > 0 && done >= goal;
@@ -241,22 +242,43 @@ function _srsVizHtml(done, goal, fc, due, burn) {
         rows +
       '</div>';
   }
-  // 今日の復習の減り方（右下がりの階段・点線＝目標の高さ）。今日 SRS で1問も解いていない日は出さない。
-  // ⚠️ 起点は保存しない（いまの復習待ち＋今日 SRS で解いた数）＝終点は上段の「復習待ち」と必ず一致する。
-  let burnHtml = '';
-  if (burn && burn.done > 0 && window.MecDay) {
-    const goalOk = burn.goal > 0 && burn.done >= burn.goal;
-    burnHtml =
-      '<div class="srs-viz-bn srs-viz-pane' + (goalOk ? ' is-ok' : '') + '">' +
-        '<div class="srs-viz-hd"><span class="srs-viz-t">今日の復習の減り方</span>' +
-          '<span class="srs-viz-note">はじめ <b>' + _fmtN(burn.start) + '</b> → いま <b>' + _fmtN(burn.left) + '</b>（−' + _fmtN(burn.done) + '）</span></div>' +
-        MecDay.burnSvg(burn) +
-        '<div class="bn-axis"><span>' + MecDay.hm(burn.pts[0].ms) + '</span>' +
-          (burn.goal > 0 ? '<span class="bn-goal-l">┄ 目標ライン（' + _fmtN(burn.goal) + '問）' + (goalOk ? ' 通過 ✓' : '') + '</span>' : '') +
-          '<span>いま ' + MecDay.hm(Date.now()) + '</span></div>' +
+  // 今日の復習の結果（2色の帯）。今日 SRS で1問も解いていない日は出さない。
+  // ⚠️ 2026-10-01 まではここに「今日の復習の減り方」（右下がりの階段）があった。解いた数だけ1ずつ減るので
+  //    傾きが必ず一定になり、本日消化のリングと同じことしか言っていなかった（ユーザー「全く無意味」）。戻さないこと。
+  let resHtml = '';
+  const res = dp && dp.res;
+  if (res && res.n > 0) {
+    resHtml =
+      '<div class="srs-viz-x srs-viz-res srs-viz-pane">' +
+        '<div class="srs-viz-hd"><span class="srs-viz-t">今日の復習の結果</span><span class="srs-viz-note"><b>' + _sfx('rn', res.n) + '</b>問</span></div>' +
+        '<div class="rs-bar" aria-hidden="true"><i class="rs-up" data-sk="rs-up" style="flex:' + res.up + '"></i><i class="rs-back" data-sk="rs-back" style="flex:' + res.back + '"></i></div>' +
+        '<div class="rs-legs">' +
+          '<span class="rs-leg">✅ 間隔が伸びた <b class="rs-ok">' + _sfx('rup', res.up) + '</b>' +
+            (res.up && res.avgNext ? '<small>→ 次は平均 ' + _fmtN(res.avgNext) + '日後</small>' : '') + '</span>' +
+          '<span class="rs-leg">❌ 明日に戻った <b class="rs-ng">' + _sfx('rback', res.back) + '</b>' +
+            (res.back ? '<small>→ 明日の予定に +' + _fmtN(res.back) + '</small>' : '') + '</span>' +
+        '</div>' +
       '</div>';
   }
-  return '<div class="srs-viz' + (subj ? '' : ' no-band') + '">' + ring + forecast + subj + burnHtml + '</div>';
+  // 定着までの道のり（4段階の積み上げ帯・地域医療構想の病床区分に倣った名前）。SRS の札が1枚も無い日は出さない。
+  // ⚠️ 増減は慢性期（＝定着）の「今日 +N」だけ（札の md で正確に出せる）。ほかの段階の前回の値は保存しない。
+  let stHtml = '';
+  const st = dp && dp.st;
+  if (st && st.total > 0 && window.MecDay) {
+    const S = MecDay.STAGES;
+    stHtml =
+      '<div class="srs-viz-x srs-viz-st srs-viz-pane">' +
+        '<div class="srs-viz-hd"><span class="srs-viz-t">定着までの道のり</span><span class="srs-viz-note">全 <b>' + _sfx('stt', st.total) + '</b>問</span></div>' +
+        '<div class="st-bar" aria-hidden="true">' + S.map((x, i) => '<i class="st-' + i + '" data-sk="st' + i + '" style="flex:' + st.n[i] + '"></i>').join('') + '</div>' +
+        '<div class="st-legs">' + S.map((x, i) =>
+          '<span class="st-leg" title="' + x.label + '（' + (i === 3 ? '定着＝トロフィーと同じ判定' : '次に会うまで ' + x.span) + '）">' +
+            '<span class="st-lb"><i class="st-' + i + '"></i>' + x.label + '<small>' + x.span + '</small></span>' +
+            '<b>' + _sfx('st' + i, st.n[i]) + (i === 3 && st.today > 0 ? '<span class="st-up">今日 +' + _fmtN(st.today) + '</span>' : '') + '</b>' +
+          '</span>').join('') +
+        '</div>' +
+      '</div>';
+  }
+  return '<div class="srs-viz' + (subj ? '' : ' no-band') + '">' + ring + forecast + subj + resHtml + stHtml + '</div>';
 }
 
 // ── 今日の学習量とXP ──────────────────────────────────────────
@@ -1594,7 +1616,11 @@ function renderHero() {
   } catch (e) {}
 
   const fc = getSrsForecast(14);
-  const burn = window.MecDay ? MecDay.srsBurn(MecDay.todayRows(), due) : null;
+  // 今日の復習の結果と定着までの道のり（day_progress.js）。SRS の札は1回だけ読んで両方に渡す。
+  let dp = null;
+  if (window.MecDay) {
+    try { const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}') || {}; dp = { res: MecDay.srsResult(MecDay.todayRows(), srs), st: MecDay.srsStages(srs) }; } catch (e) {}
+  }
   if (due > 0) {
     const risk = getSrsRiskBreakdown(sessionLimit);
     say.classList.remove('is-clear');
@@ -1661,7 +1687,7 @@ function renderHero() {
         '<span class="rb-mid" data-sk="fm" style="flex:' + risk.mid + '"></span>' +
         '<span class="rb-due" data-sk="ft" style="flex:' + risk.dueToday + '"></span>' +
       '</div>' +
-      _srsVizHtml(srsDoneToday, srsGoal, fc, due, burn));
+      _srsVizHtml(srsDoneToday, srsGoal, fc, due, dp));
   } else {
     say.classList.add('is-clear');
     _paintSay(say, '',
@@ -1676,7 +1702,7 @@ function renderHero() {
         '</div>' +
       '</div>' +
       '<p class="srs-card-hint">現在、復習期限を迎えた問題はありません。全 ' + _fmtN(totalQ) + '問から新しい問題を進めましょう！</p>' +
-      _srsVizHtml(srsDoneToday, srsGoal, fc, 0, burn));
+      _srsVizHtml(srsDoneToday, srsGoal, fc, 0, dp));
   }
 
   // ボタンは3つとも席が固定: 主＝いま一番やるべきこと／副＝復習／3つ目＝今日の誤答。

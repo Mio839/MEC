@@ -408,9 +408,28 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .sv-sr b{text-align:right;font-weight:800;font-size:11px;color:rgba(var(--glass-rgb),1);font-feature-settings:"tnum";}
 .sv-sr.is-rest{color:rgba(var(--glass-rgb),.7);}
 .sv-sr.is-rest b{color:rgba(var(--glass-rgb),.8);}
-/* 今日の復習の減り方（2026-10-01・day_progress.js）：横幅いっぱいの段。右下がりの階段＋目標の高さの点線。
-   ⚠️ 常時アニメを置かない（renderHero は同期のたびに innerHTML を差し替える）。 */
-.srs-viz-bn{grid-column:1/-1;}
+/* 今日の復習の結果（2色の帯）／定着までの道のり（4段階の積み上げ帯）（2026-10-01・day_progress.js・デモ _work/queue_result_demo.html の A1・B1 案）：
+   どちらも横幅いっぱいの段。⚠️ 常時アニメを置かない（renderHero は同期のたびに innerHTML を差し替える）。
+   ⚠️ 旧「今日の復習の減り方」（右下がりの階段）は「全く無意味」で撤去した。戻さない。 */
+.srs-viz-x{grid-column:1/-1;}
+.rs-bar,.st-bar{display:flex;height:14px;border-radius:3px;overflow:hidden;background:rgba(var(--glass-rgb),.1);}
+.rs-bar i,.st-bar i{display:block;height:100%;min-width:0;transition:flex-grow 1.1s cubic-bezier(.2,.8,.2,1);}
+.rs-bar .rs-up{background:linear-gradient(180deg,#4ade80,#16a34a);}
+.rs-bar .rs-back{background:linear-gradient(180deg,#f87171,#dc2626);}
+.rs-legs{display:flex;justify-content:space-between;gap:4px 12px;flex-wrap:wrap;margin-top:5px;}
+.rs-leg{font-size:10.5px;color:rgba(var(--glass-rgb),.88);white-space:nowrap;font-feature-settings:"tnum";}
+.rs-leg b{font-size:13px;font-weight:800;margin-left:2px;}
+.rs-leg small{font-size:10px;color:rgba(var(--glass-rgb),.8);margin-left:5px;}
+.rs-ok{color:#4ade80;} .rs-ng{color:#f87171;}
+/* 段階の色：高度急性期＝赤・急性期＝橙・回復期＝空色・慢性期（定着）＝紫 */
+.st-0{background:#ef4444;} .st-1{background:#f59e0b;} .st-2{background:#38bdf8;} .st-3{background:#a78bfa;}
+.st-legs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:5px;}
+.st-leg{min-width:0;display:flex;flex-direction:column;font-size:10px;color:rgba(var(--glass-rgb),.88);font-feature-settings:"tnum";}
+.st-lb{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.st-lb i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:3px;vertical-align:-1px;}
+.st-lb small{font-size:9.5px;color:rgba(var(--glass-rgb),.7);margin-left:3px;}
+.st-leg b{font-size:13px;font-weight:800;color:rgba(var(--glass-rgb),1);white-space:nowrap;}
+.st-up{font-size:10px;font-weight:800;color:#4ade80;margin-left:4px;}
 
 /* ── 待機列の演出（2026-10-01・デモ _work/protocol_fx_demo.html の A・C・D 案・index.js の _paintSay）──
    A .srs-intro … ページを開いて最初に描いたときの組み上がり（一回きり・約1.6秒）
@@ -486,16 +505,6 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .srs-alarm.lv-alarm .srs-risk-bar .rb-high{animation:sayBarFlash .45s steps(1) 4;}
 @keyframes sayBarFlash{50%{filter:brightness(2.2);}}
 
-.srs-viz-bn .dp-burn{display:block;width:100%;height:56px;}
-.dp-burn .dp-bn-area{fill:rgba(56,189,248,.16);}
-.dp-burn .dp-bn-line{fill:none;stroke:#38bdf8;stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;}
-.dp-burn .dp-bn-goal{stroke:rgba(var(--glass-rgb),.55);stroke-width:1;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;}
-.srs-viz-bn.is-ok .dp-bn-area{fill:rgba(34,197,94,.16);}
-.srs-viz-bn.is-ok .dp-bn-line{stroke:var(--gr,#22c55e);}
-.bn-axis{display:flex;justify-content:space-between;gap:8px;margin-top:3px;font-size:10px;
-  color:rgba(var(--glass-rgb),.8);font-feature-settings:"tnum";white-space:nowrap;}
-.bn-goal-l{overflow:hidden;text-overflow:ellipsis;}
-.srs-viz-bn.is-ok .bn-goal-l{color:var(--gr,#22c55e);font-weight:700;}
 /* 上段の stat 行：足したセルがある日は、余った幅を右端に溜めず各セルの間へ均等に配る
    （2026-10-01「所要の目安の右側に何もない空間が気になる」）。
    ⚠️ .srs-risk-cell の margin-left:auto が残ると space-between が効かないので、ここで 0 に戻す。 */
@@ -510,7 +519,9 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   .srs-viz{grid-template-columns:auto minmax(0,1fr);}
   /* 狭い画面：リングと科目別を上の段に並べ、14日の予定は横幅いっぱいの段へ（棒が13本あるので幅が要る） */
   .srs-viz-fc{grid-column:1/-1;order:3;}
-  .srs-viz-bn{order:4;}
+  .srs-viz-x{order:4;}
+  /* 狭い画面：段階の名前は2行（名前／間隔）に分けて4列に収める */
+  .st-lb small{display:block;margin-left:11px;}
   .fb-today{flex-basis:62px;}
   /* 1行死守の stat 行：狭い画面では足した「終わると残り」「所要の目安」を隠す */
   .srs-stat-extra{display:none;}
