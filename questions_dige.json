@@ -18774,22 +18774,27 @@
       }
      ],
      "ans_label": "ｅ　反跳痛",
-     "ans_sub": "急性虫垂炎で炎症が腹膜に及ぶと反跳痛（Blumberg徴候）が出現する。腹膜刺激症状の代表的所見。",
+     "ans_sub": "朝は臍の周り（腹部正中）の軽い痛みと悪心で、胃腸炎のように見えた。夕方には<b>痛みが右下腹部へ移って</b>圧痛がはっきりした——<b>急性虫垂炎</b>の経過。炎症が虫垂の外の壁側腹膜に及ぶと、押した手を離したときに響く<b>反跳痛（Blumberg 徴候）</b>が出る。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 急性虫垂炎の身体所見",
-       "c": "<span class=\"kw\">e反跳痛（Blumberg徴候）（正答）</span>：<br>・腹壁をゆっくり押して急に離すと痛みが増強（反跳痛）<br>・腹膜刺激の証拠→腹膜炎（peritoneal irritation）<br>・急性虫垂炎で腹膜炎へ進展すると出現<br><br><span class=\"kw\">急性虫垂炎の主要徴候</span>：<br>・McBurney圧痛点（臍と右腸骨前上棘の外1/3）<br>・Rosenstein徴候（左側臥位で右下腹部圧痛↑）<br>・Rovsing徴候（左下腹部圧迫で右下腹部痛）<br>・腰筋徴候（psoas sign）・閉鎖筋徴候<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>黄疸・下血・波動・金属音：急性虫垂炎の典型所見ではない</br></br></br></br></br></br></br></br></br>"
+       "h": "🌿 腹膜刺激徴候——何を見て、どう確かめるか",
+       "c": "<span class=\"kw4\"><b>痛みが移る仕組み（内臓痛→体性痛）と CT の所見は Q.275——ここは腹膜に炎症が及んだサインの取り方</b></span>。<br/><span class=\"kw\"><b>① 反跳痛（Blumberg 徴候）</b></span><br/><span class=\"kw3\"><b>ゆっくり押して、急に手を離す——離した瞬間に強く痛む</b></span><br/><span class=\"kw3\"><b>揺れた腹膜が炎症で敏感になっている</b></span><br/><span class=\"kw\"><b>② 筋性防御</b></span><br/><span class=\"kw3\"><b>軽く押すだけで腹壁の筋肉が反射的に固くなる</b></span><br/><span class=\"kw4\"><b>板のように硬い（板状硬）＝広い腹膜炎（穿孔など）</b></span><br/><span class=\"kw\"><b>③ 痛みの少ない確かめ方</b></span><br/><span class=\"kw3\"><b>咳をさせる・踵を落とす（heel drop）・車の振動で響く——反跳痛と同じ意味</b></span><br/><span class=\"kw3\"><b>子どもや痛がる人では、強く押して離すより、これらで確かめる</b></span><br/><span class=\"kw\"><b>④ 打診痛</b></span><br/><span class=\"kw3\"><b>軽くたたくだけで痛い——これも腹膜の炎症</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　黄　疸</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胆道や肝の病気の所見</b></span>。<span class=\"kw3\"><b>虫垂炎では出ない</b></span>。</td></tr><tr><td>ｂ　下　血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>虫垂炎は腸の内腔に出血しない</b></span>。</td></tr><tr><td>ｃ　波　動</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大量の腹水のサイン</b></span>。</td></tr><tr><td>ｄ　金属音</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>機械的腸閉塞で、拡張した腸に液とガスがたまったときの音</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　反跳痛</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>右下腹部の圧痛に、腹膜の炎症が加わったサイン</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：「胃腸炎」と言われた腹痛を見直すとき",
+       "c": "<span class=\"kw\"><b>① 早期の虫垂炎は胃腸炎に似る</b></span><br/><span class=\"kw3\"><b>はじめは臍周囲の痛み・悪心・食欲不振——下痢を伴うことも（骨盤内の虫垂が直腸を刺激）</b></span><br/><span class=\"kw3\"><b>この患者も朝の時点では診断がつかなかった</b></span><br/><span class=\"kw\"><b>② 見直すきっかけ</b></span><br/><span class=\"kw4\"><b>痛みが一点に移る、下痢より痛みが強い、発熱が上がる、歩くと響く</b></span><br/><span class=\"kw3\"><b>胃腸炎は嘔吐・下痢が主で、痛みは全体に広く波がある</b></span><br/><span class=\"kw\"><b>③ 帰すときの説明</b></span><br/><span class=\"kw3\"><b>「痛みが右下に移る・強くなる・熱が出る・歩けない」なら、すぐ再受診するよう伝える</b></span><br/><span class=\"kw3\"><b>この患者はそれで夕方に戻ってきた</b></span><br/><span class=\"kw\"><b>④ 鎮痛薬</b></span><br/><span class=\"kw3\"><b>痛み止めを使っても診断の妨げにはならない——我慢させる必要はない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">反跳痛（Blumberg徴候）= 腹膜刺激の証拠 → 急性虫垂炎の腹膜炎進展を示す</span><br/>筋性防御（muscle guarding）も腹膜炎の重要な徴候。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "痛みが右下腹部へ移動＝急性虫垂炎で認める可能性の高い所見。<br/><b>a 黄疸／b 下血／c 波動／d 金属音</b>：本病態でない。<br/><b>e 反跳痛</b>：<span class=\"kw\">限局性腹膜炎による反跳痛（Blumberg徴候）</span>。✓"
+       "c": "<span class=\"kw3\"><b>痛みが臍周囲→右下腹部へ移る→急性虫垂炎</b></span><br/><span class=\"kw3\"><b>腹膜刺激徴候：反跳痛（Blumberg）・筋性防御・打診痛・咳や踵落としで響く</b></span><br/><span class=\"kw4\"><b>金属音は腸閉塞、波動は腹水——虫垂炎の所見ではない</b></span>"
       }
      ],
      "imgs": []
@@ -18839,22 +18844,27 @@
       }
      ],
      "ans_label": "ｂ　Meckel 憩室",
-     "ans_sub": "Meckel憩室は2歳以上の小児腸重積の原因として重要（先導となる病変）。異所性胃粘膜が最多。",
+     "ans_sub": "9 歳男児の<b>腸重積</b>（超音波で target sign、空気整復で還納）。腸重積の多くは乳幼児で原因がないが、<b>年長児では先進部となる病変</b>を探す。99mTcO4−（過テクネチウム酸）シンチでは、上の胃と下の膀胱のほかに、<b>右下腹部に小さな集積</b>——胃粘膜があるはずのない場所の<b>異所性胃粘膜</b>＝<b>Meckel 憩室</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🕳️ Meckel憩室と腸重積",
-       "c": "<span class=\"kw\">Meckel憩室</span>：<br>・臍腸間膜管（卵黄腸管）の遺残→回腸末端から約60cm口側に発生<br/>・有病率：2%、男性に多い<br/>・2歳以上の小児では<span class=\"kw\">腸重積の先導病変</span>となる<br/>・異所性胃粘膜含有→胃酸分泌→消化管出血（無痛性鮮血便）<br/><br/><span class=\"kw\">「2の法則（Rule of 2）」</span>：<br/>2%・2歳以下で症状・2フィート（60cm）・2インチ（5cm）・2歳以下<br/><br/><span class=\"kw4\">他の腸重積の原因</span>：<br/>✗ aルーメンの病変（ポリープ）・cリンパ腫（2歳以上）：先導病変<br/>✗ d腸回転異常症：新生児期に発症</br>"
+       "h": "🌿 Meckel 憩室——シンチで何が光るか",
+       "c": "<span class=\"kw\"><b>① できかた</b></span><br/><span class=\"kw3\"><b>胎児の卵黄腸管（臍と腸をつなぐ管）が閉じずに残ったもの</b></span><br/><span class=\"kw3\"><b>回腸の末端から口側 1m 以内（成人で 60cm ほど）の、腸間膜の反対側にできる真性憩室</b></span><br/><span class=\"kw\"><b>② 2 の法則</b></span><br/><span class=\"kw3\"><b>人口の約 2%、回盲弁から約 2 フィート、長さ約 2 インチ、2 歳ごろまでに症状、2 種類の異所性粘膜（胃・膵）</b></span><br/><span class=\"kw\"><b>③ シンチの読み</b></span><br/><span class=\"kw3\"><b>99mTcO4− は胃粘膜の細胞に取り込まれる</b></span><br/><span class=\"kw3\"><b>上の大きな集積＝胃、下の楕円の集積＝膀胱（尿へ出る）</b></span><br/><span class=\"kw4\"><b>右下腹部の小さな集積＝憩室の中の異所性胃粘膜</b></span><br/><span class=\"kw\"><b>④ 症状</b></span><br/><span class=\"kw3\"><b>異所性胃粘膜の出す胃酸で、隣の回腸に潰瘍——痛みのない大量の下血（小児の下血の重要な原因）</b></span><br/><span class=\"kw3\"><b>憩室が先進部になって腸重積、索状物で腸閉塞・軸捻転、憩室炎（虫垂炎に似る）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Crohn 病</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>回腸末端の病変だが、胃粘膜はない</b></span>。<span class=\"kw3\"><b>99mTcO4− シンチには集積しない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　Meckel 憩室</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>右下腹部の異所性胃粘膜への集積</b></span>。<span class=\"kw3\"><b>年長児の腸重積の先進部</b></span>。</td></tr><tr><td>ｃ　悪性リンパ腫</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>年長児の腸重積の先進部にはなる</b></span>。<span class=\"kw3\"><b>ただし胃粘膜シンチには写らない（Ga シンチや PET）</b></span>。</td></tr><tr><td>ｄ　腸回転異常症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>新生児の胆汁性嘔吐・中腸軸捻転</b></span>。<span class=\"kw3\"><b>造影で十二指腸・空腸の位置の異常</b></span>。</td></tr><tr><td>ｅ　大腸ポリポーシス</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大腸のポリープ——胃粘膜シンチには写らない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：腸重積——年齢で見る原因と整復",
+       "c": "<span class=\"kw\"><b>① 乳幼児（生後 3 か月〜2 歳）</b></span><br/><span class=\"kw3\"><b>ほとんどが原因のない特発性——回腸末端のリンパ組織の腫れが先進部</b></span><br/><span class=\"kw3\"><b>間欠的な激しい啼泣・嘔吐・いちごゼリー状の血便・右上腹部のソーセージ状の腫瘤</b></span><br/><span class=\"kw\"><b>② 年長児・成人</b></span><br/><span class=\"kw4\"><b>先進部になる病変があることが多い——Meckel 憩室、ポリープ（Peutz-Jeghers）、悪性リンパ腫、IgA 血管炎の腸管の腫れ</b></span><br/><span class=\"kw3\"><b>成人では腫瘍が多く、手術になることが多い</b></span><br/><span class=\"kw\"><b>③ 診断</b></span><br/><span class=\"kw3\"><b>超音波：横断で target sign（同心円）、縦断で pseudokidney sign</b></span><br/><span class=\"kw\"><b>④ 整復</b></span><br/><span class=\"kw3\"><b>発症から早ければ、空気や造影剤の圧で押し戻す（非観血的整復）</b></span><br/><span class=\"kw3\"><b>腹膜炎・穿孔・ショック、長時間たっている、整復できない——手術</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Meckel憩室：臍腸間膜管遺残→回腸末端60cm口側・2%・異所性胃粘膜→鮮血便</span><br/>2歳以上の小児の腸重積→Meckel憩室や腸管ポリープが先導病変。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "99mTcシンチグラムでの集積。<br/><b>a Crohn病／c 悪性リンパ腫／d 腸回転異常症／e 大腸ポリポーシス</b>：合わない。<br/><b>b Meckel憩室</b>：<span class=\"kw\">異所性胃粘膜がTcを取り込む</span>。✓"
+       "c": "<span class=\"kw3\"><b>Meckel 憩室：異所性胃粘膜→99mTcO4− シンチで右下腹部に集積</b></span><br/><span class=\"kw3\"><b>症状は痛みのない下血・腸重積・腸閉塞・憩室炎</b></span><br/><span class=\"kw4\"><b>年長児・成人の腸重積は先進部の病変を探す</b></span>"
       }
      ],
      "imgs": [
@@ -18906,22 +18916,27 @@
       }
      ],
      "ans_label": "ａ　直腸指診を行う。",
-     "ans_sub": "急性虫垂炎疑いでは直腸指診（肛門診察）でDouglas窩の圧痛（骨盤腹膜炎）を確認することが重要。",
+     "ans_sub": "23 歳男性、上腹部痛→右下腹部へ移動、悪心、咳で右下腹部に響く、微熱——<b>急性虫垂炎</b>を疑う。腹部の診察は<b>視診→聴診→打診→触診</b>の順で、聴診は 1 か所で 1 分ほど、触診は<b>痛くない場所から始めて痛む場所を最後</b>に。虫垂が骨盤の中に垂れていると腹壁からの圧痛が弱いので、<b>直腸指診</b>で直腸の右側・ダグラス窩の圧痛を確かめる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 急性腹症の診察手順",
-       "c": "<span class=\"kw\">a直腸指診（正答）</span>：<br>急性虫垂炎→骨盤内腹膜炎進展→<span class=\"kw\">Douglas窩圧痛</span>（直腸指診で確認）<br/>・虫垂炎の腹膜炎サインとして有用<br/>・骨盤付属器炎との鑑別にも役立つ<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b「打診の前に打診」→聴診が先（打診が先では腸蠕動が変化する可能性）<br/>✗ c「腸蠕動音の聴取は5秒」→少なくとも<span class=\"kw4\">1分間以上</span>聴取（腸蠕動は間欠的）<br/>✗ d「痛みを訴える部位から触診」→<span class=\"kw4\">痛みの部位は最後に触診</span>（最初に遠い部位から）<br/>✗ e「腸蠕動音の聴取は5か所」→1か所で1分間聴取が標準</br>"
+       "h": "🌿 腹部診察の順番と、その理由",
+       "c": "<span class=\"kw4\"><b>痛みが移る仕組みは Q.275、腹膜刺激徴候の取り方は Q.277——ここは診察の手順</b></span>。<br/><span class=\"kw\"><b>① 視診</b></span><br/><span class=\"kw3\"><b>膨隆、手術痕、呼吸での動き（腹膜炎では動かない）</b></span><br/><span class=\"kw\"><b>② 聴診（打診・触診より先に）</b></span><br/><span class=\"kw3\"><b>叩いたり押したりすると腸が刺激され、音が変わってしまう</b></span><br/><span class=\"kw3\"><b>1 か所で 1 分ほど聴く——腸音は腹部全体に響くので、何か所も聴く必要はない</b></span><br/><span class=\"kw3\"><b>消失していると判断するには数分聴く</b></span><br/><span class=\"kw\"><b>③ 打診</b></span><br/><span class=\"kw3\"><b>鼓音と濁音の分布、肝の大きさ、打診痛</b></span><br/><span class=\"kw\"><b>④ 触診</b></span><br/><span class=\"kw4\"><b>痛くない所から始め、痛む所は最後——先に痛めると全体が緊張し、所見がとれなくなる</b></span><br/><span class=\"kw3\"><b>浅く→深く</b></span><br/><span class=\"kw\"><b>⑤ 直腸指診</b></span><br/><span class=\"kw3\"><b>骨盤の中の炎症（骨盤内虫垂炎・膿瘍）は腹壁から触れにくい——直腸の右前壁の圧痛で見つかる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　直腸指診を行う。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>骨盤内の虫垂や膿瘍による右側の圧痛を拾える</b></span>。</td></tr><tr><td>ｂ　聴診の前に打診を行う。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹部は聴診が先——打診・触診で腸音が変わる</b></span>。</td></tr><tr><td>ｃ　腸蠕動音の聴取は 5 秒間行う。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>5 秒では短すぎる</b></span>。<span class=\"kw3\"><b>1 か所で 1 分程度聴く</b></span>。</td></tr><tr><td>ｄ　痛みを訴える部位から触診する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>痛む部位は最後</b></span>。</td></tr><tr><td>ｅ　腸蠕動音の聴取は 5 か所以上で行う。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸音は全体に伝わるので 1 か所でよい</b></span>。<span class=\"kw3\"><b>血管雑音を聴くときは場所を変える</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：虫垂の位置で変わる所見",
+       "c": "<span class=\"kw\"><b>① 前方（ふつう）</b></span><br/><span class=\"kw3\"><b>McBurney 点の圧痛、反跳痛がはっきり</b></span><br/><span class=\"kw\"><b>② 盲腸の後ろ（後腹膜側）</b></span><br/><span class=\"kw3\"><b>腹壁からの圧痛が弱い</b></span><br/><span class=\"kw3\"><b>腸腰筋徴候（psoas sign）：左を下にして寝かせ、右股関節を伸ばすと痛む——腸腰筋に炎症が触れている</b></span><br/><span class=\"kw3\"><b>側腹部・背部の痛み、尿に白血球が出ることも</b></span><br/><span class=\"kw\"><b>③ 骨盤内</b></span><br/><span class=\"kw3\"><b>閉鎖筋徴候（obturator sign）：右股関節と膝を曲げて内旋すると痛む</b></span><br/><span class=\"kw3\"><b>直腸指診で右側の圧痛、頻尿・下痢（膀胱・直腸の刺激）</b></span><br/><span class=\"kw\"><b>④ 妊娠後期</b></span><br/><span class=\"kw3\"><b>大きな子宮で虫垂が上外側へ押され、右側腹部〜右上腹部が痛む</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">腹部触診の原則：痛みを訴える部位から遠い部位から始め、最後に痛みの部位を触れる</span><br/>腸蠕動音：1か所で1分間聴取（少なくとも1分）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "急性腹症の腹部診察で正しいもの。<br/><b>b 聴診の前に打診／c 蠕動音を5秒／d 痛む部位から触診／e 5か所以上で聴取</b>：誤り（触診は痛くない所から、聴診は視診の後）。<br/><b>a 直腸指診を行う</b>：<span class=\"kw\">急性腹症では直腸指診も評価</span>。✓"
+       "c": "<span class=\"kw3\"><b>腹部診察は視診→聴診→打診→触診、触診は痛む部位を最後に</b></span><br/><span class=\"kw3\"><b>腸音は 1 か所で 1 分程度</b></span><br/><span class=\"kw4\"><b>虫垂炎疑いでは直腸指診（骨盤内虫垂）、腸腰筋徴候（後腹膜側）、閉鎖筋徴候（骨盤内）</b></span>"
       }
      ],
      "imgs": []
@@ -18971,22 +18986,27 @@
       }
      ],
      "ans_label": "ｂ　PT-INR",
-     "ans_sub": "消化管出血患者では抗凝固療法（ワルファリン）の有無を確認するためPT-INRを最初に測定する。",
+     "ans_sub": "62 歳男性、多量の暗赤色便でふらつき、冷汗、Hb 9.7——下部消化管からの大量出血。造影 CT（B 動脈相・C 遅延相）では<b>左側の結腸の内腔に造影剤が漏れ出し、遅延相で広がる</b>——いまも出血している（血管外漏出）。<b>心房細動でワルファリン</b>を飲んでいる——止血の方針と中和の要否を決めるため、まず <b>PT-INR</b> を測る。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩸 消化管出血の初期評価",
-       "c": "<span class=\"kw\">b PT-INR（正答）</span>：<br>・抗凝固療法（ワルファリン）使用中はINR延長→出血リスク大幅増<br>・PT-INR高値→ワルファリン減量・拮抗薬（ビタミンK・プロトロンビン複合体）を考慮<br>・内視鏡的止血術・手術前に凝固能の確認が必須<br><br><span class=\"kw4\">他の選択肢</span>：<br>✗ aPaO2：呼吸評価（大腸憩室出血の直接評価ではない）<br>✗ cDダイマー：PE・DVT診断（出血の凝固評価とは別）<br>✗ d血小板粘着能：特殊検査（急性期には必要なし）<br/>✗ e心筋トロポニン：心筋梗塞のマーカー</br></br></br></br></br></br></br></br>"
+       "h": "🌿 抗凝固薬を飲んでいる人の出血——まず効き具合を測る",
+       "c": "<span class=\"kw\"><b>① 何を確かめたいか</b></span><br/><span class=\"kw3\"><b>ワルファリンの効きすぎ（INR が高い）なら、出血が止まりにくい</b></span><br/><span class=\"kw3\"><b>中和するか、どれくらい急ぐかが INR で決まる</b></span><br/><span class=\"kw3\"><b>内視鏡や IVR の処置ができる状態かの判断にも使う</b></span><br/><span class=\"kw\"><b>② ワルファリンの中和</b></span><br/><span class=\"kw3\"><b>ビタミン K の静注——効くまで数時間〜半日</b></span><br/><span class=\"kw4\"><b>命に関わる出血では、プロトロンビン複合体製剤（PCC）——数十分で INR が下がる</b></span><br/><span class=\"kw3\"><b>新鮮凍結血漿でも補えるが、量が多く時間がかかる</b></span><br/><span class=\"kw\"><b>③ DOAC の場合</b></span><br/><span class=\"kw3\"><b>ダビガトラン→イダルシズマブ</b></span><br/><span class=\"kw3\"><b>Xa 阻害薬（アピキサバン・リバーロキサバン・エドキサバン）→アンデキサネット アルファ</b></span><br/><span class=\"kw\"><b>④ 中和したあと</b></span><br/><span class=\"kw3\"><b>心房細動の脳梗塞の危険がある——止血を確かめたら再開の時期を考える</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　PaO2</td><td><span class=\"kw4\">誤り</span>（まずではない）。<span class=\"kw3\"><b>SpO2 96% で呼吸は保たれている</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　PT-INR</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>ワルファリン内服中の大出血——効き具合と中和の要否を決める</b></span>。</td></tr><tr><td>ｃ　D ダイマー</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血栓症の除外に使う</b></span>。<span class=\"kw3\"><b>この場面の方針を決めない</b></span>。</td></tr><tr><td>ｄ　血小板粘着能</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血小板 21 万で、抗血小板薬も飲んでいない</b></span>。<span class=\"kw3\"><b>日常の検査ではない</b></span>。</td></tr><tr><td>ｅ　心筋トロポニン T</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胸痛もなく、心筋梗塞を疑う所見はない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：下部消化管出血を受けたときの最初の動き",
+       "c": "<span class=\"kw\"><b>① 重さを見る</b></span><br/><span class=\"kw3\"><b>脈・血圧・ショック指数（脈拍÷収縮期血圧、1 以上でショックを疑う）、冷汗、意識</b></span><br/><span class=\"kw3\"><b>この症例：88÷114 ≒ 0.8、冷汗あり——ショックの手前</b></span><br/><span class=\"kw\"><b>② 輸液と輸血</b></span><br/><span class=\"kw3\"><b>太い静脈路を 2 本、細胞外液</b></span><br/><span class=\"kw3\"><b>Hb 7g/dL を目安に赤血球輸血（心疾患があれば 8 前後）</b></span><br/><span class=\"kw\"><b>③ 上部からの出血を除く</b></span><br/><span class=\"kw4\"><b>大量の暗赤色便は、上部消化管からの急速な出血でも起こる——BUN が高ければ上部を疑う（この症例は 18 で高くない）</b></span><br/><span class=\"kw\"><b>④ 出血源を探す</b></span><br/><span class=\"kw3\"><b>造影 CT（血管外漏出の場所）→下部内視鏡（前処置をして）</b></span><br/><span class=\"kw3\"><b>CT で漏出が見えれば、そのまま IVR へ進むこともある</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">消化管出血の初期評価：PT-INR（抗凝固薬の有無）を最初に確認</span><br/>ワルファリン使用中の大腸憩室出血→ビタミンK投与で拮抗。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "心房細動のある高齢者の下血でまず測定すべきもの。<br/><b>a PaO2／c Dダイマー／d 血小板粘着能／e トロポニンT</b>：第一でない。<br/><b>b PT-INR</b>：<span class=\"kw\">抗凝固薬使用下の出血傾向を評価（PT-INR）</span>。✓"
+       "c": "<span class=\"kw3\"><b>ワルファリン内服中の出血→まず PT-INR</b></span><br/><span class=\"kw3\"><b>急ぐ中和はプロトロンビン複合体製剤、ビタミン K は効くまで時間がかかる</b></span><br/><span class=\"kw4\"><b>造影 CT の血管外漏出（動脈相で出て遅延相で広がる）＝活動性出血</b></span>"
       }
      ],
      "imgs": [
@@ -19040,22 +19060,27 @@
       }
      ],
      "ans_label": "ａ　大腸憩室症",
-     "ans_sub": "高齢者の突然発症・痛みのない大量鮮血便→大腸憩室出血が最多原因。内視鏡で出血源確認。",
+     "ans_sub": "痛みも下痢もなく、突然の多量の暗赤色便。単純 CT（A）では結腸の内容が高い濃度（血液）、造影 CT では左側の結腸の内腔に造影剤が漏れ出し、遅延相で広がる（活動性の出血）。壁の肥厚や腫瘍は目立たない。腹痛のない大量の血便で、高齢・抗凝固薬内服——<b>大腸憩室出血</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 大腸憩室症の出血",
-       "c": "<span class=\"kw\">a大腸憩室症（正答）</span>：<br>大腸憩室の血管が露出→突然の<span class=\"kw\">痛みのない大量出血（鮮血〜暗赤色）</span><br>・高齢者・便秘・NSAIDs・抗血栓薬が危険因子<br>・右側結腸憩室出血が多い（出血量多い）<br>・75〜80%は自然止血<br><br><span class=\"kw4\">鑑別</span>：<br>✗ b虚血性腸炎：腹痛先行→血便（突然の痛みなし出血は少ない）<br>✗ c潰瘍性大腸炎：慢性経過・粘血便・若年に多い<br/>✗ d非閉塞性腸管虚血症（NOMI）：動脈硬化・心不全背景<br/>✗ e腸管出血性大腸菌：腹痛・血便（集団発生・HUSリスク）</br></br></br></br></br></br></br></br>"
+       "h": "🌿 痛みのない大量の血便——憩室出血の考え方",
+       "c": "<span class=\"kw4\"><b>最初の動き（重症度・輸血・上部の除外）は Q.280——ここは診断と鑑別</b></span>。<br/><span class=\"kw\"><b>① なぜ痛くないか</b></span><br/><span class=\"kw3\"><b>憩室の頸部で、粘膜の下を走る直動脈が伸ばされて破れる</b></span><br/><span class=\"kw3\"><b>炎症ではなく血管が破れるだけ——腹痛・発熱がない</b></span><br/><span class=\"kw\"><b>② 起こしやすい人</b></span><br/><span class=\"kw3\"><b>高齢、抗血栓薬（抗凝固薬・抗血小板薬）・NSAIDs、高血圧、肥満</b></span><br/><span class=\"kw\"><b>③ 経過</b></span><br/><span class=\"kw3\"><b>多くは自然に止まる（7〜8 割）が、再出血が多い</b></span><br/><span class=\"kw\"><b>④ 日本人の憩室</b></span><br/><span class=\"kw3\"><b>右側結腸（上行結腸）に多く、年をとると左側（S 状結腸）が増える</b></span><br/><span class=\"kw3\"><b>出血は左右どちらからも起こる</b></span><br/><span class=\"kw\"><b>⑤ 憩室炎との違い</b></span><br/><span class=\"kw3\"><b>憩室炎：腹痛・発熱・圧痛・炎症反応の上昇——出血は少ない</b></span><br/><span class=\"kw3\"><b>憩室出血：痛みなし・大量の血便</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　大腸憩室症</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>痛みのない大量の血便、高齢、抗凝固薬、造影剤の漏出</b></span>。</td></tr><tr><td>ｂ　虚血性腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>急な腹痛→下痢→血便の順</b></span>。<span class=\"kw3\"><b>出血量は多くない</b></span>。</td></tr><tr><td>ｃ　潰瘍性大腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>数週間続く粘血便・下痢</b></span>。<span class=\"kw3\"><b>突然の大量出血ではない</b></span>。</td></tr><tr><td>ｄ　非閉塞性腸管虚血症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>心不全・透析・脱水で腸の血流が落ちる——強い腹痛と全身状態の悪化</b></span>。</td></tr><tr><td>ｅ　腸管出血性大腸菌感染症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹痛と水様下痢のあとに血便</b></span>。<span class=\"kw3\"><b>食事歴があり、溶血性尿毒症症候群に注意</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：下血の原因を年齢と痛みで並べる",
+       "c": "<span class=\"kw\"><b>① 痛みがない</b></span><br/><span class=\"kw3\"><b>高齢：大腸憩室出血、血管拡張症、大腸癌（少量・持続）</b></span><br/><span class=\"kw3\"><b>若年：痔核、Meckel 憩室（小児）</b></span><br/><span class=\"kw3\"><b>処置のあと：ポリープ切除後の出血</b></span><br/><span class=\"kw\"><b>② 痛みがある</b></span><br/><span class=\"kw3\"><b>虚血性腸炎（高齢・便秘のあと）、感染性腸炎（発熱・下痢）、炎症性腸疾患</b></span><br/><span class=\"kw3\"><b>腸間膜動脈閉塞症（激しい痛みのわりに腹部所見が乏しい）</b></span><br/><span class=\"kw\"><b>③ 肛門の痛み</b></span><br/><span class=\"kw3\"><b>裂肛——排便時の鋭い痛みと少量の鮮血</b></span><br/><span class=\"kw\"><b>④ 量と色</b></span><br/><span class=\"kw3\"><b>鮮紅色：肛門・直腸に近い／暗赤色：右側の結腸か出血が速い／黒色便：上部消化管</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">高齢者の突然の痛みのない大量鮮血便 → 大腸憩室出血が最多</span><br/>診断：下部消化管内視鏡（直接視認）or腹部血管造影（出血速度速い場合）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "高齢者の突然の痛みのない鮮血便。<br/><b>b 虚血性腸炎（腹痛を伴う）／c 潰瘍性大腸炎／d NOMI／e 腸管出血性大腸菌</b>：合わない。<br/><b>a 大腸憩室症</b>：<span class=\"kw\">憩室出血は無痛性の大量鮮血便</span>。✓"
+       "c": "<span class=\"kw3\"><b>高齢者の痛みのない大量の血便→大腸憩室出血</b></span><br/><span class=\"kw3\"><b>抗血栓薬・NSAIDs で増える、多くは自然止血するが再出血が多い</b></span><br/><span class=\"kw4\"><b>虚血性腸炎は腹痛が先、感染性腸炎は下痢・発熱を伴う</b></span>"
       }
      ],
      "imgs": [
@@ -19113,22 +19138,27 @@
       }
      ],
      "ans_label": "ａ　腸管切除術\nｂ　動脈塞栓術",
-     "ans_sub": "内視鏡止血困難の大腸大量出血→IVR（動脈塞栓術）または外科的腸管切除術（止血できなければ手術）。",
+     "ans_sub": "赤血球を 6 単位輸血しても Hb 8.2 で血便が続く——出血が止まっていない。下部内視鏡は凝血塊で止血できなかった。内視鏡で止められない大腸の出血には、<b>血管造影で出血している動脈を詰める動脈塞栓術（TAE）</b>、それでも止まらない・すぐに使えないときは<b>出血部の腸管切除術</b>を考える。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔧 内視鏡止血困難な大腸出血の治療",
-       "c": "<span class=\"kw\">a腸管切除術（正答）</span>：<br>動脈塞栓術も困難・不成功の場合→出血部位を含む腸管切除（最終手段）<br><br><span class=\"kw\">b動脈塞栓術（IVR）（正答）</span>：<br>腹部血管造影→出血動脈を同定→<span class=\"kw\">コイル塞栓術</span>→出血停止<br>内視鏡止血不成功例に選択（手術前の橋渡し治療にもなる）<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ c血栓溶解療法：血栓を溶かす→出血に使用すれば悪化！<br/>✗ d血漿交換療法：TTP・HUS等の血栓性微小血管症<br/>✗ e高圧酸素療法：ガス壊疽・CO中毒（腸管出血には不適）</br></br></br></br></br></br></br></br>"
+       "h": "🌿 内視鏡で止められないときの次の手",
+       "c": "<span class=\"kw4\"><b>最初の動きは Q.280、憩室出血の考え方は Q.281——ここは止血の手段</b></span>。<br/><span class=\"kw\"><b>① まず内視鏡</b></span><br/><span class=\"kw3\"><b>前処置をして出血した憩室を探す</b></span><br/><span class=\"kw3\"><b>止血法：クリップで憩室の口を閉じる、輪ゴムで憩室ごと縛る（内視鏡的結紮術、EBL——再出血が少ない）</b></span><br/><span class=\"kw4\"><b>凝血塊が多い・出血が速いと、出血点が見えずに止められない</b></span><br/><span class=\"kw\"><b>② 動脈塞栓術（TAE）</b></span><br/><span class=\"kw3\"><b>大腿動脈からカテーテルを入れ、上・下腸間膜動脈を造影して漏れている枝を探す</b></span><br/><span class=\"kw3\"><b>できるだけ細い枝まで進めて、コイルなどで詰める（超選択的塞栓）</b></span><br/><span class=\"kw3\"><b>造影 CT で漏出の場所がわかっていると早い</b></span><br/><span class=\"kw3\"><b>欠点：詰めすぎると腸が虚血・壊死する</b></span><br/><span class=\"kw\"><b>③ 腸管切除術</b></span><br/><span class=\"kw3\"><b>TAE で止まらない・繰り返す・全身状態が保てないとき</b></span><br/><span class=\"kw4\"><b>出血部位がはっきりしないまま切ると、別の場所から再出血する——できるだけ部位を決めてから</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　腸管切除術</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>輸血しても止まらない出血の最終手段</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　動脈塞栓術</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>内視鏡で止められない出血に、血管の中から詰めて止める</b></span>。</td></tr><tr><td>ｃ　血栓溶解療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血を悪化させる——禁忌</b></span>。</td></tr><tr><td>ｄ　血漿交換療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>自己抗体や毒素を除く治療（TTP など）</b></span>。<span class=\"kw3\"><b>出血の治療ではない</b></span>。</td></tr><tr><td>ｅ　高圧酸素療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>一酸化炭素中毒・減圧症・ガス壊疽などに使う</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：止血したあと——再出血を防ぐ",
+       "c": "<span class=\"kw\"><b>① 抗血栓薬</b></span><br/><span class=\"kw3\"><b>ワルファリンを再開するか、出血の少ない DOAC に替えるかを考える</b></span><br/><span class=\"kw3\"><b>心房細動の脳梗塞の危険と、再出血の危険を天秤にかける</b></span><br/><span class=\"kw3\"><b>一次予防のアスピリンなど、やめられる薬はやめる</b></span><br/><span class=\"kw\"><b>② NSAIDs</b></span><br/><span class=\"kw3\"><b>憩室出血を増やす——できるだけ避ける</b></span><br/><span class=\"kw\"><b>③ 再出血</b></span><br/><span class=\"kw3\"><b>1 年で 2〜3 割と多い</b></span><br/><span class=\"kw3\"><b>同じ憩室から再び出ることも、別の憩室から出ることもある</b></span><br/><span class=\"kw\"><b>④ 繰り返すなら</b></span><br/><span class=\"kw3\"><b>出血源が決まっていれば、その部分の結腸切除を考える</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">大腸大量出血（内視鏡止血困難）→ IVR動脈塞栓術 → 失敗なら腸管切除術</span><br/>大腸憩室出血：75〜80%は自然止血→止血しない場合はIVRor手術。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡で止血困難な大腸憩室出血の治療を2つ。<br/><b>c 血栓溶解療法／d 血漿交換／e 高圧酸素療法</b>：不適。<br/><b>a 腸管切除術</b>：<span class=\"kw\">責任腸管を切除</span>。✓<br/><b>b 動脈塞栓術</b>：<span class=\"kw\">責任血管をIVRで塞栓</span>。✓"
+       "c": "<span class=\"kw3\"><b>内視鏡で止められない大腸出血→動脈塞栓術（TAE）、だめなら腸管切除</b></span><br/><span class=\"kw3\"><b>憩室出血の内視鏡止血はクリップか結紮（EBL）</b></span><br/><span class=\"kw4\"><b>出血中に血栓溶解療法は禁忌</b></span>"
       }
      ],
      "imgs": [
