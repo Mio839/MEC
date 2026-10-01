@@ -19622,22 +19622,27 @@
       }
      ],
      "ans_label": "ｄ　便中CD トキシン",
-     "ans_sub": "抗菌薬使用後の水様下痢→偽膜性腸炎（C.difficile感染）を疑い便中CDトキシンを迅速検査。",
+     "ans_sub": "誤嚥性肺炎で抗菌薬を 7 日使った入院中の 80 歳女性に、1 日 10 回以上の水様下痢、微熱、白血球の軽い増加——<b>C. difficile 感染症（CDI）</b>を疑う。まず行うのは<b>便中の CD トキシン（と GDH 抗原）の検査</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 偽膜性腸炎（CDI）の診断",
-       "c": "<span class=\"kw\">d便中CDトキシン（正答）</span>：<br>・C.difficile（旧名：Clostridium difficile）が産生するトキシンA・Bを便中で迅速検出<br/>・抗菌薬使用後1日〜8週間以内に発症<br/>・感度70〜90%・特異度99%（迅速検査として有用）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a便潜血：消化管出血の確認（偽膜性腸炎では主症状でない）<br/>✗ b便培養：結果に時間がかかる（CDIの迅速診断には不向き）<br/>✗ c尿素呼気試験：H.pylori検査（今回とは無関係）<br/>✗ eα1-アンチトリプシン：蛋白漏出性胃腸症の評価</br>"
+       "h": "🌿 CDI の検査——誰の、どの便を、どう調べるか",
+       "c": "<span class=\"kw4\"><b>偽膜性腸炎の全体は Q.270、薬と感染対策は Q.283——ここは検査の出し方</b></span>。<br/><span class=\"kw\"><b>① 検査する人</b></span><br/><span class=\"kw3\"><b>抗菌薬の使用中・使用後、入院中、24 時間に 3 回以上の形のない便</b></span><br/><span class=\"kw3\"><b>形のある便は調べない——保菌者でも陽性になり、治療の必要がない</b></span><br/><span class=\"kw\"><b>② 検査の組み合わせ</b></span><br/><span class=\"kw3\"><b>GDH 抗原：C. difficile がいるか（感度が高い）</b></span><br/><span class=\"kw3\"><b>トキシン A/B：毒素を出しているか（特異度が高いが感度はやや低い）</b></span><br/><span class=\"kw3\"><b>GDH 陽性・トキシン陰性のときは、遺伝子検査（毒素遺伝子の PCR）や培養で確かめる</b></span><br/><span class=\"kw\"><b>③ 内視鏡</b></span><br/><span class=\"kw3\"><b>検査で決まらず症状が強いとき——偽膜（黄白色の小さな膜）を見る</b></span><br/><span class=\"kw\"><b>④ 治ったかの確認</b></span><br/><span class=\"kw4\"><b>治療のあとトキシン検査を繰り返さない——症状が消えても陽性が続くことがある</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　便潜血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血の有無はわかるが、原因は決まらない</b></span>。</td></tr><tr><td>ｂ　便培養</td><td><span class=\"kw4\">誤り</span>（まずではない）。<span class=\"kw3\"><b>入院して 3 日以上たってからの下痢では、サルモネラなどの一般の病原菌はまず見つからない</b></span>。</td></tr><tr><td>ｃ　尿素呼気試験</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ピロリ菌の検査</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　便中 CD トキシン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>抗菌薬のあとの入院中の水様下痢——CDI の確認</b></span>。</td></tr><tr><td>ｅ　α1 アンチトリプシン試験</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>蛋白漏出性胃腸症の検査</b></span>。<span class=\"kw3\"><b>アルブミン 3.9 で漏出を疑う所見もない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：入院中の下痢と「3 日ルール」",
+       "c": "<span class=\"kw\"><b>① 3 日ルール</b></span><br/><span class=\"kw3\"><b>入院から 3 日以上たって始まった下痢に、一般の細菌の便培養を出しても陽性になることはまれ</b></span><br/><span class=\"kw3\"><b>この場合はまず CDI の検査</b></span><br/><span class=\"kw\"><b>② 入院中の下痢の原因</b></span><br/><span class=\"kw3\"><b>CDI</b></span><br/><span class=\"kw3\"><b>薬：抗菌薬そのもの、下剤、マグネシウム製剤、PPI、メトホルミン、コルヒチン</b></span><br/><span class=\"kw3\"><b>経腸栄養（濃い・速い・冷たい）</b></span><br/><span class=\"kw3\"><b>宿便の隙間からしみ出る下痢（溢流性）——高齢・寝たきり</b></span><br/><span class=\"kw3\"><b>虚血性腸炎、ノロウイルスなどの院内の集団発生</b></span><br/><span class=\"kw\"><b>③ 外来の急性下痢</b></span><br/><span class=\"kw3\"><b>多くはウイルス性で自然に治る——便培養は高熱・血便・重症・免疫不全・集団発生のときに</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">抗菌薬使用後の水様下痢 → 便中CDトキシン（迅速検査）</span><br/>抗菌薬（特にクリンダマイシン・セフェム系・キノロン系）がCDIのリスク因子。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "抗菌薬投与後の下痢でこの時点で実施すべき検査。<br/><b>a 便潜血／b 便培養／c 尿素呼気試験／e α1アンチトリプシン</b>：本病態でない。<br/><b>d 便中CDトキシン</b>：<span class=\"kw\">Clostridioides difficile腸炎の診断</span>。✓"
+       "c": "<span class=\"kw3\"><b>抗菌薬のあとの水様下痢→便中 CD トキシン・GDH 抗原</b></span><br/><span class=\"kw3\"><b>入院 3 日以上の下痢に一般の便培養は出さない（3 日ルール）</b></span><br/><span class=\"kw4\"><b>形のある便は調べない、治療後の陰性確認もしない</b></span>"
       }
      ],
      "imgs": []
@@ -19683,22 +19688,27 @@
       }
      ],
      "ans_label": "ｃ　抗菌薬投与",
-     "ans_sub": "大腸憩室炎（穿孔なし・軽症）の治療は抗菌薬投与（腸内細菌・嫌気性菌をカバー）＋絶食・補液。",
+     "ans_sub": "1 年前の内視鏡（A）で S 状結腸に<b>憩室の口が多数</b>。今回は 3 日続く微熱と下腹部正中の持続痛、白血球 12,300（桿状核 30% と左方移動）、CRP 3.2。造影 CT（B）では<b>S 状結腸の壁が厚くなり、周りの脂肪の濃度が上がって</b>いるが、膿瘍や腹腔内の遊離ガスはない。筋性防御・反跳痛もない——<b>膿瘍や穿孔のない（単純性の）S 状結腸憩室炎</b>。<b>抗菌薬</b>（＋腸の安静）で治療する。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 大腸憩室炎の治療",
-       "c": "<span class=\"kw\">c抗菌薬投与（正答）</span>：<br>大腸憩室炎→腸内細菌（グラム陰性桿菌・嫌気性菌）による炎症<br>→ <span class=\"kw\">広域抗菌薬（アモキシシリン/クラブラン酸、セフトリアキソン等）</span><br>+ メトロニダゾール（嫌気性菌カバー）<br/>+ 絶食・輸液<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a浣腸：憩室炎では腸管圧を上げて穿孔リスク→禁忌<br/>✗ b結腸切除術：穿孔・汎発性腹膜炎・再発繰り返しの場合に行う<br/>✗ d体外衝撃波結石破砕術：尿路結石・胆石（憩室炎に不適）<br/>✗ eステロイド：炎症性腸疾患（Crohn・UC）に使用（憩室炎には不適）</br></br></br>"
+       "h": "🌿 憩室炎の重さを決めて、治療を選ぶ",
+       "c": "<span class=\"kw4\"><b>憩室出血は Q.281・282——ここは憩室炎</b></span>。<br/><span class=\"kw\"><b>① 起こり方</b></span><br/><span class=\"kw3\"><b>憩室の口に便がはまり、中で細菌が増えて憩室の壁と周りに炎症</b></span><br/><span class=\"kw3\"><b>小さく穿孔して、周りの脂肪に炎症が広がる</b></span><br/><span class=\"kw\"><b>② 単純性と複雑性</b></span><br/><span class=\"kw3\"><b>単純性：壁の肥厚と周りの脂肪の炎症だけ</b></span><br/><span class=\"kw3\"><b>複雑性：膿瘍・穿孔（腹膜炎）・瘻孔（膀胱との瘻孔で気尿・糞尿）・狭窄</b></span><br/><span class=\"kw\"><b>③ Hinchey 分類（穿孔したときの重さ）</b></span><br/><span class=\"kw3\"><b>Ⅰ：結腸のそばの小さな膿瘍、Ⅱ：骨盤など離れた膿瘍、Ⅲ：膿性の腹膜炎、Ⅳ：便性の腹膜炎</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>単純性：抗菌薬（腸内細菌と嫌気性菌）、食事を控えて腸を休める——軽ければ外来も</b></span><br/><span class=\"kw3\"><b>膿瘍：小さければ抗菌薬、大きければ（目安 3〜4cm 以上）CT ガイド下にドレナージ</b></span><br/><span class=\"kw4\"><b>穿孔性腹膜炎：緊急手術——S 状結腸を切除して人工肛門（Hartmann 手術）など</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　浣　腸</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>炎症のある腸に圧をかけると穿孔の危険</b></span>。</td></tr><tr><td>ｂ　結腸切除術</td><td><span class=\"kw4\">誤り</span>（現時点では）。<span class=\"kw3\"><b>穿孔・腹膜炎・抗菌薬が効かない膿瘍のときに考える</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　抗菌薬投与</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>膿瘍も穿孔もない憩室炎——抗菌薬と腸の安静</b></span>。</td></tr><tr><td>ｄ　体外衝撃波結石破砕術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腎・尿管結石の治療</b></span>。<span class=\"kw3\"><b>血尿もなく、尿路の病気ではない</b></span>。</td></tr><tr><td>ｅ　副腎皮質ステロイド投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>細菌感染を悪化させ、穿孔を隠す</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：治ったあとにすること",
+       "c": "<span class=\"kw\"><b>① 大腸内視鏡</b></span><br/><span class=\"kw4\"><b>炎症が落ち着いた 6〜8 週後に、大腸癌が隠れていないか確かめる——CT の壁肥厚は癌でも同じに見える</b></span><br/><span class=\"kw3\"><b>この患者は 1 年前に内視鏡を受けているので、所見次第で省くこともある</b></span><br/><span class=\"kw3\"><b>急性期の内視鏡は穿孔の危険があり行わない</b></span><br/><span class=\"kw\"><b>② 再発</b></span><br/><span class=\"kw3\"><b>再発は 1〜2 割——繰り返す、瘻孔・狭窄ができた、免疫不全なら待機的に切除を考える</b></span><br/><span class=\"kw\"><b>③ 再発を減らす生活</b></span><br/><span class=\"kw3\"><b>食物繊維、肥満の解消、運動、禁煙</b></span><br/><span class=\"kw3\"><b>NSAIDs は穿孔・出血を増やす</b></span><br/><span class=\"kw\"><b>④ 抗菌薬は必ず要るか</b></span><br/><span class=\"kw3\"><b>免疫が保たれた軽い単純性憩室炎では、抗菌薬なしで経過を見る方針もある</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">大腸憩室炎の治療：抗菌薬（広域）＋絶食・輸液</span><br/>重症（穿孔・膿瘍）→ ドレナージ＋手術。繰り返す憩室炎→待機的結腸切除。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "大腸憩室炎（CT）への対応。<br/><b>a 浣腸／b 結腸切除／d ESWL／e ステロイド</b>：不適。<br/><b>c 抗菌薬投与</b>：<span class=\"kw\">合併症のない憩室炎は絶食＋抗菌薬で保存的治療</span>。✓"
+       "c": "<span class=\"kw3\"><b>単純性の憩室炎→抗菌薬＋腸の安静</b></span><br/><span class=\"kw3\"><b>膿瘍は大きければドレナージ、穿孔性腹膜炎は緊急手術（Hartmann 手術など）</b></span><br/><span class=\"kw4\"><b>浣腸・急性期の内視鏡は穿孔の危険、ステロイドは禁忌</b></span>"
       }
      ],
      "imgs": [
@@ -19751,22 +19761,27 @@
       }
      ],
      "ans_label": "ｅ　McBurney 圧痛点は臍と右前上腸骨棘を結ぶ線上外側1/3 にある。",
-     "ans_sub": "McBurney圧痛点は臍と右腸骨前上棘を結ぶ線上の外側1/3の点。急性虫垂炎の圧痛点。",
+     "ans_sub": "McBurney 圧痛点は<b>臍と右上前腸骨棘を結ぶ線の外側 1/3</b> の点——虫垂の付け根のおおよその位置で、急性虫垂炎で強く押して痛む。健常者の膵臓は後腹膜の深くにあって触れず、腎臓も全体は触れない。反跳痛は<b>離したときの</b>痛みが強いもの、Murphy 徴候は<b>深く息を吸わせて</b>見る。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📐 腹部の重要な解剖と診察徴候",
-       "c": "<span class=\"kw\">e McBurney圧痛点（正答）</span>：<br/>・臍と右腸骨前上棘を結ぶ線上の外1/3<br/>・虫垂根部（cecal base）の位置に相当<br/>・急性虫垂炎での最大圧痛点<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a「健常者の膵臓は深吸気時に触知」→<span class=\"kw4\">膵臓は通常触知しない</span>（後腹膜臓器・深い）<br/>✗ b「健常者では両側の腎臓全体を触知」→<span class=\"kw4\">右腎下極のみ触れることがある</span>（全体は触知しない）<br/>✗ c「反跳痛は除圧時より加圧時が強い」→<span class=\"kw4\">除圧時の方が強い</span>（これが反跳痛の定義）<br/>✗ d「Murphy徴候は大きく息を吐いた時」→<span class=\"kw4\">大きく息を吸った時</span>（吸気時に胆嚢が降下→圧迫→疼痛）"
+       "h": "🌿 腹部で触れる臓器・触れない臓器",
+       "c": "<span class=\"kw4\"><b>診察の順番は Q.279、腹膜刺激徴候は Q.277、人名の徴候の一覧は Q.288——ここは臓器の触り方</b></span>。<br/><span class=\"kw\"><b>① 肝</b></span><br/><span class=\"kw3\"><b>右の鎖骨中線で、下から上へ指を進め、深く吸わせて下りてくる縁を触れる</b></span><br/><span class=\"kw3\"><b>健常者でも吸気で縁を少し触れることがある</b></span><br/><span class=\"kw\"><b>② 胆嚢</b></span><br/><span class=\"kw3\"><b>ふつうは触れない。触れるのは腫れたとき（Courvoisier 徴候など）</b></span><br/><span class=\"kw3\"><b>Murphy 徴候：右季肋部に指を当て、深く吸わせる——炎症のある胆嚢が指に当たって痛み、息が止まる</b></span><br/><span class=\"kw\"><b>③ 脾</b></span><br/><span class=\"kw3\"><b>ふつうは触れない——触れたら 1.5〜2 倍以上の腫大</b></span><br/><span class=\"kw3\"><b>右下側臥位にして、左季肋部の下から吸気で触れる</b></span><br/><span class=\"kw\"><b>④ 腎</b></span><br/><span class=\"kw3\"><b>両手で前後から挟む（双手診）——やせた人の右腎の下の端だけ触れることがある</b></span><br/><span class=\"kw\"><b>⑤ 膵</b></span><br/><span class=\"kw3\"><b>後腹膜の深くにあり、健常者では触れない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　健常者の膵臓は深吸気時に触知する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>後腹膜にあり触れない</b></span>。<span class=\"kw3\"><b>触れる膵の腫瘤は大きな腫瘍や仮性嚢胞</b></span>。</td></tr><tr><td>ｂ　健常者では両側の腎臓全体を触知する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ふつうは触れず、触れても右腎の下端だけ</b></span>。</td></tr><tr><td>ｃ　反跳痛は除圧時より加圧時の痛みが強い。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>逆——手を離したときに強く痛むのが反跳痛</b></span>。</td></tr><tr><td>ｄ　Murphy 徴候は患者が大きく息を吐いた時に評価する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>深く吸わせて、下りてくる胆嚢が指に当たるかを見る</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　McBurney 圧痛点は臍と右前上腸骨棘を結ぶ線上外側 1/3 にある。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>急性虫垂炎の圧痛点</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：虫垂炎の圧痛点を並べる",
+       "c": "<span class=\"kw\"><b>① McBurney 点</b></span><br/><span class=\"kw3\"><b>臍と右上前腸骨棘を結ぶ線の外側 1/3</b></span><br/><span class=\"kw\"><b>② Lanz 点</b></span><br/><span class=\"kw3\"><b>左右の上前腸骨棘を結ぶ線の右 1/3</b></span><br/><span class=\"kw\"><b>③ Kümmell 点</b></span><br/><span class=\"kw3\"><b>臍の右下 1〜2cm</b></span><br/><span class=\"kw\"><b>④ ほかの手がかり</b></span><br/><span class=\"kw3\"><b>Rovsing 徴候：左下腹部を押すと右下腹部が痛む</b></span><br/><span class=\"kw3\"><b>Rosenstein 徴候：左を下に寝かせると右下腹部の圧痛が強くなる</b></span><br/><span class=\"kw\"><b>⑤ 注意</b></span><br/><span class=\"kw4\"><b>圧痛点はあくまで目安——虫垂の位置は人によって違い、後ろ・骨盤内・妊娠中はずれる（Q.279）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">McBurney圧痛点 = 臍と右腸骨前上棘の外1/3</span><br/><span class=\"kw\">Murphy徴候</span>：深吸気時に胆嚢点を圧迫→疼痛→陽性（急性胆嚢炎）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "腹部の触診について正しいもの。<br/><b>a 健常者の膵臓を触知／b 腎臓全体を触知／c 反跳痛は加圧時が強い／d Murphy徴候は呼気時に評価</b>：誤り。<br/><b>e McBurney圧痛点は臍と右前上腸骨棘を結ぶ線上外側1/3にある</b>：<span class=\"kw\">虫垂炎の圧痛点</span>。✓"
+       "c": "<span class=\"kw3\"><b>McBurney 点＝臍と右上前腸骨棘の線の外側 1/3、Lanz 点＝両上前腸骨棘の線の右 1/3</b></span><br/><span class=\"kw3\"><b>Murphy 徴候は深吸気で見る、反跳痛は離したときの痛み</b></span><br/><span class=\"kw4\"><b>健常者で膵・腎全体・脾は触れない</b></span>"
       }
      ],
      "imgs": []
@@ -19816,22 +19831,27 @@
       }
      ],
      "ans_label": "ｃ　Rosenstein 徴候",
-     "ans_sub": "Rosenstein徴候：左側臥位にすると右下腹部圧痛が増強する。虫垂が腹腔内で移動して刺激が増加するため。",
+     "ans_sub": "11 歳男児、朝の心窩部の不快感→嘔吐→右下腹部に限局した痛みと筋性防御、38.5℃、白血球 13,500、CRP 8.2。右下腹部の超音波では、<b>壁の厚い管状の構造が押してもつぶれずに腫れている</b>——<b>急性虫垂炎</b>。左を下にして寝かせると右下腹部の痛みが強くなる<b>Rosenstein 徴候</b>が出やすい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 急性虫垂炎の特異的徴候",
-       "c": "<span class=\"kw\">c Rosenstein徴候（正答）</span>：<br>左側臥位にすると<span class=\"kw\">右下腹部圧痛が増強</span>（虫垂が腸管から離れて腹膜に近づく）<br><br/><span class=\"kw\">虫垂炎の各種徴候</span>：<br/>・McBurney圧痛点：臍と右腸骨前上棘の外1/3<br/>・Blumberg（反跳痛）：腹膜炎の証拠<br/>・Rovsing徴候：左下腹部圧迫→右下腹部に痛み<br/>・腰筋徴候（psoas sign）：股関節伸展で右下腹部痛<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ aDance徴候：腸重積で盲腸部が空虚<br/>✗ bMurphy徴候：急性胆嚢炎（吸気時圧迫で痛み）<br/>✗ dCourvoisier徴候：膵頭部癌で胆嚢腫大<br/>✗ eGrey-Turner徴候：後腹膜出血（急性膵炎等）で腰部皮下出血</br></br>"
+       "h": "🌿 子どもの虫垂炎——超音波で見る",
+       "c": "<span class=\"kw4\"><b>痛みが移る仕組みと CT の所見は Q.275、虫垂の位置と所見は Q.279——ここは超音波の読み方と、子どもの特徴</b></span>。<br/><span class=\"kw\"><b>① 超音波の所見</b></span><br/><span class=\"kw3\"><b>一方が行き止まりの管状の構造で、押してもつぶれない</b></span><br/><span class=\"kw3\"><b>径 6mm を超える腫大、壁が厚い（横断で同心円状＝target）</b></span><br/><span class=\"kw3\"><b>糞石：強く光り、後ろに音響陰影</b></span><br/><span class=\"kw3\"><b>周りの脂肪が明るく見える（炎症）、周りの液体（穿孔・膿瘍）</b></span><br/><span class=\"kw\"><b>② なぜ子どもは超音波か</b></span><br/><span class=\"kw3\"><b>放射線を使わない、腹壁が薄くよく見える</b></span><br/><span class=\"kw3\"><b>見えなければ CT</b></span><br/><span class=\"kw\"><b>③ Rosenstein 徴候</b></span><br/><span class=\"kw3\"><b>仰向けで右下腹部を押し、左側臥位にして同じ所を押す——痛みが強くなれば陽性</b></span><br/><span class=\"kw3\"><b>盲腸と虫垂が左へ垂れ、腸間膜が引っ張られ、炎症部が腹壁に近づくため</b></span><br/><span class=\"kw\"><b>④ 子どもの特徴</b></span><br/><span class=\"kw4\"><b>小さい子ほど症状を言えず、大網が未発達で炎症を包み込めない——穿孔が多い</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Dance 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸重積で、回盲部が上へ引き込まれて右下腹部が空虚に触れる</b></span>。</td></tr><tr><td>ｂ　Murphy 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>急性胆嚢炎</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　Rosenstein 徴候</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>虫垂炎で、左側臥位にすると右下腹部の圧痛が強くなる</b></span>。</td></tr><tr><td>ｄ　Courvoisier 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>悪性の下部胆道閉塞による無痛性の胆嚢腫大</b></span>。</td></tr><tr><td>ｅ　Grey-Turner 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>重症膵炎などの後腹膜出血による側腹部の皮下出血</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：子どもの右下腹部痛の鑑別",
+       "c": "<span class=\"kw\"><b>① 腸重積</b></span><br/><span class=\"kw3\"><b>乳幼児、間欠的な啼泣、いちごゼリー状の血便、超音波で target sign（Q.278）</b></span><br/><span class=\"kw\"><b>② 腸間膜リンパ節炎</b></span><br/><span class=\"kw3\"><b>かぜのあと、回盲部のリンパ節が腫れる——超音波で虫垂は正常</b></span><br/><span class=\"kw\"><b>③ エルシニア腸炎</b></span><br/><span class=\"kw3\"><b>回腸末端炎で虫垂炎に似る——豚肉・生水</b></span><br/><span class=\"kw\"><b>④ Meckel 憩室炎</b></span><br/><span class=\"kw3\"><b>虫垂炎そっくり。手術で虫垂が正常なら回腸を見る</b></span><br/><span class=\"kw\"><b>⑤ 男児の精巣捻転</b></span><br/><span class=\"kw4\"><b>下腹部痛と嘔吐で受診することがある——陰嚢を必ず診る</b></span><br/><span class=\"kw\"><b>⑥ 女児</b></span><br/><span class=\"kw3\"><b>卵巣捻転・卵巣嚢腫</b></span><br/><span class=\"kw\"><b>⑦ IgA 血管炎</b></span><br/><span class=\"kw3\"><b>腹痛が皮疹より先に出ることがある</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">虫垂炎の徴候：McBurney・Blumberg・Rovsing・Rosenstein・腰筋徴候</span><br/>Rosenstein = 左側臥位で右下腹部圧痛↑（虫垂が移動して腹膜に近接）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "急性虫垂炎（超音波）で予測される身体所見。<br/><b>a Dance徴候（腸重積）／b Murphy徴候（胆囊）／d Courvoisier徴候（膵頭部癌）／e Grey-Turner徴候（膵炎の出血）</b>：合わない。<br/><b>c Rosenstein徴候</b>：<span class=\"kw\">左側臥位で右下腹部痛が増強（虫垂炎）</span>。✓"
+       "c": "<span class=\"kw3\"><b>子どもの虫垂炎はまず超音波：つぶれない管状構造・径 6mm 超・糞石</b></span><br/><span class=\"kw3\"><b>Rosenstein 徴候＝左側臥位で右下腹部の圧痛が増強</b></span><br/><span class=\"kw4\"><b>小児は穿孔が多い。男児の下腹部痛は精巣捻転も見る</b></span>"
       }
      ],
      "imgs": [
@@ -19883,22 +19903,27 @@
       }
      ],
      "ans_label": "ａ　手　術\nｂ　輸　液\nｄ　抗菌薬投与",
-     "ans_sub": "穿孔性虫垂炎（汎発性腹膜炎）→緊急手術＋輸液（循環補正）＋抗菌薬（腹腔内感染治療）が必須。",
+     "ans_sub": "42 歳男性、前日の心窩部痛→嘔吐→右下腹部痛、右下腹部の圧痛と反跳痛、白血球 16,200。超音波で見えにくく造影 CT を撮った——横断像（A）・斜冠状断像（B）で右下腹部に<b>腫れて壁が厚く造影される虫垂</b>と、<b>周りの脂肪の濃度上昇</b>——<b>急性虫垂炎</b>（右下腹部に限局した腹膜炎を伴う）。<b>手術</b>（虫垂切除）、<b>輸液</b>、<b>抗菌薬</b>を行う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚨 穿孔性虫垂炎の治療",
-       "c": "<span class=\"kw\">a手術（正答）</span>：穿孔→汎発性腹膜炎→緊急虫垂切除術＋腹腔洗浄<br><span class=\"kw\">b輸液（正答）</span>：腹膜炎→敗血症→循環血液量↓→急速補液（生食・乳酸リンゲル）<br><span class=\"kw\">d抗菌薬投与（正答）</span>：腹腔内感染→グラム陰性桿菌＋嫌気性菌をカバー<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ c高圧浣腸：虫垂炎・腹膜炎では禁忌（腸管圧上昇→穿孔悪化）<br/>✗ eイレウス管挿入：腸閉塞の治療（穿孔性腹膜炎には不適）</br></br>"
+       "h": "🌿 手術を決めたら、手術までと手術のあとに何をするか",
+       "c": "<span class=\"kw4\"><b>治療の選び方（抗菌薬だけか手術か、膿瘍は待機的切除）は Q.275——ここは手術を選んだときの周りの手当て</b></span>。<br/><span class=\"kw\"><b>① CT の読み</b></span><br/><span class=\"kw3\"><b>右下腹部に、太く、壁が造影される管状の虫垂</b></span><br/><span class=\"kw3\"><b>周りの脂肪が白っぽく濁る（脂肪織の濃度上昇）</b></span><br/><span class=\"kw3\"><b>体格のいい人や腸のガスが多いと超音波では見えにくく、CT が役立つ</b></span><br/><span class=\"kw\"><b>② 輸液</b></span><br/><span class=\"kw3\"><b>嘔吐・食べられない・発熱で脱水、炎症で腸のまわりに水が逃げる</b></span><br/><span class=\"kw3\"><b>手術と麻酔に備え、細胞外液で整える</b></span><br/><span class=\"kw\"><b>③ 抗菌薬</b></span><br/><span class=\"kw3\"><b>腸内細菌（大腸菌など）と嫌気性菌（Bacteroides）を狙う</b></span><br/><span class=\"kw3\"><b>術前から投与し、手術の部位の感染を減らす</b></span><br/><span class=\"kw\"><b>④ 手術</b></span><br/><span class=\"kw3\"><b>反跳痛があり、炎症が腹膜に及んでいる——腹腔鏡下の虫垂切除が多い</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　手　術</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>腹膜刺激徴候を伴う急性虫垂炎——虫垂切除</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　輸　液</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>嘔吐と炎症による脱水の補正</b></span>。</td></tr><tr><td>ｃ　高圧浣腸</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸重積の整復に使う</b></span>。<span class=\"kw3\"><b>炎症のある腸に圧をかけると穿孔の危険</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　抗菌薬投与</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>腸内細菌と嫌気性菌を狙う</b></span>。</td></tr><tr><td>ｅ　イレウス管挿入</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸閉塞で小腸を減圧するもの</b></span>。<span class=\"kw3\"><b>腸閉塞の所見はない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：腹腔内感染の抗菌薬——何を、いつまで",
+       "c": "<span class=\"kw\"><b>① 何を</b></span><br/><span class=\"kw3\"><b>軽〜中等症：セフメタゾール、アンピシリン・スルバクタム、セフトリアキソン＋メトロニダゾール</b></span><br/><span class=\"kw3\"><b>重症・院内発症：ピペラシリン・タゾバクタム、カルバペネム</b></span><br/><span class=\"kw4\"><b>嫌気性菌（Bacteroides fragilis）を必ずカバー</b></span><br/><span class=\"kw\"><b>② いつまで</b></span><br/><span class=\"kw3\"><b>単純な虫垂炎を切除したら、術後の抗菌薬はほぼ不要</b></span><br/><span class=\"kw3\"><b>穿孔・膿瘍があれば、感染源をしっかり処理したうえで 4 日程度——長く続けても効果は変わらない</b></span><br/><span class=\"kw\"><b>③ 効かないとき</b></span><br/><span class=\"kw3\"><b>熱が下がらない・炎症が続く→取り残しの膿瘍を CT で探し、ドレナージ</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">穿孔性虫垂炎：緊急手術＋輸液＋抗菌薬の3本柱</span><br/>術後：抗菌薬継続・ドレーン管理・栄養管理。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "穿孔/膿瘍を伴う病態で考慮すべき治療を3つ。<br/><b>c 高圧浣腸／e イレウス管挿入</b>：不適。<br/><b>a 手術</b>：<span class=\"kw\">穿孔例には外科的処置</span>。✓<br/><b>b 輸液</b>：<span class=\"kw\">全身管理</span>。✓<br/><b>d 抗菌薬投与</b>：<span class=\"kw\">腹腔内感染への対応</span>。✓"
+       "c": "<span class=\"kw3\"><b>腹膜刺激徴候を伴う急性虫垂炎→手術＋輸液＋抗菌薬</b></span><br/><span class=\"kw3\"><b>抗菌薬は腸内細菌と嫌気性菌をカバー、感染源の処理が最優先</b></span><br/><span class=\"kw4\"><b>高圧浣腸は腸重積、イレウス管は腸閉塞の処置</b></span>"
       }
      ],
      "imgs": [
@@ -19947,22 +19972,27 @@
       }
      ],
      "ans_label": "ｅ　大腸憩室炎",
-     "ans_sub": "虫垂切除歴あり（虫垂炎は除外）。CT等で右側結腸憩室周囲の炎症→大腸憩室炎が最も考えやすい。",
+     "ans_sub": "32 歳男性、昨日からの右下腹部痛、圧痛と軽い反跳痛。<b>虫垂は 18 歳で切除済み</b>。単純 CT では<b>上行結腸の壁が厚くなり、その壁から外へ突き出す小さな袋（憩室）とその中の高吸収の内容（糞石）</b>、周りの脂肪の濃度上昇——<b>右側結腸の憩室炎</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 大腸憩室炎の診断",
-       "c": "<span class=\"kw\">e大腸憩室炎（正答）</span>：<br>・大腸憩室→糞便が詰まる→炎症・出血<br>・右側結腸憩室炎（右下腹部痛）→虫垂炎と鑑別が重要<br/>・CT：憩室の壁肥厚・周囲脂肪織混濁・膿瘍形成<br/>・虫垂切除歴あり→虫垂炎は除外<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ a大腸癌：徐々に進行する閉塞症状・腫瘤形成<br/>✗ b便秘症：痛みは軽度・炎症所見なし<br/>✗ c腸結核：回盲部好発・輪状潰瘍・既往（結核感染）<br/>✗ d虚血性腸炎：左側S状結腸〜下行結腸好発・腹痛→血便</br></br>"
+       "h": "🌿 右側結腸の憩室炎——虫垂炎とまぎらわしい",
+       "c": "<span class=\"kw4\"><b>憩室炎の重さの分け方と治療は Q.290——ここは右側の憩室炎の特徴と CT の読み</b></span>。<br/><span class=\"kw\"><b>① 日本人の憩室</b></span><br/><span class=\"kw3\"><b>若い〜中年は右側（盲腸・上行結腸）に多い——この患者は 32 歳</b></span><br/><span class=\"kw3\"><b>高齢になると左側（S 状結腸）が増える</b></span><br/><span class=\"kw\"><b>② 虫垂炎との見分け</b></span><br/><span class=\"kw3\"><b>痛みの場所も熱も似ている——虫垂炎と思われやすい</b></span><br/><span class=\"kw3\"><b>右側憩室炎は痛みが移らず、はじめから右下腹部のことが多い、全身状態は比較的よい</b></span><br/><span class=\"kw4\"><b>虫垂切除の既往があれば、虫垂炎はまず考えにくい</b></span><br/><span class=\"kw\"><b>③ CT の読み</b></span><br/><span class=\"kw3\"><b>横断像（上）・冠状断像（下）とも右下腹部の上行結腸に、厚い壁と、外へ突き出す憩室、中の高吸収の糞石、周りの脂肪の濁り</b></span><br/><span class=\"kw3\"><b>虫垂がない（切除後）</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>多くは抗菌薬と腸の安静で治る——右側は左側より穿孔・膿瘍が少ない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　大腸癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>32 歳、1 日で始まった痛みと炎症反応——炎症の経過</b></span>。<span class=\"kw3\"><b>治ったあと内視鏡で確かめる</b></span>。</td></tr><tr><td>ｂ　便秘症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>発熱・白血球増加・反跳痛は説明できない</b></span>。</td></tr><tr><td>ｃ　腸結核</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>数か月の経過で、回盲部の萎縮と狭窄</b></span>。<span class=\"kw3\"><b>急性の痛みではない</b></span>。</td></tr><tr><td>ｄ　虚血性腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>多くは左側結腸、腹痛のあとに血便</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　大腸憩室炎</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>虫垂切除後の右下腹部痛、上行結腸の憩室と周りの炎症</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：大腸憩室の成り立ち",
+       "c": "<span class=\"kw\"><b>① 仮性憩室</b></span><br/><span class=\"kw3\"><b>筋層の弱い所から、粘膜と粘膜下層だけが外へ飛び出す——筋層を持たない</b></span><br/><span class=\"kw3\"><b>弱い所＝直動脈が筋層を貫くところ（だから出血もする）</b></span><br/><span class=\"kw\"><b>② なぜできるか</b></span><br/><span class=\"kw3\"><b>食物繊維が少なく便が細い→腸が強く収縮して内圧が上がる</b></span><br/><span class=\"kw3\"><b>年をとって腸壁の結合組織が弱くなる</b></span><br/><span class=\"kw\"><b>③ 真性憩室との違い</b></span><br/><span class=\"kw3\"><b>Meckel 憩室は腸壁の全層を持つ真性憩室（Q.278）</b></span><br/><span class=\"kw\"><b>④ 合併症</b></span><br/><span class=\"kw3\"><b>炎症（憩室炎）、出血（憩室出血——Q.281）</b></span><br/><span class=\"kw3\"><b>同じ人でも炎症と出血は別々に起こり、同時にはあまり起こらない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">右下腹部痛＋虫垂切除歴 → 大腸憩室炎を疑う</span><br/>大腸憩室：日本では右側（盲腸・上行結腸）に多い（欧米は左側が多い）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "腹部単純CTの所見（下部消化管の壁肥厚・憩室）。<br/><b>a 大腸癌／b 便秘症／c 腸結核／d 虚血性腸炎</b>：合わない。<br/><b>e 大腸憩室炎</b>：<span class=\"kw\">憩室周囲の炎症・脂肪織濃度上昇</span>。✓"
+       "c": "<span class=\"kw3\"><b>虫垂切除後の右下腹部痛→右側結腸憩室炎を考える</b></span><br/><span class=\"kw3\"><b>日本では若い人ほど右側、高齢ほど左側の憩室</b></span><br/><span class=\"kw4\"><b>大腸憩室は仮性憩室（筋層なし）、Meckel 憩室は真性憩室</b></span>"
       }
      ],
      "imgs": [

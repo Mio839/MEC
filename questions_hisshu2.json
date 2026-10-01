@@ -768,18 +768,23 @@
             },
             {
               "cls": "ep",
-              "h": "📐 腹部の重要な解剖と診察徴候",
-              "c": "<span class=\"kw\">e McBurney圧痛点（正答）</span>：<br/>・臍と右腸骨前上棘を結ぶ線上の外1/3<br/>・虫垂根部（cecal base）の位置に相当<br/>・急性虫垂炎での最大圧痛点<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a「健常者の膵臓は深吸気時に触知」→<span class=\"kw4\">膵臓は通常触知しない</span>（後腹膜臓器・深い）<br/>✗ b「健常者では両側の腎臓全体を触知」→<span class=\"kw4\">右腎下極のみ触れることがある</span>（全体は触知しない）<br/>✗ c「反跳痛は除圧時より加圧時が強い」→<span class=\"kw4\">除圧時の方が強い</span>（これが反跳痛の定義）<br/>✗ d「Murphy徴候は大きく息を吐いた時」→<span class=\"kw4\">大きく息を吸った時</span>（吸気時に胆嚢が降下→圧迫→疼痛）"
+              "h": "🌿 腹部で触れる臓器・触れない臓器",
+              "c": "<span class=\"kw4\"><b>診察の順番は Q.279、腹膜刺激徴候は Q.277、人名の徴候の一覧は Q.288——ここは臓器の触り方</b></span>。<br/><span class=\"kw\"><b>① 肝</b></span><br/><span class=\"kw3\"><b>右の鎖骨中線で、下から上へ指を進め、深く吸わせて下りてくる縁を触れる</b></span><br/><span class=\"kw3\"><b>健常者でも吸気で縁を少し触れることがある</b></span><br/><span class=\"kw\"><b>② 胆嚢</b></span><br/><span class=\"kw3\"><b>ふつうは触れない。触れるのは腫れたとき（Courvoisier 徴候など）</b></span><br/><span class=\"kw3\"><b>Murphy 徴候：右季肋部に指を当て、深く吸わせる——炎症のある胆嚢が指に当たって痛み、息が止まる</b></span><br/><span class=\"kw\"><b>③ 脾</b></span><br/><span class=\"kw3\"><b>ふつうは触れない——触れたら 1.5〜2 倍以上の腫大</b></span><br/><span class=\"kw3\"><b>右下側臥位にして、左季肋部の下から吸気で触れる</b></span><br/><span class=\"kw\"><b>④ 腎</b></span><br/><span class=\"kw3\"><b>両手で前後から挟む（双手診）——やせた人の右腎の下の端だけ触れることがある</b></span><br/><span class=\"kw\"><b>⑤ 膵</b></span><br/><span class=\"kw3\"><b>後腹膜の深くにあり、健常者では触れない</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　健常者の膵臓は深吸気時に触知する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>後腹膜にあり触れない</b></span>。<span class=\"kw3\"><b>触れる膵の腫瘤は大きな腫瘍や仮性嚢胞</b></span>。</td></tr><tr><td>ｂ　健常者では両側の腎臓全体を触知する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ふつうは触れず、触れても右腎の下端だけ</b></span>。</td></tr><tr><td>ｃ　反跳痛は除圧時より加圧時の痛みが強い。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>逆——手を離したときに強く痛むのが反跳痛</b></span>。</td></tr><tr><td>ｄ　Murphy 徴候は患者が大きく息を吐いた時に評価する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>深く吸わせて、下りてくる胆嚢が指に当たるかを見る</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　McBurney 圧痛点は臍と右前上腸骨棘を結ぶ線上外側 1/3 にある。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>急性虫垂炎の圧痛点</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：虫垂炎の圧痛点を並べる",
+              "c": "<span class=\"kw\"><b>① McBurney 点</b></span><br/><span class=\"kw3\"><b>臍と右上前腸骨棘を結ぶ線の外側 1/3</b></span><br/><span class=\"kw\"><b>② Lanz 点</b></span><br/><span class=\"kw3\"><b>左右の上前腸骨棘を結ぶ線の右 1/3</b></span><br/><span class=\"kw\"><b>③ Kümmell 点</b></span><br/><span class=\"kw3\"><b>臍の右下 1〜2cm</b></span><br/><span class=\"kw\"><b>④ ほかの手がかり</b></span><br/><span class=\"kw3\"><b>Rovsing 徴候：左下腹部を押すと右下腹部が痛む</b></span><br/><span class=\"kw3\"><b>Rosenstein 徴候：左を下に寝かせると右下腹部の圧痛が強くなる</b></span><br/><span class=\"kw\"><b>⑤ 注意</b></span><br/><span class=\"kw4\"><b>圧痛点はあくまで目安——虫垂の位置は人によって違い、後ろ・骨盤内・妊娠中はずれる（Q.279）</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">McBurney圧痛点 = 臍と右腸骨前上棘の外1/3</span><br/><span class=\"kw\">Murphy徴候</span>：深吸気時に胆嚢点を圧迫→疼痛→陽性（急性胆嚢炎）。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "腹部の触診について正しいもの。<br/><b>a 健常者の膵臓を触知／b 腎臓全体を触知／c 反跳痛は加圧時が強い／d Murphy徴候は呼気時に評価</b>：誤り。<br/><b>e McBurney圧痛点は臍と右前上腸骨棘を結ぶ線上外側1/3にある</b>：<span class=\"kw\">虫垂炎の圧痛点</span>。✓"
+              "c": "<span class=\"kw3\"><b>McBurney 点＝臍と右上前腸骨棘の線の外側 1/3、Lanz 点＝両上前腸骨棘の線の右 1/3</b></span><br/><span class=\"kw3\"><b>Murphy 徴候は深吸気で見る、反跳痛は離したときの痛み</b></span><br/><span class=\"kw4\"><b>健常者で膵・腎全体・脾は触れない</b></span>"
             },
             {
               "cls": "ept",

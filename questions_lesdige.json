@@ -785,18 +785,23 @@
             },
             {
               "cls": "ep",
-              "h": "🔬 大腸憩室炎の診断",
-              "c": "<span class=\"kw\">e大腸憩室炎（正答）</span>：<br>・大腸憩室→糞便が詰まる→炎症・出血<br>・右側結腸憩室炎（右下腹部痛）→虫垂炎と鑑別が重要<br/>・CT：憩室の壁肥厚・周囲脂肪織混濁・膿瘍形成<br/>・虫垂切除歴あり→虫垂炎は除外<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ a大腸癌：徐々に進行する閉塞症状・腫瘤形成<br/>✗ b便秘症：痛みは軽度・炎症所見なし<br/>✗ c腸結核：回盲部好発・輪状潰瘍・既往（結核感染）<br/>✗ d虚血性腸炎：左側S状結腸〜下行結腸好発・腹痛→血便</br></br>"
+              "h": "🌿 右側結腸の憩室炎——虫垂炎とまぎらわしい",
+              "c": "<span class=\"kw4\"><b>憩室炎の重さの分け方と治療は Q.290——ここは右側の憩室炎の特徴と CT の読み</b></span>。<br/><span class=\"kw\"><b>① 日本人の憩室</b></span><br/><span class=\"kw3\"><b>若い〜中年は右側（盲腸・上行結腸）に多い——この患者は 32 歳</b></span><br/><span class=\"kw3\"><b>高齢になると左側（S 状結腸）が増える</b></span><br/><span class=\"kw\"><b>② 虫垂炎との見分け</b></span><br/><span class=\"kw3\"><b>痛みの場所も熱も似ている——虫垂炎と思われやすい</b></span><br/><span class=\"kw3\"><b>右側憩室炎は痛みが移らず、はじめから右下腹部のことが多い、全身状態は比較的よい</b></span><br/><span class=\"kw4\"><b>虫垂切除の既往があれば、虫垂炎はまず考えにくい</b></span><br/><span class=\"kw\"><b>③ CT の読み</b></span><br/><span class=\"kw3\"><b>横断像（上）・冠状断像（下）とも右下腹部の上行結腸に、厚い壁と、外へ突き出す憩室、中の高吸収の糞石、周りの脂肪の濁り</b></span><br/><span class=\"kw3\"><b>虫垂がない（切除後）</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>多くは抗菌薬と腸の安静で治る——右側は左側より穿孔・膿瘍が少ない</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　大腸癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>32 歳、1 日で始まった痛みと炎症反応——炎症の経過</b></span>。<span class=\"kw3\"><b>治ったあと内視鏡で確かめる</b></span>。</td></tr><tr><td>ｂ　便秘症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>発熱・白血球増加・反跳痛は説明できない</b></span>。</td></tr><tr><td>ｃ　腸結核</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>数か月の経過で、回盲部の萎縮と狭窄</b></span>。<span class=\"kw3\"><b>急性の痛みではない</b></span>。</td></tr><tr><td>ｄ　虚血性腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>多くは左側結腸、腹痛のあとに血便</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　大腸憩室炎</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>虫垂切除後の右下腹部痛、上行結腸の憩室と周りの炎症</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：大腸憩室の成り立ち",
+              "c": "<span class=\"kw\"><b>① 仮性憩室</b></span><br/><span class=\"kw3\"><b>筋層の弱い所から、粘膜と粘膜下層だけが外へ飛び出す——筋層を持たない</b></span><br/><span class=\"kw3\"><b>弱い所＝直動脈が筋層を貫くところ（だから出血もする）</b></span><br/><span class=\"kw\"><b>② なぜできるか</b></span><br/><span class=\"kw3\"><b>食物繊維が少なく便が細い→腸が強く収縮して内圧が上がる</b></span><br/><span class=\"kw3\"><b>年をとって腸壁の結合組織が弱くなる</b></span><br/><span class=\"kw\"><b>③ 真性憩室との違い</b></span><br/><span class=\"kw3\"><b>Meckel 憩室は腸壁の全層を持つ真性憩室（Q.278）</b></span><br/><span class=\"kw\"><b>④ 合併症</b></span><br/><span class=\"kw3\"><b>炎症（憩室炎）、出血（憩室出血——Q.281）</b></span><br/><span class=\"kw3\"><b>同じ人でも炎症と出血は別々に起こり、同時にはあまり起こらない</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">右下腹部痛＋虫垂切除歴 → 大腸憩室炎を疑う</span><br/>大腸憩室：日本では右側（盲腸・上行結腸）に多い（欧米は左側が多い）。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "腹部単純CTの所見（下部消化管の壁肥厚・憩室）。<br/><b>a 大腸癌／b 便秘症／c 腸結核／d 虚血性腸炎</b>：合わない。<br/><b>e 大腸憩室炎</b>：<span class=\"kw\">憩室周囲の炎症・脂肪織濃度上昇</span>。✓"
+              "c": "<span class=\"kw3\"><b>虫垂切除後の右下腹部痛→右側結腸憩室炎を考える</b></span><br/><span class=\"kw3\"><b>日本では若い人ほど右側、高齢ほど左側の憩室</b></span><br/><span class=\"kw4\"><b>大腸憩室は仮性憩室（筋層なし）、Meckel 憩室は真性憩室</b></span>"
             }
           ],
           "imgs": [
