@@ -1412,13 +1412,23 @@
             },
             {
               "cls": "ep",
-              "h": "🫀 食道静脈瘤の内視鏡治療",
-              "c": "<span class=\"kw\">b結紮術（EVL）（正答）</span>：輪状ゴムで静脈瘤を把持→結紮→脱落<br><span class=\"kw\">c硬化療法（EIS）（正答）</span>：硬化剤を静脈瘤内注射→血栓形成・消失<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a拡張術：食道狭窄に対して（静脈瘤には禁忌）<br/>✗ d高周波凝固：出血点・血管腫の止血に使用（静脈瘤には不適）<br/>✗ e粘膜切除（EMR）：早期癌に対して（静脈瘤には適応なし）</br>"
+              "h": "🌿 出血する前の静脈瘤——誰を治療し、誰を見守るか",
+              "c": "<span class=\"kw3\"><b>所見の書き方は Q.93、EIS と EVL の違いは Q.93・Q.115 で見た</b></span>。<span class=\"kw4\"><b>ここでは、まだ出血していない静脈瘤を、どの段階で治療するかを考える</b></span>。<br/><span class=\"kw\"><b>① 肝硬変と分かったら</b></span><br/><span class=\"kw3\"><b>内視鏡で静脈瘤の有無を調べる（スクリーニング）</b></span><br/><span class=\"kw3\"><b>静脈瘤がなければ数年ごと、小さければ1〜2年ごとに内視鏡で経過を見る</b></span><br/><span class=\"kw\"><b>② 予防的治療の対象</b></span><br/><span class=\"kw4\"><b>RC sign 陽性、または F2 以上の静脈瘤——初回の出血を防ぐ（一次予防）</b></span><br/><span class=\"kw3\"><b>本例の像：結節状に太く盛り上がった静脈瘤（F2〜F3）——予防的治療の対象</b></span><br/><span class=\"kw\"><b>③ 一次予防の方法</b></span><br/><span class=\"kw3\"><b>内視鏡治療（EVL・EIS）——日本ではこちらが中心</b></span><br/><span class=\"kw3\"><b>非選択的β遮断薬（プロプラノロール・カルベジロール）——門脈圧を下げる。徐脈・低血圧に注意</b></span><br/><span class=\"kw\"><b>④ 治療の後</b></span><br/><span class=\"kw3\"><b>数週ごとに治療を繰り返し、静脈瘤がほぼ消えるまで続ける（地固め）</b></span><br/><span class=\"kw3\"><b>消えた後も再発する——定期的な内視鏡</b></span><br/><span class=\"kw\"><b>⑤ 原因の治療</b></span><br/><span class=\"kw4\"><b>禁酒、ウイルス性肝炎の抗ウイルス療法——肝硬変が改善すると門脈圧が下がり、静脈瘤の再発が減る</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　拡張術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の狭窄（アカラシア・術後の吻合部・ESD 後）を広げる</b></span>。<span class=\"kw3\"><b>静脈瘤に行えば破れて大出血する</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　結紮術</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>ゴムバンドで静脈瘤を縛り、壊死・脱落させる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　硬化療法</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>硬化剤を注入して静脈瘤と供血路を固める</b></span>。</td></tr><tr><td>ｄ　高周波凝固</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍の露出血管や血管拡張症の止血に使う</b></span>。<span class=\"kw3\"><b>太い静脈瘤を焼くと穴があいて出血する</b></span>。</td></tr><tr><td>ｅ　粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期癌・腺腫を切り取る方法——静脈瘤には行わない</b></span>。</td></tr></table>"
             },
             {
               "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "食道静脈瘤の内視鏡治療を2つ。<br/><b>a 拡張術／d 高周波凝固／e 粘膜切除術</b>：静脈瘤治療でない。<br/><b>b 結紮術（EVL）</b>：<span class=\"kw\">ゴムバンドで結紮</span>。✓<br/><b>c 硬化療法（EIS）</b>：<span class=\"kw\">硬化剤を注入</span>。✓"
+              "h": "🔍 静脈瘤以外の門脈圧亢進症の原因——肝硬変だけではない",
+              "c": "<span class=\"kw4\"><b>門脈圧亢進症は、門脈の流れが「肝の手前」「肝の中」「肝の後ろ」のどこで妨げられるかで分ける</b></span>。<br/><span class=\"kw\"><b>① 肝前性</b></span><br/><span class=\"kw3\"><b>門脈血栓症、門脈の先天的な閉塞（肝外門脈閉塞症）</b></span><br/><span class=\"kw3\"><b>肝機能は保たれ、静脈瘤・脾腫が目立つ</b></span><br/><span class=\"kw\"><b>② 肝内性</b></span><br/><span class=\"kw4\"><b>肝硬変（ウイルス・アルコール・脂肪性肝疾患など）——最も多い</b></span><br/><span class=\"kw3\"><b>特発性門脈圧亢進症：肝硬変がないのに門脈圧が高い、脾腫と汎血球減少が目立つ。中年女性に多い</b></span><br/><span class=\"kw3\"><b>日本住血吸虫症（虫卵が門脈の枝に詰まる）、原発性胆汁性胆管炎（早期から門脈圧が上がる）</b></span><br/><span class=\"kw\"><b>③ 肝後性</b></span><br/><span class=\"kw3\"><b>Budd-Chiari 症候群（肝静脈・肝部の下大静脈の閉塞）、右心不全・収縮性心膜炎</b></span><br/><span class=\"kw3\"><b>肝腫大・腹水が目立つ</b></span><br/><span class=\"kw\"><b>④ 区別の手がかり</b></span><br/><span class=\"kw3\"><b>超音波・CT で門脈・肝静脈の流れ、肝の形（肝硬変の凹凸）、脾の大きさ</b></span><br/><span class=\"kw3\"><b>肝静脈圧較差の測定：肝内性で上がる</b></span><br/><span class=\"kw\"><b>⑤ 左側門脈圧亢進症</b></span><br/><span class=\"kw3\"><b>膵炎・膵癌で脾静脈だけが詰まり、胃静脈瘤（穹窿部）だけができる——脾摘で治る</b></span>"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "<span class=\"kw4\"><b>食道静脈瘤の内視鏡治療は EVL と EIS</b></span>。<br/><span class=\"kw4\"><b>RC sign 陽性・F2 以上は出血前でも予防的治療（一次予防）。非選択的β遮断薬も選択肢</b></span>。<br/><span class=\"kw3\"><b>治療後も再発する——定期的な内視鏡。禁酒・抗ウイルス療法で門脈圧を下げる</b></span>。<br/><span class=\"kw3\"><b>拡張術・高周波凝固・粘膜切除術は静脈瘤に行わない（大出血）</b></span>。<br/><span class=\"kw3\"><b>門脈圧亢進症：肝前性（門脈血栓）・肝内性（肝硬変・特発性）・肝後性（Budd-Chiari）</b></span>。"
             }
           ],
           "imgs": [
