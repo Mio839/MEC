@@ -9383,22 +9383,27 @@
       }
      ],
      "ans_label": "ｂ　「痛み止めは飲んでいませんか」",
-     "ans_sub": "胃潰瘍の重要な原因の一つがNSAIDs。鎮痛薬（痛み止め）の服用歴を確認することが最重要。",
+     "ans_sub": "内視鏡像（A）では、胃角部の小弯に、厚い白苔に覆われた境界のはっきりした潰瘍があり、周りの粘膜は発赤して盛り上がっている——活動期の<b>胃潰瘍</b>。3日前から痛みが続き、夜も目が覚めるようになったのは、<b>1週前の腰部打撲で診療所から出された薬</b>の後。打撲の治療には鎮痛薬（NSAIDs）が使われることが多く、潰瘍の誘因として<b>「痛み止めは飲んでいませんか」</b>と確かめる。生魚はアニサキス症、海外渡航・井戸水は感染症、大腸癌の家族歴は大腸癌の危険の評価に役立つが、この潰瘍の原因には結びつかない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 胃潰瘍の原因と問診",
-       "c": "<span class=\"kw\">b「痛み止めは飲んでいませんか」（正答）</span>：<br>NSAIDs（非ステロイド性抗炎症薬）→COX-1阻害→プロスタグランジン↓→胃粘膜防御↓→潰瘍<br>→ 市販の痛み止め含む使用歴の確認が重要<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ a「生魚は食べていませんか」：胃アニサキス症の確認（胃潰瘍の主原因ではない）<br>✗ c「海外渡航」：感染性疾患リスク→胃潰瘍の直接原因としては低優先<br>✗ d「井戸水」：感染症リスク（H.pyloriは井戸水経由もあるが、NSAIDsの確認が優先）<br/>✗ e「大腸癌の家族歴」：大腸癌スクリーニングには重要だが胃潰瘍の原因確認とは別</br></br></br></br></br></br></br>"
+       "h": "🌿 NSAIDs 潰瘍——「痛み止め」は飲み薬だけではない",
+       "c": "<span class=\"kw3\"><b>NSAIDs が潰瘍を作るしくみは Q.96、複数の医療機関の処方を確かめることは Q.130 で見た</b></span>。<span class=\"kw4\"><b>ここでは、患者が「痛み止め」と思っていない NSAIDs と、潰瘍ができやすい人を整理する</b></span>。<br/><span class=\"kw\"><b>① 見落とされやすい NSAIDs</b></span><br/><span class=\"kw3\"><b>坐薬・注射（打撲・骨折・術後に診療所で使われる）</b></span><br/><span class=\"kw3\"><b>市販の解熱鎮痛薬・かぜ薬（イブプロフェン・ロキソプロフェン）</b></span><br/><span class=\"kw3\"><b>低用量アスピリン（「血液さらさらの薬」と思っていて痛み止めと認識していない）</b></span><br/><span class=\"kw3\"><b>貼付剤も大量に使えば全身に吸収される</b></span><br/><span class=\"kw4\"><b>聞き方：「痛み止め」「熱さまし」「血液をさらさらにする薬」「坐薬・注射」と具体的に</b></span><br/><span class=\"kw\"><b>② 潰瘍ができやすい人（危険因子）</b></span><br/><span class=\"kw3\"><b>高齢、潰瘍・出血の既往、高用量・複数の NSAIDs</b></span><br/><span class=\"kw3\"><b>副腎皮質ステロイド・抗凝固薬・抗血小板薬・SSRI の併用</b></span><br/><span class=\"kw3\"><b>H. pylori 感染——NSAIDs と重なると危険が大きくなる</b></span><br/><span class=\"kw\"><b>③ 本例の時間経過</b></span><br/><span class=\"kw3\"><b>3か月前からの心窩部不快感（H. pylori 胃炎・潰瘍の素地）→ 1週前に打撲で薬 → 3日前から持続する痛み</b></span><br/><span class=\"kw3\"><b>NSAIDs 潰瘍は痛みが乏しいことも多く、出血で初めて見つかることがある</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　「生魚は食べていませんか」</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃アニサキス症の確認——生魚を食べて数時間後の激しい心窩部痛</b></span>。<span class=\"kw3\"><b>本例の白苔を伴う潰瘍とは合わない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　「痛み止めは飲んでいませんか」</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>打撲の治療で NSAIDs を使った可能性が高い</b></span>。</td></tr><tr><td>ｃ　「最近海外に行きませんでしたか」</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>旅行者下痢症・寄生虫症・A 型肝炎などの評価に使う</b></span>。</td></tr><tr><td>ｄ　「最近井戸水を飲んでいませんか」</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>感染性腸炎の評価に使う</b></span>。<span class=\"kw2\"><b>H. pylori は幼少期の井戸水で感染したとされるが、今の潰瘍の誘因ではない</b></span>。</td></tr><tr><td>ｅ　「血のつながった家族に大腸癌の方はいませんか」</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大腸癌の危険の評価——胃潰瘍の原因には結びつかない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 アニサキス症——生魚の後の激しい心窩部痛",
+       "c": "<span class=\"kw4\"><b>サバ・イカ・サンマ・アジなどの生食で、アニサキスの幼虫が胃（まれに腸）の壁に頭を刺し込む</b></span>。<br/><span class=\"kw\"><b>① 胃アニサキス症</b></span><br/><span class=\"kw3\"><b>食後数時間〜十数時間で、激しい心窩部痛・悪心嘔吐</b></span><br/><span class=\"kw3\"><b>虫体への即時型の過敏反応が痛みの主体と考えられている</b></span><br/><span class=\"kw4\"><b>診断と治療を兼ねて内視鏡——虫体を鉗子でつまんで取り出すと痛みはすぐに消える</b></span><br/><span class=\"kw\"><b>② 腸アニサキス症</b></span><br/><span class=\"kw3\"><b>食後数日で腹痛・腸閉塞、腹水</b></span><br/><span class=\"kw3\"><b>内視鏡で取りにくく、多くは保存的に軽快する</b></span><br/><span class=\"kw\"><b>③ アニサキスアレルギー</b></span><br/><span class=\"kw3\"><b>生でなくても（加熱・冷凍した魚でも）蕁麻疹・アナフィラキシーを起こすことがある</b></span><br/><span class=\"kw\"><b>④ 予防</b></span><br/><span class=\"kw3\"><b>−20℃で24時間以上の冷凍、または十分な加熱で幼虫は死ぬ</b></span><br/><span class=\"kw3\"><b>酢・塩・わさび・醤油では死なない</b></span><br/><span class=\"kw3\"><b>内臓から筋肉へ移るので、新鮮なうちに内臓を取る</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃潰瘍の2大原因：H.pylori感染＋NSAIDs</span><br/>NSAIDs使用中の胃潰瘍予防：PPIまたはミソプロストール（PGE₁）を同時投与。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化性潰瘍で追加すべき質問。<br/><b>a 生魚／c 海外渡航／d 井戸水／e 大腸癌の家族歴</b>：本病態で優先でない。<br/><b>b 「痛み止め（NSAIDs）は飲んでいませんか」</b>：<span class=\"kw\">NSAIDsは潰瘍の主要な原因</span>。✓"
+       "c": "<span class=\"kw4\"><b>胃潰瘍をみたら H. pylori と NSAIDs を確かめる——坐薬・注射・市販薬・低用量アスピリンまで</b></span>。<br/><span class=\"kw3\"><b>NSAIDs 潰瘍の危険因子：高齢・潰瘍の既往・ステロイド/抗凝固薬/抗血小板薬の併用・H. pylori</b></span>。<br/><span class=\"kw3\"><b>NSAIDs 潰瘍は痛みが乏しく出血で見つかることがある</b></span>。<br/><span class=\"kw3\"><b>アニサキス症：生魚の数時間後の激しい心窩部痛 → 内視鏡で虫体を摘出</b></span>。<br/><span class=\"kw3\"><b>アニサキスは酢・わさびでは死なない。冷凍か加熱</b></span>。"
       }
      ],
      "imgs": [
@@ -9446,22 +9451,27 @@
       }
      ],
      "ans_label": "ｅ　ウレアーゼ試験",
-     "ans_sub": "迅速ウレアーゼ試験（RUT）：生検組織をウレア含有培地に入れると、Hpのウレアーゼが尿素を分解しpHが上昇→陽性。",
+     "ans_sub": "結果（B）は、小さな容器の中の液が<b>赤く変色</b>している——<b>迅速ウレアーゼ試験</b>の陽性。内視鏡で採った胃粘膜の組織を、尿素と pH 指示薬（フェノールレッド）を含む試薬に入れる。H. pylori がいれば、そのウレアーゼが尿素を分解してアンモニアを作り、pH が上がって黄色が赤（赤紫）に変わる。培養法は寒天培地のコロニー、血中抗体・便中抗原は検体を測る検査、尿素呼気試験は呼気を袋に集める検査で、いずれもこの形の結果にはならない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧪 H.pylori診断：迅速ウレアーゼ試験（RUT）",
-       "c": "<span class=\"kw\">迅速ウレアーゼ試験（Rapid Urease Test, RUT）</span>：<br>・内視鏡生検組織をウレア含有培地（アンモニア検出試薬）に置く<br>・H.pyloriのウレアーゼが尿素NH₂CO-NH₂ → NH₃＋CO₂<br>・pH上昇→培地が変色（通常：黄→赤）→陽性<br>・感度・特異度ともに高い<br><br><span class=\"kw4\">他の診断法との違い</span>：<br/>✗ d尿素呼気試験：患者が¹³C-尿素を内服→呼気中¹³CO₂を測定（非侵襲的）<br/>✗ b血中抗体：侵襲なしだが除菌後も陽性<br/>✗ c便中抗原：患者の便を検体に使用（生検不要）</br></br></br></br></br></br>"
+       "h": "🌿 迅速ウレアーゼ試験——内視鏡の場で、その日のうちに分かる",
+       "c": "<span class=\"kw3\"><b>感染診断の6つの方法と偽陰性は Q.103 で見た</b></span>。<span class=\"kw4\"><b>ここでは、画像に示された迅速ウレアーゼ試験そのものを読む</b></span>。<br/><span class=\"kw\"><b>① しくみ</b></span><br/><span class=\"kw3\"><b>H. pylori は強いウレアーゼを持ち、尿素からアンモニアを作って胃酸を中和し、自分の周りを守っている</b></span><br/><span class=\"kw3\"><b>試薬：尿素＋pH 指示薬（フェノールレッド）。アンモニアで pH が上がると黄 → 赤（赤紫）</b></span><br/><span class=\"kw\"><b>② 方法</b></span><br/><span class=\"kw3\"><b>内視鏡で前庭部（と体部）から生検した組織を試薬に入れ、室温〜37℃で置く</b></span><br/><span class=\"kw3\"><b>多くは1時間以内、遅くとも24時間で判定</b></span><br/><span class=\"kw\"><b>③ 長所</b></span><br/><span class=\"kw3\"><b>安価で早い——内視鏡の日に結果が出て、そのまま除菌の説明ができる</b></span><br/><span class=\"kw\"><b>④ 偽陰性</b></span><br/><span class=\"kw4\"><b>PPI・ボノプラザン・抗菌薬・ビスマス製剤の内服で菌が減っていると陰性に出る</b></span><br/><span class=\"kw3\"><b>出血している胃、萎縮が強く菌が少ない胃、採った場所に菌がいない（斑状の分布）</b></span><br/><span class=\"kw3\"><b>偽陰性を減らすため、前庭部と体部の2か所から採る</b></span><br/><span class=\"kw\"><b>⑤ 除菌判定への使い方</b></span><br/><span class=\"kw3\"><b>除菌判定にも使えるが、菌が少ないと偽陰性になりやすく、尿素呼気試験・便中抗原が勧められる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　培養法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>生検組織を培地で微好気培養し、コロニーを確かめる——数日かかる</b></span>。<span class=\"kw3\"><b>抗菌薬の感受性も調べられる</b></span>。</td></tr><tr><td>ｂ　血中抗体測定</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血清の IgG 抗体を測る</b></span>。<span class=\"kw3\"><b>過去の感染でも陽性が続く</b></span>。</td></tr><tr><td>ｃ　便中抗原測定</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>便の中の菌の抗原を測る——非侵襲的</b></span>。</td></tr><tr><td>ｄ　尿素呼気試験</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b><sup>13</sup>C 尿素を飲み、呼気を袋に集めて <sup>13</sup>CO<sub>2</sub> を測る</b></span>。<span class=\"kw3\"><b>同じウレアーゼを使うが、検体は呼気</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　ウレアーゼ試験</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>生検組織を試薬に入れ、赤く変色すれば陽性</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 培養と薬剤感受性——除菌がうまくいかない人に",
+       "c": "<span class=\"kw4\"><b>培養法は唯一、菌そのものを生きたまま取り出し、どの抗菌薬が効くかを調べられる方法</b></span>。<br/><span class=\"kw\"><b>① クラリスロマイシン耐性</b></span><br/><span class=\"kw3\"><b>日本では3割前後がクラリスロマイシン耐性——マクロライド系を多く使ってきた影響</b></span><br/><span class=\"kw3\"><b>しくみ：23S リボソーム RNA の点変異で、薬が結合できない</b></span><br/><span class=\"kw4\"><b>耐性菌に PPI＋アモキシシリン＋クラリスロマイシンを使うと除菌が失敗しやすい</b></span><br/><span class=\"kw\"><b>② ボノプラザンの意味</b></span><br/><span class=\"kw3\"><b>胃酸をより強く安定して抑え、アモキシシリンの効果が上がる——クラリスロマイシン耐性でも除菌率が保たれやすい</b></span><br/><span class=\"kw\"><b>③ 感受性を調べる方法</b></span><br/><span class=\"kw3\"><b>培養して薬剤感受性試験（数日〜1週間）</b></span><br/><span class=\"kw3\"><b>生検組織や便から遺伝子の変異を調べる方法もある</b></span><br/><span class=\"kw\"><b>④ 使いどころ</b></span><br/><span class=\"kw3\"><b>二次除菌にも失敗したとき——感受性に合わせて三次除菌の薬を選ぶ</b></span><br/><span class=\"kw3\"><b>メトロニダゾール耐性は日本では少ない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">迅速ウレアーゼ試験（RUT）：内視鏡生検組織→ウレアーゼ活性でpH上昇→変色→陽性</span><br/>内視鏡施行時に同時実施できる利点。PPI内服中は偽陰性になることあり（中止後に実施）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡下で行うH.pylori感染診断法。<br/><b>a 培養法／b 抗体測定／c 便中抗原／d 尿素呼気試験</b>：本結果の方法でない。<br/><b>e ウレアーゼ試験</b>：<span class=\"kw\">生検組織の迅速ウレアーゼ試験</span>。✓"
+       "c": "<span class=\"kw4\"><b>迅速ウレアーゼ試験：生検組織を尿素＋pH 指示薬に入れ、赤く変われば陽性（ウレアーゼ → アンモニア → pH 上昇）</b></span>。<br/><span class=\"kw3\"><b>内視鏡の日に結果が出る。前庭部と体部から採る</b></span>。<br/><span class=\"kw3\"><b>PPI・ボノプラザン・抗菌薬の内服中は偽陰性</b></span>。<br/><span class=\"kw3\"><b>尿素呼気試験も同じウレアーゼを使うが検体は呼気</b></span>。<br/><span class=\"kw3\"><b>培養は薬剤感受性が分かる——クラリスロマイシン耐性の確認</b></span>。"
       }
      ],
      "imgs": [
@@ -9510,22 +9520,27 @@
       }
      ],
      "ans_label": "ｅ　プロトンポンプ阻害薬の投与",
-     "ans_sub": "H.pylori陽性胃潰瘍：PPIを主体とした除菌三剤療法（PPI＋AMPC＋CAM）が第一選択。",
+     "ans_sub": "胃角部の活動期の胃潰瘍。白苔は清潔で、出血はなく、露出血管もない。Hb 11.8 と軽い貧血はあるが、循環は安定している——輸血も内視鏡的止血術も必要ない。治療は<b>プロトンポンプ阻害薬（またはボノプラザン）</b>で潰瘍を治し、原因になった NSAIDs をやめ、H. pylori 陽性なので<b>除菌</b>を行う。除菌は PPI と2種類の抗菌薬を組み合わせ、抗菌薬の単剤では除菌できず耐性菌を増やす。ESD は早期胃癌の治療で、潰瘍の治療ではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 H.pylori陽性胃潰瘍の治療",
-       "c": "<span class=\"kw\">e PPI投与（正答）</span>：<br>・H.pylori陽性→PPI（オメプラゾール等）＋アモキシシリン（AMPC）＋クラリスロマイシン（CAM）の三剤除菌療法<br>・PPIが三剤療法の中心的役割（胃酸↓→除菌薬の効果↑・潰瘍治癒）<br>・除菌成功率：一次除菌70〜90%<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ a輸血：出血していないので不要<br/>✗ b内視鏡的止血：非出血性潰瘍→止血術不要<br/>✗ c抗菌薬単剤：単剤除菌は耐性リスク高→三剤療法が必要<br/>✗ dESD：早期癌切除→良性潰瘍には不要</br></br></br></br></br></br>"
+       "h": "🌿 NSAIDs と H. pylori が重なった潰瘍——どちらにも手を打つ",
+       "c": "<span class=\"kw4\"><b>本例は H. pylori 陽性で、NSAIDs も飲んでいた——原因が2つ重なると、潰瘍も出血も起こりやすい</b></span>。<br/><span class=\"kw\"><b>① 潰瘍を治す</b></span><br/><span class=\"kw3\"><b>PPI（またはボノプラザン）を8週まで——胃潰瘍の第一選択</b></span><br/><span class=\"kw\"><b>② NSAIDs への対応</b></span><br/><span class=\"kw4\"><b>打撲は軽快しているので NSAIDs は中止する</b></span><br/><span class=\"kw3\"><b>痛み止めが必要ならアセトアミノフェン</b></span><br/><span class=\"kw3\"><b>やめられない人は PPI を続けて潰瘍を防ぐ</b></span><br/><span class=\"kw\"><b>③ 除菌</b></span><br/><span class=\"kw3\"><b>PPI（ボノプラザン）＋アモキシシリン＋クラリスロマイシンを1週間</b></span><br/><span class=\"kw3\"><b>潰瘍の治療中に除菌を始めてよい。除菌が終わったら PPI を続けて潰瘍を治しきる</b></span><br/><span class=\"kw\"><b>④ 癌を否定する</b></span><br/><span class=\"kw4\"><b>胃潰瘍は生検し、治った後も内視鏡で確かめる——本例は胃癌を心配している</b></span><br/><span class=\"kw\"><b>⑤ 入院が要るのは</b></span><br/><span class=\"kw3\"><b>出血（吐血・黒色便・Hb の急な低下）、穿孔、狭窄で食べられない、強い痛みで飲めない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　輸　血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>Hb 11.8 で循環は安定——輸血の対象ではない</b></span>。<span class=\"kw2\"><b>輸血はおおむね Hb 7 未満、心疾患があれば 8 未満が目安</b></span>。</td></tr><tr><td>ｂ　内視鏡的止血術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血も露出血管もない</b></span>。</td></tr><tr><td>ｃ　抗菌薬の単剤投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>単剤では除菌できず、耐性菌を作る</b></span>。<span class=\"kw3\"><b>除菌は PPI＋2剤</b></span>。</td></tr><tr><td>ｄ　内視鏡的粘膜下層剝離術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期胃癌・腺腫の切除</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　プロトンポンプ阻害薬の投与</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>潰瘍を治す第一選択で、除菌の中心にもなる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 潰瘍の場所が語ること——胃角・体部・前庭部・球部",
+       "c": "<span class=\"kw4\"><b>潰瘍ができる場所は、原因と年齢で変わる</b></span>。<br/><span class=\"kw\"><b>① 胃潰瘍</b></span><br/><span class=\"kw3\"><b>胃角部の小弯が最も多い——前庭部（幽門腺）と体部（胃底腺）の境目にできやすい</b></span><br/><span class=\"kw3\"><b>H. pylori 胃炎で萎縮が上へ広がると、境目も上へ移り、高齢者ほど体部の高い位置に潰瘍ができる</b></span><br/><span class=\"kw\"><b>② NSAIDs 潰瘍</b></span><br/><span class=\"kw3\"><b>前庭部に浅い潰瘍・びらんが多発しやすい</b></span><br/><span class=\"kw\"><b>③ 十二指腸潰瘍</b></span><br/><span class=\"kw3\"><b>球部の前壁・後壁に多く、向かい合ってできる（kissing ulcer）</b></span><br/><span class=\"kw3\"><b>前壁は穿孔、後壁は膵への穿通と胃十二指腸動脈からの出血を起こしやすい</b></span><br/><span class=\"kw\"><b>④ 珍しい場所</b></span><br/><span class=\"kw4\"><b>球部より先（球後部）・空腸の潰瘍、多発・難治の潰瘍——Zollinger-Ellison 症候群（ガストリン産生腫瘍）を考える</b></span><br/><span class=\"kw\"><b>⑤ 場所と癌</b></span><br/><span class=\"kw3\"><b>胃潰瘍は癌との区別が必要、十二指腸潰瘍は癌がまれ</b></span><br/><span class=\"kw3\"><b>大弯の潰瘍は良性潰瘍としては珍しく、癌・リンパ腫を疑う</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">H.pylori陽性潰瘍 → 三剤除菌療法（PPI＋AMPC＋CAM）7日間</span><br/>除菌失敗→二次除菌（PPI＋AMPC＋メトロニダゾール）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化性潰瘍（出血なし）の治療。<br/><b>a 輸血／b 内視鏡的止血／c 抗菌薬単剤／d ESD</b>：不適。<br/><b>e プロトンポンプ阻害薬の投与</b>：<span class=\"kw\">酸分泌抑制で潰瘍を治癒</span>。✓"
+       "c": "<span class=\"kw4\"><b>出血のない胃潰瘍：PPI（ボノプラザン）、NSAIDs 中止、H. pylori 陽性なら除菌</b></span>。<br/><span class=\"kw3\"><b>除菌は PPI＋2剤。抗菌薬の単剤は不可</b></span>。<br/><span class=\"kw3\"><b>痛み止めが必要ならアセトアミノフェン</b></span>。<br/><span class=\"kw3\"><b>胃潰瘍は胃角部の小弯に多く、高齢者ほど高い位置へ</b></span>。<br/><span class=\"kw4\"><b>球後部・空腸の潰瘍、多発・難治の潰瘍は Zollinger-Ellison 症候群を疑う</b></span>。"
       }
      ],
      "imgs": [
@@ -9573,17 +9588,27 @@
       }
      ],
      "ans_label": "ｃ　尿素呼気試験",
-     "ans_sub": "十二指腸潰瘍の治療方針はH.pylori感染の有無で決まる。非侵襲的で高精度の尿素呼気試験を選択。",
+     "ans_sub": "28歳、空腹時の心窩部痛が食事で軽くなる——十二指腸潰瘍の典型。内視鏡像では十二指腸球部の壁に、白苔に覆われた潰瘍が見える。十二指腸潰瘍の多くは H. pylori 感染が原因で、陽性なら除菌、陰性なら原因を別に探す——治療方針を決めるには<b>H. pylori の感染診断</b>が必要で、選択肢では<b>尿素呼気試験</b>。便潜血・蛋白漏出試験・CEA・ツベルクリン反応は、治療方針の決定に結びつかない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 十二指腸潰瘍の治療方針",
-       "c": "<span class=\"kw\">c尿素呼気試験（正答）</span>：<br>・十二指腸潰瘍の90〜95%はH.pylori陽性<br>・治療方針：Hp陽性→三剤除菌療法、Hp陰性→PPI単剤<br>→ 治療前にH.pylori検査が必須<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a便潜血：消化管出血の確認だが十二指腸潰瘍の治療方針決定には直接不要<br/>✗ b蛋白漏出試験：蛋白漏出性胃腸症の診断に使用<br/>✗ d血清CEA：消化管癌の腫瘍マーカー（28歳の潰瘍では不要）<br/>✗ eツベルクリン反応：結核感染の確認</br></br></br>"
+       "h": "🌿 潰瘍の治療方針は原因で分かれる——H. pylori 陰性・NSAIDs 陰性なら？",
+       "c": "<span class=\"kw4\"><b>潰瘍を見つけたら、H. pylori と NSAIDs の2つを必ず確かめ、治療を分ける</b></span>。<br/><span class=\"kw\"><b>① H. pylori 陽性</b></span><br/><span class=\"kw3\"><b>除菌——再発がほぼなくなる</b></span><br/><span class=\"kw\"><b>② NSAIDs・低用量アスピリン</b></span><br/><span class=\"kw3\"><b>やめられれば中止＋PPI、続けるなら PPI を併用</b></span><br/><span class=\"kw\"><b>③ 両方とも陰性——「特発性」潰瘍の前に探すもの</b></span><br/><span class=\"kw3\"><b>H. pylori の偽陰性（PPI 内服中の検査：Q.103）——検査をやり直す</b></span><br/><span class=\"kw3\"><b>隠れた薬（市販薬・坐薬：Q.139）</b></span><br/><span class=\"kw4\"><b>Zollinger-Ellison 症候群：ガストリン産生腫瘍で胃酸が多い。多発・難治・球後部の潰瘍、下痢。PPI を止めて空腹時の血中ガストリンを測る。MEN1 型の一部</b></span><br/><span class=\"kw3\"><b>Crohn 病、サイトメガロウイルス感染（免疫不全）、悪性リンパ腫</b></span><br/><span class=\"kw3\"><b>重い全身疾患のストレス（Q.107）</b></span><br/><span class=\"kw\"><b>④ H. pylori 陰性・NSAIDs 陰性の潰瘍は増えている</b></span><br/><span class=\"kw3\"><b>感染者が減り、除菌が広まったため——再発しやすく、PPI の維持療法が必要なことがある</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　便潜血反応</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍があれば陽性になりうるが、治療方針は変わらない</b></span>。</td></tr><tr><td>ｂ　蛋白漏出試験</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>蛋白漏出性胃腸症（低アルブミン血症・浮腫）の診断</b></span>。<span class=\"kw3\"><b>アルブミン 4.1 で正常</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　尿素呼気試験</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>H. pylori の感染の有無で、除菌するかどうかが決まる</b></span>。</td></tr><tr><td>ｄ　血清CEA 測定</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腺癌の腫瘍マーカー——十二指腸潰瘍は癌がまれで、方針に関係しない</b></span>。</td></tr><tr><td>ｅ　ツベルクリン反応</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>結核感染の検査——十二指腸結核はまれ</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "十二指腸潰瘍の治療方針決定に必要な検査。<br/><b>a 便潜血／b 蛋白漏出試験／d CEA／e ツベルクリン</b>：本病態でない。<br/><b>c 尿素呼気試験</b>：<span class=\"kw\">H.pylori感染の有無で除菌方針を決める</span>。✓"
+       "h": "🔍 十二指腸潰瘍の合併症——穿孔・穿通・出血・狭窄",
+       "c": "<span class=\"kw4\"><b>十二指腸潰瘍は、場所と深さで起こる合併症が違う</b></span>。<br/><span class=\"kw\"><b>① 穿孔（前壁）</b></span><br/><span class=\"kw3\"><b>腹腔内に穴があき、急な激しい腹痛・板状硬・遊離ガス（Q.108）</b></span><br/><span class=\"kw\"><b>② 穿通（後壁）</b></span><br/><span class=\"kw3\"><b>膵臓に食い込む——背部へ抜ける持続痛、血清アミラーゼが上がることがある</b></span><br/><span class=\"kw\"><b>③ 出血（後壁）</b></span><br/><span class=\"kw3\"><b>後ろを走る胃十二指腸動脈が露出して大出血（Q.123）</b></span><br/><span class=\"kw\"><b>④ 狭窄（幽門・球部）</b></span><br/><span class=\"kw3\"><b>潰瘍の再発を繰り返すと、瘢痕で球部が変形し、狭くなる</b></span><br/><span class=\"kw4\"><b>食後の嘔吐（酸っぱい未消化物）、上腹部の膨満、振水音</b></span><br/><span class=\"kw4\"><b>胃液（HCl）を吐き続けるので、低 Cl 性・低 K 性の代謝性アルカローシスになる</b></span><br/><span class=\"kw3\"><b>治療：胃管で減圧、輸液（生理食塩水と K）、PPI。狭窄が残れば内視鏡的バルーン拡張術、手術</b></span><br/><span class=\"kw\"><b>⑤ 若年者の十二指腸潰瘍</b></span><br/><span class=\"kw3\"><b>多くは H. pylori 陽性——除菌すれば合併症も含めて再発を防げる</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>十二指腸潰瘍の治療方針 → H. pylori の感染診断（尿素呼気試験など）</b></span>。<br/><span class=\"kw3\"><b>H. pylori 陰性・NSAIDs 陰性なら偽陰性・隠れた薬・Zollinger-Ellison 症候群・Crohn 病を考える</b></span>。<br/><span class=\"kw3\"><b>空腹時痛が食事で軽くなる：十二指腸潰瘍</b></span>。<br/><span class=\"kw4\"><b>前壁は穿孔、後壁は穿通（膵）と出血（胃十二指腸動脈）</b></span>。<br/><span class=\"kw4\"><b>幽門狭窄：嘔吐が続き低 Cl 性・低 K 性代謝性アルカローシス</b></span>。"
       }
      ],
      "imgs": [
@@ -9627,17 +9652,27 @@
       }
      ],
      "ans_label": "ｅ　上部消化管内視鏡検査",
-     "ans_sub": "飲酒後嘔吐に伴う吐血→Mallory-Weiss症候群を疑い、上部消化管内視鏡で食道胃接合部の裂傷を確認。",
+     "ans_sub": "飲酒後に嘔吐を繰り返し、最初は食物、その後に血液を吐いた——典型的な<b>Mallory-Weiss 症候群</b>。脈拍・血圧は保たれ、結膜の貧血もない。診断は<b>上部消化管内視鏡検査</b>で、食道胃接合部の縦走する裂創を直接確かめ、出血が続いていればその場で止血する。腹部 CT・超音波は消化管の粘膜の病変がよく見えず、血管造影は内視鏡で止められない大量出血に使い、上部消化管造影（バリウム）は出血の急性期には行わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 嘔吐後吐血の診断",
-       "c": "<span class=\"kw\">e上部消化管内視鏡（正答）</span>：<br>Mallory-Weiss症候群：食道胃接合部の縦走粘膜裂傷を内視鏡で直接確認・止血<br>→ 急性期内視鏡が診断・治療の両方を達成<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a腹部CT：消化管内腔の病変検出感度低（内視鏡より劣る）<br/>✗ b腹部血管造影：大量出血・内視鏡止血不能例に使用（初手ではない）<br/>✗ c上部消化管造影（バリウム）：穿孔リスクあり・急性期には不適<br/>✗ d腹部超音波：実質臓器の評価（消化管内腔病変には不向き）</br></br>"
+       "h": "🌿 消化管出血の検査の使い分け——内視鏡・CT・血管造影・シンチグラフィ",
+       "c": "<span class=\"kw3\"><b>Mallory-Weiss の内視鏡像と鑑別は Q.105、裂ける深さの比較は Q.127 で見た</b></span>。<span class=\"kw4\"><b>ここでは、消化管出血でどの検査をいつ使うかを並べる</b></span>。<br/><span class=\"kw\"><b>① 上部消化管内視鏡</b></span><br/><span class=\"kw4\"><b>吐血・黒色便の第一の検査——出血源の診断と止血が同時にできる</b></span><br/><span class=\"kw\"><b>② 造影 CT（CT アンギオグラフィ）</b></span><br/><span class=\"kw3\"><b>内視鏡で出血源が見つからないとき、循環が不安定で内視鏡がすぐできないとき</b></span><br/><span class=\"kw3\"><b>0.3〜0.5mL/分程度の出血で造影剤の漏れ出しが見える</b></span><br/><span class=\"kw3\"><b>穿孔・特発性食道破裂を疑うときも CT が先（Q.127）</b></span><br/><span class=\"kw\"><b>③ 血管造影</b></span><br/><span class=\"kw3\"><b>0.5〜1mL/分以上の活動性の出血で漏れが見え、そのまま塞栓術（TAE：Q.123）ができる</b></span><br/><span class=\"kw\"><b>④ 出血シンチグラフィ</b></span><br/><span class=\"kw3\"><b>0.1mL/分程度の少ない出血でも見つけられる——間欠的な出血の場所の目安</b></span><br/><span class=\"kw\"><b>⑤ バリウム造影</b></span><br/><span class=\"kw4\"><b>出血の急性期には行わない——内視鏡・CT・血管造影の妨げになり、穿孔があれば腹膜炎を起こす</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　腹部CT</td><td><span class=\"kw4\">誤り</span>（最も有用ではない）。<span class=\"kw3\"><b>粘膜の浅い裂創は CT では見えにくい</b></span>。<span class=\"kw2\"><b>胸痛・皮下気腫があり食道破裂を疑えば CT が先</b></span>。</td></tr><tr><td>ｂ　腹部血管造影</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>内視鏡で止血できない大量出血に使う</b></span>。</td></tr><tr><td>ｃ　上部消化管造影</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血の急性期には行わず、裂創も写らない</b></span>。</td></tr><tr><td>ｄ　腹部超音波検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝・胆・膵・腎の評価が主で、食道胃接合部の粘膜は見えない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　上部消化管内視鏡検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>裂創を直接確かめ、必要ならその場で止血する</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管出血が疑われる患者の診断に最も有用な検査。<br/><b>a 腹部CT／b 血管造影／c 上部消化管造影／d 腹部超音波</b>：第一でない。<br/><b>e 上部消化管内視鏡検査</b>：<span class=\"kw\">出血源の同定と止血が可能</span>。✓"
+       "h": "🔍 Glasgow-Blatchford スコア——帰してよい上部消化管出血を見分ける",
+       "c": "<span class=\"kw4\"><b>上部消化管出血の全員を入院させる必要はない——治療（輸血・内視鏡的止血・手術）が要らない低リスクの人をスコアで選ぶ</b></span>。<br/><span class=\"kw\"><b>① 項目（内視鏡の前に分かるもの）</b></span><br/><span class=\"kw3\"><b>BUN、Hb（男女で基準が違う）、収縮期血圧、脈拍 100/分以上</b></span><br/><span class=\"kw3\"><b>黒色便、失神、肝疾患、心不全</b></span><br/><span class=\"kw\"><b>② 使い方</b></span><br/><span class=\"kw4\"><b>0点（施設によっては1点以下）なら、入院せずに外来で後日内視鏡を行える</b></span><br/><span class=\"kw3\"><b>点数が高いほど、輸血・止血処置・手術が必要になる</b></span><br/><span class=\"kw\"><b>③ 本例を当てはめる</b></span><br/><span class=\"kw3\"><b>脈拍88・血圧128、結膜に貧血なし——検査値を見ていないが、低リスクの可能性がある</b></span><br/><span class=\"kw3\"><b>ただし「便器が赤くなるほど」の量で、内視鏡で出血が止まっていることを確かめるのが安全</b></span><br/><span class=\"kw\"><b>④ 内視鏡の後のスコア</b></span><br/><span class=\"kw3\"><b>Rockall スコア：年齢・ショック・併存疾患に、内視鏡の診断と出血の徴候を加えて再出血と死亡を予測する</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>飲酒後に嘔吐を繰り返した後の吐血 → Mallory-Weiss 症候群 → 上部消化管内視鏡</b></span>。<br/><span class=\"kw3\"><b>内視鏡で出血源が分からなければ造影 CT、止血できない大量出血は血管造影（TAE）</b></span>。<br/><span class=\"kw3\"><b>出血の急性期にバリウム造影は行わない</b></span>。<br/><span class=\"kw3\"><b>胸痛・皮下気腫があれば食道破裂を疑い CT を先に</b></span>。<br/><span class=\"kw3\"><b>Glasgow-Blatchford スコア0点は外来で管理できる低リスク</b></span>。"
       }
      ],
      "imgs": []
@@ -9679,22 +9714,27 @@
       }
      ],
      "ans_label": "ｅ　プロトンポンプ阻害薬",
-     "ans_sub": "NSAIDs潰瘍（活動期）→PPIが最も有効。ミソプロストール（PGE₁）も選択肢だが副作用が多い。",
+     "ans_sub": "NSAIDs による活動期の消化性潰瘍の治療薬は<b>プロトンポンプ阻害薬</b>（またはボノプラザン）。可能なら NSAIDs をやめ、続けなければならない場合も PPI で潰瘍は治る。抗菌薬は H. pylori 陽性のときの除菌で、潰瘍そのものを治す薬ではない。制酸薬は一時的に症状を和らげるだけ。抗コリン薬は酸を抑える力が弱く副作用が多い。副腎皮質ステロイドは NSAIDs と一緒に使うと潰瘍の危険をさらに高める。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 NSAIDs潰瘍の治療",
-       "c": "<span class=\"kw\">e PPI（正答）</span>：<br/>・NSAIDs→PG産生↓→胃酸による粘膜傷害→潰瘍<br/>・PPI → 胃酸↓→潰瘍治癒促進<br/>・NSAIDsを継続しながら治療可能<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a抗菌薬：H.pylori感染がある場合に追加（単独では潰瘍治療にならない）<br/>✗ b制酸薬（水酸化アルミニウム等）：一時的な胃酸中和→潰瘍治癒には不十分<br/>✗ c抗コリン薬：胃酸分泌抑制効果は限定的・副作用多い<br/>✗ d副腎皮質ステロイド：NSAIDs潰瘍をさらに悪化させる"
+       "h": "🌿 NSAIDs を続けながら潰瘍を防ぐ——予防の組み立て",
+       "c": "<span class=\"kw3\"><b>NSAIDs が潰瘍を作るしくみは Q.96、見落とされやすい NSAIDs と危険因子は Q.139 で見た</b></span>。<span class=\"kw4\"><b>ここでは、潰瘍の治療の後、NSAIDs を続ける人の予防を考える</b></span>。<br/><span class=\"kw\"><b>① やめられるならやめる</b></span><br/><span class=\"kw3\"><b>アセトアミノフェン・外用薬・リハビリテーションに切り替える</b></span><br/><span class=\"kw\"><b>② 続けるなら</b></span><br/><span class=\"kw4\"><b>PPI（またはボノプラザン）を併用する——潰瘍の再発・出血を減らす</b></span><br/><span class=\"kw3\"><b>ミソプロストール（プロスタグランジン E<sub>1</sub> 誘導体）：なくなった粘膜防御を補う。下痢・腹痛が多い。子宮を収縮させるので妊婦に禁忌</b></span><br/><span class=\"kw3\"><b>COX-2 選択的阻害薬（セレコキシブ）に替える——胃の COX-1 を残すので潰瘍が少ない。ただし心血管の危険に注意</b></span><br/><span class=\"kw4\"><b>潰瘍の既往がある人：COX-2 選択的阻害薬＋PPI が最も安全</b></span><br/><span class=\"kw\"><b>③ H. pylori</b></span><br/><span class=\"kw3\"><b>NSAIDs を始める前に調べて除菌すると潰瘍が減る</b></span><br/><span class=\"kw\"><b>④ H<sub>2</sub> 受容体拮抗薬</b></span><br/><span class=\"kw3\"><b>通常量では NSAIDs の胃潰瘍を十分に防げない——PPI が勝る</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　抗菌薬</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>H. pylori の除菌に使う——NSAIDs 潰瘍そのものは治さない</b></span>。</td></tr><tr><td>ｂ　制酸薬</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃酸を中和して一時的に症状を和らげるだけで、潰瘍を治す力は弱い</b></span>。</td></tr><tr><td>ｃ　抗コリン薬</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>酸を抑える力が弱く、口渇・便秘・尿閉・緑内障の悪化（Q.137）などの副作用が多い</b></span>。</td></tr><tr><td>ｄ　副腎皮質ステロイド</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>NSAIDs と一緒に使うと潰瘍の危険が大きく上がる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　プロトンポンプ阻害薬</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>NSAIDs を続けていても潰瘍を治せる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 ステロイドと低用量アスピリン——潰瘍との関係",
+       "c": "<span class=\"kw4\"><b>「ステロイドは潰瘍を作る」と言われるが、単独での危険は小さく、問題は組み合わせ</b></span>。<br/><span class=\"kw\"><b>① 副腎皮質ステロイド</b></span><br/><span class=\"kw3\"><b>単独では潰瘍の危険はわずかに上がる程度</b></span><br/><span class=\"kw4\"><b>NSAIDs と併用すると潰瘍・出血の危険が大きく上がる</b></span><br/><span class=\"kw3\"><b>治りを遅くし、穿孔しても腹膜刺激症状が出にくい——見逃しやすい</b></span><br/><span class=\"kw3\"><b>ステロイドを使う人全員に PPI が必要なわけではなく、NSAIDs 併用・潰瘍の既往・高用量のときに考える</b></span><br/><span class=\"kw\"><b>② 低用量アスピリン</b></span><br/><span class=\"kw3\"><b>心筋梗塞・脳梗塞の再発予防で飲む人が多い——不可逆に COX-1 を阻害し、血小板の働きも抑える</b></span><br/><span class=\"kw4\"><b>潰瘍・出血が起きても、心血管の病気がある人では原則としてやめない（または早く再開）——PPI を併用</b></span><br/><span class=\"kw3\"><b>一次予防（心血管の病気がない人）で飲んでいるなら、中止を考える</b></span><br/><span class=\"kw\"><b>③ 抗血小板薬の2剤併用</b></span><br/><span class=\"kw3\"><b>出血の危険がさらに上がる——PPI の併用（Q.138）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">NSAIDs潰瘍の治療：PPI（第一選択）</span><br/>NSAIDs使用を継続する場合：PPI必須。中止できる場合：中止＋PPI。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "NSAIDsによる活動期消化性潰瘍の治療薬。<br/><b>a 抗菌薬／b 制酸薬／c 抗コリン薬／d ステロイド</b>：第一でない。<br/><b>e プロトンポンプ阻害薬</b>：<span class=\"kw\">NSAID潰瘍の第一選択（NSAID中止＋PPI）</span>。✓"
+       "c": "<span class=\"kw4\"><b>NSAIDs 潰瘍の治療は PPI（ボノプラザン）。可能なら NSAIDs を中止</b></span>。<br/><span class=\"kw4\"><b>NSAIDs を続けるなら PPI 併用、またはミソプロストール、COX-2 選択的阻害薬</b></span>。<br/><span class=\"kw3\"><b>ミソプロストールは妊婦に禁忌（子宮収縮）</b></span>。<br/><span class=\"kw3\"><b>ステロイド単独の潰瘍の危険は小さいが、NSAIDs と併用で大きく上がる</b></span>。<br/><span class=\"kw3\"><b>二次予防の低用量アスピリンはやめずに PPI を併用</b></span>。"
       }
      ],
      "imgs": []
