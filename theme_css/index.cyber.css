@@ -2915,6 +2915,7 @@ html.ui-cyber .theme-gauge-cyber { display: inline; }
   .aurora-jewel-flare,
   .aurora-prism-jewel { animation: none !important; }
 }
+.hero-fig .br-gt { display:none; }
 html.ui-cyber .hero-console { border-left:2px solid #00E5FF;padding-left:14px; }
 html.ui-cyber .hero-fig {
   padding:4px 18px 6px 14px;border-radius:3px;

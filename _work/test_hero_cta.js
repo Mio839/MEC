@@ -106,6 +106,9 @@ function makeCtx(opts) {
     CTA_COLORS_SRC + '\n' + EXIT_MS_SRC + '\n' +
     extract('_reducedMotion') + '\n' + extract('_accent') + '\n' +
     extract('_fxOk') + '\n' + extract('_centerOf') + '\n' + extract('_fmtN') + '\n' +
+    // Brass のニキシー管（_tweenNum が名前で引く）。計器行の数字は対象外なので、本体は空の写しでよい
+    (HTML.match(/const BR_NX_DEG = [^;]+;/) || [''])[0] + '\n' + extract('_themeIs') + '\n' +
+    'function _brGearsOn() {}\nfunction _brNixieTween() {}\n' +
     extract('_tweenNum') + '\n' + extract('_tickStat') + '\n' +
     extract('_setRedoLoad') + '\n' + extract('_ctaColors') + '\n' +
     extract('_initCtaRipple') + '\n' + extract('_initCtaExit') + '\n' +
@@ -553,6 +556,27 @@ t('Brass の着地は焼き入れ（熱して蒸気で冷やす・予定表を�
   assert.ok(/br-heat/.test(q) && /MecFX\.steam/.test(q), '熱する・蒸気のどちらかが無い');
   assert.ok(/_liqFxLater/.test(q) && !/setTimeout/.test(q), '予定表（_liqFxLater）を通していない');
   assert.ok(/html\.ui-brass \.hero-num\.br-heat\{animation:brHeat/.test(HTML), '焼き入れの CSS が無い');
+});
+
+// 2026-10-01: Brass の読み値はニキシー管＋歯車連動（_work/hub_count_demo.html の K6）。止まったあとのちらつきは10秒で終わる
+t('Brass の読み値はニキシー管＋歯車連動（ちらつきは一定時間でやめる・重ねない）', () => {
+  const tw = extract('_tweenNum');
+  assert.ok(/_brNxIdleStop\(\)/.test(tw), '数え直す前に止まったあとのちらつきを止めていない（2本が同じ管を奪い合う）');
+  assert.ok(/_themeIs\('brass'\)[\s\S]{0,40}_brNixieTween/.test(tw), 'Brass がニキシー管で数えていない');
+  assert.ok(/BR_NX_DEG = \{ heroNum: \d+, heroAccVal: \d+ \}/.test(HTML), '対象が解いた数と正答率の2つになっていない');
+  const nx = extract('_brNixieTween');
+  assert.ok(/setTimeout\(finish, BR_NX_DUR \+ \d+\)/.test(nx), '非表示タブでの落とし所が無い');
+  assert.ok(/_brGearsSpin/.test(nx) && /setAttribute\('transform', 'rotate\('/.test(extract('_brGearsSpin')),
+    '歯車を SVG の transform 属性で回していない');
+  const on = extract('_brGearsOn');
+  assert.ok(/br-gt bl/.test(on) && /br-gt tr/.test(on), '歯車が枠の左下と右上に付いていない');
+  const idle = extract('_brNixieIdle');
+  assert.ok(/BR_NX_IDLE_MS/.test(idle) && /const BR_NX_IDLE_MS = 10000;/.test(HTML), 'ちらつきが一定時間（10秒）で終わらない');
+  assert.ok(/_brNxIdleStop\) el\._brNxIdleStop\(\)/.test(idle), '始める前に前のちらつきを止めていない');
+  assert.ok(/document\.hidden/.test(idle), '非表示タブでも動かしている');
+  assert.ok(/theme === 'brass'[\s\S]{0,80}_brNixieIdle\(el\)/.test(extract('_landHeroNumber')), '着地のあとにちらつきを始めていない');
+  assert.ok(/\.hero-fig \.br-gt\{display:none;\}/.test(HTML), 'Brass 以外でも歯車が見えている');
+  assert.ok(!/html\.ui-brass \.hero-num\[data-goal="\d"\][^{]*\{[^}]*background-clip:text/.test(HTML), '目標達成の日に桁を文字で切り抜いている（管が消える）');
 });
 
 t('_tweenNum に非表示タブ用の落とし所がある', () => {

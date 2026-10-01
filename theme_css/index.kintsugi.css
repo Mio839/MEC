@@ -2904,6 +2904,7 @@ html.ui-kintsugi .theme-gauge-kintsugi { display: inline; }
   .aurora-jewel-flare,
   .aurora-prism-jewel { animation: none !important; }
 }
+.hero-fig .br-gt { display:none; }
 html.ui-kintsugi .hero-console { border-left:2px solid #F5D061;padding-left:14px; }
 html.ui-kintsugi .hero-fig {
   padding:4px 18px 6px 14px;border-radius:4px;

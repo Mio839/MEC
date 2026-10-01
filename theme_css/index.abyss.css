@@ -2917,6 +2917,7 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   .aurora-jewel-flare,
   .aurora-prism-jewel { animation: none !important; }
 }
+.hero-fig .br-gt { display:none; }
 .cel-nova-core {
   position:fixed;z-index:61;pointer-events:none;border-radius:50%;
   background:radial-gradient(circle,#FFFFFF 0%,rgba(255,248,225,.9) 18%,rgba(255,209,102,.55) 38%,rgba(138,43,226,.25) 60%,transparent 72%);

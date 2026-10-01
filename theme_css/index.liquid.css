@@ -2941,6 +2941,7 @@ html.ui-liquid .liquid-caustics i + i {
   .aurora-jewel-flare,
   .aurora-prism-jewel { animation: none !important; }
 }
+.hero-fig .br-gt { display:none; }
 html.ui-liquid .hero-console { border-left:2px solid #FF007F;padding-left:14px; }
 html.ui-liquid .hero-fig {
   padding:4px 20px 6px 16px;border-radius:26px;

@@ -2202,8 +2202,12 @@ function _centerOf(el) {
 // 数値のトゥイーン。カウントアップはここに集約する
 function _tweenNum(el, to, dur, done) {
   if (!el) return;
+  if (el._brNxIdleStop) el._brNxIdleStop();   // Brass の止まったあとのちらつきは、数え直す前に必ず止める
+  if (BR_NX_DEG[el.id] != null) _brGearsOn(el);
   if (_reducedMotion()) { el.textContent = _fmtN(to); if (done) done(); return; }
   const from = Number(String(el.textContent).replace(/[^\d-]/g, '')) || 0;
+  // Brass の大きな読み値はニキシー管で数える（値が変わらない再描画はふつうの道へ）
+  if (from !== to && BR_NX_DEG[el.id] != null && _themeIs('brass')) { _brNixieTween(el, from, to, done); return; }
   const t0 = performance.now();
   let fin = false;
   const finish = () => {
@@ -2226,6 +2230,146 @@ function _tweenNum(el, to, dur, done) {
     clearTimeout(guard);
     finish();
   })(t0);
+}
+
+/* ══════════ Brass の読み値：ニキシー管＋歯車連動（2026-10-01 採用・_work/hub_count_demo.html の K6）══════════
+   「今日解いた問題」「正答率」の数字がニキシー管の表示器になり（CSS は index.css の html.ui-brass .hero-num）、
+   ① 数えている間：桁ごとの管の数字が切り替わるたびに管がちらっと明滅する。数字の枠の左下と右上の歯車列が
+      数えた分だけ回り（数え下がると逆回り・左下と右上は逆向き）、止まるとぴたりと止まる。
+      十の位が変わるたびに数字がカチッと揺れ、右上の歯車から蒸気がシュッと抜ける。数え終わると左下で火花
+   ② 数え終わると焼き入れ（_brQuenchLand）。そのあと BR_NX_IDLE_MS（10秒）の間だけ、ときどきランダムな管が
+      ランダムな数字にチカチカ切り替わって戻る（_brNixieIdle）。
+   ⚠️ ちらつきは一定時間でやめる（ユーザー判断）。ずっと続けない。1度に動かすのは1本だけ（数字はいつも読める）。
+   ⚠️ 数え上げが2本重なる（開いた瞬間と同期の再描画など）と、取り残されたちらつきが同じ管を奪い合い、
+      取り違えた数字のまま戻らなくなる（デモで実際に起きた）。始める前・数え直す前に必ず前のを止める。
+   ⚠️ 歯車の回転は SVG の transform 属性で書く。歯車は数え始めにその場で取り付ける（開いた瞬間の数え上げに間に合わせる）。 */
+const BR_NX_DEG = { heroNum: 6, heroAccVal: 9 };   // 1 増えるごとに大歯車が回る角度
+const BR_NX_DUR = 1050;
+const BR_NX_IDLE_MS = 10000;   // 数え終わってから、ちらつきを続ける時間
+const BR_NX_IDLE_WAIT = 1700;  // 焼き入れ（約1.6秒）が済むのを待つ
+function _themeIs(id) {
+  return !!(window.MecUITheme && MecUITheme.get && MecUITheme.get() === id);
+}
+// 歯車列を数字の枠の左下（.bl）と右上（.tr）に1組ずつ取り付ける（何度呼んでも1組ずつ）。
+// 各歯車は data-r（大歯車に対する回転比・負＝逆回り）と中心を持つ。3枚とも大歯車と噛み合う位置。
+function _brGearsOn(el) {
+  const fig = el && el.closest('.hero-fig');
+  if (!fig) return null;
+  const g = (cx, cy, rt, tp, n, hole, fill, r) => '<g data-r="' + r + '" data-cx="' + cx + '" data-cy="' + cy + '"><path fill="' + fill +
+    '" fill-rule="evenodd" d="' + _gearPath(cx, cy, rt, tp, n) + _holePath(cx, cy, hole) + '"/></g>';
+  if (!fig.querySelector('.br-gt.bl')) fig.insertAdjacentHTML('beforeend', '<svg class="br-gt bl" viewBox="0 0 44 34" aria-hidden="true">' +
+    g(14, 18, 10, 13, 12, 3, '#E0C25E', 1) + g(31.5, 11, 6, 8.5, 8, 2, '#C9A227', -12 / 8) + g(29.5, 27, 5, 7.2, 7, 1.8, '#B87333', -12 / 7) + '</svg>');
+  if (!fig.querySelector('.br-gt.tr')) fig.insertAdjacentHTML('beforeend', '<svg class="br-gt tr" viewBox="0 0 44 34" aria-hidden="true">' +
+    g(30, 16, 10, 13, 12, 3, '#E0C25E', 1) + g(12.5, 23, 6, 8.5, 8, 2, '#C9A227', -12 / 8) + g(14.5, 7, 5, 7.2, 7, 1.8, '#B87333', -12 / 7) + '</svg>');
+  return fig;
+}
+function _brGearsSpin(fig, a) {
+  fig._brGa = a;
+  fig.querySelectorAll('.br-gt').forEach(gt => {
+    const s = gt.classList.contains('tr') ? -1 : 1;   // 右上の組は左下と逆向きに回す
+    gt.querySelectorAll('g[data-r]').forEach(g => {
+      g.setAttribute('transform', 'rotate(' + (s * a * +g.dataset.r).toFixed(1) + ' ' + g.dataset.cx + ' ' + g.dataset.cy + ')');
+    });
+  });
+}
+function _brNixieTween(el, from, to, done) {
+  const fig = _brGearsOn(el);
+  const base = (fig && fig._brGa) || 0, per = BR_NX_DEG[el.id];
+  const n = String(Math.round(Math.max(Math.abs(from), Math.abs(to)))).length;
+  let html = '';
+  for (let k = n - 1; k >= 0; k--) {
+    html += '<span class="br-nx" data-k="' + k + '"> </span>';
+    if (k % 3 === 0 && k > 0) html += '<span class="br-nx-sep">,</span>';
+  }
+  el.innerHTML = html;
+  const tubes = Array.from(el.querySelectorAll('.br-nx'));
+  let lastTens = null, fin = false;
+  const frame = v => {
+    if (fig) _brGearsSpin(fig, base + (v - from) * per);
+    const s = String(Math.round(v));
+    tubes.forEach(t => {
+      const k = +t.dataset.k, ch = k < s.length ? s[s.length - 1 - k] : ' ';
+      if (t.textContent !== ch) {
+        t.textContent = ch;
+        t.classList.remove('flick'); void t.offsetWidth; t.classList.add('flick');
+      }
+    });
+    const tens = Math.floor(Math.round(v) / 10);
+    if (lastTens != null && tens !== lastTens) {
+      _liqFxPulse(el, 'br-carry', 60);
+      const tr = fig && fig.querySelector('.br-gt.tr');
+      if (tr && _fxOk()) { const r = tr.getBoundingClientRect(); MecFX.steam(r.left + r.width * .5, r.top + 4, { count: 1, w: 10, rise: 40, min: 8, max: 18, alpha: .4, vx: 30 }); }
+    }
+    lastTens = tens;
+  };
+  const finish = () => {
+    if (fin) return;
+    fin = true;
+    if (fig) _brGearsSpin(fig, base + (to - from) * per);
+    const bl = fig && fig.querySelector('.br-gt.bl');
+    if (bl && _fxOk()) { const r = bl.getBoundingClientRect(); MecFX.sparks(r.left + r.width * .3, r.top + r.height * .5, { count: 8, colors: ['#FFF3C4', '#FFA040'] }); }
+    el.textContent = _fmtN(to);
+    if (done) done();
+  };
+  // ⚠️ 非表示タブでは rAF が来ないので、時間でも必ず終える（_tweenNum と同じ約束）
+  const guard = setTimeout(finish, BR_NX_DUR + 400);
+  const t0 = performance.now();
+  (function step(t) {
+    if (fin) return;
+    const k = Math.min(1, (t - t0) / BR_NX_DUR);
+    frame(from + (to - from) * (1 - Math.pow(1 - k, 3)));
+    if (k < 1) { requestAnimationFrame(step); return; }
+    clearTimeout(guard);
+    finish();
+  })(t0);
+}
+// 止まったあとのちらつき。着地（_landHeroNumber が桁を .dg に組み直したあと）から BR_NX_IDLE_MS の間だけ。
+// 0.6〜2.4秒おきに管を1本選び、2〜5回ランダムな数字に切り替えてから元の数字へ戻す。非表示タブでは休む。
+function _brNixieIdle(el) {
+  if (!el || _reducedMotion()) return;
+  if (el._brNxIdleStop) el._brNxIdleStop();
+  const until = performance.now() + BR_NX_IDLE_MS;
+  let timer = 0, alive = true;
+  const stop = () => {
+    alive = false;
+    clearTimeout(timer);
+    if (el._brNxIdleStop === stop) el._brNxIdleStop = null;
+    el.querySelectorAll('.dg').forEach(d => {
+      if (d.dataset.real != null) { d.textContent = d.dataset.real; delete d.dataset.real; }
+      d.classList.remove('br-nx-idle', 'flick');
+    });
+  };
+  el._brNxIdleStop = stop;
+  const flick = d => { d.classList.remove('flick'); void d.offsetWidth; d.classList.add('flick'); };
+  const next = () => {
+    if (!alive) return;
+    if (performance.now() > until || !_themeIs('brass')) { stop(); return; }
+    timer = setTimeout(burst, 600 + Math.random() * 1800);
+  };
+  const burst = () => {
+    if (!alive) return;
+    if (document.hidden) { next(); return; }
+    const ds = Array.from(el.querySelectorAll('.dg')).filter(d => d.dataset.real == null && /\d/.test(d.textContent));
+    if (!ds.length) { next(); return; }
+    const d = ds[Math.floor(Math.random() * ds.length)], real = d.textContent;
+    d.dataset.real = real;
+    d.classList.add('br-nx-idle');
+    const n = 2 + Math.floor(Math.random() * 4);
+    let i = 0;
+    (function swap() {
+      if (!alive) return;
+      if (i++ < n) {
+        let r;
+        do { r = String(Math.floor(Math.random() * 10)); } while (r === real);
+        d.textContent = r; flick(d);
+        timer = setTimeout(swap, 45 + Math.random() * 50);
+      } else {
+        d.textContent = real; flick(d); d.classList.remove('br-nx-idle'); delete d.dataset.real;
+        next();
+      }
+    })();
+  };
+  timer = setTimeout(next, BR_NX_IDLE_WAIT);
 }
 
 /* ══════════ D3: レベルバー（2026-08-14）══════════
@@ -2504,7 +2648,8 @@ function _landHeroNumber(el) {
   // Liquid は「インクが満ちる」（2026-10-01 採用）。数字が輪郭だけになり、下からネオンのインクが満ちてあふれる
   if (theme === 'liquid') { _liqFxLater(d * 55 + 120, () => _lqInkFillLand(el, g)); return; }
   // Brass は「焼き入れ」（2026-10-01 採用）。数字が赤から白へ熱され、蒸気とともに冷えて真鍮色に戻る
-  if (theme === 'brass') { _liqFxLater(d * 55 + 120, () => _brQuenchLand(el, g)); return; }
+  // 焼き入れのあと、10秒の間だけニキシー管がときどきチカチカする（_brNixieIdle）
+  if (theme === 'brass') { _liqFxLater(d * 55 + 120, () => _brQuenchLand(el, g)); _brNixieIdle(el); return; }
 
   const cfg = THEME_LANDING_CONFIG[theme] || THEME_LANDING_CONFIG.aurora;
 
