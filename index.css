@@ -198,31 +198,6 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 /* ── レベルの進み（gamify パネルから移設） ── */
 .hero-lv{margin-top:var(--sp-4);max-width:34em;position:relative;}
 .hero-lv[hidden]{display:none;}
-/* ── 今日の歩み（2026-10-01・day_progress.js）：前回から／今日の定着／正答率の推移 ──
-   レベルのすぐ下の1段。3つの小さな区画を待機列と同じ暗い地に載せる（テーマの模様の上に直接文字を置かない）。
-   ⚠️ 常時アニメを置かない。中身が同じなら書き換えない（index.js の _renderHeroDay）。 */
-.hero-day{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--sp-3);max-width:34em;}
-.hero-day[hidden]{display:none;}
-.hd-cell{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px;padding:5px 9px;border-radius:4px;
-  background:rgba(0,0,0,.34);border:1px solid rgba(var(--glass-rgb),.10);}
-.hd-since{flex-basis:100%;}
-.hd-l{font-size:10.5px;font-weight:700;color:rgba(var(--glass-rgb),.8);white-space:nowrap;}
-.hd-v{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;font-size:11px;color:rgba(var(--glass-rgb),.85);
-  font-feature-settings:"tnum";}
-.hd-v b{font-size:15px;font-weight:800;color:rgba(var(--glass-rgb),1);line-height:1.1;}
-.hd-v small{font-size:10px;color:rgba(var(--glass-rgb),.75);}
-.hd-none{font-size:11px;color:rgba(var(--glass-rgb),.7);}
-.hd-chip{display:inline-flex;align-items:baseline;gap:3px;font-size:11px;font-weight:700;white-space:nowrap;}
-.hd-chip b{font-size:13.5px;}
-.hd-chip.is-good b{color:var(--gr,#22c55e);}
-.hd-chip.is-bad b{color:#fbbf24;}
-.hd-gem .hd-v b{color:#7dd3fc;}
-.hd-gem-ic{font-size:12px;}
-.hd-acc .dp-spark{width:92px;height:26px;display:block;overflow:visible;}
-.dp-spark .dp-sp-base{stroke:rgba(var(--glass-rgb),.18);stroke-width:1;}
-.dp-spark .dp-sp-line{fill:none;stroke:rgba(var(--glass-rgb),.55);stroke-width:1.5;stroke-linejoin:round;}
-.dp-spark .dp-sp-dot{fill:rgba(var(--glass-rgb),.75);}
-.dp-spark .dp-sp-dot.is-cur{fill:#38bdf8;stroke:#fff;stroke-width:1;}
 
 .hero-lv-top{display:flex;align-items:baseline;gap:var(--sp-2);min-width:0;}
 .hero-lv-t{flex-shrink:0;font-family:var(--font-display);font-size:13.5px;font-weight:800;
@@ -364,6 +339,13 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
    #heroSay は .hero-console の外（.hero-body の直下）に置き、右のゲージの下まで幅を取る。
    狭い画面（1列）では、従来どおり数字の塊のすぐ下＝ゲージより上に来るよう order で戻す。 */
 .hero-body>.hero-say{grid-column:1/-1;max-width:none;margin-top:0;}
+/* ゲージを上へ寄せる（2026-10-01「ハブへ戻ったときに待機列全体が画面に入らない」）。
+   ゲージ（最大208px）は左の数字の塊（ラベル行〜レベル）より少し背が高く、中央揃えだと1段目の高さを
+   ゲージが決めて待機列を押し下げていた。上揃えにしてヒーローの上の余白（32px）へ20pxはみ出させる＝
+   1段目の高さを数字の塊に合わせる。⚠️ 1列（≤560px）ではゲージは待機列の下に回るので触らない。 */
+@media (min-width:561px){
+  .hero-body>.gauge{align-self:start;margin-top:-20px;}
+}
 @media (max-width:560px){
   .hero-body>.hero-console{order:0;}
   .hero-body>.hero-say{order:1;}
@@ -438,6 +420,81 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 /* 今日の復習の減り方（2026-10-01・day_progress.js）：横幅いっぱいの段。右下がりの階段＋目標の高さの点線。
    ⚠️ 常時アニメを置かない（renderHero は同期のたびに innerHTML を差し替える）。 */
 .srs-viz-bn{grid-column:1/-1;}
+
+/* ── 待機列の演出（2026-10-01・デモ _work/protocol_fx_demo.html の A・C・D 案・index.js の _paintSay）──
+   A .srs-intro … ページを開いて最初に描いたときの組み上がり（一回きり・約1.6秒）
+   C .srs-alarm.lv-* … 状態に応じた警報（回数の決まった脈・約3秒）
+   D .is-changed / .sfx-chip / .sv-ghost … 前回の値から今の値へ（長さは下の transition で動く）
+   ⚠️ どれも常時アニメにしない（クラスは JS が数秒で外す）。⚠️ 動かすのは translate / scale（transform を使わない）。 */
+.srs-viz-ring .vr-fill{transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1),stroke .4s;}
+.sv-track i{transition:width 1s cubic-bezier(.2,.8,.2,1);}
+.srs-risk-bar span{transition:flex-grow 1s cubic-bezier(.2,.8,.2,1);}
+.sfx{position:relative;}
+.sfx.is-changed{animation:sayChanged 1.2s ease-out;}
+@keyframes sayChanged{25%{text-shadow:0 0 10px currentColor;}}
+.sfx-chip{position:absolute;left:50%;bottom:100%;translate:-50% 0;z-index:5;pointer-events:none;white-space:nowrap;
+  font-size:11px;font-weight:800;line-height:1.3;padding:0 6px;border-radius:9px;text-shadow:none;
+  animation:sayChip 1.6s cubic-bezier(.2,.8,.2,1) forwards;}
+.sfx-chip.is-good{background:rgba(34,197,94,.92);color:#04230e;}
+.sfx-chip.is-bad{background:rgba(251,191,36,.92);color:#2a1a00;}
+@keyframes sayChip{0%{opacity:0;translate:-50% 6px;}15%{opacity:1;translate:-50% -2px;}75%{opacity:1;translate:-50% -10px;}100%{opacity:0;translate:-50% -16px;}}
+.sv-track{position:relative;}
+.sv-ghost{position:absolute;top:0;bottom:0;border-radius:2px;background:rgba(56,189,248,.85);pointer-events:none;
+  animation:sayGhost 1.4s ease-out forwards;}
+@keyframes sayGhost{to{opacity:0;translate:6px 0;}}
+/* A 起動シーケンス */
+.srs-intro .srs-card-stat,.srs-intro .srs-viz>*{animation:sayIn .42s cubic-bezier(.2,.8,.2,1) both;}
+.srs-intro .srs-viz>:nth-child(2){animation-delay:.08s;}
+.srs-intro .srs-viz>:nth-child(3){animation-delay:.16s;}
+.srs-intro .srs-viz>:nth-child(4){animation-delay:.24s;}
+@keyframes sayIn{from{opacity:0;translate:0 8px;}}
+.srs-intro .srs-risk-bar span{transform-origin:left;animation:sayGrowX .7s cubic-bezier(.2,.8,.2,1) .25s both;}
+@keyframes sayGrowX{from{scale:0 1;}}
+.srs-intro .vr-fill{animation:sayRing 1.1s cubic-bezier(.2,.8,.2,1) .35s both;}
+@keyframes sayRing{from{stroke-dashoffset:251.33;}}   /* ＝2π×40（_srsVizHtml の ringR） */
+.srs-intro .fb-today{animation:sayPop .5s cubic-bezier(.3,1.6,.5,1) .45s both;}
+@keyframes sayPop{from{scale:.6;opacity:0;}}
+.srs-intro .fb-bar{transform-origin:bottom;animation:sayGrowY .5s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes sayGrowY{from{scale:1 0;}}
+.srs-intro .fb-n{animation:sayFade .3s .9s both;}
+@keyframes sayFade{from{opacity:0;}}
+.srs-intro .sv-track i{transform-origin:left;animation:sayGrowX .55s cubic-bezier(.2,.8,.2,1) both;}
+.srs-intro .fb-col:nth-child(1) .fb-bar{animation-delay:0.50s;}
+.srs-intro .fb-col:nth-child(2) .fb-bar{animation-delay:0.55s;}
+.srs-intro .fb-col:nth-child(3) .fb-bar{animation-delay:0.59s;}
+.srs-intro .fb-col:nth-child(4) .fb-bar{animation-delay:0.64s;}
+.srs-intro .fb-col:nth-child(5) .fb-bar{animation-delay:0.68s;}
+.srs-intro .fb-col:nth-child(6) .fb-bar{animation-delay:0.72s;}
+.srs-intro .fb-col:nth-child(7) .fb-bar{animation-delay:0.77s;}
+.srs-intro .fb-col:nth-child(8) .fb-bar{animation-delay:0.81s;}
+.srs-intro .fb-col:nth-child(9) .fb-bar{animation-delay:0.86s;}
+.srs-intro .fb-col:nth-child(10) .fb-bar{animation-delay:0.91s;}
+.srs-intro .fb-col:nth-child(11) .fb-bar{animation-delay:0.95s;}
+.srs-intro .fb-col:nth-child(12) .fb-bar{animation-delay:0.99s;}
+.srs-intro .fb-col:nth-child(13) .fb-bar{animation-delay:1.04s;}
+.srs-intro .sv-sr:nth-child(2) .sv-track i{animation-delay:0.60s;}
+.srs-intro .sv-sr:nth-child(3) .sv-track i{animation-delay:0.67s;}
+.srs-intro .sv-sr:nth-child(4) .sv-track i{animation-delay:0.74s;}
+.srs-intro .sv-sr:nth-child(5) .sv-track i{animation-delay:0.81s;}
+.srs-intro .sv-sr:nth-child(6) .sv-track i{animation-delay:0.88s;}
+/* C 状態に応じた警報（強さは待機列の状態で決まる）*/
+.srs-alarm .srs-risk-pill.risk-high{animation:sayPulseR .9s ease-out 3;}
+@keyframes sayPulseR{from{box-shadow:0 0 0 0 rgba(239,68,68,.75);}to{box-shadow:0 0 0 7px rgba(239,68,68,0);}}
+.srs-alarm .srs-risk-pill.risk-high .srs-pi{animation:srsIcSway 1.1s ease-in-out 2;}
+.srs-alarm.lv-caution .srs-risk-pill.risk-mid{animation:sayPulseY 1.1s ease-out 2;}
+@keyframes sayPulseY{from{box-shadow:0 0 0 0 rgba(245,158,11,.7);}to{box-shadow:0 0 0 6px rgba(245,158,11,0);}}
+.srs-alarm.lv-calm .srs-risk-pill.risk-due{animation:sayPulseB 1.4s ease-out 1;}
+@keyframes sayPulseB{from{box-shadow:0 0 0 0 rgba(59,130,246,.6);}to{box-shadow:0 0 0 6px rgba(59,130,246,0);}}
+.srs-alarm .srs-stat-late.is-bad .srs-stat-val b{animation:sayBlink .5s steps(1) 4;}
+@keyframes sayBlink{50%{color:#fff;text-shadow:0 0 8px #ef4444;}}
+.srs-alarm.lv-alarm .fb-today{position:relative;overflow:hidden;}
+.srs-alarm.lv-alarm .fb-today::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:repeating-linear-gradient(-45deg,rgba(239,68,68,.55) 0 6px,transparent 6px 12px) 0 0/34px 34px;
+  animation:sayHazard 1.8s linear;}
+@keyframes sayHazard{0%{opacity:0;background-position:0 0;}15%,70%{opacity:1;}100%{opacity:0;background-position:68px 0;}}
+.srs-alarm.lv-alarm .srs-risk-bar .rb-high{animation:sayBarFlash .45s steps(1) 4;}
+@keyframes sayBarFlash{50%{filter:brightness(2.2);}}
+
 .srs-viz-bn .dp-burn{display:block;width:100%;height:56px;}
 .dp-burn .dp-bn-area{fill:rgba(56,189,248,.16);}
 .dp-burn .dp-bn-line{fill:none;stroke:#38bdf8;stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;}

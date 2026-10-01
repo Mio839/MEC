@@ -75,7 +75,9 @@ ok(/あと <b>80<\/b>問/.test(D.summaryHtml({ sess: 'B' })), '未達なら「�
 // [6] 定数の一致と配線
 const IDX = read('index.js');
 ok(new RegExp('const SRS_DAILY_TARGET = ' + D.SRS_TARGET + ';').test(IDX), 'index.js の SRS_DAILY_TARGET と MecDay.SRS_TARGET が一致');
-ok(/_srsVizHtml\(srsDoneToday, srsGoal, fc, due, burn\)/.test(IDX) && /_renderHeroDay\(td, due\)/.test(IDX), 'ハブが減り方と今日の歩みを描く');
+ok(/_srsVizHtml\(srsDoneToday, srsGoal, fc, due, burn\)/.test(IDX), 'ハブが減り方を描く');
+// 今日の歩み（#heroDay）は 2026-10-01 に撤去（待機列を画面に収めるため・ユーザー判断）
+ok(!/_renderHeroDay|id="heroDay"/.test(IDX + read('index.html')), '今日の歩み（#heroDay）を戻さない');
 ok(/if \(document\.visibilityState === 'hidden'\) _saveSince\(\)/.test(IDX) && !/^_saveSince\(\);/m.test(IDX), '前回の値は離れるときだけ書く（開いた瞬間に書かない）');
 const HTML = read('study.html');
 ok(/<script src="day_progress\.js"><\/script>/.test(HTML) && /<script src="day_progress\.js"><\/script>/.test(read('index.html')), 'study.html と index.html が day_progress.js を読む');

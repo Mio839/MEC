@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja" class="ui-aurora">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>待機列の演出 5案</title>
+<!--
+  ハブ「プロトコル待機列」（index.js renderHero の #heroSay・_srsVizHtml）にアニメーション・演出を足す案を見比べるデモ（2026-10-01）。
+  カードのマークアップは 1c6db49 時点の index.js と同じ形を、架空の固定値で組み立てている（本物の関数は呼ばない）。
+  ハブの本物のテーマCSS（../theme_css/*.{テーマ}.css）を読むので、枠・色はハブと同じに見える。
+  何も保存しない（テーマの既定値だけ mec_ui_theme_v1 を読む）。テストの対象ではない。
+-->
+<link rel="stylesheet" href="../vars.css">
+<link rel="stylesheet" id="cssUi" href="../theme_css/ui_theme.aurora.css">
+<link rel="stylesheet" id="cssHub" href="../theme_css/index.aurora.css">
+<script src="../mindmap_data/index.js"></script>
+<style>
+  body{min-height:100vh;}
+  .harness{max-width:640px;margin:0 auto;padding:16px 16px 6px;color:var(--t1,#eee);font-size:13px;}
+  .harness h1{font-size:15px;margin:0 0 4px;}
+  .harness p.lead{font-size:12px;line-height:1.7;opacity:.75;margin:0 0 10px;}
+  .plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:8px;}
+  .plans button{padding:8px 9px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.28);color:inherit;font:inherit;text-align:left;cursor:pointer;}
+  .plans button b{display:block;font-size:12.5px;}
+  .plans button small{display:block;font-size:10px;opacity:.7;margin-top:2px;line-height:1.35;}
+  .plans button.on{background:rgba(255,255,255,.9);color:#111;}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;font-size:12px;}
+  .row select{font:inherit;padding:4px 6px;border-radius:6px;}
+  .row button{font:inherit;font-size:12px;padding:5px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;}
+  .row button.pri{background:var(--or,#f97316);border-color:transparent;color:#111;font-weight:700;}
+  .desc{font-size:12px;line-height:1.75;padding:9px 11px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.14);}
+  .desc b{color:var(--or,#f97316);}
+  .desc .rule{display:block;margin-top:6px;font-size:11px;opacity:.85;}
+  .desc .rule.ng{color:#fca5a5;opacity:1;}
+  .stage{max-width:680px;margin:10px auto 60px;padding:0 16px;}
+  .hero *{animation-delay:0s;}
+  /* 簡易ゲージ（本物のテーマ別ゲージは JS が要るので円だけ） */
+  .dg{width:clamp(130px,34vw,170px);text-align:center;justify-self:end;align-self:start;}
+  .dg svg{width:100%;height:auto;rotate:-90deg;display:block;}
+  .dg .t{fill:none;stroke:rgba(var(--glass-rgb),.12);stroke-width:9;}
+  .dg .f{fill:none;stroke:var(--or,#f97316);stroke-width:9;stroke-linecap:round;}
+  .dg-in{position:relative;}
+  .dg-mid{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:var(--t1,#fff);}
+  .dg-mid em{font-size:13px;font-style:normal;color:var(--ts);}
+  .dg-cap{font-size:11px;color:var(--ts);margin:4px 0 0;font-weight:700;}
+  @media (max-width:560px){ .dg{justify-self:center;} }
+
+  /* ═════ 共通 ═════ */
+  .vr-box{overflow:visible;}
+  .srs-viz-ring .vr-tick{stroke:rgba(var(--glass-rgb),.35);stroke-width:2;stroke-linecap:round;}
+  .num-chip{position:absolute;left:50%;top:-4px;translate:-50% 0;font-size:11px;font-weight:800;white-space:nowrap;
+    padding:1px 6px;border-radius:9px;pointer-events:none;z-index:5;animation:chipUp 1.5s var(--ease-out,ease-out) forwards;}
+  .num-chip.up{background:rgba(34,197,94,.9);color:#05250f;}
+  .num-chip.down{background:rgba(56,189,248,.9);color:#03202e;}
+  @keyframes chipUp{0%{opacity:0;translate:-50% 6px;}15%{opacity:1;translate:-50% -6px;}75%{opacity:1;translate:-50% -14px;}100%{opacity:0;translate:-50% -20px;}}
+  .chip-host{position:relative;}
+
+  /* ═════ A 起動シーケンス（一回きり・約1.6秒）═════ */
+  .fxA .srs-card-stat,.fxA .srs-viz>*{animation:aIn .42s var(--ease-out,ease-out) both;animation-delay:calc(var(--d,0) * 1ms);}
+  @keyframes aIn{from{opacity:.0;translate:0 8px;}}
+  .fxA .srs-risk-bar span{transform-origin:left;animation:aGrowX .7s var(--ease-out,ease-out) both;animation-delay:.25s;}
+  @keyframes aGrowX{from{scale:0 1;}}
+  .fxA .vr-fill{animation:aRing 1.1s cubic-bezier(.2,.8,.2,1) both;animation-delay:.35s;}
+  @keyframes aRing{from{stroke-dashoffset:var(--rc);}}
+  .fxA .fb-today{animation:aPop .5s cubic-bezier(.3,1.6,.5,1) both;animation-delay:.45s;}
+  @keyframes aPop{from{scale:.6;opacity:0;}}
+  .fxA .fb-bar{transform-origin:bottom;animation:aGrowY .5s var(--ease-out,ease-out) both;animation-delay:calc(.5s + var(--i) * 45ms);}
+  @keyframes aGrowY{from{scale:1 0;}}
+  .fxA .fb-n{animation:aFade .3s both;animation-delay:calc(.8s + var(--i) * 45ms);}
+  @keyframes aFade{from{opacity:0;}}
+  .fxA .sv-track i{transform-origin:left;animation:aGrowX .55s var(--ease-out,ease-out) both;animation-delay:calc(.6s + var(--i) * 70ms);}
+
+  /* ═════ B 流れる待機列（常時）═════ */
+  .fxB .srs-risk-bar{position:relative;}
+  .fxB .srs-risk-bar::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent 0,rgba(255,255,255,.85) 4%,transparent 9%) 0 0/200% 100% repeat-x;
+    animation:bFlow 2.6s linear infinite;mix-blend-mode:overlay;}
+  @keyframes bFlow{from{background-position:100% 0;}to{background-position:-100% 0;}}
+  .fxB .srs-stat-sep{display:inline-block;animation:bNudge 1.6s ease-in-out infinite;}
+  .fxB .srs-stat-sep.srs-stat-extra{animation-delay:.25s;}
+  @keyframes bNudge{0%,100%{translate:0 0;opacity:.5;}50%{translate:3px 0;opacity:1;}}
+  .fxB .fb-chart::after{content:'';position:absolute;top:13px;bottom:14px;width:18%;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);animation:bSweep 4.5s linear infinite;}
+  @keyframes bSweep{from{left:100%;}to{left:-18%;}}
+  .fxB .fb-today{position:relative;overflow:hidden;}
+  .fxB .fb-today::before{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;
+    background:repeating-linear-gradient(90deg,#f97316 0 6px,transparent 6px 10px) 0 0/20px 100%;animation:bBelt 1s linear infinite;}
+  @keyframes bBelt{to{background-position:-20px 0;}}
+  .fxB .vr-orbit{fill:none;stroke:rgba(255,255,255,.9);stroke-width:8;stroke-linecap:round;stroke-dasharray:1.5 300;
+    animation:bOrbit 6s linear infinite;filter:drop-shadow(0 0 3px #fff);}
+  @keyframes bOrbit{from{stroke-dashoffset:0;}to{stroke-dashoffset:-251.33;}}
+
+  /* ═════ C 状態に応じた警報（回数が決まった反復）═════ */
+  .fxC .srs-risk-pill.risk-high{animation:cPulseR .9s ease-out 3 both;}
+  @keyframes cPulseR{0%{box-shadow:0 0 0 0 rgba(239,68,68,.75);}100%{box-shadow:0 0 0 7px rgba(239,68,68,0);}}
+  .fxC .srs-risk-pill.risk-high .srs-pi{animation:srsIcSway 1.1s ease-in-out 2;}
+  .fxC.lv-caution .srs-risk-pill.risk-mid{animation:cPulseY 1.1s ease-out 2 both;}
+  @keyframes cPulseY{0%{box-shadow:0 0 0 0 rgba(245,158,11,.7);}100%{box-shadow:0 0 0 6px rgba(245,158,11,0);}}
+  .fxC.lv-calm .srs-risk-pill.risk-due{animation:cPulseB 1.4s ease-out 1 both;}
+  @keyframes cPulseB{0%{box-shadow:0 0 0 0 rgba(59,130,246,.6);}100%{box-shadow:0 0 0 6px rgba(59,130,246,0);}}
+  .fxC .srs-stat-late.is-bad .srs-stat-val b{animation:cBlink .5s steps(1) 4;}
+  .srs-stat-late.is-bad .srs-stat-val b{color:#f87171;}
+  @keyframes cBlink{50%{color:#fff;text-shadow:0 0 8px #ef4444;}}
+  .fxC.lv-alarm .fb-today{position:relative;overflow:hidden;}
+  .fxC.lv-alarm .fb-today::after{content:'';position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(-45deg,rgba(239,68,68,.55) 0 6px,transparent 6px 12px) 0 0/34px 34px;
+    animation:cHazard 1.8s linear both;}
+  @keyframes cHazard{0%{opacity:0;background-position:0 0;}15%{opacity:1;}70%{opacity:1;}100%{opacity:0;background-position:68px 0;}}
+  .fxC.lv-alarm .srs-risk-bar .rb-high{animation:cBarFlash .45s steps(1) 4;}
+  @keyframes cBarFlash{50%{filter:brightness(2.2);}}
+  .fxC.lv-alarm .srs-risk-bar{animation:cBarH .9s ease-out both;}
+  @keyframes cBarH{0%{height:3px;}30%{height:6px;}100%{height:3px;}}
+  .fxC .sv-sr.is-hot b{color:#f87171;}
+  .fxC.lv-alarm .sv-sr.is-hot .sv-sn::before{content:'🔥';font-size:9px;margin-right:2px;}
+
+  /* ═════ D 前回からの差分（値が変わったときだけ）═════ */
+  .fxD .vr-fill{transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1),stroke .4s;}
+  .fxD .sv-track i{transition:width 1s cubic-bezier(.2,.8,.2,1);}
+  .fxD .srs-risk-bar span{transition:flex-grow 1s cubic-bezier(.2,.8,.2,1);}
+  .fxD .fb-today{transition:background .4s;}
+  .fxD .is-changed{animation:dFlash 1.2s ease-out;}
+  @keyframes dFlash{0%{text-shadow:0 0 0 transparent;}25%{text-shadow:0 0 10px currentColor;}100%{text-shadow:0 0 0 transparent;}}
+  .fxD .sv-track{position:relative;overflow:visible;}
+  .fxD .sv-ghost{position:absolute;top:0;bottom:0;border-radius:2px;background:rgba(56,189,248,.85);animation:dGhost 1.3s ease-out forwards;}
+  @keyframes dGhost{0%{opacity:1;}100%{opacity:0;translate:6px 0;}}
+
+  /* ═════ E 節目の祝砲（目標の 25/50/75/100% を越えた瞬間だけ）═════ */
+  .fxE .vr-fill{transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1),stroke .5s;}
+  .fxE .vr-tick.on{stroke:var(--or,#f97316);}
+  .fxE .is-ok .vr-tick.on{stroke:var(--gr,#22c55e);}
+  .fxE .vr-tick.hit{animation:eTick .9s ease-out;}
+  @keyframes eTick{0%{stroke-width:2;}30%{stroke-width:5;stroke:#fff;}100%{stroke-width:2;}}
+  .fxE .vr-sweep{fill:none;stroke:#fff;stroke-width:8;stroke-linecap:round;stroke-dasharray:10 600;opacity:0;filter:drop-shadow(0 0 4px #fff);}
+  .fxE .vr-sweep.go{animation:eSweep 1s cubic-bezier(.3,.6,.3,1) both;}
+  @keyframes eSweep{0%{opacity:1;stroke-dashoffset:10;}85%{opacity:1;}100%{opacity:0;stroke-dashoffset:var(--to);}}
+  .fxE .ms-badge{position:absolute;left:50%;top:-10px;translate:-50% 0;z-index:6;white-space:nowrap;font-size:11px;font-weight:800;
+    padding:2px 8px;border-radius:10px;background:var(--or,#f97316);color:#1a0d00;animation:eBadge 1.8s ease-out forwards;pointer-events:none;}
+  .fxE .ms-badge.gold{background:var(--gr,#22c55e);color:#03200e;}
+  @keyframes eBadge{0%{opacity:0;scale:.5;}15%{opacity:1;scale:1.12;}25%{scale:1;}80%{opacity:1;}100%{opacity:0;translate:-50% -8px;}}
+  .fxE .ring-wave{position:absolute;inset:6px;border-radius:50%;border:3px solid var(--gr,#22c55e);pointer-events:none;animation:eWave 1.1s ease-out forwards;}
+  .fxE .ring-wave.w2{animation-delay:.18s;opacity:0;}
+  @keyframes eWave{0%{opacity:1;scale:1;}100%{opacity:0;scale:1.9;}}
+  .fxE .spark{position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px;border-radius:50%;pointer-events:none;
+    background:var(--c,#fde047);box-shadow:0 0 6px var(--c,#fde047);animation:eSpark 1s cubic-bezier(.1,.7,.3,1) forwards;}
+  @keyframes eSpark{0%{translate:0 0;opacity:1;scale:1;}100%{translate:calc(cos(var(--a)) * 62px) calc(sin(var(--a)) * 62px);opacity:0;scale:.3;}}
+  .fxE .srs-viz-ring.stamped::after{content:'目標達成';position:absolute;left:50%;top:44%;translate:-50% -50%;rotate:-12deg;
+    font-size:15px;font-weight:900;letter-spacing:.08em;color:var(--gr,#22c55e);border:2px solid var(--gr,#22c55e);border-radius:5px;
+    padding:1px 6px;background:rgba(0,0,0,.55);animation:eStamp .5s cubic-bezier(.3,1.5,.5,1) both;z-index:5;}
+  @keyframes eStamp{from{scale:2.4;opacity:0;}}
+  .fxE .srs-stat-cell.is-ok .srs-stat-val{color:var(--gr,#22c55e);}
+  .fxE .srs-stat-cell.pop{animation:aPop .5s cubic-bezier(.3,1.6,.5,1);}
+</style>
+</head>
+<body>
+<div class="harness">
+  <h1>プロトコル待機列の演出：5案</h1>
+  <p class="lead">カードは現行（1c6db49）と同じ形を本物のテーマCSSで描いています。数字はすべて架空です。案を選び、下のボタンで再生・操作してください。テーマも切り替えられます。</p>
+  <div class="plans" id="plans"></div>
+  <div class="row">テーマ <select id="theme"></select><span id="ctl" style="display:contents"></span></div>
+  <div class="desc" id="desc"></div>
+</div>
+<div class="stage"><section class="hero" id="hero"></section></div>
+
+<script>
+// ── 状態（復習待ちは忘却リスク順＝超危険→期限切れ→本日 の順に先頭から出題される）──
+const BASE = {
+  done: 38, high: 30, mid: 48, today: 64, maxLate: 12, newToday: 12, newCap: 100,
+  fut: [64, 88, 41, 52, 132, 30, 77, 95, 60, 45, 18, 29, 70],
+  subj: [['hema',24],['endo',21],['obg',19],['circ',17],['resp',15],['neur',13],['dige',11],['kansen',9],['peds',7],['kakumon',6]],
+};
+const clone = s => JSON.parse(JSON.stringify(s));
+let S = clone(BASE);
+// E は目標（上限200問）より復習待ちが多い日＝達成しても待ちが残る日にする
+const BASE_E = Object.assign(clone(BASE), { today: 164 });
+const SESSION = 50, TARGET = 200;
+const derive = s => {
+  const due = s.high + s.mid + s.today, goal = Math.min(TARGET, s.done + due), session = Math.min(due, SESSION);
+  const ph = Math.min(s.high, session), pm = Math.min(s.mid, session - ph), pt = session - ph - pm;
+  return { due, goal, session, ph, pm, pt, late: s.high + s.mid };
+};
+// k問解く（先頭から＝超危険→期限切れ→本日）。科目は多い順に1問ずつ減らす
+function solve(s, k) {
+  s = clone(s);
+  for (let i = 0; i < k; i++) {
+    if (s.high + s.mid + s.today === 0) break;
+    if (s.high) s.high--; else if (s.mid) s.mid--; else s.today--;
+    s.done++;
+    s.subj.sort((a, b) => b[1] - a[1]); if (s.subj[0][1] > 0) s.subj[0][1]--;
+  }
+  if (s.high === 0 && s.maxLate > 6) s.maxLate = 5;
+  if (s.high + s.mid === 0) s.maxLate = 0;
+  return s;
+}
+
+const SUBJ = {}; (window.MM_SUBJECTS || []).forEach(x => SUBJ[x.sid] = x);
+const sName = sid => sid === 'kakumon' ? '国試過去問' : (SUBJ[sid] ? SUBJ[sid].label : sid);
+const sColor = sid => SUBJ[sid] ? SUBJ[sid].color : '#8a8fa3';
+const n = v => Number(v).toLocaleString('ja-JP');
+const K = (k, v) => '<span data-k="' + k + '" data-v="' + v + '">' + n(v) + '</span>';
+const TODAY = new Date('2026-10-01T00:00:00+09:00');
+const dom = off => new Date(TODAY.getTime() + off * 86400000).getDate();
+const RING_R = 40, RING_C = 2 * Math.PI * RING_R;
+
+// ── ハブと同じ部品（コンソール・ゲージ・ボタン）──
+function consoleHtml() {
+  return '<div class="hero-console">' +
+    '<p class="hero-label"><span class="hero-live" aria-hidden="true"></span><span class="lb">今日解いた問題</span>' +
+      '<span class="hero-label-meta"><span class="hero-date">2026年10月1日(木)</span>' +
+      '<span class="exam-countdown"><span class="cd-lbl">国試まで</span><b class="cd-num">129</b><span class="cd-unit">日</span></span></span></p>' +
+    '<div class="hero-stat-row"><p class="hero-fig"><span class="hero-num">86</span><span class="hero-unit">問</span></p>' +
+      '<p class="hero-xp"><span>+1,240</span><em>XP</em></p></div>' +
+    '<div class="hero-lv"><div class="hero-lv-top"><span class="hero-lv-t">Lv.<b>17</b></span><span class="hero-lv-ti">研修医</span>' +
+      '<span class="hero-lv-n">次のレベルまで <b>350</b> XP</span></div><span class="hero-lv-bar"><span style="width:62%"></span></span></div></div>';
+}
+function gaugeHtml() {
+  const C = 2 * Math.PI * 54;
+  return '<div class="dg"><div class="dg-in"><svg viewBox="0 0 128 128"><circle class="t" cx="64" cy="64" r="54"/>' +
+    '<circle class="f" cx="64" cy="64" r="54" stroke-dasharray="' + C + '" stroke-dashoffset="' + C * (1 - .86) + '"/></svg>' +
+    '<span class="dg-mid">86<em>%</em></span></div><p class="dg-cap">今日の目標</p></div>';
+}
+const ctaHtml = () => '<div class="hero-cta"><a class="cta-main" data-fx="srs">♾️ 定着プロトコル</a>' +
+  '<a class="cta-sub" data-fx="browse">📚 全科目から選ぶ →</a><a class="cta-sub cta-redo" data-fx="redo">🔁 今日の誤答 12問を再履修</a></div>';
+
+// ── 待機列カード（index.js renderHero ＋ _srsVizHtml と同じ形）──
+function cardHtml(s, opt) {
+  opt = opt || {};
+  const d = derive(s);
+  const ok = d.goal > 0 && s.done >= d.goal, ratio = d.goal ? Math.min(1, s.done / d.goal) : 0;
+  const hdr =
+    '<span class="srs-deco" aria-hidden="true"></span>' +
+    '<div class="srs-card-hdr"><div class="srs-card-title-grp"><span class="srs-card-ttl"><span class="srs-ttl-ic">♾️</span>プロトコル待機列</span>' +
+      '<span class="srs-tag srs-tag-cross">科目横断</span><span class="srs-tag srs-tag-risk">忘却リスク順</span></div>' +
+      '<div class="srs-card-counts"><div class="srs-card-today">本日消化 <b class="chip-host">' + K('done', s.done) + '</b><span class="srs-goal">/ ' + n(d.goal) + '</span>' +
+        (ok ? '<span class="srs-goal-ok">✓</span>' : '') + '問</div>' +
+      '<div class="srs-card-new">新規 <b>' + s.newToday + '</b><span class="srs-goal">/ ' + s.newCap + '</span>問</div></div></div>';
+  const pill = (cls, ic, lb, v, k) => '<span class="srs-risk-pill ' + cls + (v === 0 ? ' is-zero' : '') + '"><span class="srs-pi">' + ic + '</span> ' + lb + ' <b>' + K(k, v) + '</b></span>';
+  const stat =
+    '<div class="srs-card-stat" style="--d:0">' +
+      '<div class="srs-stat-cell"><span class="srs-stat-lbl">復習待ち</span><span class="srs-stat-val"><b class="chip-host">' + K('due', d.due) + '</b><small>問</small></span></div>' +
+      '<span class="srs-stat-sep">➔</span>' +
+      '<div class="srs-stat-cell highlight"><span class="srs-stat-lbl">今回の出題</span><span class="srs-stat-val"><b>優先 ' + K('session', d.session) + '</b><small>問</small></span></div>' +
+      '<span class="srs-stat-sep srs-stat-extra">➔</span>' +
+      '<div class="srs-stat-cell srs-stat-extra"><span class="srs-stat-lbl">終わると残り</span><span class="srs-stat-val"><b>' + K('rest', d.due - d.session) + '</b><small>問</small></span></div>' +
+      '<span class="srs-stat-divider srs-stat-extra"></span>' +
+      '<div class="srs-stat-cell srs-stat-extra srs-goal-cell' + (ok ? ' is-ok' : '') + '"><span class="srs-stat-lbl">目標まで</span>' +
+        (ok ? '<span class="srs-stat-val"><b>達成</b><small>✓</small></span>'
+            : '<span class="srs-stat-val"><small>あと</small><b>' + K('left', d.goal - s.done) + '</b><small>問</small></span>') + '</div>' +
+      '<div class="srs-stat-cell srs-stat-extra srs-stat-late' + (s.maxLate >= 7 ? ' is-bad' : '') + '"><span class="srs-stat-lbl">最大の遅れ</span><span class="srs-stat-val"><b>' + K('maxLate', s.maxLate) + '</b><small>日</small></span></div>' +
+      '<span class="srs-stat-divider"></span>' +
+      '<div class="srs-stat-cell srs-risk-cell"><span class="srs-stat-lbl">忘却リスク内訳</span><div class="srs-risk-pills">' +
+        pill('risk-high', '🔥', '超危険', d.ph, 'ph') + pill('risk-mid', '⚠️', '期限切れ', d.pm, 'pm') + pill('risk-due', '📅', '本日', d.pt, 'pt') +
+      '</div></div></div>' +
+    '<div class="srs-risk-bar"><span class="rb-high" data-sk="fh" style="flex:' + d.ph + '"></span><span class="rb-mid" data-sk="fm" style="flex:' + d.pm + '"></span><span class="rb-due" data-sk="ft" style="flex:' + d.pt + '"></span></div>';
+
+  // リング
+  const tick = f => { const a = 2 * Math.PI * f, c = Math.cos(a), si = Math.sin(a);
+    return '<line class="vr-tick' + (ratio >= f ? ' on' : '') + '" data-f="' + f + '" x1="' + (46 + 34 * c).toFixed(1) + '" y1="' + (46 + 34 * si).toFixed(1) + '" x2="' + (46 + 46 * c).toFixed(1) + '" y2="' + (46 + 46 * si).toFixed(1) + '"/>'; };
+  const off = RING_C * (1 - ratio);
+  const ring =
+    '<div class="srs-viz-ring' + (ok ? ' is-ok' : '') + '" style="--d:80"><span class="vr-box"><svg viewBox="0 0 92 92" aria-hidden="true">' +
+      '<circle class="vr-track" cx="46" cy="46" r="' + RING_R + '"></circle>' +
+      '<circle class="vr-fill" data-sk="ring" cx="46" cy="46" r="' + RING_R + '" stroke-dasharray="' + RING_C.toFixed(2) + '" stroke-dashoffset="' + off.toFixed(2) + '" style="--rc:' + RING_C.toFixed(2) + '"></circle>' +
+      (opt.orbit ? '<circle class="vr-orbit" cx="46" cy="46" r="' + RING_R + '"></circle>' : '') +
+      (opt.ticks ? tick(.25) + tick(.5) + tick(.75) + '<circle class="vr-sweep" cx="46" cy="46" r="' + RING_R + '"></circle>' : '') +
+      '</svg><span class="vr-mid"><b>' + K('done2', s.done) + '</b><small>/ ' + n(d.goal) + '問</small></span></span>' +
+      '<span class="srs-viz-cap">本日消化 <b>' + K('pct', Math.round(ratio * 100)) + '%</b></span></div>';
+
+  // 14日の予定
+  const fut = s.fut, top = Math.max(1, ...fut);
+  let mxI = 0, mnI = 0; fut.forEach((v, i) => { if (v > fut[mxI]) mxI = i; if (v < fut[mnI]) mnI = i; });
+  const cols = fut.map((v, i) => '<div class="fb-col" style="--i:' + i + '"><span class="fb-n">' + ((i === 0 || i === mxI || i === mnI) ? n(v) : '') + '</span>' +
+    '<div class="fb-slot"><span class="fb-bar' + (i === mxI ? ' is-peak' : '') + '" style="height:' + (v / top * 100).toFixed(1) + '%"></span></div>' +
+    '<span class="fb-lbl">' + (i % 2 === 0 ? dom(i + 1) : '') + '</span></div>').join('');
+  const fc =
+    '<div class="srs-viz-fc srs-viz-pane" style="--d:160"><div class="srs-viz-hd"><span class="srs-viz-t">今後14日の予定</span></div>' +
+    '<div class="fb-wrap"><div class="fb-today' + (d.due === 0 ? ' is-clear' : '') + '"><span class="fbt-l">今日</span><b class="chip-host">' + K('today0', d.due) + '</b>' +
+      (d.late > 0 ? '<small>期限切れ ' + K('late', d.late) + '</small>' : '<small>問</small>') + '</div><div class="fb-chart">' + cols + '</div></div></div>';
+
+  // 科目別
+  const sub = s.subj.filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+  const mx = (sub[0] || [0, 1])[1] || 1, top5 = sub.slice(0, 5), restL = sub.slice(5), rest = restL.reduce((a, x) => a + x[1], 0);
+  const hot = opt.hot || {};
+  const rows = top5.map((x, i) => '<div class="sv-sr' + (hot[x[0]] ? ' is-hot' : '') + '" style="--i:' + i + '"><span class="sv-sn">' + sName(x[0]) + '</span>' +
+      '<span class="sv-track"><i data-sk="sv-' + x[0] + '" style="width:' + (x[1] / mx * 100).toFixed(1) + '%;background:' + sColor(x[0]) + '"></i></span><b>' + K('s-' + x[0], x[1]) + '</b></div>').join('') +
+    (rest > 0 ? '<div class="sv-sr is-rest"><span class="sv-sn">ほか' + restL.length + '科目</span><span></span><b>' + K('rest-s', rest) + '</b></div>' : '');
+  const sb = '<div class="srs-viz-sb srs-viz-pane" style="--d:240"><div class="srs-viz-hd"><span class="srs-viz-t">科目別の復習待ち</span><span class="srs-viz-note"><b>' + sub.length + '</b>科目</span></div>' + rows + '</div>';
+
+  return '<div class="hero-say srs-card">' + hdr + stat + '<div class="srs-viz">' + ring + fc + sb + '</div></div>';
+}
+
+// ── 道具：数字のカウント（rAF ＋ setTimeout の落とし所）──
+function tween(el, from, to, dur) {
+  if (from === to) { el.textContent = n(to); return; }
+  const t0 = performance.now(); let done = false;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const step = now => { if (done) return; const t = Math.min(1, (now - t0) / dur);
+    el.textContent = n(Math.round(from + (to - from) * ease(t))); if (t < 1) requestAnimationFrame(step); else done = true; };
+  requestAnimationFrame(step);
+  setTimeout(() => { if (!done) { done = true; el.textContent = n(to); } }, dur + 400);   // 非表示タブ対策
+}
+const twoFrames = fn => { let ran = false; const go = () => { if (!ran) { ran = true; fn(); } };
+  requestAnimationFrame(() => requestAnimationFrame(go)); setTimeout(go, 120); };
+function chip(host, txt, cls) { if (!host) return; const c = document.createElement('span'); c.className = 'num-chip ' + cls; c.textContent = txt; host.appendChild(c); setTimeout(() => c.remove(), 1600); }
+
+const hero = document.getElementById('hero');
+function paint(cls, s, opt) {
+  hero.className = 'hero ' + (cls || '');
+  hero.innerHTML = '<div class="hero-body">' + consoleHtml() + gaugeHtml() + cardHtml(s, opt) + '</div>' + ctaHtml();
+}
+// 前の状態 a から今の状態 b へ：数字はカウント・幅/長さはトランジション
+function morph(a, b, opt) {
+  const tpl = document.createElement('div');
+  tpl.innerHTML = cardHtml(b, opt);
+  const curK = {}; tpl.querySelectorAll('[data-k]').forEach(e => curK[e.dataset.k] = +e.dataset.v);
+  const curS = {}; tpl.querySelectorAll('[data-sk]').forEach(e => curS[e.dataset.sk] = e);
+  hero.querySelectorAll('[data-k]').forEach(e => {
+    const k = e.dataset.k; if (!(k in curK)) return;
+    const from = +e.dataset.v, to = curK[k];
+    if (from !== to) { tween(e, from, to, 900); e.closest('b')?.classList.add('is-changed'); }
+    e.dataset.v = to;
+  });
+  hero.querySelectorAll('[data-sk]').forEach(e => {
+    const t = curS[e.dataset.sk];
+    if (!t) { if (e.tagName === 'I') e.style.width = '0%'; return; }
+    if (e.tagName === 'circle') e.setAttribute('stroke-dashoffset', t.getAttribute('stroke-dashoffset'));
+    else if (e.style.flex) e.style.flex = t.style.flex;
+    else e.style.width = t.style.width;
+  });
+}
+
+// ═════ 各案 ═════
+const PLANS = [
+  { id: 'A', name: 'A 起動シーケンス', sub: '一回きり・約1.6秒で組み上がる',
+    desc: 'ハブを開いた瞬間に、待機列が<b>下から組み上がる</b>一回きりの演出。数字が0から数え上がり、リスク帯が左から満ち、リングが描かれ、「今日」の箱がポンと出て、14日の棒が左から順に伸び、科目の横棒が上から順に伸びる。終わったら完全に静止する。' +
+      '<span class="rule">現行の規則（常時アニメなし）のまま入れられる。ただし renderHero は同期のたびに innerHTML を差し替えるので、「今日の所見」と同じく<b>中身が同じなら書き換えない</b>ガードが要る（無いと同期のたびに再生される）。</span>',
+    ctl: [['▶ もう一度再生', () => runA()]], run: () => runA() },
+  { id: 'B', name: 'B 流れる待機列', sub: '常時・控えめに列が前へ進む',
+    desc: '待機列を<b>コンベア</b>に見立て、常に静かに流れ続ける。リスク帯の中を光が右→左（出題の先頭側）へ流れ、「➔」がゆっくり押し出し、14日の予定には未来から今日へ寄ってくる光の帯、「今日」の箱の下端にベルト、リングの上を光の点が1周6秒で回る。' +
+      '<span class="rule ng">⚠️ index.css の「待機列の図に常時アニメを置かない」と衝突する。採るなら規則を改め、省電力（html.mec-lite＝iPad・スマホ）では止める必要がある。</span>',
+    ctl: [], run: () => paint('fxB', S, { orbit: true }) },
+  { id: 'C', name: 'C 状態に応じた警報', sub: '危ない日ほど強く・回数を決めて止まる',
+    desc: '演出の<b>強さを待機列の状態で決める</b>。超危険があれば🔥ピルが3回脈打ち、帯の赤が明滅し、「最大の遅れ」（7日以上）が点滅、「今日」の箱に警告ストライプが一度走り、超危険を多く抱える科目に🔥。期限切れだけなら黄色が2回だけ、予定どおりなら青が1回灯るだけ。どれも回数が決まっていて最後は止まる。' +
+      '<span class="rule">常時アニメではない（数秒で止まる）。A と同じく書き換えのガードが要る。</span>',
+    ctl: [['🔥 警報（超危険あり）', () => runC('alarm')], ['⚠️ 注意（期限切れのみ）', () => runC('caution')], ['📅 平常（本日分のみ）', () => runC('calm')]],
+    run: () => runC('alarm') },
+  { id: 'D', name: 'D 前回からの差分', sub: '解いて戻ると、減った分が動く',
+    desc: '試験から<b>ハブへ戻ってきたとき</b>だけ、前回ハブで見た値から今の値へ動かす。「本日消化」に <b>+10</b>、「復習待ち」「今日」に <b>−10</b> のチップが浮き、数字が数え下がり、リングが前の位置から伸び、科目の横棒が縮んで減った分が水色の残像になって消える。変化が無ければ何も動かない＝演出がそのまま「進んだ量」の報告になる。' +
+      '<span class="rule">前回見た値を UIローカル（同期しない）に1つ持つ必要がある。常時アニメではない。</span>',
+    ctl: [['✏️ 10問解いて戻る', () => runD(10)], ['✏️ 50問（1セッション）', () => runD(50)], ['↺ 最初に戻す', () => { S = clone(BASE); paint('fxD', S); }]],
+    run: () => { S = clone(BASE); paint('fxD', S); } },
+  { id: 'E', name: 'E 節目の祝砲', sub: '目標の25/50/75/100%を越えた瞬間だけ',
+    desc: 'リングに<b>25・50・75%の刻み</b>を入れ、節目を越えたときだけ光が弧を走って刻みが灯り、「50% 通過」の札が出る。<b>100%（目標達成）</b>ではリングが緑に変わり、波紋2重と火花が散り、「目標達成」の判が押され、「目標まで」が「達成✓」に弾む。節目を越えない日は何も起きない＝祝砲の価値を薄めない。' +
+      '<span class="rule">どの節目を祝ったかを UIローカルに日付つきで持つ（同じ節目を同期のたびに祝わない）。</span>',
+    ctl: [['✏️ +25問', () => runE(25)], ['✏️ +60問', () => runE(60)], ['🎯 目標まで一気に', () => runE(999)], ['↺ 最初に戻す', () => { S = clone(BASE_E); paint('fxE', S, { ticks: true }); }]],
+    run: () => { S = clone(BASE_E); paint('fxE', S, { ticks: true }); } },
+];
+
+function runA() {
+  S = clone(BASE);
+  paint('', S);   // クラスを外して描き直す＝アニメを頭から
+  void hero.offsetWidth;
+  hero.className = 'hero fxA';
+  hero.querySelectorAll('[data-k]').forEach(e => { const v = +e.dataset.v; e.textContent = '0'; setTimeout(() => tween(e, 0, v, 1000), 250); });
+}
+function runC(lv) {
+  const s = clone(BASE);
+  if (lv === 'caution') { s.mid += s.high; s.high = 0; s.maxLate = 4; }
+  if (lv === 'calm') { s.today += s.high + s.mid; s.high = 0; s.mid = 0; s.maxLate = 0; }
+  const hot = lv === 'alarm' ? { hema: 1, obg: 1 } : {};
+  paint('', s, { hot });
+  void hero.offsetWidth;
+  hero.className = 'hero fxC lv-' + lv;
+}
+function runD(k) {
+  const prev = S; S = solve(S, k);
+  if (hero.className.indexOf('fxD') < 0) paint('fxD', prev);
+  hero.querySelectorAll('.is-changed').forEach(e => e.classList.remove('is-changed'));
+  // 科目の減った分の残像
+  const pv = {}; prev.subj.forEach(x => pv[x[0]] = x[1]);
+  const mx = Math.max(...prev.subj.map(x => x[1]));
+  hero.querySelectorAll('.sv-track i').forEach(i => {
+    const sid = i.dataset.sk.slice(3), now = S.subj.find(x => x[0] === sid)[1], was = pv[sid];
+    if (was > now) { const g = document.createElement('span'); g.className = 'sv-ghost';
+      g.style.left = (now / mx * 100) + '%'; g.style.width = ((was - now) / mx * 100) + '%'; i.parentNode.appendChild(g); setTimeout(() => g.remove(), 1400); }
+  });
+  const dd = S.done - prev.done;
+  twoFrames(() => {
+    morph(prev, S);
+    chip(hero.querySelector('.srs-card-today b'), '+' + dd, 'up');
+    chip(hero.querySelector('.srs-stat-cell .srs-stat-val b'), '−' + dd, 'down');
+    chip(hero.querySelector('.fb-today b'), '−' + dd, 'down');
+  });
+  // 科目の並び・「達成」への切り替えなど形が変わる所は、動きが終わってから描き直す
+  setTimeout(() => { if (hero.className.indexOf('fxD') >= 0) { const keep = S; paint('fxD', keep); } }, 1500);
+}
+function runE(k) {
+  const prev = S, d0 = derive(prev);
+  const goal = d0.goal;
+  S = solve(S, k === 999 ? Math.max(0, goal - prev.done) : k);
+  const r0 = Math.min(1, prev.done / goal), r1 = Math.min(1, S.done / goal);
+  // 目標の分母は「その日の朝の値」で固定して見せる（解くと復習待ちも減るので分母は動かない）
+  const ok = S.done >= goal;
+  paint('fxE', prev, { ticks: true });
+  const ringEl = hero.querySelector('.srs-viz-ring'), fill = ringEl.querySelector('.vr-fill');
+  twoFrames(() => {
+    morph(prev, S, { ticks: true });   // リング・本日消化・復習待ちなど全部の数字を今の値へ
+    const lf = hero.querySelector('[data-k="left"]'); if (lf && ok) tween(lf, goal - prev.done, 0, 900);
+    // 越えた節目
+    const crossed = [.25, .5, .75, 1].filter(f => r0 < f && r1 >= f);
+    if (!crossed.length) return;
+    const top = crossed[crossed.length - 1];
+    setTimeout(() => {
+      crossed.forEach(f => { const t = ringEl.querySelector('.vr-tick[data-f="' + f + '"]'); if (t) { t.classList.add('on', 'hit'); } });
+      const sw = ringEl.querySelector('.vr-sweep');
+      sw.style.setProperty('--to', (-(RING_C * top - 10)).toFixed(1) + 'px');
+      sw.classList.remove('go'); void sw.getBoundingClientRect(); sw.classList.add('go');
+      const box = ringEl.querySelector('.vr-box');
+      const b = document.createElement('span'); b.className = 'ms-badge' + (top === 1 ? ' gold' : '');
+      b.textContent = top === 1 ? '🎯 目標達成' : Math.round(top * 100) + '% 通過'; box.appendChild(b); setTimeout(() => b.remove(), 1900);
+      if (top === 1 && ok) {
+        setTimeout(() => {
+          ringEl.classList.add('is-ok');
+          ['', ' w2'].forEach(w => { const r = document.createElement('span'); r.className = 'ring-wave' + w; box.appendChild(r); setTimeout(() => r.remove(), 1500); });
+          const cols = ['#fde047', '#22c55e', '#f97316', '#38bdf8'];
+          for (let i = 0; i < 16; i++) { const p = document.createElement('span'); p.className = 'spark';
+            p.style.setProperty('--a', (i * 22.5 + (i % 2) * 8) + 'deg'); p.style.setProperty('--c', cols[i % 4]); box.appendChild(p); setTimeout(() => p.remove(), 1100); }
+          setTimeout(() => { ringEl.classList.add('stamped'); }, 450);
+          const gc = hero.querySelector('.srs-goal-cell');
+          if (gc) { gc.classList.add('is-ok', 'pop'); gc.innerHTML = '<span class="srs-stat-lbl">目標まで</span><span class="srs-stat-val"><b>達成</b><small>✓</small></span>'; }
+        }, 700);
+      }
+    }, 750);
+  });
+}
+
+// ── 切り替え ──
+const THEMES = ['aurora', 'brass', 'cyber', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'];
+function show(id) {
+  const p = PLANS.find(x => x.id === id);
+  document.getElementById('desc').innerHTML = p.desc;
+  const ctl = document.getElementById('ctl');
+  ctl.innerHTML = p.ctl.map((c, i) => '<button data-i="' + i + '"' + (i === 0 ? ' class="pri"' : '') + '>' + c[0] + '</button>').join('');
+  ctl.onclick = e => { const b = e.target.closest('button'); if (b) p.ctl[+b.dataset.i][1](); };
+  document.querySelectorAll('#plans button').forEach(b => b.classList.toggle('on', b.dataset.id === id));
+  S = clone(BASE);
+  p.run();
+}
+function setTheme(t) {
+  THEMES.forEach(x => document.documentElement.classList.remove('ui-' + x));
+  document.documentElement.classList.add('ui-' + t);
+  document.getElementById('cssUi').href = '../theme_css/ui_theme.' + t + '.css';
+  document.getElementById('cssHub').href = '../theme_css/index.' + t + '.css';
+}
+document.getElementById('plans').innerHTML = PLANS.map(p => '<button data-id="' + p.id + '"><b>' + p.name + '</b><small>' + p.sub + '</small></button>').join('');
+document.getElementById('plans').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.id); });
+const sel = document.getElementById('theme');
+sel.innerHTML = THEMES.map(t => '<option>' + t + '</option>').join('');
+let t0 = 'aurora'; try { const s = localStorage.getItem('mec_ui_theme_v1'); if (THEMES.includes(s)) t0 = s; } catch (e) {}
+sel.value = t0; setTheme(t0);
+sel.addEventListener('change', () => setTheme(sel.value));
+show('A');
+</script>
+</body>
+</html>

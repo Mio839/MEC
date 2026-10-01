@@ -187,10 +187,10 @@ function _srsVizHtml(done, goal, fc, due, burn) {
     '<div class="srs-viz-ring' + (ok ? ' is-ok' : '') + '">' +
       '<span class="vr-box"><svg viewBox="0 0 92 92" aria-hidden="true">' +
         '<circle class="vr-track" cx="46" cy="46" r="' + ringR + '"></circle>' +
-        '<circle class="vr-fill" cx="46" cy="46" r="' + ringR + '" stroke-dasharray="' + ringC.toFixed(2) + '" stroke-dashoffset="' + (ringC * (1 - ratio)).toFixed(2) + '"></circle>' +
+        '<circle class="vr-fill" data-sk="ring" cx="46" cy="46" r="' + ringR + '" stroke-dasharray="' + ringC.toFixed(2) + '" stroke-dashoffset="' + (ringC * (1 - ratio)).toFixed(2) + '"></circle>' +
       '</svg>' +
-      '<span class="vr-mid"><b>' + _fmtN(done) + '</b>' + (goal > 0 ? '<small>/ ' + _fmtN(goal) + '問</small>' : '<small>問</small>') + '</span></span>' +
-      '<span class="srs-viz-cap">本日消化' + (goal > 0 ? ' <b>' + Math.round(ratio * 100) + '%</b>' : '') + '</span>' +
+      '<span class="vr-mid"><b>' + _sfx('ring', done) + '</b>' + (goal > 0 ? '<small>/ ' + _fmtN(goal) + '問</small>' : '<small>問</small>') + '</span></span>' +
+      '<span class="srs-viz-cap">本日消化' + (goal > 0 ? ' <b>' + _sfx('pct', Math.round(ratio * 100)) + '%</b>' : '') + '</span>' +
     '</div>';
 
   // 14日の予定（2026-10-01・デモ _work/forecast_demo.html の B 案「今日を切り離す」）。
@@ -212,8 +212,8 @@ function _srsVizHtml(done, goal, fc, due, burn) {
   }).join('');
   const todayBox =
     '<div class="fb-today' + (today0.n === 0 ? ' is-clear' : '') + '" title="今日が期限（期限切れ ' + _fmtN(fc.late) + '問を含む）">' +
-      '<span class="fbt-l">今日</span><b>' + _fmtN(today0.n) + '</b>' +
-      (fc.late > 0 ? '<small>期限切れ ' + _fmtN(fc.late) + '</small>' : '<small>' + (today0.n ? '問' : 'なし') + '</small>') +
+      '<span class="fbt-l">今日</span><b>' + _sfx('today0', today0.n) + '</b>' +
+      (fc.late > 0 ? '<small>期限切れ ' + _sfx('late', fc.late) + '</small>' : '<small>' + (today0.n ? '問' : 'なし') + '</small>') +
     '</div>';
   const forecast =
     '<div class="srs-viz-fc srs-viz-pane">' +
@@ -231,8 +231,8 @@ function _srsVizHtml(done, goal, fc, due, burn) {
     const rows = top5.map(x => {
       const sj = _noteSubj(x.sid);
       return '<div class="sv-sr" title="' + sj.label + ' ' + _fmtN(x.n) + '問"><span class="sv-sn">' + sj.label + '</span>' +
-        '<span class="sv-track"><i style="width:' + (x.n / mx * 100).toFixed(1) + '%;background:' + _srsSubjColor(x.sid) + '"></i></span>' +
-        '<b>' + _fmtN(x.n) + '</b></div>';
+        '<span class="sv-track"><i data-sk="sv-' + x.sid + '" style="width:' + (x.n / mx * 100).toFixed(1) + '%;background:' + _srsSubjColor(x.sid) + '"></i></span>' +
+        '<b>' + _sfx('sv-' + x.sid, x.n) + '</b></div>';
     }).join('') +
       (rest > 0 ? '<div class="sv-sr is-rest"><span class="sv-sn">ほか' + restList.length + '科目</span><span></span><b>' + _fmtN(rest) + '</b></div>' : '');
     subj =
@@ -1394,68 +1394,126 @@ function _pickHubNotes(cands, today) {
   return out;
 }
 
-// ── 今日の歩み（2026-10-01・day_progress.js）──────────────────────────
-// ヒーローのレベルの下の1段：前回ハブを開いたときからの差分／今日の定着／セッションごとの正答率の推移。
-// 前回の値は UIローカルの mec_hub_since_v1（同期しない）に、ページを離れる・裏へ回る瞬間に書く。
-// ⚠️ 開いた瞬間には書かないこと（renderHero は同期完了のたびに走る＝書くと差分が毎回0に戻る）。
-// ⚠️ 前回が今日でなければ差分は出さない（前日の結果は朝のブリーフィング hub_opening.js の役目）。
+// ── 待機列の演出（2026-10-01・デモ _work/protocol_fx_demo.html の A・C・D 案）──────────
+//   A 起動シーケンス：ページを開いて最初に描いたとき、待機列が一回きり（約1.6秒）で組み上がる。
+//   D 前回からの差分：数字が前回と違うときは、A の代わりに前回の値から今の値へ動かす
+//     （起点は「前回ハブを離れたときの数字」＝試験から戻ってきたとき／2回目以降の描き直しでは画面に出ていた数字）。
+//   C 状態に応じた警報：最初に描いたときだけ、超危険＞期限切れ＞本日 の強さで回数の決まった脈を打つ。
+// ⚠️ 常時アニメにしない（どれも数秒で止まり、クラスも外す）。
+// ⚠️ 中身が同じなら書き換えない（renderHero は同期完了のたびに走る＝書き換えると演出が毎回走り直す）。
+// ⚠️ 前回の値は UIローカルの mec_hub_since_v1（同期しない）に、ページを離れる・裏へ回る瞬間だけ書く。
+//    開いた瞬間・renderHero の中で書かないこと（同期のたびに差分が0に戻る）。前回が今日でなければ使わない。
 const K_HUB_SINCE = 'mec_hub_since_v1';
-let _sinceBase = null;
+let _sayPrev = null;
 try {
   const v = JSON.parse(localStorage.getItem(K_HUB_SINCE) || 'null');
-  if (v && v.day === _jstDay(Date.now())) _sinceBase = v;
+  if (v && v.day === _jstDay(Date.now()) && v.k) _sayPrev = v;
 } catch (e) {}
-function _sinceSnap() {
-  return {
-    day: _jstDay(Date.now()), t: Date.now(),
-    solved: getTodayLearning().solved, due: getSRSDueCount(),
-    gem: window.MecDay ? MecDay.masteredTotal() : 0,
-  };
+// 待機列の数字。data-k＝数字（カウントで動かす）／data-sk＝長さ（CSS の transition で動かす）
+function _sfx(k, v) { return '<span class="sfx" data-k="' + k + '" data-v="' + v + '">' + _fmtN(v) + '</span>'; }
+function _skGet(e) {
+  if (e.tagName.toLowerCase() === 'circle') return Number(e.getAttribute('stroke-dashoffset')) || 0;
+  if (e.style.flexGrow !== '') return Number(e.style.flexGrow) || 0;
+  return parseFloat(e.style.width) || 0;
+}
+function _skSet(e, v) {
+  if (e.tagName.toLowerCase() === 'circle') e.setAttribute('stroke-dashoffset', String(v));
+  else if (e.style.flexGrow !== '') e.style.flexGrow = String(v);
+  else e.style.width = v + '%';
+}
+function _sayRead(host) {
+  const k = {}, sk = {};
+  host.querySelectorAll('[data-k]').forEach(e => { k[e.dataset.k] = Number(e.dataset.v); });
+  host.querySelectorAll('[data-sk]').forEach(e => { sk[e.dataset.sk] = _skGet(e); });
+  return { k, sk };
 }
 function _saveSince() {
-  const snap = _sinceSnap();
+  const say = document.getElementById('heroSay');
+  if (!say || !say.querySelector('[data-k]')) return;
+  const snap = Object.assign({ day: _jstDay(Date.now()), t: Date.now() }, _sayRead(say));
   try { localStorage.setItem(K_HUB_SINCE, JSON.stringify(snap)); } catch (e) {}
-  _sinceBase = snap;
 }
 if (typeof document.addEventListener === 'function') document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'hidden') _saveSince();
-  else _renderHeroDay(getTodayLearning(), getSRSDueCount());
 });
 if (typeof window.addEventListener === 'function') window.addEventListener('pagehide', _saveSince);
 
-let _heroDayLast = '';
-function _renderHeroDay(td, due) {
-  const host = document.getElementById('heroDay');
-  if (!host || !window.MecDay) return;
-  const rows = MecDay.todayRows();
-  const b = _sinceBase && _sinceBase.day === _jstDay(Date.now()) ? _sinceBase : null;
-  // 1) 前回から（増えてうれしいものは緑。復習待ちだけは減ったら緑）
-  let since;
-  if (b) {
-    const chip = (lbl, v, upGood) => !v ? '' :
-      '<span class="hd-chip ' + ((upGood ? v > 0 : v < 0) ? 'is-good' : 'is-bad') + '">' + lbl + ' <b>' + (v > 0 ? '+' : '−') + _fmtN(Math.abs(v)) + '</b></span>';
-    const chips = chip('解答', td.solved - b.solved, true) + chip('復習待ち', due - b.due, false) + chip('定着', MecDay.masteredTotal() - b.gem, true);
-    since = '<div class="hd-cell hd-since" title="前回このページを離れたとき（' + MecDay.hm(b.t) + '）からの変化">' +
-      '<span class="hd-l">前回 ' + MecDay.hm(b.t) + ' から</span>' +
-      '<span class="hd-v">' + (chips || '<span class="hd-none">変化なし</span>') + '</span></div>';
-  } else {
-    since = '<div class="hd-cell hd-since"><span class="hd-l">前回から</span><span class="hd-v"><span class="hd-none">今日はじめて開きました</span></span></div>';
+// 次の描画の後で一度だけ（非表示タブでは rAF が来ないので setTimeout の落とし所を添える）
+function _afterPaint(fn) {
+  let ran = false;
+  const go = () => { if (!ran) { ran = true; fn(); } };
+  requestAnimationFrame(() => requestAnimationFrame(go));
+  setTimeout(go, 120);
+}
+// 増減の札（＋N／−N）。数字の上に浮いて消える
+const SAY_CHIP = { done: 1, due: -1, today0: -1 };   // 1＝増えてうれしい／−1＝減ってうれしい
+function _sayChip(e, d, good) {
+  const c = document.createElement('span');
+  c.className = 'sfx-chip ' + (good ? 'is-good' : 'is-bad');
+  c.setAttribute('aria-hidden', 'true');
+  c.textContent = (d > 0 ? '+' : '−') + _fmtN(Math.abs(d));
+  e.appendChild(c);
+  setTimeout(() => c.remove(), 1700);
+}
+// D：from（数字と長さ）から今の値へ。動いたものが1つでもあれば true
+function _sayMorph(say, from) {
+  let changed = false;
+  say.querySelectorAll('[data-k]').forEach(e => {
+    const k = e.dataset.k, to = Number(e.dataset.v);
+    if (!(k in from.k) || from.k[k] === to) return;
+    changed = true;
+    e.textContent = _fmtN(from.k[k]);
+    e.classList.add('is-changed');
+    _tweenNum(e, to, 900);
+    if (SAY_CHIP[k]) _sayChip(e, to - from.k[k], (to - from.k[k]) * SAY_CHIP[k] > 0);
+  });
+  const moves = [];
+  say.querySelectorAll('[data-sk]').forEach(e => {
+    const k = e.dataset.sk;
+    if (!(k in from.sk)) return;
+    const to = _skGet(e), was = from.sk[k];
+    if (Math.abs(to - was) < 0.01) return;
+    changed = true;
+    _skSet(e, was);
+    moves.push([e, to]);
+    // 科目の横棒が縮んだぶんは水色の残像にして消す（どれだけ減ったかが目に残る）
+    if (k.indexOf('sv-') === 0 && was > to && e.parentNode) {
+      const g = document.createElement('span');
+      g.className = 'sv-ghost';
+      g.style.left = to + '%'; g.style.width = (was - to) + '%';
+      e.parentNode.appendChild(g);
+      setTimeout(() => g.remove(), 1500);
+    }
+  });
+  if (moves.length) _afterPaint(() => moves.forEach(([e, to]) => _skSet(e, to)));
+  return changed;
+}
+let _sayLast = '', _sayFirst = true, _sayTimers = [];
+const SAY_FX_CLASSES = ['srs-intro', 'srs-alarm', 'lv-alarm', 'lv-caution', 'lv-calm'];
+// level: 'alarm'（超危険あり）／'caution'（期限切れのみ）／'calm'（本日分のみ）／''（復習待ち0）
+function _paintSay(say, level, html) {
+  if (html === _sayLast) return;
+  const first = _sayFirst;
+  const from = first ? _sayPrev : (_sayLast ? _sayRead(say) : null);
+  _sayFirst = false; _sayLast = html;
+  _sayTimers.forEach(clearTimeout); _sayTimers = [];
+  SAY_FX_CLASSES.forEach(c => say.classList.remove(c));
+  say.innerHTML = html;
+  const changed = from ? _sayMorph(say, from) : false;
+  if (!first) return;
+  let lead = 1500;
+  if (!changed) {
+    // A：数字は0から数え上げ、図はCSSで組み上げる。終わったらクラスを外す（次の描き直しで走り直さないように）
+    say.classList.add('srs-intro');
+    say.querySelectorAll('[data-k]').forEach(e => { e.textContent = '0'; });
+    _sayTimers.push(setTimeout(() => say.querySelectorAll('[data-k]').forEach(e => _tweenNum(e, Number(e.dataset.v), 1000)), 250));
+    _sayTimers.push(setTimeout(() => say.classList.remove('srs-intro'), 2000));
+    lead = 1700;
   }
-  // 2) 今日の定着（今日はじめて定着した問題＝トロフィー棚の宝石が今日育ったぶん）
-  const gemToday = MecDay.masteredToday();
-  const gem = '<div class="hd-cell hd-gem" title="今日はじめて定着した問題（3回続けて正解し、間隔が十分に伸びた）">' +
-    '<span class="hd-l">今日の定着</span><span class="hd-v"><span class="hd-gem-ic" aria-hidden="true">💎</span><b>+' + _fmtN(gemToday) + '</b><small>問</small></span></div>';
-  // 3) 正答率の推移（セッションごと）
-  const sp = MecDay.sparkHtml(MecDay.sessions(rows));
-  const acc = '<div class="hd-cell hd-acc" title="今日のセッションごとの正答率（' + MecDay.SPARK_MIN_N + '問未満のセッションは除く）">' +
-    '<span class="hd-l">正答率の推移' + (sp.n ? '（' + sp.n + '回）' : '') + '</span>' +
-    (sp.html
-      ? '<span class="hd-v">' + sp.html + (sp.n > 1 ? '<small>' + sp.first + '→</small>' : '') + '<b>' + sp.last + '</b><small>%</small></span>'
-      : '<span class="hd-v"><span class="hd-none">試験・復習で解くと出ます</span></span>') + '</div>';
-  const html = since + gem + acc;
-  // ⚠️ 中身が同じなら書き換えない（同期完了のたびに走る）
-  if (html !== _heroDayLast) { host.innerHTML = html; _heroDayLast = html; }
-  host.hidden = false;
+  if (level) {
+    _sayTimers.push(setTimeout(() => say.classList.add('srs-alarm', 'lv-' + level), lead));
+    _sayTimers.push(setTimeout(() => say.classList.remove('srs-alarm', 'lv-' + level), lead + 3600));
+  }
 }
 
 let _noteLastHtml = '';
@@ -1541,7 +1599,7 @@ function renderHero() {
   if (due > 0) {
     const risk = getSrsRiskBreakdown(sessionLimit);
     say.classList.remove('is-clear');
-    say.innerHTML =
+    _paintSay(say, risk.high > 0 ? 'alarm' : risk.mid > 0 ? 'caution' : 'calm',
       // 意匠の内枠。中身を持たない飾りなので aria からは外す（読み上げに乗せない）
       '<span class="srs-deco" aria-hidden="true"></span>' +
       '<div class="srs-card-hdr">' +
@@ -1551,19 +1609,19 @@ function renderHero() {
           '<span class="srs-tag srs-tag-risk">忘却リスク順</span>' +
         '</div>' +
         '<div class="srs-card-counts">' +
-          '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
+          '<div class="srs-card-today">本日消化 <b>' + _sfx('done', srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
           newBudgetHtml +
         '</div>' +
       '</div>' +
       '<div class="srs-card-stat">' +
         '<div class="srs-stat-cell">' +
           '<span class="srs-stat-lbl">復習待ち</span>' +
-          '<span class="srs-stat-val"><b>' + _fmtN(due) + '</b><small>問</small></span>' +
+          '<span class="srs-stat-val"><b>' + _sfx('due', due) + '</b><small>問</small></span>' +
         '</div>' +
         '<span class="srs-stat-sep" aria-hidden="true">➔</span>' +
         '<div class="srs-stat-cell highlight">' +
           '<span class="srs-stat-lbl">今回の出題</span>' +
-          '<span class="srs-stat-val"><b>優先 ' + _fmtN(sessionCount) + '</b><small>問</small></span>' +
+          '<span class="srs-stat-val"><b>優先 ' + _sfx('session', sessionCount) + '</b><small>問</small></span>' +
         '</div>' +
         // 「今回の出題」と「忘却リスク内訳」の間の空き（2026-10-01 ユーザー指摘）に、数え方が見てすぐ分かる数字だけを置く:
         //   終わると残り＝復習待ち − 今回の出題／目標まで＝今日の復習目標までの残り／最大の遅れ＝いちばん長く放置している問題の遅れ日数。
@@ -1572,7 +1630,7 @@ function renderHero() {
         '<span class="srs-stat-sep srs-stat-extra" aria-hidden="true">➔</span>' +
         '<div class="srs-stat-cell srs-stat-extra" title="今回の' + _fmtN(sessionCount) + '問を終えたあとに残る復習待ち（復習待ち − 今回の出題）">' +
           '<span class="srs-stat-lbl">終わると残り</span>' +
-          '<span class="srs-stat-val"><b>' + _fmtN(due - sessionCount) + '</b><small>問</small></span>' +
+          '<span class="srs-stat-val"><b>' + _sfx('rest', due - sessionCount) + '</b><small>問</small></span>' +
         '</div>' +
         '<span class="srs-stat-divider srs-stat-extra" aria-hidden="true"></span>' +
         // 「明日の予定」は 2026-10-01 に撤去（目標 200 と並ぶと「明日は115問しかやらない」と読めて紛らわしい）。
@@ -1581,45 +1639,45 @@ function renderHero() {
           '<span class="srs-stat-lbl">目標まで</span>' +
           (srsGoal > 0 && srsDoneToday >= srsGoal
             ? '<span class="srs-stat-val"><b>達成</b><small>✓</small></span>'
-            : '<span class="srs-stat-val"><small>あと</small><b>' + _fmtN(Math.max(0, srsGoal - srsDoneToday)) + '</b><small>問</small></span>') +
+            : '<span class="srs-stat-val"><small>あと</small><b>' + _sfx('left', Math.max(0, srsGoal - srsDoneToday)) + '</b><small>問</small></span>') +
         '</div>' +
         '<div class="srs-stat-cell srs-stat-extra srs-stat-late' + (fc.maxLate >= 7 ? ' is-bad' : '') + '" title="期限切れの問題のうち、いちばん長く期限を過ぎている日数' + (fc.odd ? '（予定日が記録より前になっている ' + fc.odd + '問は、最後に解いた日から数えた）' : '') + '">' +
           '<span class="srs-stat-lbl">最大の遅れ</span>' +
-          '<span class="srs-stat-val"><b>' + _fmtN(fc.maxLate) + '</b><small>日</small></span>' +
+          '<span class="srs-stat-val"><b>' + _sfx('maxLate', fc.maxLate) + '</b><small>日</small></span>' +
         '</div>' +
         '<span class="srs-stat-divider" aria-hidden="true"></span>' +
         '<div class="srs-stat-cell srs-risk-cell">' +
           '<span class="srs-stat-lbl">忘却リスク内訳</span>' +
           '<div class="srs-risk-pills">' +
-            '<span class="srs-risk-pill risk-high' + (risk.high === 0 ? ' is-zero' : '') + '" title="予定の倍以上放置または1週間以上遅延（高リスク）"><span class="srs-pi">🔥</span> 超危険 <b>' + _fmtN(risk.high) + '</b></span>' +
-            '<span class="srs-risk-pill risk-mid' + (risk.mid === 0 ? ' is-zero' : '') + '" title="予定期日を超過した問題"><span class="srs-pi">⚠️</span> 期限切れ <b>' + _fmtN(risk.mid) + '</b></span>' +
-            '<span class="srs-risk-pill risk-due' + (risk.dueToday === 0 ? ' is-zero' : '') + '" title="本日期日の問題"><span class="srs-pi">📅</span> 本日 <b>' + _fmtN(risk.dueToday) + '</b></span>' +
+            '<span class="srs-risk-pill risk-high' + (risk.high === 0 ? ' is-zero' : '') + '" title="予定の倍以上放置または1週間以上遅延（高リスク）"><span class="srs-pi">🔥</span> 超危険 <b>' + _sfx('ph', risk.high) + '</b></span>' +
+            '<span class="srs-risk-pill risk-mid' + (risk.mid === 0 ? ' is-zero' : '') + '" title="予定期日を超過した問題"><span class="srs-pi">⚠️</span> 期限切れ <b>' + _sfx('pm', risk.mid) + '</b></span>' +
+            '<span class="srs-risk-pill risk-due' + (risk.dueToday === 0 ? ' is-zero' : '') + '" title="本日期日の問題"><span class="srs-pi">📅</span> 本日 <b>' + _sfx('pt', risk.dueToday) + '</b></span>' +
           '</div>' +
         '</div>' +
       '</div>' +
       // 内訳の構成比。数字はピルが持っているので、帯は比率だけを担う飾り。
       // ⚠️ flex-grow に件数をそのまま渡す＝0件の区画は幅0で消える（合計は必ず risk.total）
       '<div class="srs-risk-bar" aria-hidden="true">' +
-        '<span class="rb-high" style="flex:' + risk.high + '"></span>' +
-        '<span class="rb-mid" style="flex:' + risk.mid + '"></span>' +
-        '<span class="rb-due" style="flex:' + risk.dueToday + '"></span>' +
+        '<span class="rb-high" data-sk="fh" style="flex:' + risk.high + '"></span>' +
+        '<span class="rb-mid" data-sk="fm" style="flex:' + risk.mid + '"></span>' +
+        '<span class="rb-due" data-sk="ft" style="flex:' + risk.dueToday + '"></span>' +
       '</div>' +
-      _srsVizHtml(srsDoneToday, srsGoal, fc, due, burn);
+      _srsVizHtml(srsDoneToday, srsGoal, fc, due, burn));
   } else {
     say.classList.add('is-clear');
-    say.innerHTML =
+    _paintSay(say, '',
       '<span class="srs-deco" aria-hidden="true"></span>' +
       '<div class="srs-card-hdr">' +
         '<div class="srs-card-title-grp">' +
           '<span class="srs-card-ttl"><span class="srs-ttl-ic">🎉</span>今日の復習はクリア済み</span>' +
         '</div>' +
         '<div class="srs-card-counts">' +
-          '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
+          '<div class="srs-card-today">本日消化 <b>' + _sfx('done', srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
           newBudgetHtml +
         '</div>' +
       '</div>' +
       '<p class="srs-card-hint">現在、復習期限を迎えた問題はありません。全 ' + _fmtN(totalQ) + '問から新しい問題を進めましょう！</p>' +
-      _srsVizHtml(srsDoneToday, srsGoal, fc, 0, burn);
+      _srsVizHtml(srsDoneToday, srsGoal, fc, 0, burn));
   }
 
   // ボタンは3つとも席が固定: 主＝いま一番やるべきこと／副＝復習／3つ目＝今日の誤答。
@@ -1750,7 +1808,6 @@ function renderHero() {
   // 📋 今日の所見。旧「臨床スキルレーダー」の席（座標を固定係数で作っていただけの図）を
   //    その日のデータから作り直す観察に置き換えた（2026-09-12）。
   _renderHubNotes(td, due, streak);
-  _renderHeroDay(td, due);
   _renderHubRadar();
 
   // E6: 計器行も大きな読み値と同じくカウントアップさせる。
