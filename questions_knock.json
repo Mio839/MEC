@@ -21693,22 +21693,27 @@
             {
               "cls": "ept",
               "h": "📎 消化器 Q.299 の解説（同じ国試問題）",
-              "c": "この問題（113C-21）は <b>消化器 Q.299</b> と同じ国試問題なので、その解説を下に併記しています。<br/>Blumberg徴候（反跳痛）とRosenstein徴候（左側臥位で右下腹部圧痛↑）は急性虫垂炎の代表的徴候。"
+              "c": "この問題（113C-21）は <b>消化器 Q.299</b> と同じ国試問題なので、その解説を下に併記しています。<br/>急性虫垂炎でみられるのは、炎症が腹膜に及んだときの<b>Blumberg 徴候（反跳痛）</b>と、左側臥位で右下腹部の圧痛が強くなる<b>Rosenstein 徴候</b>。Courvoisier 徴候は悪性の下部胆道閉塞、Grey-Turner 徴候は重症膵炎などの後腹膜出血、Murphy 徴候は急性胆嚢炎。"
             },
             {
               "cls": "ep",
-              "h": "🩺 虫垂炎の特異的徴候",
-              "c": "<span class=\"kw\">a Blumberg徴候（反跳痛）（正答）</span>：腹膜刺激の証拠→虫垂炎の腹膜炎進展を示す<br/><span class=\"kw\">e Rosenstein徴候（正答）</span>：左側臥位で右下腹部圧痛↑→虫垂炎に特異的<br/><br/><span class=\"kw4\">各徴候の疾患</span>：<br/>✗ bCourvoisier徴候：閉塞性黄疸での無痛性胆嚢腫大（膵頭部癌）<br/>✗ cGrey-Turner徴候：後腹膜出血（急性膵炎等）→腰部の皮下出血班<br/>✗ dMurphy徴候：急性胆嚢炎（吸気時圧迫で疼痛）"
+              "h": "🌿 所見を点数にする——Alvarado スコア",
+              "c": "<span class=\"kw4\"><b>各徴候の取り方は Q.277・292、人名の徴候の一覧は Q.288——ここは所見を組み合わせて虫垂炎らしさを数える方法</b></span>。<br/><span class=\"kw\"><b>Alvarado スコア（MANTRELS）</b></span><br/><span class=\"kw3\"><b>M：痛みが右下腹部へ移る（1 点）</b></span><br/><span class=\"kw3\"><b>A：食欲不振（1 点）</b></span><br/><span class=\"kw3\"><b>N：悪心・嘔吐（1 点）</b></span><br/><span class=\"kw3\"><b>T：右下腹部の圧痛（2 点）</b></span><br/><span class=\"kw3\"><b>R：反跳痛（1 点）</b></span><br/><span class=\"kw3\"><b>E：37.3℃ 以上の発熱（1 点）</b></span><br/><span class=\"kw3\"><b>L：白血球 10,000 以上（2 点）</b></span><br/><span class=\"kw3\"><b>S：好中球の左方移動（1 点）</b></span><br/><span class=\"kw\"><b>使い方</b></span><br/><span class=\"kw3\"><b>4 点以下：虫垂炎らしくない</b></span><br/><span class=\"kw3\"><b>5〜6 点：疑わしい——画像で確かめる</b></span><br/><span class=\"kw3\"><b>7 点以上：虫垂炎の可能性が高い</b></span><br/><span class=\"kw4\"><b>点数だけで決めず、迷えば CT・超音波</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　Blumberg 徴候</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>反跳痛——腹膜の炎症</b></span>。</td></tr><tr><td>ｂ　Courvoisier 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>膵頭部癌などによる無痛性の胆嚢腫大と黄疸</b></span>。</td></tr><tr><td>ｃ　Grey-Turner 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>重症急性膵炎などの側腹部の皮下出血</b></span>。</td></tr><tr><td>ｄ　Murphy 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>急性胆嚢炎——深吸気で右季肋部の痛み</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Rosenstein 徴候</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>左側臥位で右下腹部の圧痛が強くなる</b></span>。</td></tr></table>"
             },
             {
               "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "急性虫垂炎でみられる徴候を2つ。b Courvoisier徴候：閉塞性黄疸（膵頭部癌など）での無痛性胆囊腫大。c Grey-Turner徴候：重症急性膵炎での側腹部皮下出血。d Murphy徴候：急性胆囊炎。a Blumberg徴候：反跳痛。腹膜刺激症状を示す。✓e Rosenstein徴候：左側臥位にすると右下腹部の圧痛が増強する。✓"
+              "h": "🔍 別軸：虫垂炎の病理の段階",
+              "c": "<span class=\"kw\"><b>① カタル性</b></span><br/><span class=\"kw3\"><b>粘膜だけの炎症——抗菌薬で治ることが多い</b></span><br/><span class=\"kw\"><b>② 蜂窩織炎性</b></span><br/><span class=\"kw3\"><b>好中球が壁の全層に広がる——ふつうに見る虫垂炎</b></span><br/><span class=\"kw\"><b>③ 壊疽性</b></span><br/><span class=\"kw3\"><b>壁が壊死する——穿孔の一歩手前</b></span><br/><span class=\"kw\"><b>④ 穿孔</b></span><br/><span class=\"kw3\"><b>発症から 24〜72 時間で増える</b></span><br/><span class=\"kw3\"><b>膿瘍を作るか、腹膜炎になる</b></span><br/><span class=\"kw4\"><b>穿孔すると一時的に痛みが軽くなることがある（内圧が抜ける）——そのあと腹部全体へ広がる</b></span><br/><span class=\"kw\"><b>段階で治療が変わる</b></span><br/><span class=\"kw3\"><b>カタル性・軽い蜂窩織炎性：抗菌薬も選べる</b></span><br/><span class=\"kw3\"><b>壊疽性・穿孔：手術</b></span>"
             },
             {
-              "cls": "em",
-              "h": "💡 徴候一覧",
-              "c": "<span class=\"kw\">虫垂炎</span>：McBurney・Blumberg・Rosenstein・Rovsing・腰筋徴候<br/><span class=\"kw\">胆嚢炎</span>：Murphy徴候<br/><span class=\"kw\">膵炎</span>：Grey-Turner・Cullen徴候<br/><span class=\"kw\">膵頭部癌</span>：Courvoisier徴候（無痛性胆嚢腫大）"
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "<span class=\"kw3\"><b>虫垂炎の徴候：Blumberg（反跳痛）・Rosenstein・Rovsing・腸腰筋・閉鎖筋</b></span><br/><span class=\"kw3\"><b>Alvarado スコア 7 点以上で虫垂炎の可能性が高い</b></span><br/><span class=\"kw4\"><b>Courvoisier＝胆道、Grey-Turner＝膵・後腹膜、Murphy＝胆嚢</b></span>"
             }
           ],
           "imgs": []

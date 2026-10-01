@@ -20044,22 +20044,27 @@
       }
      ],
      "ans_label": "ｅ　診察後の次亜塩素酸ナトリウムによる手指衛生",
-     "ans_sub": "C.difficileは芽胞を形成→アルコール消毒に抵抗性。手指衛生は流水と石鹸による手洗いが必須（次亜塩素酸は手指ではなく環境消毒に使用）。",
+     "ans_sub": "抗菌薬治療で退院した直後の発熱・腹痛・頻回の水様下痢——<b>C. difficile 感染症（CDI）</b>を疑う。個室、ガウン、飛び散りに備えたゴーグル・マスクはどれも正しい。誤りは<b>次亜塩素酸ナトリウムで手を消毒する</b>こと——次亜塩素酸は皮膚を傷めるので<b>環境の消毒</b>に使い、手は<b>石けんと流水で洗い流す</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧼 C.difficile感染症（CDI）の感染予防",
-       "c": "<span class=\"kw4\">e次亜塩素酸ナトリウムによる手指衛生（誤り・正答）</span>：<br>C.difficileの芽胞は<span class=\"kw4\">アルコール・次亜塩素酸（手指消毒剤）に抵抗性</span><br>→ 手指衛生は<span class=\"kw\">流水＋石鹸による手洗い（スクラブ）</span>が必須<br>（次亜塩素酸は環境消毒には有効）<br><br><span class=\"kw\">正しい感染予防策</span>：<br>✅ a個室での診察（接触予防策）<br>✅ b直腸診時のゴーグル着用（飛散防止）<br>✅ cディスポーザブルガウン着用（接触予防）<br/>✅ dサージカルマスク着用（飛沫防止）</br></br></br></br></br></br></br></br>"
+       "h": "🌿 標準予防策に、接触予防策を上乗せする",
+       "c": "<span class=\"kw4\"><b>芽胞にアルコールが効かない話と環境の消毒は Q.283——ここは防護具の選び方と手の洗い方</b></span>。<br/><span class=\"kw\"><b>① 標準予防策（すべての患者に）</b></span><br/><span class=\"kw3\"><b>血液・体液・排泄物・粘膜・傷のある皮膚はすべて感染性があるものとして扱う</b></span><br/><span class=\"kw3\"><b>触れるなら手袋、服が汚れそうならガウン（エプロン）</b></span><br/><span class=\"kw4\"><b>飛び散りそうなら目と口を守る——ゴーグル（フェイスシールド）とサージカルマスク</b></span><br/><span class=\"kw3\"><b>直腸診・便の採取はまさにこの場面</b></span><br/><span class=\"kw\"><b>② 接触予防策（CDI に上乗せ）</b></span><br/><span class=\"kw3\"><b>個室（なければ同じ病気の人どうし）</b></span><br/><span class=\"kw3\"><b>入室時から手袋とガウン</b></span><br/><span class=\"kw3\"><b>聴診器などは患者専用</b></span><br/><span class=\"kw\"><b>③ 手指衛生</b></span><br/><span class=\"kw3\"><b>CDI の芽胞はアルコールでは死なない——石けんと流水でこすって物理的に洗い流す</b></span><br/><span class=\"kw4\"><b>次亜塩素酸ナトリウムは皮膚に刺激が強く、手には使わない——ベッド周り・トイレ・器具の消毒用</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　個室での診察</td><td><span class=\"kw4\">誤り</span>（正しい対策）。<span class=\"kw3\"><b>接触感染を広げないため</b></span>。</td></tr><tr><td>ｂ　直腸診実施時のゴーグルの着用</td><td><span class=\"kw4\">誤り</span>（正しい対策）。<span class=\"kw3\"><b>便が飛び散る処置——目を守る</b></span>。</td></tr><tr><td>ｃ　入室時のディスポーザブルガウンの着用</td><td><span class=\"kw4\">誤り</span>（正しい対策）。<span class=\"kw3\"><b>接触予防策——入室時から着ける</b></span>。</td></tr><tr><td>ｄ　便検体採取時のサージカルマスクの着用</td><td><span class=\"kw4\">誤り</span>（正しい対策）。<span class=\"kw3\"><b>飛び散りから口と鼻を守る（標準予防策）</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　診察後の次亜塩素酸ナトリウムによる手指衛生</span></td><td><span class=\"kw3\">これが「誤っている」（＝正解）</span>。<span class=\"kw3\"><b>次亜塩素酸は環境用</b></span>。<span class=\"kw3\"><b>手は石けんと流水で洗う</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：手指衛生の 5 つのタイミング（WHO）",
+       "c": "<span class=\"kw\"><b>① 患者に触れる前</b></span><br/><span class=\"kw\"><b>② 清潔・無菌の操作の前</b></span><br/><span class=\"kw3\"><b>カテーテルの挿入、注射、創処置</b></span><br/><span class=\"kw\"><b>③ 体液に触れた可能性のあるあと</b></span><br/><span class=\"kw3\"><b>手袋を外したあとも必ず</b></span><br/><span class=\"kw\"><b>④ 患者に触れたあと</b></span><br/><span class=\"kw\"><b>⑤ 患者の周りの物に触れたあと</b></span><br/><span class=\"kw3\"><b>ベッド柵・リモコン・モニター</b></span><br/><span class=\"kw\"><b>手の洗い方</b></span><br/><span class=\"kw3\"><b>ふだんはアルコールの手指消毒が速く、効果も高い</b></span><br/><span class=\"kw4\"><b>見て汚れているとき・芽胞を作る菌（C. difficile）・ノロウイルスのときは石けんと流水</b></span><br/><span class=\"kw3\"><b>指先・親指・指の間・手首は洗い残しが多い</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">C.difficile芽胞はアルコール消毒に抵抗性 → 石鹸と流水での手洗いが必須</span><br/>環境消毒：次亜塩素酸ナトリウム（ハイター等）が有効（芽胞を殺菌）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "感染性腸炎の診察で「誤っている」感染予防策。<br/><b>a 個室診察／b 直腸診時のゴーグル／c ディスポガウン／d マスク</b>：適切。<br/><b>e 診察後の次亜塩素酸ナトリウムによる手指衛生</b>：<span class=\"kw\">次亜塩素酸は手指消毒に用いない（環境消毒用）。手指は流水・石けん/アルコール</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>CDI：標準予防策＋接触予防策（個室・手袋・ガウン）</b></span><br/><span class=\"kw3\"><b>飛び散る処置はゴーグル・マスク</b></span><br/><span class=\"kw4\"><b>手は石けんと流水、次亜塩素酸ナトリウムは環境の消毒用</b></span>"
       }
      ],
      "imgs": []
@@ -20105,22 +20110,27 @@
       }
      ],
      "ans_label": "ｄ　毒素検出",
-     "ans_sub": "C.difficile毒素（toxin A/B）の便中迅速検出が偽膜性腸炎の診断に最も有用。",
+     "ans_sub": "入院中の抗菌薬の点滴と、退院後の内服のあとに、発熱・腹痛・頻回の水様下痢。食中毒の食事歴も周りの同じ症状の人もない——<b>CDI</b>。診断に最も役立つのは便の<b>毒素（トキシン）の検出</b>。白血球 18,200、クレアチニン 1.8 と<b>重症</b>の指標を満たしている。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 偽膜性腸炎（CDI）の便検査",
-       "c": "<span class=\"kw\">d毒素検出（正答）</span>：<br>便中CDトキシン（A・B）をEIA（酵素免疫測定法）で迅速検出<br>感度70〜90%・特異度99%・結果30分〜数時間で得られる<br><br><span class=\"kw4\">他の便検査との比較</span>：<br>✗ a脂肪染色：脂肪吸収不良の評価（CDIとは無関係）<br>✗ b潜血：消化管出血の確認（CDIの主症状は水様下痢）<br>✗ c虫卵：寄生虫感染（CDIとは別）<br>✗ e培養：感度高いが結果に2〜4日かかる（急性期には迅速診断が優先）</br></br></br></br></br></br></br></br>"
+       "h": "🌿 CDI の重さを数字で決める",
+       "c": "<span class=\"kw4\"><b>検査の出し方と「3 日ルール」は Q.289——ここは重症度と、それで変わる治療</b></span>。<br/><span class=\"kw\"><b>① 重症の目安</b></span><br/><span class=\"kw3\"><b>白血球 15,000/μL 以上</b></span><br/><span class=\"kw3\"><b>血清クレアチニン 1.5mg/dL 超</b></span><br/><span class=\"kw3\"><b>この患者：白血球 18,200、クレアチニン 1.8——両方を満たす</b></span><br/><span class=\"kw\"><b>② 劇症の目安</b></span><br/><span class=\"kw3\"><b>低血圧・ショック、イレウス、中毒性巨大結腸症</b></span><br/><span class=\"kw\"><b>③ 治療が変わる</b></span><br/><span class=\"kw3\"><b>非重症：バンコマイシン内服かフィダキソマイシン（メトロニダゾールも）</b></span><br/><span class=\"kw3\"><b>重症：バンコマイシン内服かフィダキソマイシン</b></span><br/><span class=\"kw4\"><b>劇症：バンコマイシンの内服量を増やす（イレウスなら注腸も）＋メトロニダゾールの点滴、外科にも相談（結腸切除）</b></span><br/><span class=\"kw\"><b>④ この患者のもう一つの問題</b></span><br/><span class=\"kw3\"><b>ツルゴール低下・口腔乾燥・BUN 40 と BUN/Cr 比の上昇——下痢による脱水で腎前性の腎障害、輸液が要る</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　脂肪染色</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>脂肪便（吸収不良）を見る検査</b></span>。</td></tr><tr><td>ｂ　潜　血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血の有無だけで、原因はわからない</b></span>。</td></tr><tr><td>ｃ　虫　卵</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>寄生虫の検査——渡航歴も生ものの摂取もない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　毒素検出</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>C. difficile のトキシンを証明する</b></span>。</td></tr><tr><td>ｅ　培　養</td><td><span class=\"kw4\">誤り</span>（最も有用ではない）。<span class=\"kw3\"><b>C. difficile は嫌気培養に日数がかかり、毒素を出さない株もいる</b></span>。<span class=\"kw3\"><b>一般の病原菌の培養も、この経過では見つかりにくい</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：退院後の下痢も「病院の CDI」",
+       "c": "<span class=\"kw\"><b>① 定義</b></span><br/><span class=\"kw3\"><b>医療関連 CDI：入院中に発症、または退院から 4 週以内に発症</b></span><br/><span class=\"kw3\"><b>この患者は退院 2 日後の発症——病院で獲得した CDI と考える</b></span><br/><span class=\"kw3\"><b>市中 CDI：最近 12 週に入院歴がない</b></span><br/><span class=\"kw\"><b>② 外来でも疑う</b></span><br/><span class=\"kw4\"><b>最近の抗菌薬（内服も含む）・入院歴がある下痢は、外来でも CDI を考える</b></span><br/><span class=\"kw3\"><b>市中の CDI は抗菌薬歴のない若い人・妊婦にも起こる</b></span><br/><span class=\"kw\"><b>③ 内服でも起こる</b></span><br/><span class=\"kw3\"><b>点滴から内服に切り替えたあとも、腸内細菌は乱れたまま</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">CDI診断：便中CDトキシン（迅速検査）→ 結果が早く実用的</span><br/>培養（CCFA選択培地）は感度最高だが時間がかかる→通常は毒素検出が優先。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "抗菌薬関連下痢（CD腸炎疑い）の便検査で最も有用なもの。<br/><b>a 脂肪染色／b 潜血／c 虫卵／e 培養</b>：診断の主でない。<br/><b>d 毒素検出</b>：<span class=\"kw\">C. difficileトキシンの検出</span>。✓"
+       "c": "<span class=\"kw3\"><b>CDI の診断は便中の毒素（＋GDH 抗原・遺伝子検査）</b></span><br/><span class=\"kw3\"><b>重症：白血球 15,000 以上、クレアチニン 1.5 超</b></span><br/><span class=\"kw4\"><b>退院 4 週以内の発症も医療関連 CDI</b></span>"
       }
      ],
      "imgs": []
@@ -20162,22 +20172,27 @@
       }
      ],
      "ans_label": "ａ　経口食開始",
-     "ans_sub": "保存的治療（間欠的虫垂炎）で軽快した場合、急性期を脱した後は経口食再開が適切。虫垂切除は待機的に行う。",
+     "ans_sub": "寄港先で急性虫垂炎と診断され、絶食・輸液・抗菌薬で軽快。いまは熱がなく、腹部の圧痛もなく、白血球 6,400・CRP 0.8 と炎症が引き、<b>排ガス・排便もある</b>——腸が動き出した。次は<b>経口摂取の再開</b>。手術や膿瘍ドレナージを急ぐ理由はなく、虫垂切除を後日行うかは別に相談する。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 虫垂炎の保存的治療後の管理",
-       "c": "<span class=\"kw\">a経口食開始（正答）</span>：<br>保存的治療で軽快（fever-free・腹部所見改善）<br>→ 絶食を解除して経口食を段階的に開始<br/>→ 待機的に虫垂切除術を計画（interval appendectomy）<br/><br/><span class=\"kw4\">他の選択肢</span>：<br/>✗ b虫垂切除術：炎症が落ち着いた後（6〜8週後）に待機的に行う（急性期でない）<br/>✗ c右半結腸切除術：大腸癌等の大腸手術（虫垂炎には過剰）<br/>✗ d膿瘍ドレナージ：膿瘍形成例（今回は軽快している）<br/>✗ eイレウス解除：腸閉塞（今回は軽快・腸閉塞なし）</br></br>"
+       "h": "🌿 腸を休めたあと、いつ食べ始めるか",
+       "c": "<span class=\"kw4\"><b>虫垂炎の治療の選び方（抗菌薬か手術か・膿瘍には待機的切除）は Q.275——ここは保存的に治したあとの流れ</b></span>。<br/><span class=\"kw\"><b>① 食べ始める目安</b></span><br/><span class=\"kw3\"><b>腹痛と圧痛がない</b></span><br/><span class=\"kw3\"><b>熱が下がり、白血球・CRP が下がってきた</b></span><br/><span class=\"kw3\"><b>腸雑音が戻り、排ガス・排便がある——腸が動いている</b></span><br/><span class=\"kw3\"><b>吐き気がない</b></span><br/><span class=\"kw\"><b>② 始め方</b></span><br/><span class=\"kw3\"><b>水分→流動食→ふつうの食事と段階的に</b></span><br/><span class=\"kw3\"><b>痛みや熱がぶり返さないか見る</b></span><br/><span class=\"kw\"><b>③ 早く食べるほうがよい</b></span><br/><span class=\"kw3\"><b>腸を長く使わないと粘膜がやせ、細菌が体内へ入りやすくなる</b></span><br/><span class=\"kw3\"><b>点滴だけの期間を短くできる</b></span><br/><span class=\"kw\"><b>④ この症例で手術・ドレナージが不要な理由</b></span><br/><span class=\"kw3\"><b>膿瘍を示す所見（熱・腫瘤・炎症反応の上昇）がない</b></span><br/><span class=\"kw3\"><b>腸閉塞の所見（腹部膨満・嘔吐・腸雑音の異常）もない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　経口食開始</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>炎症が治まり、腸が動いている</b></span>。</td></tr><tr><td>ｂ　虫垂切除術</td><td><span class=\"kw4\">誤り</span>（今すぐではない）。<span class=\"kw3\"><b>炎症が落ち着いた今、急いで切る必要はない</b></span>。<span class=\"kw3\"><b>再発を防ぐ待機的切除は後日相談する</b></span>。</td></tr><tr><td>ｃ　右半結腸切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>盲腸・上行結腸の癌の手術</b></span>。<span class=\"kw3\"><b>虫垂炎には過大</b></span>。</td></tr><tr><td>ｄ　膿瘍ドレナージ</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>膿瘍を示す所見がない</b></span>。</td></tr><tr><td>ｅ　外科的イレウス解除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>排ガス・排便があり、腸閉塞ではない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：保存的に治した虫垂炎のその後",
+       "c": "<span class=\"kw\"><b>① 再発</b></span><br/><span class=\"kw3\"><b>1 年以内に 2〜3 割が再発する——糞石があると多い</b></span><br/><span class=\"kw\"><b>② 待機的虫垂切除（interval appendectomy）</b></span><br/><span class=\"kw3\"><b>炎症が落ち着いた数か月後に切除する</b></span><br/><span class=\"kw3\"><b>再発が心配な人、膿瘍を作った人、仕事の都合ですぐ医療にかかれない人（この患者は船上勤務）で考える</b></span><br/><span class=\"kw3\"><b>必ず行うものではない——本人と相談</b></span><br/><span class=\"kw\"><b>③ 隠れた腫瘍</b></span><br/><span class=\"kw4\"><b>中高年の虫垂炎（特に膿瘍を作ったもの）には、虫垂の腫瘍（粘液性腫瘍・カルチノイド）や盲腸癌が隠れていることがある</b></span><br/><span class=\"kw3\"><b>治ったあと大腸内視鏡や CT で確かめる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">保存的虫垂炎→軽快後 → 経口食再開 → 6〜8週後に待機的虫垂切除（interval appendectomy）</span><br/>急性期の保存療法適応：穿孔・腹膜炎でない軽症〜中等症虫垂炎。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "虫垂炎の保存治療後に排ガス・排便を認めた。<br/><b>b 虫垂切除／c 右半結腸切除／d 膿瘍ドレナージ／e イレウス解除</b>：不要。<br/><b>a 経口食開始</b>：<span class=\"kw\">腸管運動の回復を確認し食事を再開</span>。✓"
+       "c": "<span class=\"kw3\"><b>保存的治療で炎症が治まり、排ガス・排便あり→経口摂取の再開</b></span><br/><span class=\"kw3\"><b>待機的虫垂切除は後日、本人と相談して決める</b></span><br/><span class=\"kw4\"><b>中高年の虫垂炎は、治ったあと腫瘍がないか確かめる</b></span>"
       }
      ],
      "imgs": []
@@ -20223,22 +20238,27 @@
       }
      ],
      "ans_label": "ｄ　便中Clostridium diﬃcile トキシン",
-     "ans_sub": "抗菌薬使用後の腹痛・下痢→偽膜性腸炎（C.difficile感染）を疑い便中CDトキシンを検査。",
+     "ans_sub": "脳梗塞後のリハビリ中に細菌性肺炎を併発し、2 週間の抗菌薬。1 週前から腹痛・下痢、昨日から頻回、37.9℃、白血球 13,300——<b>抗菌薬に伴う C. difficile 感染症</b>を疑い、<b>便中 C. difficile トキシン</b>を調べる。他の選択肢は別の病気を調べる検査。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 偽膜性腸炎の診断（再確認）",
-       "c": "<span class=\"kw\">d便中C.difficileトキシン（正答）</span>：<br>抗菌薬関連下痢症（CDAD）の診断には便中毒素（A・B型）の迅速検出が最優先<br/><br/><span class=\"kw4\">他の選択肢</span>：<br/>✗ aベロトキシン：腸管出血性大腸菌（O157:H7）の毒素（CDIとは別）<br/>✗ bβ-Dグルカン：真菌感染（カンジダ・アスペルギルス）の診断<br/>✗ c便中H.pylori抗原：H.pylori感染（CDIとは無関係）<br/>✗ eIGRA（QuantiFERON等）：結核感染の診断</br>"
+       "h": "🌿 選択肢の検査は何を調べるものか",
+       "c": "<span class=\"kw4\"><b>CDI の検査の出し方は Q.289、重症度は Q.296——ここは並んだ検査の使い分けと、この患者の危険因子</b></span>。<br/><span class=\"kw\"><b>① ベロトキシン</b></span><br/><span class=\"kw3\"><b>腸管出血性大腸菌（O157 など）の毒素——血便、溶血性尿毒症症候群</b></span><br/><span class=\"kw\"><b>② β-D-グルカン</b></span><br/><span class=\"kw3\"><b>真菌（カンジダ・アスペルギルス・ニューモシスチス）の感染で上がる</b></span><br/><span class=\"kw\"><b>③ 便中ピロリ抗原</b></span><br/><span class=\"kw3\"><b>ピロリ菌の感染と除菌判定</b></span><br/><span class=\"kw\"><b>④ IGRA</b></span><br/><span class=\"kw3\"><b>結核の感染（BCG に影響されない）</b></span><br/><span class=\"kw\"><b>⑤ 便中 C. difficile トキシン</b></span><br/><span class=\"kw3\"><b>抗菌薬のあとの下痢——この患者</b></span><br/><span class=\"kw\"><b>この患者の危険因子</b></span><br/><span class=\"kw3\"><b>高齢、長い入院、2 週間の抗菌薬、低栄養（アルブミン 2.9）</b></span><br/><span class=\"kw3\"><b>経管栄養・PPI も危険を上げる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ベロトキシン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸管出血性大腸菌の検査——血便や食事歴がない</b></span>。</td></tr><tr><td>ｂ　β-D-グルカン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>深在性真菌症の検査</b></span>。</td></tr><tr><td>ｃ　便中 Helicobacter pylori 抗原</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃のピロリ菌——下痢の原因ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　便中 Clostridium difficile トキシン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>抗菌薬使用中の入院患者の下痢</b></span>。</td></tr><tr><td>ｅ　結核菌特異的全血インターフェロンγ遊離測定法〈IGRA〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>結核の感染を調べる——数日の下痢の原因ではない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：CDI を起こしやすい抗菌薬",
+       "c": "<span class=\"kw\"><b>① 危険が高い</b></span><br/><span class=\"kw3\"><b>クリンダマイシン</b></span><br/><span class=\"kw3\"><b>第 3 世代セフェム（セフトリアキソンなど）</b></span><br/><span class=\"kw3\"><b>フルオロキノロン</b></span><br/><span class=\"kw3\"><b>広く効くペニシリン（アンピシリンなど）、カルバペネム</b></span><br/><span class=\"kw\"><b>② 危険が比較的低い</b></span><br/><span class=\"kw3\"><b>アミノグリコシド、テトラサイクリン系（ドキシサイクリン）、ST 合剤</b></span><br/><span class=\"kw\"><b>③ 使い方</b></span><br/><span class=\"kw4\"><b>同じ薬でも、長く・複数を・広い範囲に効くものを使うほど危険が上がる</b></span><br/><span class=\"kw3\"><b>培養の結果を見て狭い範囲の薬に替える（de-escalation）、必要な期間で止める</b></span><br/><span class=\"kw\"><b>④ 抗菌薬を使っていなくても</b></span><br/><span class=\"kw3\"><b>化学療法・免疫抑制薬・炎症性腸疾患でも CDI は起こる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">CDI（偽膜性腸炎）診断 = 便中C.difficileトキシン検出</span><br/>ベロトキシン（VT）：腸管出血性大腸菌（O157）→HUS（溶血性尿毒症症候群）のリスク。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "抗菌薬投与後の下痢で次に行う検査。<br/><b>a ベロトキシン／b β-Dグルカン／c 便中H.pylori抗原／e IGRA</b>：本病態でない。<br/><b>d 便中Clostridium difficileトキシン</b>：<span class=\"kw\">CD腸炎の診断</span>。✓"
+       "c": "<span class=\"kw3\"><b>抗菌薬使用中・後の入院患者の下痢→便中 C. difficile トキシン</b></span><br/><span class=\"kw3\"><b>ベロトキシン＝EHEC、β-D-グルカン＝真菌、IGRA＝結核</b></span><br/><span class=\"kw4\"><b>クリンダマイシン・セフェム・キノロンで CDI が多い</b></span>"
       }
      ],
      "imgs": []
@@ -20288,22 +20308,27 @@
       }
      ],
      "ans_label": "ａ　Blumberg 徴候\nｅ　Rosenstein 徴候",
-     "ans_sub": "Blumberg徴候（反跳痛）とRosenstein徴候（左側臥位で右下腹部圧痛↑）は急性虫垂炎の代表的徴候。",
+     "ans_sub": "急性虫垂炎でみられるのは、炎症が腹膜に及んだときの<b>Blumberg 徴候（反跳痛）</b>と、左側臥位で右下腹部の圧痛が強くなる<b>Rosenstein 徴候</b>。Courvoisier 徴候は悪性の下部胆道閉塞、Grey-Turner 徴候は重症膵炎などの後腹膜出血、Murphy 徴候は急性胆嚢炎。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 虫垂炎の特異的徴候",
-       "c": "<span class=\"kw\">a Blumberg徴候（反跳痛）（正答）</span>：腹膜刺激の証拠→虫垂炎の腹膜炎進展を示す<br/><span class=\"kw\">e Rosenstein徴候（正答）</span>：左側臥位で右下腹部圧痛↑→虫垂炎に特異的<br/><br/><span class=\"kw4\">各徴候の疾患</span>：<br/>✗ bCourvoisier徴候：閉塞性黄疸での無痛性胆嚢腫大（膵頭部癌）<br/>✗ cGrey-Turner徴候：後腹膜出血（急性膵炎等）→腰部の皮下出血班<br/>✗ dMurphy徴候：急性胆嚢炎（吸気時圧迫で疼痛）"
+       "h": "🌿 所見を点数にする——Alvarado スコア",
+       "c": "<span class=\"kw4\"><b>各徴候の取り方は Q.277・292、人名の徴候の一覧は Q.288——ここは所見を組み合わせて虫垂炎らしさを数える方法</b></span>。<br/><span class=\"kw\"><b>Alvarado スコア（MANTRELS）</b></span><br/><span class=\"kw3\"><b>M：痛みが右下腹部へ移る（1 点）</b></span><br/><span class=\"kw3\"><b>A：食欲不振（1 点）</b></span><br/><span class=\"kw3\"><b>N：悪心・嘔吐（1 点）</b></span><br/><span class=\"kw3\"><b>T：右下腹部の圧痛（2 点）</b></span><br/><span class=\"kw3\"><b>R：反跳痛（1 点）</b></span><br/><span class=\"kw3\"><b>E：37.3℃ 以上の発熱（1 点）</b></span><br/><span class=\"kw3\"><b>L：白血球 10,000 以上（2 点）</b></span><br/><span class=\"kw3\"><b>S：好中球の左方移動（1 点）</b></span><br/><span class=\"kw\"><b>使い方</b></span><br/><span class=\"kw3\"><b>4 点以下：虫垂炎らしくない</b></span><br/><span class=\"kw3\"><b>5〜6 点：疑わしい——画像で確かめる</b></span><br/><span class=\"kw3\"><b>7 点以上：虫垂炎の可能性が高い</b></span><br/><span class=\"kw4\"><b>点数だけで決めず、迷えば CT・超音波</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　Blumberg 徴候</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>反跳痛——腹膜の炎症</b></span>。</td></tr><tr><td>ｂ　Courvoisier 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>膵頭部癌などによる無痛性の胆嚢腫大と黄疸</b></span>。</td></tr><tr><td>ｃ　Grey-Turner 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>重症急性膵炎などの側腹部の皮下出血</b></span>。</td></tr><tr><td>ｄ　Murphy 徴候</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>急性胆嚢炎——深吸気で右季肋部の痛み</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Rosenstein 徴候</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>左側臥位で右下腹部の圧痛が強くなる</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "急性虫垂炎でみられる徴候を2つ。b Courvoisier徴候：閉塞性黄疸（膵頭部癌など）での無痛性胆囊腫大。c Grey-Turner徴候：重症急性膵炎での側腹部皮下出血。d Murphy徴候：急性胆囊炎。a Blumberg徴候：反跳痛。腹膜刺激症状を示す。✓e Rosenstein徴候：左側臥位にすると右下腹部の圧痛が増強する。✓"
+       "h": "🔍 別軸：虫垂炎の病理の段階",
+       "c": "<span class=\"kw\"><b>① カタル性</b></span><br/><span class=\"kw3\"><b>粘膜だけの炎症——抗菌薬で治ることが多い</b></span><br/><span class=\"kw\"><b>② 蜂窩織炎性</b></span><br/><span class=\"kw3\"><b>好中球が壁の全層に広がる——ふつうに見る虫垂炎</b></span><br/><span class=\"kw\"><b>③ 壊疽性</b></span><br/><span class=\"kw3\"><b>壁が壊死する——穿孔の一歩手前</b></span><br/><span class=\"kw\"><b>④ 穿孔</b></span><br/><span class=\"kw3\"><b>発症から 24〜72 時間で増える</b></span><br/><span class=\"kw3\"><b>膿瘍を作るか、腹膜炎になる</b></span><br/><span class=\"kw4\"><b>穿孔すると一時的に痛みが軽くなることがある（内圧が抜ける）——そのあと腹部全体へ広がる</b></span><br/><span class=\"kw\"><b>段階で治療が変わる</b></span><br/><span class=\"kw3\"><b>カタル性・軽い蜂窩織炎性：抗菌薬も選べる</b></span><br/><span class=\"kw3\"><b>壊疽性・穿孔：手術</b></span>"
       },
       {
-       "cls": "em",
-       "h": "💡 徴候一覧",
-       "c": "<span class=\"kw\">虫垂炎</span>：McBurney・Blumberg・Rosenstein・Rovsing・腰筋徴候<br/><span class=\"kw\">胆嚢炎</span>：Murphy徴候<br/><span class=\"kw\">膵炎</span>：Grey-Turner・Cullen徴候<br/><span class=\"kw\">膵頭部癌</span>：Courvoisier徴候（無痛性胆嚢腫大）"
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>虫垂炎の徴候：Blumberg（反跳痛）・Rosenstein・Rovsing・腸腰筋・閉鎖筋</b></span><br/><span class=\"kw3\"><b>Alvarado スコア 7 点以上で虫垂炎の可能性が高い</b></span><br/><span class=\"kw4\"><b>Courvoisier＝胆道、Grey-Turner＝膵・後腹膜、Murphy＝胆嚢</b></span>"
       }
      ],
      "imgs": []
@@ -20349,22 +20374,27 @@
       }
      ],
      "ans_label": "ａ　手袋を着用する。\nｂ　エプロンを着用する。",
-     "ans_sub": "CDI（偽膜性腸炎）は接触予防策が必要。手袋とエプロン（ガウン）を着用し、手洗いは石鹸と流水で行う。",
+     "ans_sub": "入院中の 2 歳児、セフェム系の治療中に下痢、便の C. difficile 抗原陽性——CDI として扱う。CDI は<b>接触感染</b>なので、診察では<b>手袋とエプロン（ガウン）</b>を着ける。N95 マスク・陰圧個室は空気感染（結核・麻疹・水痘）、ベッドの間隔を空けるのは飛沫感染の対策。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧼 C.difficile感染の接触予防策",
-       "c": "<span class=\"kw\">a手袋（正答）</span>：CDI患者への接触時は必ず手袋を着用（便・環境からの伝播防止）<br><span class=\"kw\">b エプロン（ガウン）（正答）</span>：衣服への汚染防止→ディスポーザブルエプロン<br><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ cN95マスク：空気予防策（結核・麻疹等）→CDIは接触予防策のみ（N95不要）<br/>✗ d陰圧個室：空気予防策が必要な感染症（CDIは不要）<br/>✗ eベッド間隔2m：飛沫予防策（CDIは接触感染→間隔は不要）<br/><br/><span class=\"kw\">手指衛生の注意</span>：アルコール消毒は芽胞に無効→<span class=\"kw4\">石鹸と流水で手洗い</span></br></br>"
+       "h": "🌿 感染経路で対策を選ぶ",
+       "c": "<span class=\"kw4\"><b>手指衛生と標準予防策は Q.295——ここは 3 つの感染経路の対策の違い</b></span>。<br/><span class=\"kw\"><b>① 接触感染</b></span><br/><span class=\"kw3\"><b>手や物を介してうつる</b></span><br/><span class=\"kw3\"><b>C. difficile、MRSA・VRE などの耐性菌、ノロウイルス、疥癬</b></span><br/><span class=\"kw3\"><b>対策：手袋・ガウン（エプロン）、できれば個室、物品は専用に</b></span><br/><span class=\"kw\"><b>② 飛沫感染（5μm より大きい粒、1〜2m 以内に落ちる）</b></span><br/><span class=\"kw3\"><b>インフルエンザ、風疹、ムンプス、百日咳、マイコプラズマ</b></span><br/><span class=\"kw3\"><b>対策：サージカルマスク、ベッドの間隔を 1〜2m 以上、カーテン</b></span><br/><span class=\"kw\"><b>③ 空気感染（5μm 以下の飛沫核、空気中を漂う）</b></span><br/><span class=\"kw3\"><b>結核・麻疹・水痘（播種性帯状疱疹）</b></span><br/><span class=\"kw4\"><b>対策：N95 マスク、陰圧の個室</b></span><br/><span class=\"kw\"><b>④ この患者</b></span><br/><span class=\"kw3\"><b>接触予防策——手袋とエプロン、石けんと流水の手洗い</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　手袋を着用する。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>接触予防策</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　エプロンを着用する。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>服を介して運ばないため</b></span>。</td></tr><tr><td>ｃ　N95 マスクを着用する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>空気感染（結核・麻疹・水痘）の対策</b></span>。</td></tr><tr><td>ｄ　陰圧個室隔離を指示する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>空気感染の対策</b></span>。<span class=\"kw3\"><b>CDI は個室（陰圧でなくてよい）</b></span>。</td></tr><tr><td>ｅ　ベッドの間隔を 2m 以上あける。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>飛沫感染の対策</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：小さな子どもの C. difficile は解釈に注意",
+       "c": "<span class=\"kw\"><b>① 赤ちゃんは保菌が多い</b></span><br/><span class=\"kw3\"><b>1 歳未満の乳児は、症状がなくても C. difficile と毒素を持っていることが多い——腸の受容体が未熟で発症しにくい</b></span><br/><span class=\"kw4\"><b>1 歳未満では原則として CDI の検査をしない、陽性でも他の原因を先に探す</b></span><br/><span class=\"kw\"><b>② 1〜2 歳</b></span><br/><span class=\"kw3\"><b>保菌はまだ多い——ウイルス性腸炎など他の原因を除いてから CDI と考える</b></span><br/><span class=\"kw\"><b>③ この患児</b></span><br/><span class=\"kw3\"><b>2 歳、抗菌薬の使用中に下痢、機嫌はよい</b></span><br/><span class=\"kw3\"><b>まず原因の抗菌薬を見直し、感染対策をとる</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>軽ければ抗菌薬の中止だけで治ることもある</b></span><br/><span class=\"kw3\"><b>続けば小児でもメトロニダゾールかバンコマイシンの内服</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">CDIの予防策：接触予防（手袋＋ガウン）＋石鹸と流水での手洗い</span><br/>N95・陰圧個室は不要（空気感染でなく接触感染）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "C. difficile陽性患者の接触感染予防で行うべきことを2つ。<br/><b>c N95マスク／d 陰圧個室（空気感染でない）／e ベッド2m以上</b>：不要。<br/><b>a 手袋を着用する</b>：<span class=\"kw\">接触予防策</span>。✓<br/><b>b エプロンを着用する</b>：<span class=\"kw\">接触予防策（芽胞は石けんと流水で手洗い）</span>。✓"
+       "c": "<span class=\"kw3\"><b>CDI は接触感染→手袋・ガウン（エプロン）・個室</b></span><br/><span class=\"kw3\"><b>空気感染（結核・麻疹・水痘）＝N95・陰圧個室、飛沫感染＝マスク・1〜2m</b></span><br/><span class=\"kw4\"><b>1 歳未満の C. difficile 陽性は保菌のことが多い</b></span>"
       }
      ],
      "imgs": []
