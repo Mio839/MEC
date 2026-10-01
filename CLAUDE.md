@@ -260,7 +260,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
   速さは `--gear-t` 1本だけで動かす。祝砲は段が上がったときだけ。
 - `rate_index.js` は派生物（`node _work/build_natrate_index.js`）。公開する形は `window.MEC_RATE` のまま変えない。questions_*.json を更新したら作り直す。
 - 待機列の演出（A 起動・C 警報・D 前回からの差分）は index.js の `_paintSay` 1本。⚠️ 中身が同じなら書き換えない／常時アニメにしない／前回の値 `mec_hub_since_v1` は離れる瞬間だけ書く。
-  ヒーローの「今日の歩み」（`#heroDay`）は撤去済み＝戻さない。ゲージは2列のとき上揃え＋-30px（幅は最大229px）（待機列を画面に収めるため）。見出し行（今日解いた問題・正解率）も撤去済み＝日付と国試までの日数はヘッダーの `.hub-day`。
+  ヒーローの「今日の歩み」（`#heroDay`）は撤去済み＝戻さない。ゲージは2列のとき上揃え・下へ-30pxはみ出し・左へ16px・前面（幅は最大229px。上の余白へはみ出させるとテーマのオーラが切れる）。見出し行（今日解いた問題・正解率）も撤去済み＝日付と国試までの日数はヘッダーの `.hub-day`。
 - テスト: `test_hero_cta.js`・`test_hub_notes.js`・`test_hub_radar.js`・`test_daily_goal.js`・`test_hub_fx.js`。
 
 ## 今日の誤答を再履修（詳細 → `_work/仕様/学習画面とSRS.md`）
