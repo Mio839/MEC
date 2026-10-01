@@ -2948,6 +2948,16 @@ html.ui-liquid .hero-num {
 }
 html.ui-liquid .hero-num:has(.dg) { background:none !important;-webkit-text-fill-color:initial !important; }
 @keyframes liquidInkFlow { 0%{background-position:0% 50%;}100%{background-position:100% 50%;} }
+html.ui-liquid .hero-num.lq-fill .dg {
+  -webkit-text-stroke:1.6px #FF52A0;
+  background-image:linear-gradient(to top,#7928CA 0%,#FF007F 30%,#FF52A0 44%,#00F2FE 49%,#2A0A26 51%,#2A0A26 100%)!important;
+  background-size:100% 200%!important;background-repeat:no-repeat!important;
+  -webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;
+  animation:lqFill 1s cubic-bezier(.4,0,.3,1) both!important;animation-delay:calc(var(--i,0) * 90ms)!important;
+}
+@keyframes lqFill { from{background-position:0 0;}to{background-position:0 100%;} }
+html.ui-liquid .hero-num.lq-slosh { animation:lqSlosh .6s cubic-bezier(.3,1.4,.5,1)!important;transform-origin:50% 100%; }
+@keyframes lqSlosh { 0%{scale:1;}30%{scale:1.08 .92;}60%{scale:.96 1.05;}100%{scale:1;} }
 html.ui-liquid .hero-num .dg {
   background-size:200% 200%;animation:digitIn .46s var(--ease-out) backwards, liquidInkFlow 5s ease-in-out infinite alternate;
   animation-delay:calc(var(--i,0) * 55ms), 0s;

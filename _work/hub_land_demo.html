@@ -153,6 +153,13 @@ function PRELUDE() {
   if (window.__forceN != null) {
     var tw = _tweenNum;
     _tweenNum = function (el, to, dur, done) { return tw(el, (el && el.id === 'heroNum') ? window.__forceN : to, dur, done); };
+    // 正答率が「--」の日でも着地を見られるように、仮の値を入れて着地させる
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(function () {
+        var a = document.getElementById('heroAccVal');
+        if (a && !/\d/.test(a.textContent)) tw(a, 92, 900, function () { _landHeroNumber(a); });
+      }, 50);
+    });
   }
 }
 
@@ -384,7 +391,7 @@ const THEMES_DEF = [
     } }
  ]},
  { key: 'liquid', name: 'Liquid', items: [
-  { id: 'cur', nm: '現行', ds: 'ピンクの波紋が画面いっぱいに開き（liquidBloomRipple）、泡が画面の下から湧き上がる。数字の下からグリフ（💧✦✨）と粒。' },
+  { id: 'cur', nm: '本体（Q4 インクが満ちるを採用済み）', ds: '2026-10-01 に Q4 を本体（index.js の _lqInkFillLand）へ組み込んだ。桁の中をのぼる泡は外し、満ちる前の空の部分は背景が透けないよう暗いガラス色にした。解いた数と正答率の両方に出る。' },
 
   { id: 'Q1', nm: 'しずくの着水', ds: '上から大きなネオンの雫が落ちてきて数字に当たり、数字がぷにっと潰れて跳ね返る（ゼリーのように数回ゆれて止まる）。当たったところから王冠のしぶきが上がり、数字の足元に平たい波紋が広がる。目標達成の日はしぶきと波紋が増える。',
     css: `
@@ -509,7 +516,7 @@ const THEMES_DEF = [
     css: `
 .hero-num.__lq-fill .dg{
   -webkit-text-stroke:1.6px #FF52A0;
-  background-image:linear-gradient(to top,#7928CA 0%,#FF007F 30%,#FF52A0 44%,#00F2FE 49%,rgba(0,242,254,0) 51%,rgba(0,242,254,0) 100%)!important;
+  background-image:linear-gradient(to top,#7928CA 0%,#FF007F 30%,#FF52A0 44%,#00F2FE 49%,#2A0A26 51%,#2A0A26 100%)!important;
   background-size:100% 200%!important;background-repeat:no-repeat!important;
   -webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;
   animation:__lqFill 1s cubic-bezier(.4,0,.3,1) both!important;animation-delay:calc(var(--i,0) * 90ms)!important;}
@@ -526,14 +533,7 @@ const THEMES_DEF = [
         var spans = Array.from(el.querySelectorAll('.dg'));
         var dur = 1000 + (spans.length - 1) * 90;
         __pulse(el, '__lq-fill', dur + 420);
-        spans.forEach(function (sp, i) {
-          for (var b = 0; b < 4; b++) (function (b) {
-            setTimeout(function () {
-              var r = sp.getBoundingClientRect();
-              MecFX.burst(r.left + r.width * (.3 + Math.random() * .4), r.bottom - r.height * .15, { count: 1, tier: 1, speed: 20, upBias: 80, gravity: -90, colors: [Q.white, Q.cyan], shapes: ['circle'], glow: true });
-            }, i * 90 + 150 + b * 190);
-          })(b);
-        });
+        // 桁の中をのぼる泡は採用時に外した（2026-10-01・ユーザー判断）
         setTimeout(function () {
           __pulse(el, '__lq-slosh', 640);
           var c = _centerOf(el); if (!c) return;
@@ -678,7 +678,8 @@ async function play(key, id) {
     js += '(function(){var G=window.MecGamify;if(!G||!G.dailyGoal)return;var o=G.dailyGoal;G.dailyGoal=function(){var g=o.apply(G,arguments)||{};var p=' + Number(pct) + ';' +
           'var t=g.target||200;return Object.assign({},g,{pct:p,count:Math.round(t*p/100),target:t});};})();\n';
   }
-  js += 'window.__replay = function () { var el = document.getElementById("heroNum"); if (el) _landHeroNumber(el); };\n';
+  // 解いた数と正答率の両方（本物の renderHero も両方に _landHeroNumber を呼ぶ）
+  js += 'window.__replay = function () { ["heroNum", "heroAccVal"].forEach(function (id) { var el = document.getElementById(id); if (el && /\\d/.test(el.textContent)) _landHeroNumber(el); }); };\n';
 
   let h = src;
   h = h.replace(/<head>/i, '<head><base href="../">' + shimScript(ls, {}));

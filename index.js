@@ -2325,6 +2325,33 @@ function _lvBurstFx(fx, p) {
   (LV_BURST_FX[theme] || LV_BURST_FX.aurora)(r.left + r.width * p, r.top + r.height / 2, r);
 }
 
+/* ══════════ Liquid の読み値の着地：インクが満ちる（2026-10-01 採用）══════════
+   _work/hub_land_demo.html の5案（しずくの着水・ゼリーの震え・溶けて固まる・インクが満ちる・ちぎれて戻る）から
+   ユーザーが選んだもの。
+   ① 数字がいったん中空の輪郭（光る縁取りだけ）になり、桁の下からネオンのインクが満ちる（桁ごとに 90ms ずらす・1秒）
+   ② 満ちきるとたぷんと揺れ（.lq-slosh）、各桁の上からしぶきがあふれる。目標達成の日はしぶきが増える。
+   ⚠️ デモにあった「桁の中をのぼる光る泡」はユーザー判断で外した（数字の上に星のように見える）。戻さないこと。
+   ⚠️ 金・黄色を使わない（Liquid のゲージの約束）。揺れは独立プロパティ scale。予定は _liqFxLater の1本。 */
+const LQ_INK = { mag: '#FF007F', pink: '#FF52A0', cyan: '#00F2FE', white: '#FFFFFF' };
+function _lqInkFillLand(el, g) {
+  if (!el || !_fxOk()) return;
+  const spans = Array.from(el.querySelectorAll('.dg'));
+  if (!spans.length || !_centerOf(el)) return;
+  const dur = 1000 + (spans.length - 1) * 90;
+  _liqFxPulse(el, 'lq-fill', dur + 420);
+  _liqFxLater(dur, () => {
+    _liqFxPulse(el, 'lq-slosh', 640);
+    const c = _centerOf(el);
+    if (!c) return;
+    const Q = LQ_INK;
+    spans.forEach(sp => {
+      const r = sp.getBoundingClientRect();
+      MecFX.burst(r.left + r.width / 2, r.top + r.height * .1, { tier: 1, count: g ? 10 : 6, colors: [Q.mag, Q.pink, Q.cyan, Q.white], shapes: ['circle'], speed: 260, upBias: 300, gravity: 1300, glow: true });
+    });
+    MecFX.sparks(c.x, c.r.top + c.r.height * .1, { count: 12, colors: [Q.white, Q.cyan] });
+  });
+}
+
 /* ══════════ Celestial の読み値の着地：超新星（2026-10-01 採用）══════════
    _work/hub_land_demo.html の5案（星座・日食・超新星・天球儀の環・流星群）からユーザーが選んだもの。
    ① 数字が白い光の一点まで縮む（.cel-nova-in・0.34秒）。周りの星屑が中心へ引き込まれる
@@ -2404,18 +2431,6 @@ function _landHeroNumber(el) {
         if (MecFX.glitchBars) MecFX.glitchBars(x, y, 2);
       }
     },
-    liquid: {
-      color: '#FF007F',
-      ringColor: 'rgba(255,0,127,.8)',
-      glyphs: ['💧', '✦', '✨'],
-      burstColors: ['#FF007F', '#00F2FE', '#FF52A0', '#FFFFFF'],
-      shapes: ['circle'],
-      action: (x, y) => {
-        if (!window.MecFX) return;
-        if (MecFX.liquidBloomRipple) MecFX.liquidBloomRipple(x, y);
-        if (MecFX.bubbles) MecFX.bubbles(x, y, 6);
-      }
-    },
     kintsugi: {
       color: '#F5D061',
       ringColor: 'rgba(245,208,97,.85)',
@@ -2448,6 +2463,8 @@ function _landHeroNumber(el) {
 
   // Celestial は「超新星」（2026-10-01 採用）。数字そのものが光の一点へ縮み、爆発して戻る
   if (theme === 'celestial') { _liqFxLater(d * 55 + 120, () => _celSupernovaLand(el, g)); return; }
+  // Liquid は「インクが満ちる」（2026-10-01 採用）。数字が輪郭だけになり、下からネオンのインクが満ちてあふれる
+  if (theme === 'liquid') { _liqFxLater(d * 55 + 120, () => _lqInkFillLand(el, g)); return; }
 
   const cfg = THEME_LANDING_CONFIG[theme] || THEME_LANDING_CONFIG.aurora;
 

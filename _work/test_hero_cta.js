@@ -525,6 +525,25 @@ t('Celestial の着地は超新星（数字が縮んで爆発して戻る・画�
   assert.ok(!/MecFX\.flashScreen/.test(nova), '画面全体を光らせている');
 });
 
+// 2026-10-01: Liquid の読み値の着地は「インクが満ちる」（_work/hub_land_demo.html の Q4 を採用）
+t('Liquid の着地はインクが満ちる（桁の中をのぼる泡は出さない・金色を使わない）', () => {
+  const land = extract('_landHeroNumber');
+  assert.ok(/theme === 'liquid'[\s\S]{0,80}_lqInkFillLand/.test(land), 'Liquid がインクが満ちるへ回っていない');
+  assert.ok(!/liquidBloomRipple/.test(land), '旧 liquidBloomRipple（画面いっぱいの波紋）が残っている');
+  const fill = extract('_lqInkFillLand');
+  assert.ok(/lq-fill/.test(fill) && /lq-slosh/.test(fill), '満ちる・揺れるのどちらかが無い');
+  assert.ok(/_liqFxLater/.test(fill) && !/setTimeout/.test(fill), '予定表（_liqFxLater）を通していない');
+  // 満ちる途中に桁の中をのぼる泡（gravity が負の粒）はユーザー判断で外した＝数字の上に星のように見える
+  assert.ok(!/gravity:\s*-/.test(fill), '桁の中をのぼる泡が戻っている');
+  assert.ok(!/#FFD|#FFC|#E0C2|gold/i.test(fill), '金・黄色を使っている');
+  assert.ok(/\.hero-num\.lq-fill \.dg\{[\s\S]*?animation:lqFill/.test(HTML), '満ちる CSS が無い');
+  // 空の部分を透明にすると背景の星（.ambient-stars）が中空の桁から透けて見える（ユーザー指摘）
+  const fillCss = (HTML.match(/\.hero-num\.lq-fill \.dg\{[\s\S]*?\}/) || [''])[0];
+  assert.ok(!/rgba\([^)]*,\s*0\)\s*(51|100)%/.test(fillCss), '満ちる前の空の部分が透明（背景が透ける）');
+  // 解いた数と正答率の両方が着地する
+  assert.ok(/_tweenNum\(accNumEl[\s\S]{0,60}_landHeroNumber\(accNumEl\)/.test(HTML), '正答率に着地の演出が掛かっていない');
+});
+
 t('_tweenNum に非表示タブ用の落とし所がある', () => {
   const src = extract('_tweenNum');
   assert.ok(/setTimeout\(finish, dur \+ \d+\)/.test(src),

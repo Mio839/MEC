@@ -62,6 +62,7 @@ THEMES.forEach(t => {
   // カウントアップ着地時演出の設定
   // Celestial は表を使わず超新星（_celSupernovaLand・2026-10-01 採用）へ回す
   if (t === 'celestial') assert(html.includes('function _celSupernovaLand('), 'celestial: 着地の超新星が無いこと');
+  else if (t === 'liquid') assert(html.includes('function _lqInkFillLand('), 'liquid: 着地のインクが満ちるが無いこと');
   else assert(html.includes(`${t}: {`), `${t}: THEME_LANDING_CONFIG に着地演出設定が存在すること`);
 
   console.log(`  ok  - ${t}: 全要素のテーマ差別化スタイル（数字・プレート・目標オーラ含む）が完備`);
