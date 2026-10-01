@@ -7315,17 +7315,27 @@
             }
           ],
           "ans_label": "ｄ　上部消化管内視鏡検査",
-          "ans_sub": "タール便（メレナ）→上部消化管出血。循環動態安定→緊急上部消化管内視鏡で出血源確認・止血。",
+          "ans_sub": "3日前からのタール状の黒色便、倦怠感、脈拍108/分・血圧90/70mmHg（脈圧が20と狭い）、眼瞼結膜の貧血——<b>上部消化管出血</b>で循環血液量が減っている。採血して静脈路を確保し、輸液を始めたら、<b>上部消化管内視鏡検査</b>で出血源を確かめて止血する。腹部超音波・単純 CT は消化管の粘膜の出血源が分からない。小腸造影は上下部の内視鏡で出血源が見つからないときの検査。下部消化管内視鏡はタール便では後回し。",
           "eg": [
             {
               "cls": "ep",
-              "h": "🔭 タール便への対応",
-              "c": "<span class=\"kw\">d上部消化管内視鏡（正答）</span>：<br>タール便 → <span class=\"kw\">上部消化管出血（食道〜十二指腸）</span>→ 緊急内視鏡<br/>血圧134/64mmHg（安定） → 輸液後すぐに内視鏡が可能<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a腹部超音波：実質臓器（肝・胆・脾）の評価→消化管出血の緊急確認には不適<br/>✗ b小腸造影：OGIB精査→上部内視鏡の前に実施しない<br/>✗ c腹部単純CT：造影CTなら有用だが内視鏡より感度低い（出血源同定）<br/>✗ e下部消化管内視鏡：タール便→上部GI出血→まず上部内視鏡</br>"
+              "h": "🌿 最初の採血で何を見るか——数字の読み違いに注意",
+              "c": "<span class=\"kw4\"><b>内視鏡の前の採血は、出血の重さ・輸血の準備・止血の妨げになるものを確かめる</b></span>。<br/><span class=\"kw\"><b>① 血算</b></span><br/><span class=\"kw3\"><b>Hb・Ht：輸血の目安（Hb 7 未満、心疾患があれば 8 未満）</b></span><br/><span class=\"kw4\"><b>出血の直後は Hb が下がりきらない——輸液と時間で薄まり、1〜3日かけて下がる</b></span><br/><span class=\"kw3\"><b>血小板：5万未満なら止血の妨げ</b></span><br/><span class=\"kw3\"><b>MCV：小球性なら以前から続く出血（鉄欠乏）</b></span><br/><span class=\"kw\"><b>② 凝固</b></span><br/><span class=\"kw3\"><b>PT-INR・APTT——抗凝固薬・肝疾患</b></span><br/><span class=\"kw\"><b>③ 生化学</b></span><br/><span class=\"kw4\"><b>BUN が Cr に比べて高い：上部消化管出血（血液の蛋白が腸で吸収される）</b></span><br/><span class=\"kw3\"><b>肝機能・アルブミン：肝硬変・静脈瘤の可能性</b></span><br/><span class=\"kw3\"><b>乳酸：循環不全の重さ</b></span><br/><span class=\"kw\"><b>④ 輸血の準備</b></span><br/><span class=\"kw3\"><b>血液型・不規則抗体・交差適合試験</b></span><br/><span class=\"kw\"><b>⑤ 本例</b></span><br/><span class=\"kw3\"><b>脈拍が収縮期血圧を上回る（ショック指数 108/90 ≒ 1.2）——循環血液量の2割以上を失っている可能性</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　腹部超音波検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝・胆・膵・腹水を見るが、消化管の粘膜の出血源は分からない</b></span>。</td></tr><tr><td>ｂ　小腸造影</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>上下部の内視鏡で出血源が見つからないときに行う</b></span>。</td></tr><tr><td>ｃ　腹部単純CT</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>造影しないと出血の場所は分からない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　上部消化管内視鏡検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>タール便の出血源の大部分は食道・胃・十二指腸</b></span>。</td></tr><tr><td>ｅ　下部消化管内視鏡検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>タール便ではまず上部——上部で見つからなければ行う</b></span>。</td></tr></table>"
             },
             {
               "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "消化管出血で輸液開始後にまず行うこと。<br/><b>a 腹部超音波／b 小腸造影／c 腹部単純CT／e 下部消化管内視鏡</b>：第一でない。<br/><b>d 上部消化管内視鏡検査</b>：<span class=\"kw\">上部消化管出血の出血源検索</span>。✓"
+              "h": "🔍 Dieulafoy 潰瘍——小さな傷から動脈性の大出血",
+              "c": "<span class=\"kw4\"><b>粘膜下層を走る太い動脈が、ごく小さな粘膜の欠損から露出して破れる——潰瘍は小さいのに、出血は大量で動脈性</b></span>。<br/><span class=\"kw\"><b>① 特徴</b></span><br/><span class=\"kw3\"><b>胃の噴門から6cm 以内の小弯（体上部）に多い。十二指腸・小腸・大腸にもできる</b></span><br/><span class=\"kw3\"><b>中高年の男性に多い。前ぶれなく大量の吐血・黒色便</b></span><br/><span class=\"kw\"><b>② 見つけにくい</b></span><br/><span class=\"kw4\"><b>病変が小さく、出血が止まっていると見逃しやすい——繰り返す内視鏡で見つかることがある</b></span><br/><span class=\"kw3\"><b>胃に血液がたまって見えにくい——体位変換・洗浄</b></span><br/><span class=\"kw\"><b>③ 治療</b></span><br/><span class=\"kw3\"><b>内視鏡的止血——クリッピング、EVL（バンドで縛る）、局注と熱凝固</b></span><br/><span class=\"kw3\"><b>止まらなければ血管造影で塞栓、手術</b></span><br/><span class=\"kw\"><b>④ 本例との関係</b></span><br/><span class=\"kw3\"><b>46歳男性のタール便——最も多いのは十二指腸潰瘍・胃潰瘍だが、内視鏡で潰瘍が見つからないときに思い出す</b></span>"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "<span class=\"kw4\"><b>タール便＋頻脈・低血圧 → 採血・静脈路・輸液の後、上部消化管内視鏡</b></span>。<br/><span class=\"kw3\"><b>出血の直後は Hb が下がりきらない。BUN/Cr 高値は上部消化管出血</b></span>。<br/><span class=\"kw3\"><b>上部で出血源がなければ下部内視鏡 → 小腸の検査</b></span>。<br/><span class=\"kw4\"><b>Dieulafoy 潰瘍：噴門近くの小弯、小さな欠損から動脈性の大出血、見逃しやすい</b></span>。<br/><span class=\"kw3\"><b>治療はクリッピング・EVL、だめなら塞栓・手術</b></span>。"
             },
             {
               "cls": "ept",

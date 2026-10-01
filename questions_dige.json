@@ -10573,22 +10573,27 @@
       }
      ],
      "ans_label": "ａ　食道アカラシア",
-     "ans_sub": "食道アカラシアは嚥下障害・食物停滞が主症状であり、それ自体では吐血（出血）は起こさない。",
+     "ans_sub": "吐血は、Treitz 靱帯より口側（食道・胃・十二指腸）からの出血を口から吐くこと。<b>食道静脈瘤</b>の破裂、<b>Mallory-Weiss 症候群</b>、<b>急性胃粘膜病変</b>、<b>胃癌</b>は、いずれも粘膜や血管が破れて出血し、吐血の原因になる。<b>食道アカラシア</b>は下部食道括約筋が開かない通過障害で、嚥下困難と、食道にたまった未消化の食物の逆流が症状——出血は起こさず、吐血の原因として考えにくい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩸 吐血の原因となる疾患",
-       "c": "<table class=\"tb\"><tr><th>疾患</th><th>吐血との関連</th></tr><tr><td>疾患</td><td>吐血との関連</td></tr><tr><td><span class=\"kw4\">食道アカラシア（a）</span></td><td><span class=\"kw4\">吐血の原因にならない（正答）</span>：括約筋弛緩不全→嚥下障害のみ</td></tr><tr><td>食道静脈瘤（b）</td><td><span class=\"kw\">吐血の主要原因</span>：門脈圧亢進→静脈瘤破裂→大量吐血</td></tr><tr><td>Mallory-Weiss症候群（c）</td><td><span class=\"kw\">吐血の原因</span>：嘔吐後の食道胃接合部裂傷</td></tr><tr><td>急性胃粘膜病変AGML（d）</td><td><span class=\"kw\">吐血の原因</span>：ストレス・NSAIDs→びらん・出血</td></tr><tr><td>胃癌（e）</td><td><span class=\"kw\">吐血の原因</span>：腫瘍からの出血</td></tr></table>"
+       "h": "🌿 「血を吐いた」——本当に消化管からか",
+       "c": "<span class=\"kw4\"><b>「血を吐いた」という訴えには、消化管からの吐血のほか、肺からの喀血、鼻・口の出血を飲み込んで吐いたものが混じる</b></span>。<br/><span class=\"kw\"><b>① 吐血</b></span><br/><span class=\"kw3\"><b>嘔吐とともに出る。暗赤色〜コーヒー残渣様（胃酸で変色）、食物が混じる、酸性</b></span><br/><span class=\"kw3\"><b>悪心・心窩部痛が先にある。後で黒色便</b></span><br/><span class=\"kw\"><b>② 喀血</b></span><br/><span class=\"kw4\"><b>咳とともに出る。鮮紅色で泡が混じる、アルカリ性</b></span><br/><span class=\"kw3\"><b>胸部の病気（気管支拡張症・肺結核・肺癌）、痰に血が混じる日が続いた</b></span><br/><span class=\"kw3\"><b>黒色便は出にくい（大量に飲み込めば出ることも）</b></span><br/><span class=\"kw\"><b>③ 鼻出血・口腔内の出血を飲み込んだもの</b></span><br/><span class=\"kw3\"><b>鼻・咽頭を診る。夜間の鼻出血を飲み込み、朝に吐くことがある</b></span><br/><span class=\"kw\"><b>④ 吐血の原因（多い順のおおまかな目安）</b></span><br/><span class=\"kw3\"><b>消化性潰瘍、急性胃粘膜病変、食道・胃静脈瘤、Mallory-Weiss 症候群、胃癌、逆流性食道炎、血管の病変（Dieulafoy 潰瘍など）</b></span><br/><span class=\"kw\"><b>⑤ 出血でない吐物</b></span><br/><span class=\"kw3\"><b>赤ワイン・トマトなどの食品、鉄剤で黒い吐物</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　食道アカラシア</span></td><td><span class=\"kw3\">これが「考えにくい」（＝正解）</span>。<span class=\"kw3\"><b>通過障害で、出血は起こさない</b></span>。<span class=\"kw3\"><b>吐くのはたまった未消化の食物</b></span>。</td></tr><tr><td>ｂ　食道静脈瘤</td><td><span class=\"kw4\">誤り</span>（吐血の原因になる）。<span class=\"kw3\"><b>破裂すると大量の吐血</b></span>。</td></tr><tr><td>ｃ　Mallory-Weiss 症候群</td><td><span class=\"kw4\">誤り</span>（吐血の原因になる）。<span class=\"kw3\"><b>嘔吐の後の食道胃接合部の裂創</b></span>。</td></tr><tr><td>ｄ　急性胃粘膜病変</td><td><span class=\"kw4\">誤り</span>（吐血の原因になる）。<span class=\"kw3\"><b>ストレス・NSAIDs・アルコールによる多発するびらん・潰瘍</b></span>。</td></tr><tr><td>ｅ　胃　癌</td><td><span class=\"kw4\">誤り</span>（吐血の原因になる）。<span class=\"kw3\"><b>腫瘍の表面の潰瘍から出血する</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 食道アカラシア——開かない出口と、広がる食道",
+       "c": "<span class=\"kw4\"><b>食道の壁の神経（Auerbach 神経叢）が減り、下部食道括約筋が飲み込んでも緩まず、食道の蠕動もなくなる</b></span>。<br/><span class=\"kw\"><b>① 症状</b></span><br/><span class=\"kw3\"><b>固形物にも液体にも起こる嚥下困難（器質的狭窄は固形物から始まる）</b></span><br/><span class=\"kw3\"><b>食道にたまった未消化の食物の逆流（夜間に咳き込む、誤嚥性肺炎）、胸痛、体重減少</b></span><br/><span class=\"kw\"><b>② 検査</b></span><br/><span class=\"kw4\"><b>食道造影：拡張した食道と、下端が鳥のくちばしのように細くなる（bird beak sign）</b></span><br/><span class=\"kw4\"><b>食道内圧検査：下部食道括約筋の弛緩不全と蠕動の消失——診断の決め手</b></span><br/><span class=\"kw3\"><b>内視鏡：食物の残り、食道の拡張。癌（偽性アカラシア）を否定する</b></span><br/><span class=\"kw\"><b>③ 治療</b></span><br/><span class=\"kw3\"><b>経口内視鏡的筋層切開術〈POEM〉、内視鏡的バルーン拡張術、腹腔鏡下 Heller 筋層切開術＋噴門形成術</b></span><br/><span class=\"kw3\"><b>薬（Ca 拮抗薬・硝酸薬）は効果が弱い</b></span><br/><span class=\"kw\"><b>④ 長く続くと</b></span><br/><span class=\"kw3\"><b>食物がたまって粘膜が荒れ、食道癌（扁平上皮癌）の危険が上がる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">食道アカラシア = 嚥下障害（食物停滞・逆流）→ 吐血は起こさない</span><br/>アカラシアの症状：嚥下障害・胸痛・食後嘔吐（未消化食物）→吐血なし。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "吐血の原因として「考えにくい」もの。<br/><b>b 食道静脈瘤／c Mallory-Weiss／d 急性胃粘膜病変／e 胃癌</b>：吐血の原因となる。<br/><b>a 食道アカラシア</b>：<span class=\"kw\">嚥下障害が主で吐血の原因になりにくい</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw4\"><b>吐血の原因：消化性潰瘍・急性胃粘膜病変・静脈瘤・Mallory-Weiss・胃癌</b></span>。<br/><span class=\"kw4\"><b>食道アカラシアは通過障害で吐血しない——未消化の食物の逆流</b></span>。<br/><span class=\"kw3\"><b>喀血は咳とともに鮮紅色・泡・アルカリ性、吐血は嘔吐とともに暗赤色・食物・酸性</b></span>。<br/><span class=\"kw3\"><b>アカラシア：bird beak sign、食道内圧検査で下部食道括約筋の弛緩不全と蠕動消失</b></span>。<br/><span class=\"kw3\"><b>治療は POEM・バルーン拡張・Heller 筋層切開術。食道癌の危険</b></span>。"
       }
      ],
      "imgs": []
@@ -10630,22 +10635,27 @@
       }
      ],
      "ans_label": "ｃ　Boerhaave 症候群",
-     "ans_sub": "飲酒後嘔吐→食道全層破裂→縦隔炎→左胸水（食物残渣含む混濁）→Boerhaave症候群（特発性食道破裂）。",
+     "ans_sub": "大量の飲酒の後に激しく嘔吐して痛みが出た、<b>左胸水</b>、ドレナージで<b>混濁した胸水</b>——嘔吐で食道下部の左壁が全層で破れ、胃の内容が縦隔から左胸腔へ漏れ出した<b>Boerhaave 症候群（特発性食道破裂）</b>。Mallory-Weiss 症候群は粘膜だけの裂創で胸水はたまらない。急性心筋梗塞では混濁した胸水はできない。十二指腸潰瘍穿孔は腹腔の遊離ガス・腹膜炎。急性膵炎でも左胸水はたまるが、嘔吐の直後の発症と混濁した胸水は食道破裂に合う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💥 Boerhaave症候群の特徴",
-       "c": "<span class=\"kw\">発症機序</span>：激しい嘔吐→食道内圧急上昇→食道後壁（左側）が全層破裂<br><span class=\"kw\">典型的所見</span>：<br/>・嘔吐後の突然の胸部・心窩部激痛<br/>・左胸水（食物残渣・アミラーゼ高値）<br/>・縦隔気腫（皮下気腫）<br/>・発熱・敗血症<br/><br/><span class=\"kw4\">Mallory-Weissとの違い</span>：<br/>・Mallory-Weiss：粘膜裂傷のみ→吐血が主症状→胸水なし<br/>・Boerhaave：全層破裂→縦隔汚染→胸水・縦隔炎<br/><br/><span class=\"kw\">治療</span>：緊急手術（発症6時間以内）→縫合閉鎖＋縦隔洗浄</br>"
+       "h": "🌿 胸水を読む——食道破裂の胸水の特徴",
+       "c": "<span class=\"kw3\"><b>Boerhaave 症候群の起こり方と食道穿孔の原因は Q.101、粘膜・壁内・全層の比較は Q.127 で見た</b></span>。<span class=\"kw4\"><b>ここでは、ドレナージで出てきた胸水から食道破裂を見抜く</b></span>。<br/><span class=\"kw\"><b>① 食道破裂の胸水</b></span><br/><span class=\"kw3\"><b>滲出液で、食物の残り・濁りがある、においがある</b></span><br/><span class=\"kw4\"><b>pH が低い（6 未満のこともある）、アミラーゼが高い（唾液腺型）</b></span><br/><span class=\"kw3\"><b>細菌（口腔・胃の複数の菌）、のちに膿胸</b></span><br/><span class=\"kw3\"><b>左に多い——食道下部の左後壁が最も弱く、左の胸膜と接している</b></span><br/><span class=\"kw\"><b>② アミラーゼが高い胸水</b></span><br/><span class=\"kw4\"><b>食道破裂：唾液腺型のアミラーゼ</b></span><br/><span class=\"kw3\"><b>膵炎・膵仮性嚢胞の胸腔への瘻：膵型のアミラーゼ</b></span><br/><span class=\"kw3\"><b>悪性腫瘍（肺腺癌など）でも上がることがある</b></span><br/><span class=\"kw\"><b>③ 確かめる</b></span><br/><span class=\"kw3\"><b>胸部 CT：縦隔気腫・胸水・食道周囲の液体</b></span><br/><span class=\"kw3\"><b>水溶性造影剤で食道造影（漏れを見る）</b></span><br/><span class=\"kw3\"><b>胸腔ドレーンから飲んだ色素（インジゴカルミンなど）が出てくれば決まり</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw4\"><b>発症から24時間以内の手術（破れた部分の縫合・縦隔と胸腔の洗浄・ドレナージ）、絶食・抗菌薬</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　急性心筋梗塞</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>心窩部痛はありうるが、嘔吐の直後の発症や混濁した胸水とは合わない</b></span>。</td></tr><tr><td>ｂ　Mallory-Weiss 症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜だけの裂創で、吐血が主——胸水はたまらない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　Boerhaave 症候群</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>食道の全層の破裂で、胃の内容が左胸腔へ漏れる</b></span>。</td></tr><tr><td>ｄ　十二指腸潰瘍穿孔</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹腔の遊離ガスと腹膜炎——胸水は主な所見ではない</b></span>。</td></tr><tr><td>ｅ　急性膵炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>飲酒の後に起こり左胸水もたまるが、背部へ抜ける痛みが主で、胸水は混濁しない（漿液性〜血性）</b></span>。<span class=\"kw2\"><b>胸水のアミラーゼは膵型</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 Mackler の三徴と、見逃しやすい理由",
+       "c": "<span class=\"kw4\"><b>嘔吐・胸痛・皮下気腫（Mackler の三徴）——そろうのは一部で、多くは「心窩部痛」「上腹部痛」で受診する</b></span>。<br/><span class=\"kw\"><b>① 見逃しやすい理由</b></span><br/><span class=\"kw3\"><b>痛みが心窩部・上腹部に出る——胃の病気・膵炎・心筋梗塞と間違えやすい</b></span><br/><span class=\"kw3\"><b>吐血は少ない</b></span><br/><span class=\"kw3\"><b>皮下気腫・縦隔気腫が出るまで時間がかかる</b></span><br/><span class=\"kw\"><b>② 疑う手がかり</b></span><br/><span class=\"kw4\"><b>激しい嘔吐の直後に始まった、強い胸痛・上腹部痛</b></span><br/><span class=\"kw3\"><b>呼吸困難、頸部の握雪感（皮下気腫）</b></span><br/><span class=\"kw3\"><b>聴診で心拍に同期したパリパリ音（Hamman 徴候：縦隔気腫）</b></span><br/><span class=\"kw3\"><b>胸部エックス線：縦隔気腫、左胸水・気胸</b></span><br/><span class=\"kw\"><b>③ 検査で避けること</b></span><br/><span class=\"kw4\"><b>バリウムでの食道造影は避ける——漏れたバリウムで縦隔炎を悪化させる。水溶性造影剤を使う</b></span><br/><span class=\"kw3\"><b>内視鏡は送気で破れ目を広げる危険がある——行うなら慎重に</b></span><br/><span class=\"kw\"><b>④ 予後</b></span><br/><span class=\"kw3\"><b>24時間を過ぎると死亡率が大きく上がる——縦隔炎・敗血症</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Boerhaave = 嘔吐後・左胸水（食物混濁）・縦隔気腫 → 食道全層破裂</span><br/>診断：水溶性造影剤（gastrografin）を用いた食道造影で漏出を確認。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "嘔吐後の胸痛＋混濁した左胸水。<br/><b>a 急性心筋梗塞／b Mallory-Weiss／d 十二指腸潰瘍穿孔／e 急性膵炎</b>：合わない。<br/><b>c Boerhaave症候群</b>：<span class=\"kw\">食道破裂で胃内容が胸腔に漏れ膿胸様の混濁胸水</span>。✓"
+       "c": "<span class=\"kw4\"><b>嘔吐後の激しい痛み＋左胸水（混濁）→ Boerhaave 症候群（特発性食道破裂）</b></span>。<br/><span class=\"kw3\"><b>胸水：食物の残り、pH 低値、アミラーゼ高値（唾液腺型）</b></span>。<br/><span class=\"kw3\"><b>Mackler の三徴：嘔吐・胸痛・皮下気腫。Hamman 徴候は縦隔気腫</b></span>。<br/><span class=\"kw4\"><b>食道造影は水溶性造影剤で（バリウムは不可）。24時間以内の手術</b></span>。<br/><span class=\"kw3\"><b>膵炎の胸水は膵型アミラーゼ</b></span>。"
       }
      ],
      "imgs": []
@@ -10687,17 +10697,27 @@
       }
      ],
      "ans_label": "ｅ　上部消化管内視鏡検査",
-     "ans_sub": "黒色便＋意識消失→消化管出血によるショックが原因。輸液で安定後、緊急上部消化管内視鏡で診断・止血。",
+     "ans_sub": "1週前からの黒色便、一過性の意識消失、顔面蒼白・冷汗・頻脈（104/分）・血圧低下（92/62）、Hb 10.4——<b>上部消化管出血による失神とショック</b>。動脈血ガスの pH 7.30 は循環不全による乳酸アシドーシス。意識はすでに清明で神経所見もなく、失神は出血で説明できる——頭部 CT・脳波は優先しない。静脈路を確保して輸液を始めたら、<b>上部消化管内視鏡検査</b>で出血源を確かめて止血する。注腸造影は大腸の検査、血管造影は内視鏡で止められない出血に行う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 消化管出血と一過性意識消失",
-       "c": "<span class=\"kw\">e上部消化管内視鏡（正答）</span>：<br>黒色便（タール便）→上部消化管出血 → 循環血液量↓ → 起立性低血圧・失神<br>→ 出血源同定・止血のため緊急上部消化管内視鏡<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a頭部CT：神経症状（麻痺・言語障害）がある場合に実施→今回は消化管出血が原因<br/>✗ b脳波検査：てんかん・代謝性脳症→消化管出血には不要<br/>✗ c注腸造影：下部消化管出血精査（今回はタール便＝上部GI出血）<br/>✗ d腹部血管造影：大量出血・内視鏡止血困難例に使用</br></br>"
+       "h": "🌿 一過性の意識消失——失神の原因を3つに分ける",
+       "c": "<span class=\"kw4\"><b>失神は、脳全体の血流が一時的に減って意識を失い、自然に完全に戻るもの——原因で3つに分ける</b></span>。<br/><span class=\"kw\"><b>① 起立性低血圧</b></span><br/><span class=\"kw4\"><b>循環血液量の減少（出血・脱水）、自律神経障害、降圧薬・利尿薬</b></span><br/><span class=\"kw3\"><b>本例：黒色便・頻脈・低血圧——消化管出血による循環血液量の減少</b></span><br/><span class=\"kw\"><b>② 反射性（神経調節性）</b></span><br/><span class=\"kw3\"><b>血管迷走神経反射（痛み・恐怖・長く立つ）、状況失神（排尿・排便・咳）、頸動脈洞症候群</b></span><br/><span class=\"kw\"><b>③ 心原性——最も危ない</b></span><br/><span class=\"kw3\"><b>不整脈（徐脈・心室頻拍）、大動脈弁狭窄症、肥大型心筋症、肺塞栓</b></span><br/><span class=\"kw3\"><b>手がかり：労作中・横になっていても起こる、前ぶれがない、動悸、心疾患の既往、突然死の家族歴</b></span><br/><span class=\"kw\"><b>④ 失神ではないもの</b></span><br/><span class=\"kw3\"><b>てんかん（けいれん・発作後のもうろう）、低血糖、脳卒中（神経所見が残る）</b></span><br/><span class=\"kw3\"><b>これらを疑うときに頭部 CT・脳波</b></span><br/><span class=\"kw\"><b>⑤ 本例の進め方</b></span><br/><span class=\"kw3\"><b>心電図で不整脈・心筋虚血を確かめつつ、出血源の検索（内視鏡）を急ぐ</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　頭部CT</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>意識はすでに清明で神経所見がない——失神は出血で説明できる</b></span>。<span class=\"kw2\"><b>転倒で頭を打っていれば撮る</b></span>。</td></tr><tr><td>ｂ　脳波検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>てんかんを疑うときの検査</b></span>。</td></tr><tr><td>ｃ　注腸造影検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大腸の検査——黒色便は上部消化管の出血を示す</b></span>。</td></tr><tr><td>ｄ　腹部血管造影</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>内視鏡で止血できない大量出血で、出血点の確認と塞栓に使う</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　上部消化管内視鏡検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>出血源を確かめ、その場で止血する</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管出血で静脈路確保後にまず行うこと。<br/><b>a 頭部CT／b 脳波／c 注腸造影／d 血管造影</b>：第一でない。<br/><b>e 上部消化管内視鏡検査</b>：<span class=\"kw\">出血源の同定・止血</span>。✓"
+       "h": "🔍 動脈血ガスを読む——ショックの乳酸アシドーシス",
+       "c": "<span class=\"kw4\"><b>本例の pH 7.30、PaCO<sub>2</sub> 36Torr を読み解く</b></span>。<br/><span class=\"kw\"><b>① 一次性の異常</b></span><br/><span class=\"kw3\"><b>pH 7.30 でアシデミア。PaCO<sub>2</sub> は上がっていない——代謝性アシドーシス</b></span><br/><span class=\"kw\"><b>② HCO<sub>3</sub><sup>−</sup> を推し量る</b></span><br/><span class=\"kw3\"><b>［H<sup>+</sup>］＝ 24 × PaCO<sub>2</sub> ÷ HCO<sub>3</sub><sup>−</sup>。pH 7.30 は［H<sup>+</sup>］約50nmol/L</b></span><br/><span class=\"kw3\"><b>HCO<sub>3</sub><sup>−</sup> ≒ 24 × 36 ÷ 50 ≒ 17mEq/L</b></span><br/><span class=\"kw\"><b>③ 呼吸による代償は適切か</b></span><br/><span class=\"kw3\"><b>予測される PaCO<sub>2</sub> ＝ 1.5 × HCO<sub>3</sub><sup>−</sup> ＋ 8 ±2 ≒ 34 ±2——36 はほぼ範囲内で、適切に代償している</b></span><br/><span class=\"kw\"><b>④ 原因</b></span><br/><span class=\"kw4\"><b>ショックで組織に酸素が届かず、嫌気性代謝で乳酸がたまる——アニオンギャップの開大した代謝性アシドーシス</b></span><br/><span class=\"kw3\"><b>乳酸値は循環不全の重さと、治療への反応の目安（下がっていけば改善）</b></span><br/><span class=\"kw\"><b>⑤ もうひとつの手がかり</b></span><br/><span class=\"kw4\"><b>出血の直後は Hb がまだ下がりきらない（血液が薄まるまで1〜3日かかる）——Hb 10.4 でも出血量を少なく見積もらない</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>黒色便＋失神＋ショック → 静脈路・輸液の後、上部消化管内視鏡</b></span>。<br/><span class=\"kw3\"><b>失神は起立性（出血・脱水）・反射性・心原性に分ける。心原性が最も危ない</b></span>。<br/><span class=\"kw3\"><b>意識が戻り神経所見がなければ頭部 CT・脳波は優先しない</b></span>。<br/><span class=\"kw4\"><b>ショックでは乳酸アシドーシス（アニオンギャップ開大）。代償の予測 PaCO<sub>2</sub> ＝ 1.5×HCO<sub>3</sub><sup>−</sup>＋8</b></span>。<br/><span class=\"kw3\"><b>出血の直後は Hb が下がりきらない</b></span>。"
       }
      ],
      "imgs": []
@@ -10743,17 +10763,27 @@
       }
      ],
      "ans_label": "ｄ　上部消化管内視鏡検査",
-     "ans_sub": "タール便（メレナ）→上部消化管出血。循環動態安定→緊急上部消化管内視鏡で出血源確認・止血。",
+     "ans_sub": "3日前からのタール状の黒色便、倦怠感、脈拍108/分・血圧90/70mmHg（脈圧が20と狭い）、眼瞼結膜の貧血——<b>上部消化管出血</b>で循環血液量が減っている。採血して静脈路を確保し、輸液を始めたら、<b>上部消化管内視鏡検査</b>で出血源を確かめて止血する。腹部超音波・単純 CT は消化管の粘膜の出血源が分からない。小腸造影は上下部の内視鏡で出血源が見つからないときの検査。下部消化管内視鏡はタール便では後回し。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 タール便への対応",
-       "c": "<span class=\"kw\">d上部消化管内視鏡（正答）</span>：<br>タール便 → <span class=\"kw\">上部消化管出血（食道〜十二指腸）</span>→ 緊急内視鏡<br/>血圧134/64mmHg（安定） → 輸液後すぐに内視鏡が可能<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a腹部超音波：実質臓器（肝・胆・脾）の評価→消化管出血の緊急確認には不適<br/>✗ b小腸造影：OGIB精査→上部内視鏡の前に実施しない<br/>✗ c腹部単純CT：造影CTなら有用だが内視鏡より感度低い（出血源同定）<br/>✗ e下部消化管内視鏡：タール便→上部GI出血→まず上部内視鏡</br>"
+       "h": "🌿 最初の採血で何を見るか——数字の読み違いに注意",
+       "c": "<span class=\"kw4\"><b>内視鏡の前の採血は、出血の重さ・輸血の準備・止血の妨げになるものを確かめる</b></span>。<br/><span class=\"kw\"><b>① 血算</b></span><br/><span class=\"kw3\"><b>Hb・Ht：輸血の目安（Hb 7 未満、心疾患があれば 8 未満）</b></span><br/><span class=\"kw4\"><b>出血の直後は Hb が下がりきらない——輸液と時間で薄まり、1〜3日かけて下がる</b></span><br/><span class=\"kw3\"><b>血小板：5万未満なら止血の妨げ</b></span><br/><span class=\"kw3\"><b>MCV：小球性なら以前から続く出血（鉄欠乏）</b></span><br/><span class=\"kw\"><b>② 凝固</b></span><br/><span class=\"kw3\"><b>PT-INR・APTT——抗凝固薬・肝疾患</b></span><br/><span class=\"kw\"><b>③ 生化学</b></span><br/><span class=\"kw4\"><b>BUN が Cr に比べて高い：上部消化管出血（血液の蛋白が腸で吸収される）</b></span><br/><span class=\"kw3\"><b>肝機能・アルブミン：肝硬変・静脈瘤の可能性</b></span><br/><span class=\"kw3\"><b>乳酸：循環不全の重さ</b></span><br/><span class=\"kw\"><b>④ 輸血の準備</b></span><br/><span class=\"kw3\"><b>血液型・不規則抗体・交差適合試験</b></span><br/><span class=\"kw\"><b>⑤ 本例</b></span><br/><span class=\"kw3\"><b>脈拍が収縮期血圧を上回る（ショック指数 108/90 ≒ 1.2）——循環血液量の2割以上を失っている可能性</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　腹部超音波検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝・胆・膵・腹水を見るが、消化管の粘膜の出血源は分からない</b></span>。</td></tr><tr><td>ｂ　小腸造影</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>上下部の内視鏡で出血源が見つからないときに行う</b></span>。</td></tr><tr><td>ｃ　腹部単純CT</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>造影しないと出血の場所は分からない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　上部消化管内視鏡検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>タール便の出血源の大部分は食道・胃・十二指腸</b></span>。</td></tr><tr><td>ｅ　下部消化管内視鏡検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>タール便ではまず上部——上部で見つからなければ行う</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管出血で輸液開始後にまず行うこと。<br/><b>a 腹部超音波／b 小腸造影／c 腹部単純CT／e 下部消化管内視鏡</b>：第一でない。<br/><b>d 上部消化管内視鏡検査</b>：<span class=\"kw\">上部消化管出血の出血源検索</span>。✓"
+       "h": "🔍 Dieulafoy 潰瘍——小さな傷から動脈性の大出血",
+       "c": "<span class=\"kw4\"><b>粘膜下層を走る太い動脈が、ごく小さな粘膜の欠損から露出して破れる——潰瘍は小さいのに、出血は大量で動脈性</b></span>。<br/><span class=\"kw\"><b>① 特徴</b></span><br/><span class=\"kw3\"><b>胃の噴門から6cm 以内の小弯（体上部）に多い。十二指腸・小腸・大腸にもできる</b></span><br/><span class=\"kw3\"><b>中高年の男性に多い。前ぶれなく大量の吐血・黒色便</b></span><br/><span class=\"kw\"><b>② 見つけにくい</b></span><br/><span class=\"kw4\"><b>病変が小さく、出血が止まっていると見逃しやすい——繰り返す内視鏡で見つかることがある</b></span><br/><span class=\"kw3\"><b>胃に血液がたまって見えにくい——体位変換・洗浄</b></span><br/><span class=\"kw\"><b>③ 治療</b></span><br/><span class=\"kw3\"><b>内視鏡的止血——クリッピング、EVL（バンドで縛る）、局注と熱凝固</b></span><br/><span class=\"kw3\"><b>止まらなければ血管造影で塞栓、手術</b></span><br/><span class=\"kw\"><b>④ 本例との関係</b></span><br/><span class=\"kw3\"><b>46歳男性のタール便——最も多いのは十二指腸潰瘍・胃潰瘍だが、内視鏡で潰瘍が見つからないときに思い出す</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>タール便＋頻脈・低血圧 → 採血・静脈路・輸液の後、上部消化管内視鏡</b></span>。<br/><span class=\"kw3\"><b>出血の直後は Hb が下がりきらない。BUN/Cr 高値は上部消化管出血</b></span>。<br/><span class=\"kw3\"><b>上部で出血源がなければ下部内視鏡 → 小腸の検査</b></span>。<br/><span class=\"kw4\"><b>Dieulafoy 潰瘍：噴門近くの小弯、小さな欠損から動脈性の大出血、見逃しやすい</b></span>。<br/><span class=\"kw3\"><b>治療はクリッピング・EVL、だめなら塞栓・手術</b></span>。"
       }
      ],
      "imgs": []
@@ -10795,22 +10825,27 @@
       }
      ],
      "ans_label": "ｄ　胃平滑筋腫",
-     "ans_sub": "胃平滑筋腫（GIST）はH.pylori感染と無関係。c-kit（CD117）遺伝子変異が原因。",
+     "ans_sub": "H. pylori の感染は、<b>慢性胃炎</b>、<b>十二指腸潰瘍</b>、<b>胃癌</b>と関連し、<b>胃ポリープ</b>のうち過形成性ポリープも感染した胃粘膜から生じ、除菌で小さくなったり消えたりする。<b>胃平滑筋腫</b>は胃壁の筋層の平滑筋から生じる良性の間葉系腫瘍で、H. pylori 感染とは関連しない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 H.pylori感染関連・非関連疾患",
-       "c": "<table class=\"tb\"><tr><th>疾患</th><th>H.pylori関連</th></tr><tr><td>疾患</td><td>H.pylori関連</td></tr><tr><td>慢性胃炎（a）</td><td><span class=\"kw\">関連</span>：H.pylori→慢性炎症</td></tr><tr><td>十二指腸潰瘍（b）</td><td><span class=\"kw\">関連</span>：90〜95%がH.pylori陽性</td></tr><tr><td>胃ポリープ（c）</td><td><span class=\"kw\">関連</span>：過形成性ポリープ→H.pylori除菌で縮小することあり</td></tr><tr><td><span class=\"kw4\">胃平滑筋腫/GIST（d）</span></td><td><span class=\"kw4\">非関連（正答）</span>：c-kit遺伝子変異→間葉系腫瘍</td></tr><tr><td>胃癌（e）</td><td><span class=\"kw\">関連</span>：H.pylori→萎縮→腸上皮化生→癌（Correa cascade）</td></tr></table>"
+       "h": "🌿 胃ポリープは3種類——H. pylori との関係が違う",
+       "c": "<span class=\"kw4\"><b>胃の上皮性のポリープは、過形成性ポリープ・胃底腺ポリープ・腺腫に分けると、H. pylori との関係と扱いが分かる</b></span>。<br/><span class=\"kw\"><b>① 過形成性ポリープ</b></span><br/><span class=\"kw4\"><b>H. pylori 感染した萎縮のある胃に多い——赤く、表面がいちご状、前庭部〜体部</b></span><br/><span class=\"kw3\"><b>除菌で小さくなる・消えることが多い——まず除菌</b></span><br/><span class=\"kw3\"><b>大きいもの（2cm 以上）は癌が含まれることがあり、出血の原因にもなる——切除</b></span><br/><span class=\"kw\"><b>② 胃底腺ポリープ</b></span><br/><span class=\"kw4\"><b>H. pylori 感染のない、萎縮のないきれいな胃にできる——体部に多発する小さな正常色のポリープ</b></span><br/><span class=\"kw3\"><b>ほとんど癌にならず、経過観察</b></span><br/><span class=\"kw3\"><b>PPI の長期内服で増える・大きくなることがある</b></span><br/><span class=\"kw3\"><b>家族性大腸腺腫症では多発する</b></span><br/><span class=\"kw\"><b>③ 腺腫</b></span><br/><span class=\"kw3\"><b>白っぽく平らに盛り上がる。腸上皮化生を背景に萎縮した胃にできる</b></span><br/><span class=\"kw3\"><b>癌になることがある——内視鏡で切除（ESD）</b></span><br/><span class=\"kw\"><b>④ 胃のポリープから分かること</b></span><br/><span class=\"kw3\"><b>胃底腺ポリープ → 感染がない胃、過形成性ポリープ → 感染した胃</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　慢性胃炎</td><td><span class=\"kw4\">誤り</span>（関連する）。<span class=\"kw3\"><b>H. pylori 感染で必ず起こる</b></span>。</td></tr><tr><td>ｂ　十二指腸潰瘍</td><td><span class=\"kw4\">誤り</span>（関連する）。<span class=\"kw3\"><b>多くは H. pylori が原因</b></span>。</td></tr><tr><td>ｃ　胃ポリープ</td><td><span class=\"kw4\">誤り</span>（関連する）。<span class=\"kw3\"><b>過形成性ポリープは感染した胃にでき、除菌で縮小する</b></span>。<span class=\"kw2\"><b>胃底腺ポリープは逆に感染のない胃にできる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　胃平滑筋腫</span></td><td><span class=\"kw3\">これが「関連しない」（＝正解）</span>。<span class=\"kw3\"><b>筋層の平滑筋から生じる間葉系腫瘍</b></span>。</td></tr><tr><td>ｅ　胃　癌</td><td><span class=\"kw4\">誤り</span>（関連する）。<span class=\"kw3\"><b>感染 → 萎縮 → 腸上皮化生 → 癌（Q.145）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 胃の粘膜下腫瘍——平滑筋腫・GIST・神経鞘腫・神経内分泌腫瘍",
+       "c": "<span class=\"kw4\"><b>粘膜の下から盛り上がる腫瘍は、表面が正常な粘膜に覆われ、なだらかに立ち上がり、ひだが橋のようにかかる（bridging fold）</b></span>。<br/><span class=\"kw\"><b>① 主なもの</b></span><br/><span class=\"kw3\"><b>GIST：最も多い。KIT（CD117）・DOG1 陽性。悪性の可能性がある（Q.129）</b></span><br/><span class=\"kw3\"><b>平滑筋腫：食道・噴門に多い。デスミン・α-SMA 陽性、KIT 陰性。良性</b></span><br/><span class=\"kw3\"><b>神経鞘腫：S-100 陽性。良性</b></span><br/><span class=\"kw3\"><b>神経内分泌腫瘍：黄色っぽい小さな隆起、表面にくぼみ。クロモグラニン A・シナプトフィジン陽性</b></span><br/><span class=\"kw3\"><b>異所性膵：前庭部の大弯、中央にくぼみ（臍）</b></span><br/><span class=\"kw\"><b>② 調べ方</b></span><br/><span class=\"kw3\"><b>超音波内視鏡：どの層から出ているか（第4層＝固有筋層なら GIST・平滑筋腫）、大きさ、内部の様子</b></span><br/><span class=\"kw3\"><b>超音波内視鏡下穿刺吸引〈EUS-FNA〉で組織を採り、免疫染色で決める</b></span><br/><span class=\"kw\"><b>③ 方針</b></span><br/><span class=\"kw4\"><b>2cm 未満で悪性を疑う所見がなければ経過観察、5cm 以上・増大・潰瘍形成・不整な形は切除を考える</b></span><br/><span class=\"kw3\"><b>GIST と確かめられれば大きさにかかわらず切除が原則</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GIST（消化管間質腫瘍）= H.pylori非関連・c-kit/PDGFRA変異</span><br/>GIST治療：イマチニブ（チロシンキナーゼ阻害薬）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "Helicobacter pylori感染と「関連しない」もの。<br/><b>a 慢性胃炎／b 十二指腸潰瘍／c 胃ポリープ／e 胃癌</b>：H.pyloriと関連。<br/><b>d 胃平滑筋腫</b>：<span class=\"kw\">間葉系腫瘍でH.pylori感染と関連しない</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw4\"><b>H. pylori と関連：慢性胃炎・潰瘍・胃癌・MALT リンパ腫・過形成性ポリープ。平滑筋腫・GIST は関連しない</b></span>。<br/><span class=\"kw3\"><b>過形成性ポリープは除菌で縮小。胃底腺ポリープは感染のない胃、PPI で増える</b></span>。<br/><span class=\"kw3\"><b>腺腫は癌化しうる——ESD</b></span>。<br/><span class=\"kw3\"><b>粘膜下腫瘍：GIST（KIT・DOG1）、平滑筋腫（デスミン）、神経鞘腫（S-100）</b></span>。<br/><span class=\"kw3\"><b>超音波内視鏡で層と大きさ、EUS-FNA で組織</b></span>。"
       }
      ],
      "imgs": []
@@ -10852,22 +10887,27 @@
       }
      ],
      "ans_label": "ｄ　腹部造影CT",
-     "ans_sub": "消化管穿孔疑いには腹部CT（遊離ガス・腹水確認）が最も有用。バリウム造影・ERCPは穿孔時に禁忌。",
+     "ans_sub": "十二指腸潰瘍の穿孔を疑ったら、<b>腹部 CT</b>で腹腔内の遊離ガス・腹水・穿孔部の周りの炎症を確かめる（造影すると膿瘍や他の病気も評価できる）。上部消化管バリウム造影は、漏れたバリウムで重い腹膜炎を起こすので禁忌。ERCP は胆管・膵管の検査で、送気で穿孔を広げる。排泄性胆道造影は胆道の検査。超音波内視鏡は消化管の壁や周りの臓器を詳しく見る検査で、穿孔の診断には使わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📸 消化管穿孔の診断",
-       "c": "<span class=\"kw\">d腹部造影CT（正答）</span>：<br/>・腹腔内遊離ガス（free air）の高感度検出<br/>・腹水・腸管浮腫・穿孔部位の同定<br/>・腹部X線より感度が高い（少量の遊離ガスも検出）<br/><br/><span class=\"kw4\">禁忌の検査</span>：<br/>✗ a上部消化管バリウム造影：バリウムが腹腔内に漏出→バリウム腹膜炎（致死的）→<span class=\"kw4\">絶対禁忌</span><br/>✗ c ERCP：十二指腸穿孔時に内視鏡操作で悪化→禁忌<br/><br/><span class=\"kw4\">その他</span>：<br/>✗ b排泄性胆道造影：胆管系の評価（穿孔とは関係ない）<br/>✗ e超音波内視鏡：穿孔疑いでの内視鏡は基本的に避ける"
+       "h": "🌿 穿孔を疑うときに「やってはいけない」検査と、使える造影剤",
+       "c": "<span class=\"kw3\"><b>遊離ガスの写り方と検査値の読み方は Q.108 で見た</b></span>。<span class=\"kw4\"><b>ここでは、穿孔を疑う場面で避けるべき検査と、造影剤の選び方を考える</b></span>。<br/><span class=\"kw\"><b>① 避ける検査</b></span><br/><span class=\"kw4\"><b>バリウムでの造影：腹腔に漏れると重いバリウム腹膜炎を起こし、取り除けない</b></span><br/><span class=\"kw3\"><b>内視鏡（ERCP を含む）：送気で穴を広げ、腹腔に空気と内容物を押し出す</b></span><br/><span class=\"kw3\"><b>浣腸・下剤（大腸の穿孔を疑うとき）</b></span><br/><span class=\"kw\"><b>② 使える造影剤</b></span><br/><span class=\"kw4\"><b>水溶性造影剤（ガストログラフィン）：漏れても吸収される——漏れの場所を確かめるのに使う</b></span><br/><span class=\"kw3\"><b>ただし誤嚥すると重い化学性肺炎を起こす——嘔吐・誤嚥の危険がある人では注意</b></span><br/><span class=\"kw\"><b>③ CT の利点</b></span><br/><span class=\"kw3\"><b>少量の遊離ガスでも見える（立位の胸部エックス線より感度が高い）</b></span><br/><span class=\"kw3\"><b>穿孔の場所（ガスと液体の分布、壁の途切れ）、膿瘍、腹水の量</b></span><br/><span class=\"kw3\"><b>ほかの急性腹症（膵炎・虫垂炎・腸閉塞・大動脈の病気）も同時に評価できる</b></span><br/><span class=\"kw\"><b>④ 造影 CT</b></span><br/><span class=\"kw3\"><b>膿瘍・腸管の虚血・膵炎の評価に役立つ——腎機能を確かめて行う</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　上部消化管バリウム造影</td><td><span class=\"kw4\">誤り</span>（禁忌）。<span class=\"kw3\"><b>漏れたバリウムで重い腹膜炎になる</b></span>。<span class=\"kw2\"><b>漏れを確かめるなら水溶性造影剤</b></span>。</td></tr><tr><td>ｂ　排泄性胆道造影</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>静脈から造影剤を入れて胆道を写す古い検査——穿孔の診断には使わない</b></span>。</td></tr><tr><td>ｃ　内視鏡的逆行性胆管膵管造影〈ERCP〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>十二指腸に内視鏡を入れて送気する——穿孔を広げる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　腹部造影CT</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>遊離ガス・腹水・膿瘍を確かめ、ほかの病気も評価できる</b></span>。</td></tr><tr><td>ｅ　超音波内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>消化管の壁や膵・胆道を詳しく見る検査——穿孔の診断に使わず、送気の危険もある</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 遊離ガスが「出ない」穿孔——後腹膜への穿孔",
+       "c": "<span class=\"kw4\"><b>十二指腸の前壁の穿孔は腹腔に穴があき遊離ガスが出るが、後ろ側（後腹膜に接する部分）の穿孔では腹腔に遊離ガスが出ない</b></span>。<br/><span class=\"kw\"><b>① 後腹膜にある消化管</b></span><br/><span class=\"kw3\"><b>十二指腸の下行部〜水平部、上行結腸・下行結腸、直腸</b></span><br/><span class=\"kw\"><b>② 原因</b></span><br/><span class=\"kw3\"><b>ERCP・内視鏡的乳頭切開術の合併症、腹部の外傷（ハンドルで上腹部を打つ）、十二指腸憩室の穿孔</b></span><br/><span class=\"kw\"><b>③ 所見</b></span><br/><span class=\"kw4\"><b>腎臓や腸腰筋の周りの空気（後腹膜気腫）、皮下気腫・縦隔気腫に広がることもある</b></span><br/><span class=\"kw3\"><b>腹膜刺激症状がはっきりしない、背部痛、遅れて発熱・敗血症</b></span><br/><span class=\"kw4\"><b>腹腔の遊離ガスがないからといって穿孔を否定しない——CT で後腹膜の空気を探す</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>小さく漏れが少なければ絶食・胃管・抗菌薬で保存的に、膿瘍や広がる漏れは手術・ドレナージ</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">消化管穿孔疑い → 腹部造影CT（遊離ガス確認）</span><br/><span class=\"kw4\">バリウム造影は穿孔時絶対禁忌</span>（バリウム腹膜炎）。水溶性造影剤は使用可。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "十二指腸潰瘍穿孔が疑われる場合の検査。<br/><b>a 上部消化管バリウム造影（穿孔で禁忌）／b 排泄性胆道造影／c ERCP／e 超音波内視鏡</b>：不適。<br/><b>d 腹部造影CT</b>：<span class=\"kw\">遊離ガス・腹腔内液体貯留を評価</span>。✓"
+       "c": "<span class=\"kw4\"><b>消化管穿孔を疑ったら腹部 CT（遊離ガス・腹水・膿瘍）</b></span>。<br/><span class=\"kw4\"><b>バリウム造影は禁忌（バリウム腹膜炎）。漏れを見るなら水溶性造影剤</b></span>。<br/><span class=\"kw3\"><b>内視鏡・ERCP は送気で穿孔を広げる</b></span>。<br/><span class=\"kw3\"><b>後腹膜の穿孔（十二指腸下行部・ERCP の合併症）は遊離ガスが出ない——後腹膜気腫を探す</b></span>。<br/><span class=\"kw3\"><b>水溶性造影剤の誤嚥は重い化学性肺炎</b></span>。"
       }
      ],
      "imgs": []
