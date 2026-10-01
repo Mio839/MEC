@@ -41233,22 +41233,27 @@
             {
               "cls": "ept",
               "h": "📎 消化器 Q.310 の解説（同じ国試問題）",
-              "c": "この問題（109G-28）は <b>消化器 Q.310</b> と同じ国試問題なので、その解説を下に併記しています。<br/>大腸憩室出血の内視鏡的止血：クリッピング（金属クリップで出血血管を把持・止血）が適切。"
+              "c": "この問題（109G-28）は <b>消化器 Q.310</b> と同じ国試問題なので、その解説を下に併記しています。<br/>大腸憩室出血の内視鏡止血は<b>クリッピング</b>（ほかに輪ゴムで縛る結紮法）。小腸血管形成異常はアルゴンプラズマ凝固、胃潰瘍の露出血管はクリップ・熱凝固・薬の局注、憩室炎は内視鏡治療の対象ではなく、胃静脈瘤は組織接着剤（シアノアクリレート）の注入やバルーン下逆行性経静脈的塞栓術。"
+            },
+            {
+              "cls": "ep",
+              "h": "🌿 消化管出血の内視鏡止血——道具と使いどころ",
+              "c": "<span class=\"kw4\"><b>憩室出血のクリップと結紮（EBL）、再出血の予防は Q.282——ここは病気ごとの止血法の対応表</b></span>。<br/><span class=\"kw\"><b>① クリップ</b></span><br/><span class=\"kw3\"><b>血管を物理的につまむ</b></span><br/><span class=\"kw3\"><b>露出血管、憩室出血、Mallory-Weiss 症候群の裂け目</b></span><br/><span class=\"kw\"><b>② 熱で固める</b></span><br/><span class=\"kw3\"><b>止血鉗子で挟んで焼く（ソフト凝固）、ヒータープローブ</b></span><br/><span class=\"kw3\"><b>アルゴンプラズマ凝固（APC）：触れずに浅く広く焼く——血管形成異常、GAVE（胃前庭部毛細血管拡張症）、放射線性腸炎</b></span><br/><span class=\"kw\"><b>③ 局注</b></span><br/><span class=\"kw3\"><b>高張食塩水エピネフリン（HSE）・純エタノール——潰瘍の出血</b></span><br/><span class=\"kw\"><b>④ 静脈瘤</b></span><br/><span class=\"kw3\"><b>食道静脈瘤：結紮術（EVL）、硬化療法（EIS）</b></span><br/><span class=\"kw3\"><b>胃静脈瘤：組織接着剤（シアノアクリレート）の注入、バルーン下逆行性経静脈的塞栓術（BRTO）</b></span><br/><span class=\"kw\"><b>⑤ 粉をまく</b></span><br/><span class=\"kw3\"><b>止血剤の粉末——広く滲む腫瘍の出血など</b></span>"
             },
             {
               "cls": "ee",
-              "h": "□ 疾患と内視鏡治療の組み合わせ",
-              "c": "<table class=\"tb\"><tr><th>疾患</th><th>正しい内視鏡治療</th><th>誤りとの違い</th></tr><tr><td>疾患</td><td><span class=\"kw\">正しい内視鏡治療</span></td><td>誤りの選択肢との違い</td></tr><tr><td><span class=\"kw\">大腸憩室出血（正答）</span></td><td>クリッピング（出血血管把持）</td><td>c クリッピング✅</td></tr><tr><td>小腸血管形成異常</td><td>アルゴンプラズマ凝固（APC）</td><td>a 硬化療法は静脈瘤向け</td></tr><tr><td>胃潰瘍露出血管</td><td>クリッピング or 焼灼術</td><td>b 粘膜切除術は腫瘍切除</td></tr><tr><td>大腸憩室炎</td><td>内視鏡は診断のみ（治療は抗菌薬）</td><td>d 局注療法は誤り</td></tr><tr><td>胃静脈瘤</td><td>内視鏡的硬化療法（EIS）・EVO</td><td>e APCは静脈瘤に不適</td></tr></table>"
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　小腸血管形成異常 ―― 硬化療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>アルゴンプラズマ凝固（APC）などで焼く</b></span>。<span class=\"kw3\"><b>硬化療法は静脈瘤の治療</b></span>。</td></tr><tr><td>ｂ　胃潰瘍露出血管 ―― 粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>クリップ・熱凝固・局注で止める</b></span>。<span class=\"kw3\"><b>粘膜切除は早期癌・腺腫の治療</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　大腸憩室出血 ―― クリッピング</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>憩室の口や中の血管をクリップで止める</b></span>。</td></tr><tr><td>ｄ　大腸憩室炎 ―― 局注療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>憩室炎は抗菌薬で治す——内視鏡治療の対象ではない</b></span>。</td></tr><tr><td>ｅ　胃静脈瘤 ―― アルゴンプラズマ凝固</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>組織接着剤の注入や BRTO</b></span>。<span class=\"kw3\"><b>APC は表面を浅く焼くだけで、太い静脈瘤は止まらない</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：止血したあとの再出血の見張り",
+              "c": "<span class=\"kw\"><b>① 潰瘍の再出血の危険（Forrest 分類）</b></span><br/><span class=\"kw3\"><b>Ⅰa 噴き出す出血、Ⅰb にじむ出血、Ⅱa 露出血管、Ⅱb 血の塊が付着——内視鏡止血の対象</b></span><br/><span class=\"kw3\"><b>Ⅱc 黒い平らな斑点、Ⅲ きれいな潰瘍底——再出血は少なく止血不要</b></span><br/><span class=\"kw\"><b>② 止血後</b></span><br/><span class=\"kw3\"><b>潰瘍：PPI の点滴、ピロリ菌の除菌、NSAIDs の中止</b></span><br/><span class=\"kw3\"><b>憩室出血：再出血が多い（1 年で 2〜3 割）——抗血栓薬・NSAIDs の見直し</b></span><br/><span class=\"kw\"><b>③ 再出血したら</b></span><br/><span class=\"kw3\"><b>もう一度内視鏡、止まらなければ動脈塞栓術（Q.282・286）や手術</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">大腸憩室出血の内視鏡的止血 = クリッピング（血管把持）</span><br/>胃静脈瘤：EIS（硬化療法）またはEVO（静脈瘤結紮術）。APCは出血性病変の凝固。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "疾患と内視鏡治療の組合せで正しいもの。<br/><b>a 小腸血管形成異常→硬化療法／b 胃潰瘍露出血管→粘膜切除／d 大腸憩室炎→局注／e 胃静脈瘤→APC</b>：誤り。<br/><b>c 大腸憩室出血→クリッピング</b>：<span class=\"kw\">出血源をクリップで止血</span>。✓"
+              "c": "<span class=\"kw3\"><b>憩室出血＝クリップ・結紮、血管形成異常＝APC</b></span><br/><span class=\"kw3\"><b>食道静脈瘤＝EVL・EIS、胃静脈瘤＝組織接着剤・BRTO</b></span><br/><span class=\"kw4\"><b>憩室炎は内視鏡治療ではなく抗菌薬、粘膜切除は腫瘍の治療</b></span>"
             }
           ],
           "imgs": []

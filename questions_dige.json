@@ -20833,22 +20833,27 @@
       }
      ],
      "ans_label": "ｅ　便中Clostridium difficile 毒素",
-     "ans_sub": "抗菌薬（セフェム系）使用後の水様下痢→偽膜性腸炎（C.difficile感染）を疑い便中CDトキシンを迅速検査。",
+     "ans_sub": "肺炎球菌肺炎（Gram 陽性双球菌の貪食）に<b>ペニシリン系</b>の点滴を 5 日。呼吸は良くなったのに<b>熱がぶり返し、頻回の下痢</b>——抗菌薬に伴う<b>C. difficile 感染症</b>をまず疑い、<b>便中の C. difficile 毒素</b>を調べる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 偽膜性腸炎（CDI）の診断（画像ポイント）",
-       "c": "<span class=\"kw\">e便中C.difficile毒素（正答）</span>：<br/>抗菌薬関連下痢症（CDAD）→ 便中CDトキシンA/Bを迅速検出（結果30分〜数時間）<br/>腹部X線・CT：偽膜性腸炎では結腸の壁肥厚（thumb printing）・アコーディオン徴候<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a抗核抗体：自己免疫疾患のスクリーニング（CDIとは無関係）<br/>✗ b注腸造影：大腸の形態評価（急性期の偽膜性腸炎では危険・穿孔リスク）<br/>✗ c腹部造影CT：病態評価には有用だが診断の第一選択は便中毒素検出<br/>✗ d上部消化管内視鏡：胃・十二指腸の疾患（CDIとは無関係）"
+       "h": "🌿 治療中に熱がぶり返したら——原因を順に考える",
+       "c": "<span class=\"kw4\"><b>CDI の検査の出し方は Q.289、選択肢の検査の使い分けは Q.298——ここは「良くなっていたのに再び熱」の考え方</b></span>。<br/><span class=\"kw\"><b>① 治療している感染症が悪くなった</b></span><br/><span class=\"kw3\"><b>膿胸（胸水がたまる）、肺膿瘍、薬の効かない菌</b></span><br/><span class=\"kw3\"><b>この患者は痰が減り酸素も不要——肺炎そのものは良くなっている</b></span><br/><span class=\"kw\"><b>② 新しい感染症（病院でかかる）</b></span><br/><span class=\"kw3\"><b>CDI——下痢があればまず</b></span><br/><span class=\"kw3\"><b>点滴の管の感染（静脈炎・カテーテル関連血流感染）</b></span><br/><span class=\"kw3\"><b>尿路感染（尿道カテーテル）、誤嚥性肺炎</b></span><br/><span class=\"kw\"><b>③ 感染症でない熱</b></span><br/><span class=\"kw3\"><b>薬剤熱（βラクタム系に多い——全身状態がよく、比較的徐脈、好酸球増加）</b></span><br/><span class=\"kw3\"><b>深部静脈血栓症・肺塞栓、痛風・偽痛風</b></span><br/><span class=\"kw\"><b>④ この患者</b></span><br/><span class=\"kw3\"><b>熱＋頻回の下痢＋抗菌薬 5 日——CDI を最初に調べる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　抗核抗体</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>膠原病の検査——急な下痢と熱の原因ではない</b></span>。</td></tr><tr><td>ｂ　注腸造影</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>炎症のある腸に圧をかける</b></span>。<span class=\"kw3\"><b>CDI の診断には使わない</b></span>。</td></tr><tr><td>ｃ　腹部造影 CT</td><td><span class=\"kw4\">誤り</span>（まずではない）。<span class=\"kw3\"><b>腹部の強い症状・巨大結腸症を疑うときに</b></span>。</td></tr><tr><td>ｄ　上部消化管内視鏡検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃・十二指腸の検査——下痢の原因を探す検査ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　便中 Clostridium difficile 毒素</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>抗菌薬使用中の熱と下痢</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：肺炎球菌とペニシリン",
+       "c": "<span class=\"kw\"><b>① 痰の Gram 染色</b></span><br/><span class=\"kw3\"><b>好中球が菌を食べている像があれば、その菌が原因と考えてよい</b></span><br/><span class=\"kw3\"><b>Gram 陽性の双球菌（ランセット形）——肺炎球菌</b></span><br/><span class=\"kw3\"><b>Gram 陰性の短桿菌——インフルエンザ菌、Gram 陰性の双球菌——モラクセラ</b></span><br/><span class=\"kw\"><b>② 肺炎球菌にはペニシリン</b></span><br/><span class=\"kw3\"><b>肺炎（髄膜炎以外）なら、ペニシリンが効きにくい株でも高用量のペニシリンで治せることが多い</b></span><br/><span class=\"kw3\"><b>狭い範囲の薬で治す——腸内細菌の乱れ（CDI）も、耐性菌も減らせる</b></span><br/><span class=\"kw\"><b>③ 狭い薬でも CDI は起こる</b></span><br/><span class=\"kw4\"><b>ペニシリン系でも CDI は起こる——「狭い薬だから大丈夫」ではない</b></span><br/><span class=\"kw\"><b>④ 予防</b></span><br/><span class=\"kw3\"><b>65 歳以上は肺炎球菌ワクチン（定期接種）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">抗菌薬使用後の水様下痢 → 便中CDトキシン（迅速検査）が診断の第一選択</span><br/>内視鏡で偽膜（黄白色斑点状隆起）を確認することもできる（直接診断）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "発熱再燃＋頻回の下痢（抗菌薬後）でまず行う検査。<br/><b>a 抗核抗体／b 注腸造影／c 腹部CT／d 上部消化管内視鏡</b>：第一でない。<br/><b>e 便中Clostridium difficile毒素</b>：<span class=\"kw\">CD腸炎の診断</span>。✓"
+       "c": "<span class=\"kw3\"><b>抗菌薬治療中の熱の再燃＋頻回の下痢→便中 C. difficile 毒素</b></span><br/><span class=\"kw3\"><b>治療中の発熱：元の感染の悪化・新しい院内感染・薬剤熱を順に考える</b></span><br/><span class=\"kw4\"><b>Gram 陽性双球菌の貪食＝肺炎球菌→ペニシリン</b></span>"
       }
      ],
      "imgs": []
@@ -20894,22 +20899,27 @@
       }
      ],
      "ans_label": "ｂ　虫垂切除術",
-     "ans_sub": "急性虫垂炎（腹膜刺激症状あり）→虫垂切除術（appendectomy）が根治的治療。穿孔進展を防ぐ。",
+     "ans_sub": "45 歳女性、心窩部痛→下腹部へ広がり、歩くと響く、右下腹部の圧痛と反跳痛、白血球 14,800。単純 CT（A：横断、B：冠状断、C：矢状断）で右下腹部に<b>腫れた虫垂と、その中の強く白い糞石</b>、周りの脂肪の濁り——<b>糞石のある急性虫垂炎</b>。腹膜刺激徴候もあり、<b>虫垂切除術</b>を行う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 急性虫垂炎の治療",
-       "c": "<span class=\"kw\">b虫垂切除術（正答）</span>：<br>腹膜刺激症状あり（反跳痛・筋性防御）→腹膜炎進展の可能性→緊急虫垂切除術<br>腹腔鏡下虫垂切除術（標準術式）：回復早い・創感染少ない<br>開腹（McBurney切開）：穿孔・膿瘍形成例でも対応可<br><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a胆嚢摘出術：急性胆嚢炎の手術（虫垂炎には不適）<br/>✗ c右付属器摘出術：卵巣・卵管の疾患（虫垂炎との鑑別が必要だが今回は虫垂炎）<br/>✗ d体外衝撃波結石破砕術：尿路結石（虫垂炎には不適）<br/>✗ e経皮経肝胆嚢ドレナージ：急性胆嚢炎のドレナージ（虫垂炎には不適）</br></br></br></br>"
+       "h": "🌿 糞石があると、抗菌薬だけでは治りにくい",
+       "c": "<span class=\"kw4\"><b>治療の選び方（抗菌薬か手術か）は Q.275、手術の周りの手当ては Q.293——ここは糞石の意味</b></span>。<br/><span class=\"kw\"><b>① 糞石とは</b></span><br/><span class=\"kw3\"><b>便が固まって石灰が沈着したもの——CT で虫垂の中に強く白く見える</b></span><br/><span class=\"kw3\"><b>虫垂の口をふさぎ、中の圧が上がって血流が悪くなり、細菌が増える</b></span><br/><span class=\"kw\"><b>② 糞石があると</b></span><br/><span class=\"kw3\"><b>壊疽・穿孔になりやすい</b></span><br/><span class=\"kw3\"><b>抗菌薬だけで治そうとしても失敗しやすく、治っても再発しやすい</b></span><br/><span class=\"kw4\"><b>そのため糞石のある虫垂炎は手術を勧める</b></span><br/><span class=\"kw\"><b>③ この患者</b></span><br/><span class=\"kw3\"><b>糞石、反跳痛、腸雑音の低下——手術の適応</b></span><br/><span class=\"kw\"><b>④ 「歩くと響く」</b></span><br/><span class=\"kw3\"><b>腹膜に炎症が及んだサイン——振動で痛む（踵落とし試験、咳で痛む）</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 急性虫垂炎 vs 婦人科疾患（女性での鑑別）",
-       "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴</th></tr><tr><td>疾患</td><td>特徴</td></tr><tr><td><span class=\"kw\">急性虫垂炎</span></td><td>McBurney圧痛・Rovsing徴候・発熱・白血球増多</td></tr><tr><td>卵巣嚢腫茎捻転</td><td>突然の激痛・悪心嘔吐・子宮付属器圧痛</td></tr><tr><td>異所性妊娠</td><td>hCG陽性・超音波で子宮外胎嚢・内出血</td></tr><tr><td>骨盤腹膜炎</td><td>性感染症既往・両側付属器圧痛・おりもの</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胆囊摘出術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胆嚢炎の手術——肝・胆道系酵素は正常で、炎症は右下腹部</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　虫垂切除術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>糞石のある急性虫垂炎で腹膜刺激徴候</b></span>。</td></tr><tr><td>ｃ　右付属器摘出術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>卵巣・卵管の病気（捻転・腫瘍）の手術——CT で付属器ではなく虫垂の炎症</b></span>。</td></tr><tr><td>ｄ　体外衝撃波結石破砕術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>尿路結石の治療——尿潜血は陰性</b></span>。<span class=\"kw4\"><b>虫垂の糞石を尿管結石と取り違えない</b></span>。</td></tr><tr><td>ｅ　経皮経肝胆囊ドレナージ</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>手術できない重い胆嚢炎の処置</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "腹部CTで急性虫垂炎。<br/><b>a 胆囊摘出／c 右付属器摘出／d ESWL／e PTGBD</b>：合わない。<br/><b>b 虫垂切除術</b>：<span class=\"kw\">急性虫垂炎の外科的治療</span>。✓"
+       "h": "🔍 別軸：女性の右下腹部痛",
+       "c": "<span class=\"kw\"><b>① まず妊娠を確かめる</b></span><br/><span class=\"kw4\"><b>妊娠可能な女性の腹痛では、本人の申告にかかわらず妊娠反応を調べるのが原則</b></span><br/><span class=\"kw3\"><b>異所性妊娠の破裂は出血性ショックになる</b></span><br/><span class=\"kw\"><b>② 婦人科の病気</b></span><br/><span class=\"kw3\"><b>卵巣捻転：突然の激痛、嘔吐、超音波で腫れた卵巣</b></span><br/><span class=\"kw3\"><b>卵巣出血・黄体出血：月経周期の後半、性交のあと</b></span><br/><span class=\"kw3\"><b>骨盤内炎症性疾患（PID）：両側の下腹部痛、子宮を動かすと痛む、帯下</b></span><br/><span class=\"kw3\"><b>肝周囲炎（Fitz-Hugh-Curtis 症候群）：クラミジアで右上腹部痛</b></span><br/><span class=\"kw\"><b>③ 尿路</b></span><br/><span class=\"kw3\"><b>尿管結石：背中から下腹部への疝痛、血尿</b></span><br/><span class=\"kw3\"><b>腎盂腎炎：肋骨脊柱角の叩打痛、膿尿</b></span><br/><span class=\"kw\"><b>④ 消化管</b></span><br/><span class=\"kw3\"><b>虫垂炎、憩室炎、回腸末端炎（エルシニア・Crohn 病）</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>CT で虫垂の中に糞石＋腹膜刺激徴候→虫垂切除術</b></span><br/><span class=\"kw3\"><b>糞石があると穿孔しやすく、抗菌薬だけでは失敗・再発しやすい</b></span><br/><span class=\"kw4\"><b>女性の下腹部痛は妊娠反応と婦人科疾患（異所性妊娠・卵巣捻転・PID）を必ず考える</b></span>"
       }
      ],
      "imgs": [
@@ -20963,22 +20973,27 @@
       }
      ],
      "ans_label": "ｃ　抗菌薬投与\nｅ　穿刺ドレナージ",
-     "ans_sub": "大腸憩室炎に膿瘍形成→抗菌薬投与（腸内細菌・嫌気性菌カバー）＋膿瘍ドレナージが適切。",
+     "ans_sub": "便秘がちの 72 歳男性、左下腹部痛と発熱、白血球 18,300（桿状核 45%）、CRP 6.5。超音波で<b>多数の大腸憩室と左側腹部の液体</b>、造影 CT では<b>下行結腸の外側に、壁が造影される大きな液体の袋</b>——<b>膿瘍を作った憩室炎（Hinchey Ⅰ〜Ⅱ）</b>。筋性防御・反跳痛はなく汎発性腹膜炎ではない。<b>抗菌薬</b>と<b>膿瘍の穿刺ドレナージ</b>で治療する。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔧 大腸憩室炎（膿瘍形成）の治療",
-       "c": "<span class=\"kw\">c抗菌薬投与（正答）</span>：<br>腸内細菌（大腸菌・Klebsiella）＋嫌気性菌（Bacteroides）をカバー<br>例：セフトリアキソン＋メトロニダゾール、ピペラシリン/タゾバクタム<br><br/><span class=\"kw\">e穿刺ドレナージ（正答）</span>：<br/>膿瘍形成例（直径3cm以上）→ CTガイド下経皮的ドレナージ<br/>→ 膿を体外へ排出→炎症改善・手術回避<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a高圧浣腸：憩室炎・腹膜炎では腸管内圧上昇→穿孔悪化リスク→<span class=\"kw4\">禁忌</span><br/>✗ b降圧薬投与：血圧管理（今回の治療の主眼ではない）<br/>✗ d右半結腸切除術：右側結腸の切除（今回は左側・膿瘍形成→ドレナージが先）</br></br></br>"
+       "h": "🌿 膿瘍は「抜いて、効かせて、あとで切る」",
+       "c": "<span class=\"kw4\"><b>Hinchey 分類と、膿瘍の大きさでドレナージを決める目安は Q.290——ここは膿瘍の見つけ方とドレナージのあと</b></span>。<br/><span class=\"kw\"><b>① CT の膿瘍</b></span><br/><span class=\"kw3\"><b>液体がたまり、周りの壁が輪のように造影される</b></span><br/><span class=\"kw3\"><b>中にガスが混じることもある</b></span><br/><span class=\"kw3\"><b>この患者：左の側腹部、腸腰筋の前外側に大きな低吸収の袋</b></span><br/><span class=\"kw\"><b>② なぜ抜くか</b></span><br/><span class=\"kw3\"><b>膿瘍の中には抗菌薬が届きにくい——大きければ外へ出さないと治らない</b></span><br/><span class=\"kw\"><b>③ どう抜くか</b></span><br/><span class=\"kw3\"><b>CT や超音波で見ながら、皮膚から針を刺して管を入れる（経皮的ドレナージ）</b></span><br/><span class=\"kw3\"><b>開腹しないので、全身状態が悪い人にもできる</b></span><br/><span class=\"kw3\"><b>膿の培養で菌と効く薬を確かめる</b></span><br/><span class=\"kw\"><b>④ そのあと</b></span><br/><span class=\"kw3\"><b>炎症が落ち着いた 6〜8 週後に内視鏡で癌を除く</b></span><br/><span class=\"kw3\"><b>膿瘍を作った憩室炎は再発しやすい——待機的に結腸を切除し、その場でつなぐ（人工肛門にせずに済むことが多い）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　高圧浣腸</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>炎症のある腸に圧をかけ、穿孔させる</b></span>。</td></tr><tr><td>ｂ　降圧薬投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血圧 142/86 は痛みと熱による上昇——治療の対象ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　抗菌薬投与</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>腸内細菌と嫌気性菌を狙う</b></span>。</td></tr><tr><td>ｄ　右半結腸切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>病変は左——しかも今は手術の時期ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　穿刺ドレナージ</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>大きな膿瘍を外へ出す</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：腹腔内の膿瘍の行き先",
+       "c": "<span class=\"kw\"><b>① 膿瘍ができやすい場所</b></span><br/><span class=\"kw3\"><b>骨盤の底（Douglas 窩）——立っていると液体が下へたまる</b></span><br/><span class=\"kw3\"><b>横隔膜の下、肝臓の下（Morison 窩）、結腸の外側の溝</b></span><br/><span class=\"kw\"><b>② 破れると</b></span><br/><span class=\"kw3\"><b>腹腔へ：汎発性の膿性腹膜炎（Hinchey Ⅲ）</b></span><br/><span class=\"kw\"><b>③ 隣の臓器とつながると（瘻孔）</b></span><br/><span class=\"kw3\"><b>膀胱：気尿・糞尿・繰り返す尿路感染——男性に多い（女性は子宮が間にある）</b></span><br/><span class=\"kw3\"><b>腟：子宮摘出後の女性で、腟から便やガス</b></span><br/><span class=\"kw3\"><b>皮膚：腹壁から膿や便</b></span><br/><span class=\"kw4\"><b>S 状結腸膀胱瘻の原因は憩室炎が最多、次が大腸癌——瘻孔があれば切除が要る</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">大腸憩室炎 + 膿瘍 → 抗菌薬 ＋ 経皮的ドレナージ</span><br/>穿孔→汎発性腹膜炎（Hinchey分類IV）：Hartmann手術。高圧浣腸は絶対禁忌。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "膿瘍（液体貯留）を伴う病態の治療を2つ。<br/><b>a 高圧浣腸／b 降圧薬／d 右半結腸切除</b>：不適。<br/><b>c 抗菌薬投与</b>：<span class=\"kw\">感染の制御</span>。✓<br/><b>e 穿刺ドレナージ</b>：<span class=\"kw\">膿瘍の排膿</span>。✓"
+       "c": "<span class=\"kw3\"><b>膿瘍を作った憩室炎→抗菌薬＋経皮的ドレナージ</b></span><br/><span class=\"kw3\"><b>あとで内視鏡で癌を除き、待機的に結腸を切除</b></span><br/><span class=\"kw4\"><b>S 状結腸膀胱瘻：気尿・糞尿、原因は憩室炎が最多</b></span>"
       }
      ],
      "imgs": [
@@ -21022,22 +21037,27 @@
       }
      ],
      "ans_label": "ｃ　大腸憩室出血 ―― クリッピング",
-     "ans_sub": "大腸憩室出血の内視鏡的止血：クリッピング（金属クリップで出血血管を把持・止血）が適切。",
+     "ans_sub": "大腸憩室出血の内視鏡止血は<b>クリッピング</b>（ほかに輪ゴムで縛る結紮法）。小腸血管形成異常はアルゴンプラズマ凝固、胃潰瘍の露出血管はクリップ・熱凝固・薬の局注、憩室炎は内視鏡治療の対象ではなく、胃静脈瘤は組織接着剤（シアノアクリレート）の注入やバルーン下逆行性経静脈的塞栓術。",
      "eg": [
       {
+       "cls": "ep",
+       "h": "🌿 消化管出血の内視鏡止血——道具と使いどころ",
+       "c": "<span class=\"kw4\"><b>憩室出血のクリップと結紮（EBL）、再出血の予防は Q.282——ここは病気ごとの止血法の対応表</b></span>。<br/><span class=\"kw\"><b>① クリップ</b></span><br/><span class=\"kw3\"><b>血管を物理的につまむ</b></span><br/><span class=\"kw3\"><b>露出血管、憩室出血、Mallory-Weiss 症候群の裂け目</b></span><br/><span class=\"kw\"><b>② 熱で固める</b></span><br/><span class=\"kw3\"><b>止血鉗子で挟んで焼く（ソフト凝固）、ヒータープローブ</b></span><br/><span class=\"kw3\"><b>アルゴンプラズマ凝固（APC）：触れずに浅く広く焼く——血管形成異常、GAVE（胃前庭部毛細血管拡張症）、放射線性腸炎</b></span><br/><span class=\"kw\"><b>③ 局注</b></span><br/><span class=\"kw3\"><b>高張食塩水エピネフリン（HSE）・純エタノール——潰瘍の出血</b></span><br/><span class=\"kw\"><b>④ 静脈瘤</b></span><br/><span class=\"kw3\"><b>食道静脈瘤：結紮術（EVL）、硬化療法（EIS）</b></span><br/><span class=\"kw3\"><b>胃静脈瘤：組織接着剤（シアノアクリレート）の注入、バルーン下逆行性経静脈的塞栓術（BRTO）</b></span><br/><span class=\"kw\"><b>⑤ 粉をまく</b></span><br/><span class=\"kw3\"><b>止血剤の粉末——広く滲む腫瘍の出血など</b></span>"
+      },
+      {
        "cls": "ee",
-       "h": "□ 疾患と内視鏡治療の組み合わせ",
-       "c": "<table class=\"tb\"><tr><th>疾患</th><th>正しい内視鏡治療</th><th>誤りとの違い</th></tr><tr><td>疾患</td><td><span class=\"kw\">正しい内視鏡治療</span></td><td>誤りの選択肢との違い</td></tr><tr><td><span class=\"kw\">大腸憩室出血（正答）</span></td><td>クリッピング（出血血管把持）</td><td>c クリッピング✅</td></tr><tr><td>小腸血管形成異常</td><td>アルゴンプラズマ凝固（APC）</td><td>a 硬化療法は静脈瘤向け</td></tr><tr><td>胃潰瘍露出血管</td><td>クリッピング or 焼灼術</td><td>b 粘膜切除術は腫瘍切除</td></tr><tr><td>大腸憩室炎</td><td>内視鏡は診断のみ（治療は抗菌薬）</td><td>d 局注療法は誤り</td></tr><tr><td>胃静脈瘤</td><td>内視鏡的硬化療法（EIS）・EVO</td><td>e APCは静脈瘤に不適</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　小腸血管形成異常 ―― 硬化療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>アルゴンプラズマ凝固（APC）などで焼く</b></span>。<span class=\"kw3\"><b>硬化療法は静脈瘤の治療</b></span>。</td></tr><tr><td>ｂ　胃潰瘍露出血管 ―― 粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>クリップ・熱凝固・局注で止める</b></span>。<span class=\"kw3\"><b>粘膜切除は早期癌・腺腫の治療</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　大腸憩室出血 ―― クリッピング</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>憩室の口や中の血管をクリップで止める</b></span>。</td></tr><tr><td>ｄ　大腸憩室炎 ―― 局注療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>憩室炎は抗菌薬で治す——内視鏡治療の対象ではない</b></span>。</td></tr><tr><td>ｅ　胃静脈瘤 ―― アルゴンプラズマ凝固</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>組織接着剤の注入や BRTO</b></span>。<span class=\"kw3\"><b>APC は表面を浅く焼くだけで、太い静脈瘤は止まらない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：止血したあとの再出血の見張り",
+       "c": "<span class=\"kw\"><b>① 潰瘍の再出血の危険（Forrest 分類）</b></span><br/><span class=\"kw3\"><b>Ⅰa 噴き出す出血、Ⅰb にじむ出血、Ⅱa 露出血管、Ⅱb 血の塊が付着——内視鏡止血の対象</b></span><br/><span class=\"kw3\"><b>Ⅱc 黒い平らな斑点、Ⅲ きれいな潰瘍底——再出血は少なく止血不要</b></span><br/><span class=\"kw\"><b>② 止血後</b></span><br/><span class=\"kw3\"><b>潰瘍：PPI の点滴、ピロリ菌の除菌、NSAIDs の中止</b></span><br/><span class=\"kw3\"><b>憩室出血：再出血が多い（1 年で 2〜3 割）——抗血栓薬・NSAIDs の見直し</b></span><br/><span class=\"kw\"><b>③ 再出血したら</b></span><br/><span class=\"kw3\"><b>もう一度内視鏡、止まらなければ動脈塞栓術（Q.282・286）や手術</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">大腸憩室出血の内視鏡的止血 = クリッピング（血管把持）</span><br/>胃静脈瘤：EIS（硬化療法）またはEVO（静脈瘤結紮術）。APCは出血性病変の凝固。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "疾患と内視鏡治療の組合せで正しいもの。<br/><b>a 小腸血管形成異常→硬化療法／b 胃潰瘍露出血管→粘膜切除／d 大腸憩室炎→局注／e 胃静脈瘤→APC</b>：誤り。<br/><b>c 大腸憩室出血→クリッピング</b>：<span class=\"kw\">出血源をクリップで止血</span>。✓"
+       "c": "<span class=\"kw3\"><b>憩室出血＝クリップ・結紮、血管形成異常＝APC</b></span><br/><span class=\"kw3\"><b>食道静脈瘤＝EVL・EIS、胃静脈瘤＝組織接着剤・BRTO</b></span><br/><span class=\"kw4\"><b>憩室炎は内視鏡治療ではなく抗菌薬、粘膜切除は腫瘍の治療</b></span>"
       }
      ],
      "imgs": []
@@ -21083,22 +21103,27 @@
       }
      ],
      "ans_label": "ａ　経過観察",
-     "ans_sub": "無症状の大腸憩室は治療不要。合併症（憩室炎・出血）のリスクがあるため定期的な経過観察が適切。",
+     "ans_sub": "大腸がん検診の内視鏡で、壁に<b>小さな丸い穴（憩室の口）がいくつも並ぶ</b>——中に便が少し残っているものもある。粘膜は滑らかで腫瘍はない。<b>症状のない大腸憩室（憩室症）</b>は治療の必要がなく、<b>経過観察</b>でよい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 無症状大腸憩室の管理",
-       "c": "<span class=\"kw\">a経過観察（正答）</span>：<br>無症状の大腸憩室→<span class=\"kw\">治療不要・経過観察</span><br/>生活習慣改善：食物繊維摂取増加・水分補給→便通改善→憩室炎予防<br/>合併症（憩室炎・出血）が起きた場合に治療介入<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b抗菌薬投与：炎症（憩室炎）がない→不要<br/>✗ c生検：悪性所見なし・粘膜病変なし→不要（憩室は構造的変化）<br/>✗ d大腸全摘術：過剰治療（無症状憩室に全摘は行わない）<br/>✗ e粘膜切除術（EMR）：粘膜腫瘍（ポリープ等）の治療（憩室には不適）</br>"
+       "h": "🌿 内視鏡で見る憩室——穴であって、盛り上がりではない",
+       "c": "<span class=\"kw4\"><b>憩室の成り立ちは Q.294、憩室炎と憩室出血は Q.281・290——ここは症状のない憩室をどう扱うか</b></span>。<br/><span class=\"kw\"><b>① 内視鏡での見え方</b></span><br/><span class=\"kw3\"><b>壁から外へ凹んだ丸い穴、縁は正常な粘膜</b></span><br/><span class=\"kw3\"><b>中に便や便の汁がたまっていることがある</b></span><br/><span class=\"kw3\"><b>腫瘍は盛り上がり、表面の模様（ピットや血管）が乱れる——憩室はただの凹み</b></span><br/><span class=\"kw\"><b>② 何もしない理由</b></span><br/><span class=\"kw3\"><b>症状のない憩室のほとんどは一生何も起こらない——憩室炎になるのは数%</b></span><br/><span class=\"kw3\"><b>切除して予防する意味はない</b></span><br/><span class=\"kw\"><b>③ 生活の注意</b></span><br/><span class=\"kw3\"><b>食物繊維、便秘を防ぐ、肥満の解消</b></span><br/><span class=\"kw3\"><b>NSAIDs・抗血栓薬は出血を増やす——必要性を見直す</b></span><br/><span class=\"kw4\"><b>ナッツや種を避ける必要はない（昔の指導は根拠がなかった）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　経過観察</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>症状のない憩室は治療しない</b></span>。</td></tr><tr><td>ｂ　抗菌薬投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>炎症がない</b></span>。</td></tr><tr><td>ｃ　生　検</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腫瘍がない——穴の中を生検すると、壁が薄く穿孔の危険</b></span>。</td></tr><tr><td>ｄ　大腸全摘術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>家族性大腸腺腫症や潰瘍性大腸炎の手術</b></span>。</td></tr><tr><td>ｅ　粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ポリープ・早期癌の治療</b></span>。<span class=\"kw4\"><b>憩室をポリープと間違えて切ると穿孔する</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：大腸がん検診の流れ",
+       "c": "<span class=\"kw\"><b>① 対象と方法</b></span><br/><span class=\"kw3\"><b>40 歳以上、毎年、便潜血検査（免疫法）2 日分</b></span><br/><span class=\"kw\"><b>② 陽性なら</b></span><br/><span class=\"kw3\"><b>全大腸内視鏡で精密検査</b></span><br/><span class=\"kw4\"><b>1 日だけ陽性でも精密検査——「もう一度便潜血」で済ませない</b></span><br/><span class=\"kw3\"><b>内視鏡が難しければ CT コロノグラフィー、注腸造影</b></span><br/><span class=\"kw\"><b>③ 内視鏡で見つかるもの</b></span><br/><span class=\"kw3\"><b>腺腫・癌（切除）、憩室、痔核、血管形成異常</b></span><br/><span class=\"kw\"><b>④ ポリープを切ったあと</b></span><br/><span class=\"kw3\"><b>数や大きさ・組織で、次の内視鏡の間隔を決める（1〜3 年後など）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">無症状大腸憩室 → 経過観察（治療不要）</span><br/>憩室炎予防：食物繊維・水分摂取。NSAIDs・低繊維食・便秘が危険因子。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "無症状・良性の大腸内視鏡所見。<br/><b>b 抗菌薬／c 生検／d 大腸全摘／e 粘膜切除</b>：不要。<br/><b>a 経過観察</b>：<span class=\"kw\">良性所見（憩室等）で経過観察</span>。✓"
+       "c": "<span class=\"kw3\"><b>症状のない大腸憩室→経過観察</b></span><br/><span class=\"kw3\"><b>内視鏡で憩室は凹んだ穴、腫瘍は盛り上がり</b></span><br/><span class=\"kw4\"><b>大腸がん検診は便潜血 2 日法、1 回でも陽性なら全大腸内視鏡</b></span>"
       }
      ],
      "imgs": [
@@ -21146,22 +21171,27 @@
       }
      ],
      "ans_label": "ｃ　大腸憩室炎",
-     "ans_sub": "突然の激痛への移行・CT等で大腸炎症所見→大腸憩室炎（穿孔・腹膜炎進展）が最も考えやすい。",
+     "ans_sub": "約 5 年前から時々の下腹部痛、2 日前からの増悪のあと突然の激痛、腹膜刺激徴候、free air——S 状結腸の穿孔。切り取った S 状結腸を開いた標本には、<b>粘膜に小さな黒い穴（憩室の口）がいくつも</b>あり、壁が厚い。腫瘍の盛り上がりや潰瘍はない——<b>憩室炎による穿孔</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 大腸憩室炎の急性増悪",
-       "c": "<span class=\"kw\">c大腸憩室炎（正答）</span>：<br>憩室炎→穿孔・膿瘍形成→突然の激痛増悪<br/>CT：憩室・壁肥厚・周囲脂肪織混濁・遊離ガス（穿孔時）<br/>腹部X線：遊離ガス（free air）→消化管穿孔の証拠<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ a大腸癌：慢性経過・閉塞症状（突然の激痛悪化は少ない）<br/>✗ b腸結核：慢性経過・回盲部好発・輪状潰瘍<br/>✗ d潰瘍性大腸炎：慢性経過・粘血便・全大腸炎型でも突然の激痛は穿孔時<br/>✗ e大腸ポリポーシス：腫瘍性病変（炎症・激痛の主因にはなりにくい）</br>"
+       "h": "🌿 切除標本を読む——穴、壁、腫瘍のなさ",
+       "c": "<span class=\"kw4\"><b>大腸穿孔でつながずに人工肛門にする理由は Q.302、内視鏡での憩室の見え方は Q.311——ここは手術で取った腸の見方</b></span>。<br/><span class=\"kw\"><b>① 粘膜の面</b></span><br/><span class=\"kw3\"><b>小さな黒っぽい穴が散らばる——憩室の口（中に便や血が残る）</b></span><br/><span class=\"kw3\"><b>粘膜のひだは保たれ、癌のような盛り上がり・崩れた潰瘍がない</b></span><br/><span class=\"kw\"><b>② 壁</b></span><br/><span class=\"kw3\"><b>繰り返す炎症で筋層が厚くなり、腸が硬く短くなる</b></span><br/><span class=\"kw3\"><b>S 状結腸の憩室では、筋層が厚くなるのが特徴（内圧が高い）</b></span><br/><span class=\"kw\"><b>③ 経過</b></span><br/><span class=\"kw3\"><b>5 年前から時々の下腹部痛を内服で治していた——繰り返した憩室炎</b></span><br/><span class=\"kw\"><b>④ 標本で確かめること</b></span><br/><span class=\"kw4\"><b>穿孔の原因が癌でないかは、最後は病理で確かめる——癌なら追加の治療が要る</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　大腸癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>周りが盛り上がった潰瘍（2 型）や腸を締めつける輪状の腫瘍が見えるはず</b></span>。</td></tr><tr><td>ｂ　腸結核</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>回盲部に多く、輪状の潰瘍と萎縮瘢痕（Q.287）</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　大腸憩室炎</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>多数の憩室の口と厚い壁</b></span>。</td></tr><tr><td>ｄ　潰瘍性大腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>直腸から続くびまん性の炎症、細かい潰瘍、偽ポリープ</b></span>。</td></tr><tr><td>ｅ　大腸ポリポーシス</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜に多数の盛り上がり（ポリープ）——凹みではない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：大腸穿孔の原因と、癌の穿孔の 2 つの形",
+       "c": "<span class=\"kw\"><b>① 大腸穿孔の原因</b></span><br/><span class=\"kw3\"><b>憩室炎、大腸癌、宿便（Q.302）、内視鏡などの医療行為、外傷、虚血、中毒性巨大結腸症</b></span><br/><span class=\"kw\"><b>② 癌の穿孔の 2 つの形</b></span><br/><span class=\"kw3\"><b>腫瘍そのものが破れる——癌の場所に穴</b></span><br/><span class=\"kw4\"><b>癌で腸が詰まり、手前の腸（とくに盲腸）が膨らんで破れる——癌から離れた場所に穴</b></span><br/><span class=\"kw3\"><b>盲腸は径が大きく、壁にかかる張力が最も強い（Laplace の法則）——盲腸の径 10〜12cm を超えると危険</b></span><br/><span class=\"kw\"><b>③ 手術</b></span><br/><span class=\"kw3\"><b>どちらも穿孔部と癌を切り取る——汚れていれば人工肛門</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">徐々に増悪する腹痛→突然の激痛 = 大腸憩室炎→穿孔を疑う</span><br/>穿孔→遊離ガス（free air）→Hartmann手術または緊急開腹術。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "S状結腸穿孔の原因（切除標本）。<br/><b>a 大腸癌／b 腸結核／d 潰瘍性大腸炎／e 大腸ポリポーシス</b>：合わない。<br/><b>c 大腸憩室炎</b>：<span class=\"kw\">憩室炎の穿孔</span>。✓"
+       "c": "<span class=\"kw3\"><b>S 状結腸の切除標本に多数の小さな穴と厚い壁→憩室炎による穿孔</b></span><br/><span class=\"kw3\"><b>繰り返す下腹部痛の既往は憩室炎の再燃</b></span><br/><span class=\"kw4\"><b>閉塞する大腸癌では、手前の盲腸が膨らんで穿孔することがある</b></span>"
       }
      ],
      "imgs": [
