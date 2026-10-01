@@ -18335,17 +18335,27 @@
       }
      ],
      "ans_label": "ｅ　胃切除",
-     "ans_sub": "転移のない進行胃癌（Stage II-III）は根治切除（幽門側胃切除or胃全摘＋D2郭清）が第一選択。",
+     "ans_sub": "52 歳男性、1 か月の食後の上腹部痛。内視鏡（A）では、出血を伴う浅い不整な陥凹に向かって<b>ひだが集まり、先が細まったり途切れたりしている</b>。生検（B）では、<b>細胞質が淡く泡立った粘液で膨れ、核が端へ押された印環細胞</b>が、腺管を作らずに一面に並ぶ——<b>印環細胞癌（未分化型）</b>。潰瘍（ひだの集中＝瘢痕）を伴う未分化型は内視鏡治療の適応外で、<b>胃切除</b>（＋郭清）を行う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 進行胃癌（転移なし）の治療",
-       "c": "<span class=\"kw\">e胃切除（正答）</span>：<br>Stage II/III（遠隔転移なし）→根治的胃切除術＋D2リンパ節郭清<br>術後補助化学療法（S-1 or CAPOX）を追加<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ aAPC：小血管・びらんの止血（進行癌の根治にならない）<br/>✗ b抗癌化学療法：Stage IVの姑息的治療（根治可能例は手術が先）<br/>✗ c放射線治療：胃癌への根治的放射線療法は限定的<br/>✗ d粘膜切除（EMR）：早期癌（T1a）にのみ適応</br></br>"
+       "h": "🌿 H-E で印環細胞を見つける",
+       "c": "<span class=\"kw4\"><b>未分化型で潰瘍を伴うと ESD の適応外になる話と Lauren 分類は Q.241——ここは印環細胞の見分け方と確かめ方</b></span>。<br/><span class=\"kw\"><b>① B の読み</b></span><br/><span class=\"kw3\"><b>丸く大きな細胞が隙間なく並ぶ</b></span><br/><span class=\"kw3\"><b>細胞質は淡く網目状・泡状——粘液がたまっている</b></span><br/><span class=\"kw4\"><b>核はその粘液に押されて片側へ寄り、三日月形——指輪の宝石の部分に見える＝印環</b></span><br/><span class=\"kw3\"><b>腺管を作らない</b></span><br/><span class=\"kw\"><b>② 確かめる染色</b></span><br/><span class=\"kw3\"><b>PAS 染色・アルシアンブルー染色——細胞の中の粘液が染まる</b></span><br/><span class=\"kw3\"><b>サイトケラチンの免疫染色——上皮の細胞であることを示す（組織球やリンパ球と区別）</b></span><br/><span class=\"kw\"><b>③ 紛らわしいもの</b></span><br/><span class=\"kw3\"><b>泡沫状の組織球（キサントーマ）——核が中央、粘液染色は陰性、サイトケラチン陰性</b></span><br/><span class=\"kw\"><b>④ A の読み</b></span><br/><span class=\"kw3\"><b>出血した浅い陥凹＋ひだの集中——潰瘍か瘢痕を伴う 0-Ⅱc 型の顔つき</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　アルゴンプラズマ凝固</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜の表面を焼くだけで組織が取れない</b></span>。<span class=\"kw3\"><b>血管性病変の止血などに使う</b></span>。</td></tr><tr><td>ｂ　抗癌化学療法</td><td><span class=\"kw4\">誤り</span>（第一ではない）。<span class=\"kw3\"><b>切除できない・転移した胃癌に使う</b></span>。</td></tr><tr><td>ｃ　放射線治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃癌は放射線が効きにくい</b></span>。</td></tr><tr><td>ｄ　粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍を伴う未分化型は内視鏡切除の適応外</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　胃切除</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>転移の所見がなく、内視鏡切除の適応を外れた胃癌</b></span>。<span class=\"kw3\"><b>リンパ節郭清を伴う切除</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃病変（内視鏡＋生検で悪性）。<br/><b>a アルゴンプラズマ凝固／b 抗癌化学療法／c 放射線／d 粘膜切除術</b>：第一でない。<br/><b>e 胃切除</b>：<span class=\"kw\">外科的切除が根治治療</span>。✓"
+       "h": "🔍 別軸：アルゴンプラズマ凝固（APC）は何に使うか",
+       "c": "<span class=\"kw\"><b>① 仕組み</b></span><br/><span class=\"kw3\"><b>アルゴンガスに高周波電流を流し、触れずに粘膜表面を浅く焼く</b></span><br/><span class=\"kw3\"><b>焼ける深さが浅く、広い面を均一に焼ける——穿孔しにくい</b></span><br/><span class=\"kw\"><b>② 使う場面</b></span><br/><span class=\"kw3\"><b>胃前庭部毛細血管拡張症（GAVE、スイカ胃）——前庭部に放射状の赤い筋、慢性の出血と貧血</b></span><br/><span class=\"kw3\"><b>小腸・大腸の血管拡張症（angiodysplasia）</b></span><br/><span class=\"kw3\"><b>放射線性直腸炎からの出血</b></span><br/><span class=\"kw3\"><b>切除後に残った小さな腺腫の焼灼</b></span><br/><span class=\"kw\"><b>③ 癌に使わない理由</b></span><br/><span class=\"kw4\"><b>組織が残らないので、深さや取り切れたかがわからない——根治治療にならない</b></span><br/><span class=\"kw3\"><b>手術ができない高齢者の小さな癌に、やむを得ず使うことはある</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>粘液で膨れ、核が端に寄った細胞＝印環細胞（PAS・アルシアンブルー陽性）</b></span><br/><span class=\"kw3\"><b>潰瘍を伴う未分化型の胃癌→胃切除＋郭清</b></span><br/><span class=\"kw4\"><b>APC は焼くだけで組織が取れない——GAVE などの止血に使う</b></span>"
       }
      ],
      "imgs": [
@@ -18398,22 +18408,27 @@
       }
      ],
      "ans_label": "ｂ　②",
-     "ans_sub": "Virchow リンパ節：左鎖骨上窩リンパ節。消化管癌（特に胃癌）が胸管を経由して転移する。",
+     "ans_sub": "写真の②は<b>左の鎖骨上窩</b>（写真の右＝被検者の左）。胃癌など腹部の癌細胞は<b>胸管</b>を上って、胸管が左の静脈角（内頸静脈と鎖骨下静脈の合流部）に注ぐ手前の<b>左鎖骨上リンパ節</b>に転移する——<b>Virchow 転移</b>。①は左の側頸部、③は左の鎖骨下、④は右の側頸部、⑤は右の鎖骨上窩。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📐 Virchow リンパ節転移",
-       "c": "<span class=\"kw\">②左鎖骨上窩リンパ節（正答）</span>：<br><span class=\"kw\">Virchow転移（Virchow's node）</span>：<br/>・胃癌・大腸癌・膵癌の転移→<span class=\"kw\">左鎖骨上窩リンパ節</span><br/>・経路：腹腔内→胸管（thoracic duct）→左鎖骨下静脈角→<span class=\"kw\">左鎖骨上窩リンパ節</span><br/>・触診で硬いリンパ節を触れる（左）<br/><br/><span class=\"kw\">他の転移性リンパ節</span>：<br/>・Troisier徴候（信号徴候）：同じ意味<br/>・Sister Mary Joseph結節：臍転移（腹膜播種）</br>"
+       "h": "🌿 なぜ「左」の鎖骨上なのか——胸管の通り道",
+       "c": "<span class=\"kw4\"><b>名前のついた転移の一覧（Virchow・Schnitzler・Krukenberg・Sister Mary Joseph）は Q.227——ここは解剖と、写真の読み方</b></span>。<br/><span class=\"kw\"><b>① 写真の向き</b></span><br/><span class=\"kw3\"><b>患者の正面から撮っている——写真の右側が患者の左側</b></span><br/><span class=\"kw3\"><b>②は胸鎖乳突筋の外側、鎖骨の上のくぼみ＝左鎖骨上窩</b></span><br/><span class=\"kw\"><b>② 胸管</b></span><br/><span class=\"kw3\"><b>腹部のリンパ（腸のリンパ・下肢のリンパ）は乳び槽に集まる</b></span><br/><span class=\"kw3\"><b>乳び槽から胸管が大動脈の右後ろを上り、胸の上で左へ寄る</b></span><br/><span class=\"kw3\"><b>左の静脈角に注ぐ——その直前のリンパ節が左鎖骨上リンパ節</b></span><br/><span class=\"kw\"><b>③ 右のリンパ</b></span><br/><span class=\"kw3\"><b>右の頭頸部・右上肢・右胸部のリンパは右リンパ本幹から右の静脈角へ</b></span><br/><span class=\"kw3\"><b>右鎖骨上リンパ節の腫大は、肺・食道・縦隔の病変を考える</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>左の側頸部（胸鎖乳突筋の前）</b></span>。<span class=\"kw3\"><b>頭頸部の癌・リンパ腫・炎症で腫れる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　②</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>左鎖骨上窩——胸管が注ぐ手前の Virchow リンパ節</b></span>。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>左の鎖骨下で、鎖骨上窩ではない</b></span>。</td></tr><tr><td>ｄ　④</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>右の側頸部</b></span>。</td></tr><tr><td>ｅ　⑤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>右の鎖骨上窩——肺・食道・縦隔からのリンパが来る</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管癌の転移がみられやすい頸部リンパ節の部位。a ①／c ③／d ④／e ⑤：Virchowリンパ節の位置と一致しない。b ②：左鎖骨上窩＝Virchowリンパ節。胸管を経由して胃癌などが転移する。✓"
+       "h": "🔍 別軸：鎖骨上リンパ節の触り方と意味",
+       "c": "<span class=\"kw\"><b>① 触り方</b></span><br/><span class=\"kw3\"><b>患者の後ろに立ち、両手の指先を鎖骨上窩に当てる</b></span><br/><span class=\"kw3\"><b>患者に咳をさせる・息をこらえさせる（Valsalva）と、奥のリンパ節が押し上がって触れやすくなる</b></span><br/><span class=\"kw\"><b>② 悪性を疑う硬さ</b></span><br/><span class=\"kw3\"><b>硬く、動かず、痛みがない——転移</b></span><br/><span class=\"kw3\"><b>柔らかく、動き、痛い——炎症</b></span><br/><span class=\"kw\"><b>③ 意味</b></span><br/><span class=\"kw4\"><b>胃癌で Virchow 転移があれば遠隔転移（M1）＝ステージⅣ</b></span><br/><span class=\"kw3\"><b>左鎖骨上リンパ節の腫大を「Troisier 徴候」と呼ぶこともある</b></span><br/><span class=\"kw3\"><b>腹部の癌（胃・膵・胆・大腸）、精巣・卵巣の癌、悪性リンパ腫でも腫れる</b></span>"
       },
       {
-       "cls": "em",
-       "h": "💡 覚え方",
-       "c": "<span class=\"kw\">Virchow転移</span>：左鎖骨上窩（胸管が合流する場所）<br/>「左鎖骨上窩に硬いリンパ節 = 消化管癌（胃癌・大腸癌等）を疑え」"
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>Virchow 転移＝左鎖骨上リンパ節（胸管が左の静脈角に注ぐため）</b></span><br/><span class=\"kw3\"><b>写真は正面から——写真の右が患者の左</b></span><br/><span class=\"kw4\"><b>右の鎖骨上は肺・食道・縦隔、左の鎖骨上は腹部の癌</b></span>"
       }
      ],
      "imgs": [
@@ -18465,17 +18480,27 @@
       }
      ],
      "ans_label": "ｂ　腹膜播種\nｅ　播種性血管内凝固〈DIC〉",
-     "ans_sub": "若年女性・急激体重減少・血性腹水・悪性細胞陽性→胃癌腹膜播種（Krukenberg腫瘍等）＋DICを合併。",
+     "ans_sub": "32 歳女性、6 か月の心窩部痛と急な体重減少。腹部は膨隆して波動——腹水。腹水は<b>総蛋白 4.0g/dL の滲出性</b>。造影では胃が縮んで伸びず、ひだが太い——<b>4 型胃癌</b>。そして<b>血小板 6 万、PT 70%、フィブリノゲン 100、FDP 28</b>——凝固因子と血小板が消費され線溶が亢進した<b>DIC</b>。4 型胃癌の<b>腹膜播種</b>に、癌による DIC を合併している。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 胃癌腹膜播種とDIC",
-       "c": "<span class=\"kw\">b腹膜播種（正答）</span>：<br>胃癌→腹膜播種→癌性腹水（血性）→悪性細胞陽性<br>32歳女性の急激発症→未分化型（印環細胞癌）4型胃癌が多い<br/><br/><span class=\"kw\">e DIC（正答）</span>：<br/>進行癌→組織因子（TF）放出→凝固カスケード活性化→DIC<br/>→ 血小板↓・PT延長・FDP↑・フィブリノーゲン↓<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a早期胃癌：急激体重減少・血性腹水は進行癌の所見<br/>✗ c漏出性腹水：非炎症性（CHF・肝硬変）→悪性細胞陽性ではない<br/>✗ d蛋白漏出性胃腸症：腸管からの蛋白漏出（今回は腹腔内播種）</br></br>"
+       "h": "🌿 進行胃癌に DIC が起こるとき",
+       "c": "<span class=\"kw4\"><b>造影での 4 型の読み方と審査腹腔鏡は Q.250、悪性腹水の手当ては Q.267、腹水の調べ方は Q.244——ここは癌に伴う DIC</b></span>。<br/><span class=\"kw\"><b>① 検査値を読む</b></span><br/><span class=\"kw3\"><b>血小板 6 万——消費されて減る</b></span><br/><span class=\"kw3\"><b>フィブリノゲン 100mg/dL——消費されて減る</b></span><br/><span class=\"kw3\"><b>FDP 28μg/mL——できた血栓が溶かされて増える</b></span><br/><span class=\"kw3\"><b>PT 70%——凝固因子の消費で延長</b></span><br/><span class=\"kw4\"><b>赤沈 4mm/時——フィブリノゲンが少ないので赤沈が遅くなる（癌なのに赤沈が正常に見える落とし穴）</b></span><br/><span class=\"kw\"><b>② なぜ起こるか</b></span><br/><span class=\"kw3\"><b>癌細胞が組織因子を出し、凝固が持続的に動く</b></span><br/><span class=\"kw3\"><b>胃癌（特に印環細胞癌・4 型）・膵癌・前立腺癌で多い</b></span><br/><span class=\"kw3\"><b>線溶が強く出るタイプ（線溶亢進型）——出血しやすい</b></span><br/><span class=\"kw\"><b>③ 骨髄への転移</b></span><br/><span class=\"kw3\"><b>印環細胞癌は骨髄に広がりやすい（骨髄癌腫症）——貧血・血小板減少・LD 上昇・赤芽球や幼若な白血球が血中に出る</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　早期胃癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹水・DIC・急な体重減少は早期癌では起こらない</b></span>。<span class=\"kw3\"><b>造影も 4 型の進行癌</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　腹膜播種</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>滲出性の腹水、若い女性の 4 型胃癌</b></span>。</td></tr><tr><td>ｃ　漏出性腹水</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹水の総蛋白 4.0g/dL——滲出性</b></span>。<span class=\"kw3\"><b>アルブミン 3.5 で低アルブミンも軽い</b></span>。</td></tr><tr><td>ｄ　蛋白漏出性胃腸症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血清アルブミンは 3.5 と保たれている</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　播種性血管内凝固〈DIC〉</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>血小板・フィブリノゲンの減少と FDP 上昇、PT 延長</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "上部消化管造影のスキルス胃癌で考えられるものを2つ。<br/><b>a 早期胃癌／c 漏出性腹水／d 蛋白漏出性胃腸症</b>：合わない。<br/><b>b 腹膜播種</b>：<span class=\"kw\">スキルス胃癌は腹膜播種しやすい</span>。✓<br/><b>e 播種性血管内凝固〈DIC〉</b>：<span class=\"kw\">進行癌に合併しうる</span>。✓"
+       "h": "🔍 別軸：DIC をどう判定し、どう治すか",
+       "c": "<span class=\"kw\"><b>① 判定（日本血栓止血学会の基準の考え方）</b></span><br/><span class=\"kw3\"><b>血小板数・FDP（または D ダイマー）・フィブリノゲン・PT 比・アンチトロンビンを点数化</b></span><br/><span class=\"kw3\"><b>基礎疾患（造血器腫瘍・感染症・それ以外）で点の付け方を変える</b></span><br/><span class=\"kw\"><b>② タイプ</b></span><br/><span class=\"kw3\"><b>線溶抑制型：敗血症——臓器障害が目立つ、FDP の上がり方は控えめ</b></span><br/><span class=\"kw3\"><b>線溶亢進型：固形癌・前置胎盤・大動脈瘤・急性前骨髄球性白血病——出血が目立つ</b></span><br/><span class=\"kw\"><b>③ 治療</b></span><br/><span class=\"kw4\"><b>いちばん大事なのは原因（ここでは癌）の治療</b></span><br/><span class=\"kw3\"><b>抗凝固療法：ヘパリン類、アンチトロンビン製剤、トロンボモジュリン製剤</b></span><br/><span class=\"kw3\"><b>足りないものを補う：血小板輸血、新鮮凍結血漿（出血があるとき）</b></span><br/><span class=\"kw3\"><b>線溶亢進型にトラネキサム酸を単独で使うと血栓が増える——慎重に</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>若い女性の 4 型胃癌＋滲出性腹水→腹膜播種</b></span><br/><span class=\"kw3\"><b>血小板↓・フィブリノゲン↓・FDP↑・PT 延長→DIC（固形癌は線溶亢進型）</b></span><br/><span class=\"kw4\"><b>フィブリノゲンが低いと赤沈は遅くなる——赤沈正常で炎症や癌を否定しない</b></span>"
       }
      ],
      "imgs": [
@@ -18523,17 +18548,27 @@
       }
      ],
      "ans_label": "ｅ　胃切除",
-     "ans_sub": "大型の隆起型胃病変（進行胃癌or大型GIST）は内視鏡切除の適応外→外科的胃切除が必要。",
+     "ans_sub": "二重造影（A）では、胃体部の一点へ向かって<b>放射状にひだが集まる</b>（集中像）。内視鏡（B）でも、浅い陥凹へ向かってひだが集まり、その先が<b>途切れたり細くなったり</b>している——潰瘍瘢痕を伴う<b>0-Ⅱc 型の胃癌</b>の像。潰瘍（瘢痕）を伴う病変は内視鏡切除の適応が狭く、この大きさでは外科切除——<b>胃切除</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 大型胃隆起病変の治療",
-       "c": "<span class=\"kw\">e胃切除（正答）</span>：<br>大型の隆起型病変（進行胃癌1型or大型GIST）<br/>→ 内視鏡切除（EMR/ESD）では根治不能<br/>→ 外科的切除（胃切除術＋リンパ節郭清）が必要<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a胃粘膜保護薬：良性潰瘍・粘膜炎に使用（腫瘤性病変には不適）<br/>✗ b酸分泌抑制薬：潰瘍・GERD治療（腫瘤には不適）<br/>✗ c内視鏡的粘膜切除：大型病変・進行癌には適応なし<br/>✗ d迷走神経切離：消化性潰瘍の外科的治療（現在は使用しない）</br>"
+       "h": "🌿 造影検査の言葉で像を読む",
+       "c": "<span class=\"kw4\"><b>ひだの先の変化と深さの関係は Q.228・258、良性と悪性の潰瘍の見分けは Q.232——ここは造影の用語</b></span>。<br/><span class=\"kw\"><b>① 二重造影とは</b></span><br/><span class=\"kw3\"><b>少量のバリウムで粘膜を薄く覆い、発泡剤の空気で胃を膨らませる——粘膜の細かな凹凸が見える</b></span><br/><span class=\"kw3\"><b>充盈像：バリウムで満たす——胃の輪郭と硬さを見る</b></span><br/><span class=\"kw3\"><b>圧迫像：腹壁から押して、ひだや隆起を浮かせる</b></span><br/><span class=\"kw\"><b>② この像</b></span><br/><span class=\"kw3\"><b>胃体部に、何本ものひだが一点へ向かう（ひだの集中像）</b></span><br/><span class=\"kw3\"><b>中心に淡いバリウムのたまり——浅い陥凹</b></span><br/><span class=\"kw\"><b>③ よく出る用語</b></span><br/><span class=\"kw3\"><b>ニッシェ：潰瘍のくぼみにたまったバリウム（輪郭から外へ突出、正面ならバリウム斑）</b></span><br/><span class=\"kw3\"><b>陰影欠損：腫瘤がバリウムを押しのけて抜けて見える——隆起性病変</b></span><br/><span class=\"kw3\"><b>ひだの集中：潰瘍・瘢痕に向かってひだが引き寄せられる</b></span><br/><span class=\"kw3\"><b>蚕食像：陥凹の縁がぎざぎざにかじられたよう——癌</b></span><br/><span class=\"kw3\"><b>伸展不良・壁の硬化：4 型</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃粘膜保護薬の投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>癌は治らない</b></span>。</td></tr><tr><td>ｂ　酸分泌抑制薬の投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍の部分が一時的に治って見えるだけ</b></span>。</td></tr><tr><td>ｃ　内視鏡的粘膜切除</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ひだの集中＝潰瘍瘢痕を伴う——EMR では一括で取れない</b></span>。<span class=\"kw3\"><b>ひだの先の変化が深い浸潤も疑わせる</b></span>。</td></tr><tr><td>ｄ　迷走神経切離</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>かつての難治性潰瘍の手術</b></span>。<span class=\"kw3\"><b>癌の治療ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　胃切除</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>潰瘍瘢痕を伴う胃癌——リンパ節郭清を伴う切除</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌（上部消化管造影＋内視鏡）。<br/><b>a 粘膜保護薬／b 酸分泌抑制薬／c EMR／d 迷走神経切離</b>：不適。<br/><b>e 胃切除</b>：<span class=\"kw\">外科的切除が根治治療</span>。✓"
+       "h": "🔍 別軸：ひだの集中が良性か悪性か",
+       "c": "<span class=\"kw\"><b>① 良性の潰瘍瘢痕</b></span><br/><span class=\"kw3\"><b>ひだはなめらかに細くなりながら中心まで届く</b></span><br/><span class=\"kw3\"><b>中心は小さく、形がそろう</b></span><br/><span class=\"kw\"><b>② 癌（0-Ⅱc＋潰瘍瘢痕）</b></span><br/><span class=\"kw3\"><b>ひだの先が中心に届く手前で、急に途切れる・やせる（中断・先細り）——陥凹の縁で止まる</b></span><br/><span class=\"kw3\"><b>陥凹の縁がぎざぎざ（蚕食像）、中に小さな凹凸</b></span><br/><span class=\"kw\"><b>③ 深く入った癌</b></span><br/><span class=\"kw4\"><b>ひだの先が棍棒状に太まる・隣のひだと融け合う——粘膜下層より深い浸潤</b></span><br/><span class=\"kw\"><b>④ だから</b></span><br/><span class=\"kw3\"><b>ひだの集中を見たら、ひだの「先」と陥凹の「縁」を見る</b></span><br/><span class=\"kw3\"><b>造影で疑ったら内視鏡で生検</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>二重造影のひだの集中像＝潰瘍・瘢痕に向かってひだが寄る</b></span><br/><span class=\"kw3\"><b>ひだの先の途絶・先細り・蚕食像→癌、太まり・融合→深い浸潤</b></span><br/><span class=\"kw4\"><b>酸分泌抑制薬・粘膜保護薬・迷走神経切離は癌の治療ではない</b></span>"
       }
      ],
      "imgs": [
@@ -18591,27 +18626,27 @@
       }
      ],
      "ans_label": "ａ　Abdominal CT",
-     "ans_sub": "急性虫垂炎の確定診断には腹部造影CTが最も有用。虫垂の腫大・周囲の炎症・糞石を確認する。",
+     "ans_sub": "25 歳男性。腹痛が<b>はじめ臍のまわり（周期的）→翌日には右下腹部に限局（持続的）</b>へと移り、微熱と右下腹部の<b>反跳痛</b>——急性虫垂炎の典型的な経過。確かめ、穿孔や膿瘍の有無も見るため、次は<b>腹部 CT</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📸 急性虫垂炎の診断",
-       "c": "<span class=\"kw\">a腹部造影CT（正答）</span>：<br/>・虫垂径&gt;6mm・壁肥厚・周囲脂肪織濃度上昇・糞石<br/>・感度・特異度ともに95%以上<br/>・穿孔・膿瘍形成の評価にも有用<br/><br/><span class=\"kw4\">他の選択肢</span>：<br/>✗ bCV catheterization：輸液ルート確保（診断ではない）<br/>✗ c内視鏡：虫垂炎の診断には適さない（操作困難・穿孔リスク）<br/>✗ dMRCP：胆管・膵管の評価（虫垂炎とは無関係）<br/>✗ e経鼻胃管：消化管減圧（診断ではない）"
+       "h": "🌿 痛みが「移る」理由——内臓痛から体性痛へ",
+       "c": "<span class=\"kw\"><b>① はじめ：臍のまわり、周期的</b></span><br/><span class=\"kw3\"><b>虫垂の内腔が糞石やリンパ組織の腫れでふさがり、中の圧が上がる</b></span><br/><span class=\"kw3\"><b>内臓の痛みは自律神経（第 10 胸髄の高さ）で伝わり、場所がぼんやり——臍の周り・心窩部に感じる</b></span><br/><span class=\"kw3\"><b>悪心・食欲不振を伴う</b></span><br/><span class=\"kw\"><b>② 次に：右下腹部、持続的</b></span><br/><span class=\"kw3\"><b>炎症が虫垂の外側に広がり、壁側腹膜に触れる</b></span><br/><span class=\"kw3\"><b>壁側腹膜は体性神経で、痛む場所がはっきりわかる</b></span><br/><span class=\"kw4\"><b>反跳痛（Blumberg 徴候）・筋性防御＝腹膜に炎症が及んだサイン</b></span><br/><span class=\"kw\"><b>③ 圧痛点</b></span><br/><span class=\"kw3\"><b>McBurney 点（臍と右上前腸骨棘を結ぶ線の外側 1/3）、Lanz 点</b></span><br/><span class=\"kw3\"><b>Rovsing 徴候（左下腹部を押すと右下腹部が痛む）</b></span><br/><span class=\"kw\"><b>④ CT で見るもの</b></span><br/><span class=\"kw3\"><b>虫垂の腫大（径 6mm 超）、壁の肥厚と造影、周りの脂肪の濃度上昇、糞石</b></span><br/><span class=\"kw3\"><b>穿孔・膿瘍の有無——治療方針（手術・抗菌薬・ドレナージ）が変わる</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 急性虫垂炎の診断法",
-       "c": "<table class=\"tb\"><tr><th>検査</th><th>特徴</th></tr><tr><td>検査</td><td>特徴</td></tr><tr><td><span class=\"kw\">腹部造影CT</span></td><td>最も感度・特異度が高い（確定診断）</td></tr><tr><td>腹部超音波</td><td>若年女性・妊婦向け（放射線被曝なし）、感度はCTより低い</td></tr><tr><td>腹部単純X線</td><td>糞石確認（25%）、穿孔時の遊離ガス</td></tr><tr><td>MRI</td><td>妊婦・CTで不明確な場合</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　Abdominal CT</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>虫垂炎の診断と、穿孔・膿瘍の有無がわかる</b></span>。</td></tr><tr><td>ｂ　Central venous（CV）catheterization</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>中心静脈カテーテル——バイタルは安定していて、末梢の点滴で足りる</b></span>。</td></tr><tr><td>ｃ　Gastrointestinal endoscopy</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>虫垂の炎症は内視鏡では見えない</b></span>。<span class=\"kw3\"><b>腹膜炎がある腹部に送気すると穿孔の危険</b></span>。</td></tr><tr><td>ｄ　Magnetic resonance cholangiopancreatography（MRCP）</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胆管・膵管の検査</b></span>。<span class=\"kw3\"><b>右下腹部痛には関係しない</b></span>。</td></tr><tr><td>ｅ　Nasogastric tube insertion</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃管は腸閉塞で減圧するとき</b></span>。<span class=\"kw3\"><b>この症例に嘔吐・腹部膨満はない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：CT を使わない場面と、治療の選び方",
+       "c": "<span class=\"kw\"><b>① 被曝を避けたい人</b></span><br/><span class=\"kw3\"><b>小児：まず腹部超音波——腫れた虫垂（押してもつぶれない）、糞石</b></span><br/><span class=\"kw3\"><b>妊婦：超音波、見えなければ MRI</b></span><br/><span class=\"kw4\"><b>妊娠中は子宮で虫垂が上へ押され、痛む場所が右上腹部へずれる</b></span><br/><span class=\"kw\"><b>② 若い女性で必ず考える鑑別</b></span><br/><span class=\"kw3\"><b>異所性妊娠（妊娠反応）、卵巣出血、卵巣嚢腫茎捻転、骨盤内炎症性疾患</b></span><br/><span class=\"kw\"><b>③ 治療</b></span><br/><span class=\"kw3\"><b>単純性（カタル性・蜂窩織炎性）：抗菌薬だけで治ることも多いが、再発がある</b></span><br/><span class=\"kw3\"><b>壊疽性・穿孔：緊急の虫垂切除（多くは腹腔鏡）</b></span><br/><span class=\"kw3\"><b>膿瘍を作っている：抗菌薬＋ドレナージで落ち着かせ、数か月後に切除（interval appendectomy）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">急性虫垂炎の診断：腹部造影CT（最も感度・特異度高い）</span><br/>超音波：若年・妊婦に使用。CT：成人の標準的な診断法。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "急性腹症で次に行うべき検査（英文）。<br/><b>b CV catheterization／c GI endoscopy／d MRCP／e Nasogastric tube</b>：第一でない。<br/><b>a Abdominal CT</b>：<span class=\"kw\">急性腹症の原因検索に腹部CTが有用</span>。✓"
+       "c": "<span class=\"kw3\"><b>臍周囲→右下腹部へ移る痛み、反跳痛→急性虫垂炎（内臓痛→体性痛）</b></span><br/><span class=\"kw3\"><b>成人の診断は腹部 CT——腫大・周囲の脂肪の濃度上昇・糞石・穿孔・膿瘍</b></span><br/><span class=\"kw4\"><b>小児・妊婦は超音波（妊婦は MRI も）</b></span>"
       }
      ],
      "imgs": []
@@ -18665,22 +18700,27 @@
       }
      ],
      "ans_label": "ｅ　「周りに同じ症状の人はいますか」",
-     "ans_sub": "食中毒・感染性腸炎の集団発生を確認するため、周囲に同様の症状の人がいるかを問診するのが適切。",
+     "ans_sub": "32 歳男性、朝からの腹痛と悪心、腸雑音の亢進、白血球 12,300・CRP 1.6——急性の胃腸炎を考える。本人が「幼い子にうつる病気か」と心配している。感染性かどうかを見分ける手がかりは、<b>同じものを食べた人・家族・職場に同じ症状の人がいるか</b>——集団で起これば食中毒や感染性腸炎を強く疑い、家庭での感染対策の話につながる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🗣️ 感染性腸炎の問診のポイント",
-       "c": "<span class=\"kw\">e「周りに同じ症状の人はいますか」（正答）</span>：<br>・感染症・食中毒は集団発生（cluster）の可能性あり<br/>・同じ食事を共にした人・家族に同症状→食中毒の可能性<br/>・感染源・感染経路の特定に有用<br/>・届出義務（食中毒：食品衛生法）の確認に必要<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>「夜眠れますか」「便秘は」「腹の張りは」「手足のしびれは」：<br/>いずれも「うつる病気かどうか」という懸念への適切な問診ではない</br>"
+       "h": "🌿 感染性腸炎を疑ったときの問診の項目",
+       "c": "<span class=\"kw\"><b>① 何を・いつ食べたか</b></span><br/><span class=\"kw3\"><b>発症前 1〜3 日の食事——生や加熱不足の肉・卵・魚介、作り置き、外食</b></span><br/><span class=\"kw\"><b>② 周りの人</b></span><br/><span class=\"kw4\"><b>同じものを食べた人や家族・職場に同じ症状の人がいる——食中毒・感染症の決め手</b></span><br/><span class=\"kw3\"><b>家族内で次々に発症——ノロウイルスなど人から人へうつるもの</b></span><br/><span class=\"kw\"><b>③ 旅行・環境</b></span><br/><span class=\"kw3\"><b>海外渡航（この患者はない）、川や井戸の水、キャンプ</b></span><br/><span class=\"kw3\"><b>動物との接触——この患者は猫を飼っている（カンピロバクター・サルモネラの保菌がありうる）</b></span><br/><span class=\"kw\"><b>④ 薬</b></span><br/><span class=\"kw3\"><b>最近の抗菌薬——Clostridioides difficile 腸炎</b></span><br/><span class=\"kw\"><b>⑤ 症状の性質</b></span><br/><span class=\"kw3\"><b>発熱、血便、下痢の回数、嘔吐が主か</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　「夜は眠れますか」</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>心理的な負担を聞く質問</b></span>。<span class=\"kw3\"><b>うつるかどうかの判断材料にならない</b></span>。</td></tr><tr><td>ｂ　「便秘はありますか」</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>排便の状態は大事だが、感染の広がりはわからない</b></span>。</td></tr><tr><td>ｃ　「おなかの張りはありますか」</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸閉塞を考える質問</b></span>。<span class=\"kw3\"><b>感染性かどうかには直結しない</b></span>。</td></tr><tr><td>ｄ　「手足のしびれはありますか」</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ボツリヌス症や Guillain-Barré 症候群（カンピロバクター後）を考えるときの質問</b></span>。<span class=\"kw3\"><b>今聞くことではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　「周りに同じ症状の人はいますか」</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>集団発生があれば食中毒・感染性腸炎の可能性が高い</b></span>。<span class=\"kw3\"><b>本人の心配に直接こたえる質問</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：食べてから発症までの時間で原因を絞る",
+       "c": "<span class=\"kw\"><b>① 数時間（1〜6 時間）——毒素型</b></span><br/><span class=\"kw3\"><b>黄色ブドウ球菌：おにぎり・弁当、激しい嘔吐、熱は出ない</b></span><br/><span class=\"kw3\"><b>セレウス菌（嘔吐型）：チャーハン・焼きそば</b></span><br/><span class=\"kw\"><b>② 半日〜2 日</b></span><br/><span class=\"kw3\"><b>ノロウイルス（24〜48 時間）：カキなどの二枚貝、冬、嘔吐と下痢、人から人へ</b></span><br/><span class=\"kw3\"><b>腸炎ビブリオ（半日前後）：夏の生の魚介</b></span><br/><span class=\"kw3\"><b>ウェルシュ菌（半日前後）：カレー・煮物の作り置き</b></span><br/><span class=\"kw3\"><b>サルモネラ（半日〜2 日）：卵・鶏肉、高熱</b></span><br/><span class=\"kw\"><b>③ 2〜7 日</b></span><br/><span class=\"kw3\"><b>カンピロバクター：鶏肉の生や加熱不足、血便、後に Guillain-Barré 症候群</b></span><br/><span class=\"kw3\"><b>腸管出血性大腸菌 O157（3〜5 日）：牛肉・生野菜、血便、溶血性尿毒症症候群</b></span><br/><span class=\"kw\"><b>④ 家庭での対策</b></span><br/><span class=\"kw3\"><b>手洗い（ノロウイルスにはアルコールが効きにくい）、吐物・便の処理は次亜塩素酸ナトリウム</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">感染症・食中毒の問診：「周囲に同じ症状の人がいるか」が最重要</span><br/>集団発生→食品衛生法による報告義務（保健所への届け出）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "感染性腸炎（うつるか心配）で適切な問診。<br/><b>a 睡眠／b 便秘／c 腹部膨満／d 手足のしびれ</b>：感染源の把握に直結しない。<br/><b>e 「周りに同じ症状の人はいますか」</b>：<span class=\"kw\">集団発生・感染経路を確認</span>。✓"
+       "c": "<span class=\"kw3\"><b>感染性腸炎の問診：食事・周囲の同症状者・渡航・動物・抗菌薬</b></span><br/><span class=\"kw3\"><b>「うつるか」の心配には、まず周りに同じ症状の人がいるかを聞く</b></span><br/><span class=\"kw4\"><b>潜伏期が数時間なら毒素型（黄色ブドウ球菌・セレウス菌）</b></span>"
       }
      ],
      "imgs": []
