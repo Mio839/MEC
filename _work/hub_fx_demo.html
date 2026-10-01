@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ハブの読み込み演出</title>
+<!--
+  ハブ（index.html）を開いたときの演出を1つずつ見て「残す／外す」を決めるためのページ（2026-10-01）。
+  プロトコル待機列（#heroSay の A 起動・C 警報・D 差分）は対象外。
+
+  仕組み：本物の ../index.html を取ってきて iframe（srcdoc）に流し込む。
+   - <head> の先頭に「localStorage / sessionStorage の写し」を差し込む＝ハブが何を書いても本物の進捗は変わらない。
+     Gist のトークンは写しから抜く（同期を走らせない）。リンクは押しても移動しない。
+   - index.js の直後に「外した演出の関数を空にする」スクリプト、</head> の直前に「外した入場の @keyframes を空にする」CSS を差し込む。
+     ⚠️ 同名の @keyframes は後に書いた方が勝つ＝同じ要素に載った常時アニメ（auroraNumFlow 等）は止めずに入場だけ消せる。
+  本物のファイルは1つも変えない。テストの対象ではない。
+  ⚠️ 関数名・セレクタは 2026-10-01p（940d5d9）の index.js / index.css に合わせてある。名前が変わると「外す」が効かなくなる。
+-->
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel-2:#1c232d; --line:rgba(255,255,255,.12); --line-2:rgba(255,255,255,.22);
+  --t1:#e6edf3; --t2:#9aa7b4; --t3:#6e7b88;
+  --keep:#3fb68b; --cut:#ef6b6b; --accent:#58a6ff; --amber:#e3b341;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--t1);}
+body{font:13px/1.6 system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;min-height:100vh;}
+button,select{font:inherit;color:inherit;}
+.wrap{max-width:1360px;margin:0 auto;padding:14px 16px 40px;display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:16px;align-items:start;}
+header.top{grid-column:1/-1;}
+h1{font-size:17px;margin-bottom:4px;}
+.lead{color:var(--t2);font-size:12px;line-height:1.75;}
+.lead b{color:var(--t1);}
+
+/* ── 左：一覧 ── */
+.list{display:flex;flex-direction:column;gap:14px;}
+.grp h2{font-size:13px;margin:4px 0 6px;display:flex;align-items:baseline;gap:8px;}
+.grp h2 small{font-weight:400;color:var(--t3);font-size:11px;}
+.item{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--keep);border-radius:10px;padding:9px 10px 9px 11px;margin-bottom:6px;}
+.item.cut{border-left-color:var(--cut);background:#1a1416;}
+.item.cut .nm{color:var(--t2);text-decoration:line-through;text-decoration-color:rgba(239,107,107,.6);}
+.item .hd{display:flex;align-items:flex-start;gap:8px;}
+.item .nm{font-weight:600;font-size:13px;flex:1;min-width:0;}
+.item .no{color:var(--t3);font-weight:400;font-size:11px;margin-right:4px;font-variant-numeric:tabular-nums;}
+.item .ds{color:var(--t2);font-size:11.5px;margin-top:3px;line-height:1.6;}
+.item .meta{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:6px;align-items:center;}
+.tag{font-size:10px;padding:1px 6px;border-radius:999px;border:1px solid var(--line-2);color:var(--t2);white-space:nowrap;}
+.tag.cond{border-color:rgba(227,179,65,.5);color:var(--amber);}
+.tag.theme{border-color:rgba(88,166,255,.5);color:var(--accent);}
+.code{font:10.5px/1.4 ui-monospace,Consolas,monospace;color:var(--t3);}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;flex:none;}
+.seg button{background:transparent;border:0;padding:4px 9px;font-size:11.5px;cursor:pointer;color:var(--t2);}
+.seg button + button{border-left:1px solid var(--line-2);}
+.seg button.on.k{background:var(--keep);color:#06140e;font-weight:700;}
+.seg button.on.c{background:var(--cut);color:#1a0606;font-weight:700;}
+.solo{background:transparent;border:1px solid var(--line-2);border-radius:7px;padding:2px 8px;font-size:11px;cursor:pointer;color:var(--accent);margin-left:auto;}
+.solo:hover,.seg button:hover{filter:brightness(1.25);}
+
+/* ── 右：プレビュー ── */
+.side{position:sticky;top:10px;display:flex;flex-direction:column;gap:8px;}
+.bar{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 10px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12px;}
+.bar label{display:inline-flex;align-items:center;gap:5px;color:var(--t2);}
+.bar select{background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:3px 6px;}
+.btn{background:var(--panel-2);border:1px solid var(--line-2);border-radius:8px;padding:6px 11px;cursor:pointer;font-size:12px;}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#04101f;font-weight:700;}
+.btn:hover{filter:brightness(1.15);}
+.status{font-size:11.5px;color:var(--t2);min-height:1.4em;}
+.status b{color:var(--amber);}
+.stage{background:#000;border:1px solid var(--line);border-radius:10px;overflow:hidden;height:min(78vh,900px);position:relative;}
+.stage .scaler{position:absolute;top:0;left:0;transform-origin:0 0;}
+.stage iframe{border:0;display:block;background:#000;}
+.counts{display:flex;gap:10px;font-size:12px;color:var(--t2);flex-wrap:wrap;}
+.counts b.k{color:var(--keep);} .counts b.c{color:var(--cut);}
+.out{width:100%;min-height:120px;background:var(--panel-2);color:var(--t1);border:1px solid var(--line-2);border-radius:8px;padding:8px;font:16px/1.5 ui-monospace,Consolas,monospace;font-size:12px;display:none;}
+.out.show{display:block;}
+.note{font-size:11px;color:var(--t3);line-height:1.6;}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:minmax(0,1fr);}
+  .side{position:static;order:-1;}
+  .stage{height:62vh;}
+}
+@media (max-width:420px){
+  .out{font-size:16px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>ハブの読み込み演出</h1>
+    <p class="lead">
+      ハブを開いた瞬間に走る演出を<b>番号順（おおむね出る順）</b>に並べた（プロトコル待機列は除く）。各行の
+      <b>「残す／外す」</b>で取捨を決めて、<b>▶ 選択どおりに再生</b>で本物のハブを読み込み直すと、外したものだけが止まった姿を見られる。
+      <b>「これだけ」</b>はその1つ以外を全部止めて再生する（条件つきの演出は条件を自動で満たす）。
+      プレビューは進捗の<b>写し</b>で動くので、本物のデータには何も書かない。決まったら下の<b>結果をコピー</b>で貼ってください。
+    </p>
+  </header>
+
+  <div class="list" id="list"></div>
+
+  <aside class="side">
+    <div class="bar">
+      <button class="btn pri" id="play">▶ 選択どおりに再生</button>
+      <button class="btn" id="playAll">全部入りで再生</button>
+      <label>テーマ <select id="theme"></select></label>
+      <label>幅 <select id="width">
+        <option value="fit">この枠に合わせる</option>
+        <option value="390">スマホ 390</option>
+        <option value="820">iPad 820</option>
+        <option value="1180">PC 1180</option>
+      </select></label>
+    </div>
+    <div class="bar">
+      <label>今日の達成率 <select id="pct">
+        <option value="">実データのまま</option>
+        <option value="0">0%</option>
+        <option value="40">40%</option>
+        <option value="80">80%</option>
+        <option value="110">110%（目標達成）</option>
+        <option value="160">160%（大幅超過）</option>
+      </select></label>
+      <label><input type="checkbox" id="fOpening"> ブリーフィングを出す</label>
+      <label><input type="checkbox" id="fAbsorb"> 試験から戻った体にする</label>
+      <label><input type="checkbox" id="fGrand"> ミッション全達成の儀式を出す</label>
+    </div>
+    <div class="status" id="status">読み込み中…</div>
+    <div class="stage" id="stage"><div class="scaler" id="scaler"><iframe id="frame" title="ハブのプレビュー"></iframe></div></div>
+    <div class="bar">
+      <div class="counts" id="counts"></div>
+      <button class="btn" id="allKeep">全部「残す」</button>
+      <button class="btn" id="copy">結果をコピー</button>
+    </div>
+    <textarea class="out" id="out" readonly></textarea>
+    <p class="note">⚠️ 演出の多くは「画面に見えている」「タブが表になっている」ときにしか粒子を撒かない（本物と同じ判定）。プレビューが画面外にあると出ないので、見える位置で再生すること。</p>
+  </aside>
+</div>
+
+<script>
+/* ═══ 演出の台帳 ═══
+   off.js  … 外したときに index.js の後で実行する（関数を空にする）
+   off.css … 外したときに </head> の直前へ足す（入場の @keyframes を空にする等）
+   need    … 「これだけ」で見るときに満たす条件（pct / opening / absorb / grand / theme）
+   ⚠️ 名前は 2026-10-01p の index.js / index.css に合わせてある。 */
+const FX = [
+ { g:'入場（開いた瞬間・一度きり）', items:[
+  { id:'rv', nm:'ヒーロー全体のフェードイン', ds:'ヒーローの枠ごと、下から10pxせり上がりながら現れる（約0.5秒）。', code:'index.css .rv / @keyframes rv',
+    css:'.rv{animation:none!important;opacity:1!important;transform:none!important}' },
+  { id:'boot', nm:'起動シーケンス（四隅の金具＋蒸気）', ds:'ヒーローの四隅の金具が縮んだ状態から開き（0.9秒）、0.18秒後にゲージの軸から蒸気がひと吹き。', code:'index.js _bootSequence / .hero.booting .hero-cnr',
+    js:'_bootSequence=function(){};' },
+  { id:'count', nm:'数字のカウントアップ', ds:'今日解いた問題・正解率・XP・次のレベルまで・計器行（復習待ち／済／連続日数）が0から数え上がる（0.85〜1秒）。外すと最初から最終値で出る。', code:'index.js _tweenNum',
+    js:'_tweenNum=function(el,to,dur,done){if(!el)return;el.textContent=_fmtN(to);if(done)done();};' },
+  { id:'numIn', nm:'大きな読み値の入場', ds:'「今日解いた問題」「正解率」の数字が下からせり上がって現れる（0.55秒）。', code:'index.css .hero-num / @keyframes numIn',
+    css:'@keyframes numIn{}' },
+  { id:'digit', nm:'着地で桁が1つずつ立ち上がる', ds:'カウントアップが止まった瞬間、数字の桁が左から順にポンと立ち上がる。', code:'index.css .hero-num .dg / @keyframes digitIn',
+    css:'@keyframes digitIn{}' },
+  { id:'land', nm:'読み値の着地FX（テーマ別）', ds:'数字の着地点でテーマ固有の署名演出（Aurora＝プリズム・Brass＝歯車と蒸気・Cyber＝ロックオン等）＋グリフと粒子。目標達成の日は粒子が増え、衝撃波リングが広がる。', code:'index.js _landHeroNumber', theme:true,
+    js:'_landHeroNumber=function(el){if(!el||_reducedMotion())return;var s=el.textContent,d=0;el.innerHTML=Array.from(s).map(function(ch){return(ch>="0"&&ch<="9")?\'<span class="dg" style="--i:\'+(d++)+\'">\'+ch+"</span>":\'<span class="dg-s">\'+ch+"</span>";}).join("");};' },
+  { id:'xp', nm:'XP の着地（ひと突き＋✨）', ds:'XP のカウントアップが止まると、XP の札がひと突きされ ✨ が4つ上がる。', code:'index.js renderHero の XP 部 / @keyframes xpPop',
+    css:'@keyframes xpPop{}',
+    js:'(function(){var tw=_tweenNum;_tweenNum=function(el,to,dur,done){if(el&&el.id==="heroXp")return tw(el,to,dur,function(){el.textContent="+"+_fmtN(to);});return tw(el,to,dur,done);};})();' },
+  { id:'lvbar', nm:'レベルバーが伸びる', ds:'レベルの進みのバーが0から伸びる（0.35秒待って0.95秒）。⚠️ 外すと次の「伸び切った瞬間の一撃」も合図が来なくなって出ない。', code:'index.css .hero-lv-bar span / @keyframes barGrow',
+    css:'.hero-lv-bar span:not(.near){animation:none!important}' },
+  { id:'lvburst', nm:'レベルバーが伸び切った瞬間の一撃', ds:'バーの先端で光が弾け、帯を光が走り、テーマ別の粒子（歯車・気泡・星など）が出る。', code:'index.js _armLvBurst / _lvBurstFx・.lv-burst', theme:true,
+    css:'.lv-burst{display:none!important}', js:'_lvBurstFx=function(){};' },
+  { id:'inst', nm:'計器行が順に立ち上がる', ds:'復習待ち・済・連続日数の3つの箱が、0.52秒後から順に下から現れる。', code:'index.css .strip-c / @keyframes instIn',
+    css:'@keyframes instIn{}' },
+  { id:'tick', nm:'計器行の数字のひと突き', ds:'計器行の数字が数え終わった瞬間に箱がひと突きされる（前回と値が変わったときだけ）。', code:'index.js _tickStat / @keyframes instTick',
+    css:'@keyframes instTick{}' },
+  { id:'cta', nm:'ボタンが左から順に入場', ds:'ヒーローの3つのボタン（復習・全科目・今日の誤答）が0.34秒後から順にせり上がる。', code:'index.css .hero-cta a / @keyframes ctaIn',
+    css:'@keyframes ctaIn{}' },
+  { id:'ring', nm:'ゲージの弧が描かれる', ds:'今日の目標ゲージの弧が0から今の達成率まで描かれる（0.25秒待って1.15秒）。外すと最初から描き終わった姿。', code:'index.css .gauge-val / @keyframes ringDraw',
+    css:'.gauge-val{animation:none!important;transition:none!important}' },
+  { id:'checkpoint', nm:'25／50／75% 通過の小祝砲', ds:'弧が描かれる途中、通過した節目のノードの位置で粒子が弾ける（25%以上の日）。', code:'index.js _checkpointFx', cond:'達成率25%以上', theme:true, need:{pct:80},
+    js:'_checkpointFx=function(){};' },
+  { id:'celebrate', nm:'段の祝砲', ds:'弧を描き終えたところで、達成率の段に応じた花火。100%以上の日は全画面に広がる。', code:'index.js _gaugeCelebrate', cond:'1問以上解いた日', theme:true, need:{pct:110},
+    js:'_gaugeCelebrate=function(){};' },
+  { id:'seal', nm:'目標達成の刻印', ds:'100% に届いた日、ゲージに刻印が押され、テーマ固有の祝砲が出る。', code:'index.js _stampGoalSeal', cond:'達成率100%以上', theme:true, need:{pct:110},
+    js:'_stampGoalSeal=function(){};' },
+  { id:'themegauge', nm:'Celestial／Frost の節目演出', ds:'Celestial＝天球儀の腕が節目ごとにロックし波紋、100%で回転。Frost＝節目で霜の枝がパキッと伸び、100%で雪の結晶が開いて光芒と氷片。', code:'index.js _celProgressFx / _frostProgressFx', cond:'Celestial か Frost', theme:true, need:{pct:110, theme:'celestial'},
+    js:'_celProgressFx=function(){};_frostProgressFx=function(){};' },
+  { id:'absorb', nm:'帰還注入（試験から戻ったとき）', ds:'試験・復習から戻った直後、成果がテーマ色のオーブになってゲージへ吸い込まれ、着弾の衝撃とともにゲージが巻き上がる。', code:'index.js _runExamToHubAbsorber', cond:'試験から15分以内に戻った', theme:true, need:{absorb:true},
+    js:'_runExamToHubAbsorber=function(p){_driveGauge(p);};' },
+  { id:'opening', nm:'1日の最初のブリーフィング', ds:'その日はじめて開いたとき、1.1秒後に全画面で「前回のリザルト／週の結果発表／今日のブリーフィング」。', code:'hub_opening.js MecOpening.maybeShow', cond:'その日はじめて開いた', need:{opening:true},
+    js:'if(window.MecOpening)MecOpening.maybeShow=function(){return false;};' },
+  { id:'spark', nm:'30日の波形が立ち上がる＋「+N問」', ds:'30日の学習記録の棒が左から順に伸び、今日の棒の上に「+N問」の札が浮かんで消える。', code:'index.css .bar / .spark-pop-badge',
+    css:'@keyframes sparkUp{}.spark-pop-badge{display:none!important}' },
+  { id:'notes', nm:'今日の所見が順に入場', ds:'所見の3行が上から順にせり上がる。', code:'index.css .note-item / @keyframes noteIn',
+    css:'@keyframes noteIn{}' },
+  { id:'missions', nm:'達成済みミッションのキラキラ', ds:'0.7秒後、達成済みのミッション行ぜんぶに粒子が撒かれる（週間は画面に入ったとき）。', code:'index.js _sparkleMissions', cond:'達成済みミッションがある', theme:true,
+    js:'_sparkleMissions=function(){};' },
+  { id:'grand', nm:'今日のミッション全達成の儀式', ds:'今日の必須ミッションが全部済んでいる日、四隅から紙吹雪＋中央に大きな花火。', code:'index.js _markAllDone / _fireGrandCeremony', cond:'必須ミッション全達成', need:{grand:true},
+    js:'_fireGrandCeremony=function(){};' },
+  { id:'reveal', nm:'下の段がスクロールで現れる', ds:'見出し・タイル・週間ミッションの段が、画面に入ったときに下から現れる。外すと最初から見えている。', code:'index.css .rv-s / index.js _initScrollReveal',
+    css:'.rv-s{opacity:1!important;transform:none!important;transition:none!important}' },
+  { id:'tiles', nm:'タイルが1枚ずつ立ち上がる', ds:'タイルの段が画面に入ると、タイルが順に立ち上がり、タイルの中の棒が伸び、縦長タイルの % が数え上がる。', code:'index.css .tiles.in .tile・.tile-bar span / index.js _tickLeadTile',
+    css:'@keyframes tileIn{}.tile-bar span{animation:none!important}', js:'_tickLeadTile=function(){};' },
+ ]},
+ { g:'開いている間ずっと（参考）', note:'読み込みと同時に始まり、ハブを開いている間くり返すもの。', items:[
+  { id:'ctaAmb', nm:'主ボタンから立ち上る粒子', ds:'1.9秒ごとに主ボタンの下から粒子が3つ立ち上る（色は中身：復習＝青／全科目＝緑）。', code:'index.js _startCtaAmbient',
+    js:'_startCtaAmbient=function(){};' },
+  { id:'ctaLoop', nm:'ボタンの呼吸・光沢・絵文字の跳ね', ds:'ボタンの縁が呼吸するように光り、光沢が横切り、先頭の絵文字がときどき跳ねる。', code:'index.css ctaBreath / sheen / ctaHop',
+    css:'.cta-main::before,.cta-sub::before{animation:none!important}.cta-main::after,.cta-sub:not(.is-off)::after{animation:none!important;opacity:0!important}.cta-ic{animation:none!important}' },
+  { id:'gaugeAmb', nm:'ゲージの常時粒子', ds:'約2秒ごとにゲージの周りへテーマ別の微粒子（Brass は火花・蒸気・歯車）。達成率の段が上がるほど多い。', code:'index.js _startGaugeAmbient', theme:true,
+    js:'_startGaugeAmbient=function(){};' },
+  { id:'dust', nm:'ヒーローの星屑', ds:'7秒ごとに画面へ微細な星屑が6粒（画面最上部を見ているときだけ）。', code:'index.js _startHeroDust',
+    js:'_startHeroDust=function(){};' },
+  { id:'embers', nm:'連続日数の熾火', ds:'連続3日以上の日、連続日数の数字から 🔥 がときどき上がる（日数が多いほど頻繁）。', code:'index.js _startStreakEmbers', cond:'連続3日以上',
+    js:'(function(){var o=_startStreakEmbers;_startStreakEmbers=function(s){o(s);clearInterval(_emberTimer);};})();' },
+  { id:'missionAmb', nm:'達成ミッション行からひと粒', ds:'達成済みのミッション行から、ときどき1〜2粒の光が出る。', code:'index.js _startMissionAmbient', cond:'達成済みミッションがある', theme:true,
+    js:'_startMissionAmbient=function(){};' },
+ ]},
+];
+const ALL = FX.flatMap(g => g.items);
+const THEMES = [['', 'いまの設定'], ['aurora', 'Aurora'], ['brass', 'Brass'], ['cyber', 'Cyber'], ['liquid', 'Liquid'],
+                ['kintsugi', 'Kintsugi'], ['celestial', 'Celestial'], ['abyss', 'Abyss'], ['frost', 'Frost']];
+const SAVE_KEY = 'mec_hubfx_demo_v1';   // このデモ専用（決めた「外す」の一覧だけ。本物のハブは読まない）
+
+let cut = new Set();
+try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || '[]'); if (Array.isArray(s)) cut = new Set(s.filter(id => ALL.some(x => x.id === id))); } catch (e) {}
+function save() { try { localStorage.setItem(SAVE_KEY, JSON.stringify([...cut])); } catch (e) {} }
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/* ── 一覧を描く ── */
+function renderList() {
+  let n = 0;
+  $('list').innerHTML = FX.map(g => '<section class="grp"><h2>' + esc(g.g) + (g.note ? '<small>' + esc(g.note) + '</small>' : '') + '</h2>' +
+    g.items.map(it => {
+      n++;
+      const c = cut.has(it.id);
+      return '<div class="item' + (c ? ' cut' : '') + '" data-id="' + it.id + '">' +
+        '<div class="hd"><div class="nm"><span class="no">' + n + '</span>' + esc(it.nm) + '</div>' +
+        '<span class="seg"><button class="k' + (c ? '' : ' on') + '" data-act="keep">残す</button><button class="c' + (c ? ' on' : '') + '" data-act="cut">外す</button></span></div>' +
+        '<div class="ds">' + esc(it.ds) + '</div>' +
+        '<div class="meta">' + (it.cond ? '<span class="tag cond">条件：' + esc(it.cond) + '</span>' : '') +
+        (it.theme ? '<span class="tag theme">テーマ別</span>' : '') +
+        '<span class="code">' + esc(it.code) + '</span>' +
+        '<button class="solo" data-act="solo">これだけ ▶</button></div></div>';
+    }).join('') + '</section>').join('');
+  renderCounts();
+}
+function renderCounts() {
+  $('counts').innerHTML = '残す <b class="k">' + (ALL.length - cut.size) + '</b> ／ 外す <b class="c">' + cut.size + '</b>';
+}
+$('list').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]');
+  if (!b) return;
+  const id = b.closest('.item').dataset.id;
+  const act = b.dataset.act;
+  if (act === 'solo') { play({ solo: id }); return; }
+  if (act === 'cut') cut.add(id); else cut.delete(id);
+  save(); renderList();
+});
+$('allKeep').onclick = () => { cut.clear(); save(); renderList(); };
+
+/* ── 結果のコピー ── */
+function resultText() {
+  const line = it => '- ' + it.id + '：' + it.nm;
+  const off = ALL.filter(it => cut.has(it.id)), on = ALL.filter(it => !cut.has(it.id));
+  return 'ハブの読み込み演出の取捨\n\n外す（' + off.length + '）\n' + (off.map(line).join('\n') || '- なし') +
+         '\n\n残す（' + on.length + '）\n' + (on.map(line).join('\n') || '- なし') + '\n';
+}
+$('copy').onclick = async () => {
+  const t = resultText(), out = $('out');
+  out.value = t; out.classList.add('show');
+  try { await navigator.clipboard.writeText(t); $('copy').textContent = 'コピーしました ✓'; }
+  catch (e) { out.focus(); out.select(); $('copy').textContent = '下の枠から手でコピー'; }
+  setTimeout(() => { $('copy').textContent = '結果をコピー'; }, 2200);
+};
+
+/* ── プレビュー ── */
+$('theme').innerHTML = THEMES.map(([v, l]) => '<option value="' + v + '">' + l + '</option>').join('');
+
+let hubSrc = null;
+async function loadHub() {
+  if (hubSrc) return hubSrc;
+  const r = await fetch('../index.html', { cache: 'no-cache' });
+  if (!r.ok) throw new Error('index.html を読めない（' + r.status + '）');
+  hubSrc = await r.text();
+  return hubSrc;
+}
+
+// localStorage の写し（このページと本物のハブは同じオリジン＝写しの中身はあなたの本物の進捗）
+function snapshot() {
+  const o = {};
+  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); o[k] = localStorage.getItem(k); } } catch (e) {}
+  delete o.mec_gist_token; delete o.mec_gist_id;   // 同期を走らせない
+  delete o[SAVE_KEY];
+  return o;
+}
+function today() { return new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10); }
+function mondayOf(d) { const t = new Date(d + 'T00:00:00Z'); const w = (t.getUTCDay() + 6) % 7; t.setUTCDate(t.getUTCDate() - w); return t.toISOString().slice(0, 10); }
+
+function shimScript(ls, ss) {
+  // ⚠️ 文字列として iframe へ流し込む。この関数の中身はプレビュー側で動く
+  return '<script>(function(){' +
+    'function mk(seed){var m=new Map(Object.entries(seed));' +
+    'var api={getItem:function(k){k=String(k);return m.has(k)?m.get(k):null;},setItem:function(k,v){m.set(String(k),String(v));},' +
+    'removeItem:function(k){m.delete(String(k));},clear:function(){m.clear();},key:function(i){var a=Array.from(m.keys());return i<a.length?a[i]:null;}};' +
+    'Object.defineProperty(api,"length",{configurable:true,get:function(){return m.size;}});' +
+    'return new Proxy(api,{get:function(t,p){if(p in t)return t[p];if(typeof p==="string"&&m.has(p))return m.get(p);return undefined;},' +
+    'set:function(t,p,v){if(p in t)return true;m.set(String(p),String(v));return true;},' +
+    'has:function(t,p){return (p in t)||m.has(p);},deleteProperty:function(t,p){m.delete(p);return true;},' +
+    'ownKeys:function(){return Array.from(m.keys());},' +
+    'getOwnPropertyDescriptor:function(t,p){return m.has(p)?{value:m.get(p),enumerable:true,configurable:true,writable:true}:undefined;}});}' +
+    'var LS=mk(' + JSON.stringify(ls).replace(/</g, '\\u003c') + '),SS=mk(' + JSON.stringify(ss).replace(/</g, '\\u003c') + ');' +
+    'try{Object.defineProperty(window,"localStorage",{configurable:true,get:function(){return LS;}});}catch(e){}' +
+    'try{Object.defineProperty(window,"sessionStorage",{configurable:true,get:function(){return SS;}});}catch(e){}' +
+    // リンクは押しても移動しない（移動先は本物の localStorage で動いてしまうため）。E10 の横取りも defaultPrevented で素通りする
+    'document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(a)e.preventDefault();},true);' +
+    '})();<\/script>';
+}
+
+let playSeq = 0;
+async function play(opt) {
+  opt = opt || {};
+  const seq = ++playSeq;
+  let src;
+  try { src = await loadHub(); }
+  catch (e) { $('status').innerHTML = '<b>' + esc(e.message) + '</b>（このページは GitHub Pages か http のサーバーで開くこと。file:// では動かない）'; return; }
+  if (seq !== playSeq) return;
+
+  // 止める演出の集合：「これだけ」はその1つ以外ぜんぶ、全部入りは0、通常は選んだもの
+  const off = opt.solo ? new Set(ALL.filter(it => it.id !== opt.solo).map(it => it.id))
+            : opt.all ? new Set() : new Set(cut);
+  const soloIt = opt.solo ? ALL.find(it => it.id === opt.solo) : null;
+  const need = (soloIt && soloIt.need) || {};
+
+  let theme = $('theme').value;
+  if (need.theme && !['celestial', 'frost'].includes(theme)) theme = need.theme;
+  let pct = $('pct').value;
+  if (need.pct != null && (pct === '' || Number(pct) < need.pct)) pct = String(need.pct);
+  const fOpening = $('fOpening').checked || !!need.opening;
+  const fAbsorb  = $('fAbsorb').checked  || !!need.absorb;
+  const fGrand   = $('fGrand').checked   || !!need.grand;
+
+  const ls = snapshot(), ss = {};
+  if (theme) ls.mec_ui_theme_v1 = theme;
+  if (fOpening) delete ls.mec_hub_opening_v1;
+  else ls.mec_hub_opening_v1 = JSON.stringify({ day: today(), week: mondayOf(today()) });   // 見たことにして画面を塞がない
+  if (fAbsorb) ss.mec_absorb_payload_v1 = JSON.stringify({ ts: Date.now(), count: 10, correct: 9, xp: 180 });
+
+  let css = '', js = '';
+  ALL.forEach(it => { if (!off.has(it.id)) return; if (it.css) css += it.css + '\n'; if (it.js) js += it.js + '\n'; });
+  if (pct !== '') {
+    js += '(function(){var G=window.MecGamify;if(!G||!G.dailyGoal)return;var o=G.dailyGoal;G.dailyGoal=function(){var g=o.apply(G,arguments)||{};var p=' + Number(pct) + ';' +
+          'var t=g.target||200;return Object.assign({},g,{pct:p,count:Math.round(t*p/100),target:t});};})();\n';
+  }
+  if (fGrand && !off.has('grand')) {
+    js += 'document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){try{_grandCeremonyFired=false;_fireGrandCeremony();}catch(e){}},1200);});\n';
+  }
+
+  let h = src;
+  h = h.replace(/<head>/i, '<head><base href="../">' + shimScript(ls, ss));
+  h = h.replace(/<script>\s*if\('serviceWorker'in navigator\)[^<]*<\/script>/, '');
+  h = h.replace('<script src="index.js"><\/script>', '<script src="index.js"><\/script><script>(function(){try{\n' + js + '\n}catch(e){console.error("[hub_fx_demo]",e);}})();<\/script>');
+  h = h.replace(/<\/head>/i, '<style id="hubFxDemo">' + css + '</style></head>');
+
+  const what = opt.solo ? '「' + soloIt.nm + '」だけ' : opt.all ? '全部入り' : (cut.size ? cut.size + '件を外した状態' : '全部入り（まだ何も外していない）');
+  const conds = [];
+  if (theme) conds.push('テーマ ' + theme);
+  if (pct !== '') conds.push('達成率 ' + pct + '%');
+  if (fOpening) conds.push('ブリーフィングあり');
+  if (fAbsorb) conds.push('帰還注入あり');
+  if (fGrand) conds.push('全達成の儀式あり');
+  $('status').innerHTML = '▶ ' + esc(what) + 'で再生' + (conds.length ? '（' + esc(conds.join('・')) + '）' : '');
+  $('frame').srcdoc = h;
+  fit();
+}
+
+/* 幅：指定幅で描いて枠に縮めて見せる（iPad の幅で見たいときなど） */
+function fit() {
+  const stage = $('stage'), sc = $('scaler'), fr = $('frame');
+  const W = stage.clientWidth, H = stage.clientHeight, v = $('width').value;
+  const w = v === 'fit' ? W : Number(v);
+  const k = Math.min(1, W / w);
+  fr.style.width = w + 'px';
+  fr.style.height = Math.round(H / k) + 'px';
+  sc.style.transform = k < 1 ? 'scale(' + k + ')' : '';
+}
+addEventListener('resize', fit);
+$('width').onchange = () => play();
+$('play').onclick = () => play();
+$('playAll').onclick = () => play({ all: true });
+
+renderList();
+play();
+</script>
+</body>
+</html>
