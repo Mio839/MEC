@@ -178,6 +178,10 @@ t('svg は .gauge-ring の直下（回転・円形クリップの外）で、数
   assert.ok(HTML.indexOf('id="gaugeMid"', i) > i, '数字（#gaugeMid）より後ろにある');
   assert.ok(/html\.ui-brass \.gauge-ring svg\.brass-engine \{[^}]*transform:\s*none;[^}]*clip-path:\s*none;[^}]*overflow:\s*visible/.test(CSS), '回転・クリップを外していない');
 });
+t('機関は枠の 1.3 倍に広げて中心をそろえる（ゲージが小さい＝ユーザー指摘）', () => {
+  const m = CSS.match(/html\.ui-brass \.gauge-ring svg\.brass-engine \{[^}]*\}/);
+  assert.ok(m && /left:\s*-15%/.test(m[0]) && /top:\s*-15%/.test(m[0]) && /width:\s*130%/.test(m[0]) && /height:\s*130%/.test(m[0]), '1.3 倍・中心合わせになっていない');
+});
 t('Brass のときだけ出す（.gauge-ring svg{display:block} に負けない詳細度で隠す）', () => {
   assert.ok(/\n\.gauge-ring svg\.brass-engine \{ display: none; \}/.test(CSS), '既定で隠していない（.brass-engine だけだと他テーマに漏れる）');
   assert.ok(/html\.ui-brass \.gauge-ring svg\.brass-engine \{[^}]*display:\s*block/.test(CSS), 'Brass で出していない');

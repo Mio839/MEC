@@ -2091,9 +2091,10 @@ html.ui-brass .theme-gauge-brass { display: inline; }
 html.ui-brass .gauge-ring svg.brass-engine {
   display: block;
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  left: -15%;
+  top: -15%;
+  width: 130%;
+  height: 130%;
   transform: none;
   clip-path: none;
   overflow: visible;

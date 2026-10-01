@@ -2418,9 +2418,12 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
 html.ui-brass .gauge-ring svg.brass-engine {
   display: block;
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  /* 2026-10-01：ゲージが小さい（ユーザー指摘）ので、枠（.gauge-ring）はそのままで機関だけ 1.3 倍に広げてはみ出させる。
+     数字（.gauge-mid）は枠の中央のままなので、中心はずれない */
+  left: -15%;
+  top: -15%;
+  width: 130%;
+  height: 130%;
   transform: none;
   clip-path: none;
   overflow: visible;
