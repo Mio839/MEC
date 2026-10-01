@@ -2918,6 +2918,10 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   .aurora-jewel-flare,
   .aurora-prism-jewel { animation: none !important; }
 }
+@font-face {
+  font-family:'MecNixie';src:url('../fonts/nixie_oldstandard.woff2') format('woff2');font-weight:400;font-style:normal;
+  font-display:swap;unicode-range:U+25,U+2C-2E,U+30-39;
+}
 .hero-fig .br-gt { display:none; }
 .cel-nova-core {
   position:fixed;z-index:61;pointer-events:none;border-radius:50%;

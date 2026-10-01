@@ -3054,6 +3054,10 @@ html.ui-aurora .srs-risk-bar .rb-due { background:linear-gradient(90deg,#00DFD8,
 html.ui-aurora .hero-say.srs-card.is-clear { border-left-color:#3DD68C;box-shadow:0 8px 28px rgba(0,0,0,.4),0 0 22px rgba(61,214,140,.2),inset 0 1px 0 rgba(255,255,255,.22); }
 html.ui-aurora .hero-say.is-clear .srs-card-ttl { background:linear-gradient(100deg,#FFFFFF,#3DD68C 45%,#00DFD8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent; }
 html.ui-aurora .srs-card-hint { color:#B6E9F0; }
+@font-face {
+  font-family:'MecNixie';src:url('../fonts/nixie_oldstandard.woff2') format('woff2');font-weight:400;font-style:normal;
+  font-display:swap;unicode-range:U+25,U+2C-2E,U+30-39;
+}
 .hero-fig .br-gt { display:none; }
 .cel-nova-core {
   position:fixed;z-index:61;pointer-events:none;border-radius:50%;

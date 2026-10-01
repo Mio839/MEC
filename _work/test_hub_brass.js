@@ -202,6 +202,16 @@ t('hub_brass.js を index.js より先に読み、_driveThemeGauge は mount と
   assert.ok(/MecBrassGauge\.mount\(document\.getElementById\('gaugeBrassEngine'\)\)/.test(JS), 'mount が無い');
   assert.ok(/MecBrassGauge\.set\(pct\)/.test(JS), 'set(pct) が無い（100% 超もそのまま渡す）');
 });
+t('ニキシー管の数字はヴィクトリア朝の活字（同梱の Old Standard TT・ライセンス付き）で、4桁でも折り返さない', () => {
+  const font = path.join(ROOT, 'fonts', 'nixie_oldstandard.woff2');
+  assert.ok(fs.existsSync(font) && fs.readFileSync(font).slice(0, 4).toString() === 'wOF2', 'woff2 が無い');
+  assert.ok(fs.existsSync(path.join(ROOT, 'fonts', 'OFL_OldStandardTT.txt')), 'ライセンスが無い');
+  assert.ok(/@font-face\{font-family:'MecNixie';src:url\('\.\.\/fonts\/nixie_oldstandard\.woff2'\)/.test(CSS), '@font-face が無い（url は theme_css/ から見た ../fonts/）');
+  assert.ok(/html\.ui-brass \.hero-num\{\s*font-family:'MecNixie'/.test(CSS), 'ニキシー管に当たっていない');
+  assert.ok(/html\.ui-brass \.hero-num\{white-space:nowrap;\}/.test(CSS) && /html\.ui-brass \.hero-num:has\(> :nth-child\(5\)\)\{font-size:/.test(CSS), '4桁の折り返し対策が無い');
+  assert.ok(fs.readFileSync(path.join(ROOT, 'theme_css', 'index.brass.css'), 'utf8').includes('nixie_oldstandard.woff2'), '生成物に入っていない');
+  assert.ok(fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8').includes('"./fonts/nixie_oldstandard.woff2"'), 'SHELL に無い');
+});
 t('sw.js の SHELL に hub_brass.js がある', () => {
   assert.ok(fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8').includes('"./hub_brass.js"'));
 });

@@ -3575,12 +3575,21 @@ html.ui-brass .hero-fig::after{
    橙色に光るフィラメントの数字になる（後ろに使っていない陰極の「8」がうっすら見える）。
    桁の管は数えている間が .br-nx（index.js の _brNixieTween）、着地のあとが .dg（_landHeroNumber）。
    ⚠️ 桁に background-clip:text を掛けない（管の背景ごと文字の形に切り抜かれて管が消える）。目標達成の日も同じ */
+/* ニキシー管の数字はヴィクトリア朝の活字（2026-10-01・ユーザー指定）。Old Standard TT＝19世紀末の活字をもとにした書体（SIL OFL・予約フォント名なし）。
+   数字と , - . % だけに絞った woff2（約6KB）を fonts/ に同梱する＝オフラインでも効く。ライセンスは fonts/OFL_OldStandardTT.txt。
+   ⚠️ url は生成物 theme_css/index.brass.css から見た相対パス（../fonts/）。index.css を直接読むページは無い */
+@font-face{font-family:'MecNixie';src:url('../fonts/nixie_oldstandard.woff2') format('woff2');font-weight:400;font-style:normal;
+  font-display:swap;unicode-range:U+25,U+2C-2E,U+30-39;}
 html.ui-brass .hero-num{
-  font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;font-weight:300;letter-spacing:0;
+  font-family:'MecNixie',"Arial Narrow","Helvetica Neue",Arial,sans-serif;font-weight:400;letter-spacing:0;font-variant-numeric:lining-nums;
   background:none;-webkit-text-fill-color:#FFB36B;color:#FFB36B;
   text-shadow:0 0 4px #FF8A3D,0 0 10px #FF6A00,0 0 22px rgba(255,80,0,.7);
   filter:drop-shadow(0 2px 0 #3D2B0F);
 }
+/* ⚠️ Old Standard TT の数字は Arial Narrow より幅が広い。そのままだと4桁（1,234）が2行に折り返して管が崩れる（実測）。
+   折り返さず、4桁以上（カンマを含めて子が5つ以上）のときだけ管を一回り小さくする（約 0.8 倍） */
+html.ui-brass .hero-num{white-space:nowrap;}
+html.ui-brass .hero-num:has(> :nth-child(5)){font-size:clamp(2.7rem,13.5vw,4.45rem);}
 html.ui-brass .hero-num .br-nx, html.ui-brass .hero-num .dg{
   display:inline-block;position:relative;margin:0 2px;padding:.06em .12em 0;
   background:radial-gradient(ellipse at 50% 35%,rgba(255,140,60,.18) 0%,rgba(30,14,4,.55) 60%,rgba(10,6,2,.85) 100%),

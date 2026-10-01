@@ -2916,6 +2916,10 @@ html.ui-cyber .theme-gauge-cyber { display: inline; }
   .aurora-jewel-flare,
   .aurora-prism-jewel { animation: none !important; }
 }
+@font-face {
+  font-family:'MecNixie';src:url('../fonts/nixie_oldstandard.woff2') format('woff2');font-weight:400;font-style:normal;
+  font-display:swap;unicode-range:U+25,U+2C-2E,U+30-39;
+}
 .hero-fig .br-gt { display:none; }
 html.ui-cyber .hero-console { border-left:2px solid #00E5FF;padding-left:14px; }
 html.ui-cyber .hero-fig {
