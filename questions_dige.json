@@ -12236,22 +12236,27 @@
       }
      ],
      "ans_label": "ｃ　病変は矢印の白色部である。\nｄ　色調の差はグリコーゲンの有無による。",
-     "ans_sub": "ルゴール染色：正常食道上皮（グリコーゲン豊富）は茶褐色、癌（グリコーゲン欠乏）は染まらず白色（不染帯）。",
+     "ans_sub": "ルゴール（ヨード）液を食道に散布すると、正常の扁平上皮は<b>グリコーゲン</b>とヨードが反応して茶褐色に染まる。癌・異形成の上皮はグリコーゲンが少なく染まらず、<b>白〜黄色の不染帯</b>として浮かび上がる——<b>矢印の白色部が病変</b>。色の差はグリコーゲンの有無による。不染帯は加齢で広がるものではない。染色は病変の広がり（範囲）を見るもので、深さ（深達度）は分からない。生検は不染帯から行い、褐色部の生検が禁忌ということはない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 ルゴール（Lugol）染色の原理と意義",
-       "c": "<span class=\"kw\">ルゴール染色</span>：ヨード溶液を食道に散布<br><br/><span class=\"kw\">c正：病変は白色部（不染帯）</span>：<br/>癌・異形成→グリコーゲン欠乏→ヨードと反応しない→<span class=\"kw\">白色（不染）</span><br/><br/><span class=\"kw\">d正：色調差はグリコーゲンの有無</span>：<br/>正常食道上皮→グリコーゲン豊富→ヨード+グリコーゲン→褐色（ヨード反応）<br/>癌・異形成→グリコーゲン↓→ヨード反応なし→白色<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a「白色部は加齢で広がる」→不染帯は癌・異形成（加齢とは関係なし）<br/>✗ b「深達度診断に有用」→深達度はEUSや超音波内視鏡で評価<br/>✗ e「褐色部の生検は禁忌」→褐色部は正常（生検は可能）。不染帯を生検</br>"
+       "h": "🌿 ルゴール染色——食道癌を「浮かび上がらせる」",
+       "c": "<span class=\"kw4\"><b>食道の扁平上皮癌は、早いうちは平らで色の変化も小さく、普通の観察では見逃しやすい——ヨードで染めると境目がはっきりする</b></span>。<br/><span class=\"kw\"><b>① しくみ</b></span><br/><span class=\"kw3\"><b>正常の扁平上皮の中層にはグリコーゲンが多く、ヨードと反応して茶褐色に染まる</b></span><br/><span class=\"kw3\"><b>癌・異形成・炎症で傷んだ上皮はグリコーゲンが少なく、染まらない（不染帯）</b></span><br/><span class=\"kw\"><b>② 癌らしい不染帯</b></span><br/><span class=\"kw4\"><b>境界がはっきりした不整形の不染帯、数分で淡いピンク色に変わる（ピンクカラーサイン）——癌を強く疑う</b></span><br/><span class=\"kw3\"><b>小さな不染帯は異形成・炎症のことも多い</b></span><br/><span class=\"kw\"><b>③ まだら食道</b></span><br/><span class=\"kw4\"><b>小さな不染帯が多数散らばる——飲酒・喫煙の多い人に見られ、食道癌・頭頸部癌が多発しやすい</b></span><br/><span class=\"kw\"><b>④ 使う相手</b></span><br/><span class=\"kw3\"><b>飲酒・喫煙の多い人、頭頸部癌の既往、お酒で赤くなる人（Q.149）</b></span><br/><span class=\"kw\"><b>⑤ 注意</b></span><br/><span class=\"kw3\"><b>胸の不快感・痛みが出る——観察が終われば中和剤（チオ硫酸ナトリウム）を散布</b></span><br/><span class=\"kw3\"><b>ヨードアレルギー、甲状腺機能亢進症では慎重に</b></span><br/><span class=\"kw3\"><b>狭帯域光観察〈NBI〉でも、癌は茶色の領域として見える——ヨードを使わずに探せる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　矢印の白色部は加齢により広がる。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>不染帯は癌・異形成・炎症で、加齢で広がるものではない</b></span>。</td></tr><tr><td>ｂ　病変の深達度診断に有用である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ヨード染色は広がり（範囲）を見る</b></span>。<span class=\"kw3\"><b>深さは拡大内視鏡・超音波内視鏡で見る</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　病変は矢印の白色部である。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>癌・異形成はヨードに染まらない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　色調の差はグリコーゲンの有無による。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>正常上皮のグリコーゲンがヨードと反応して褐色になる</b></span>。</td></tr><tr><td>ｅ　褐色部の生検は禁忌である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>生検は不染帯から行うが、褐色部の生検が禁忌というわけではない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 深さを見る——拡大内視鏡と、内視鏡治療の範囲",
+       "c": "<span class=\"kw4\"><b>食道の早期癌を内視鏡で切るか手術にするかは、癌の深さ（深達度）で決まる</b></span>。<br/><span class=\"kw\"><b>① 深さの区分</b></span><br/><span class=\"kw3\"><b>EP：上皮内、LPM：粘膜固有層、MM：粘膜筋板、SM1：粘膜下層の浅い部分（200μm まで）、SM2 以深</b></span><br/><span class=\"kw\"><b>② リンパ節転移と治療</b></span><br/><span class=\"kw4\"><b>EP・LPM：転移はまれ——ESD のよい対象</b></span><br/><span class=\"kw3\"><b>MM・SM1：転移が1〜2割——ESD を行い、切除した標本で深さや脈管侵襲を見て追加治療を考える</b></span><br/><span class=\"kw3\"><b>SM2 以深：転移が多く、手術や化学放射線療法</b></span><br/><span class=\"kw\"><b>③ 深さの見方</b></span><br/><span class=\"kw4\"><b>拡大内視鏡（NBI）：上皮乳頭内の毛細血管（IPCL）の形——ループを保てば浅く（B1）、ループが壊れ太く伸びれば深い（B2・B3）</b></span><br/><span class=\"kw3\"><b>超音波内視鏡：壁の層構造の乱れ</b></span><br/><span class=\"kw3\"><b>内視鏡での厚み・硬さ・送気での変形</b></span><br/><span class=\"kw\"><b>④ ESD の後</b></span><br/><span class=\"kw3\"><b>広い範囲（全周の3/4以上）を切ると狭窄しやすい——ステロイドの局注・内服で予防</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ルゴール染色：正常（褐色）・癌（白色不染帯）</span><br/>不染帯を生検→食道扁平上皮癌の診断。喫煙者・飲酒者で多発する場合あり。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "ルゴール（ヨード）染色内視鏡について正しいものを2つ。<br/><b>a 白色部は加齢で広がる／b 深達度診断に有用／e 褐色部の生検は禁忌</b>：誤り。<br/><b>c 病変は矢印の白色部である</b>：<span class=\"kw\">癌はグリコーゲンが乏しく不染（ヨード淡染＝白色）</span>。✓<br/><b>d 色調の差はグリコーゲンの有無による</b>：<span class=\"kw\">正常上皮のグリコーゲンがヨードで褐色に染まる</span>。✓"
+       "c": "<span class=\"kw4\"><b>ルゴール染色：正常上皮（グリコーゲン豊富）は褐色、癌・異形成は不染帯（白）</b></span>。<br/><span class=\"kw3\"><b>境界明瞭な不整形の不染帯＋ピンクカラーサインは癌を疑う</b></span>。<br/><span class=\"kw3\"><b>まだら食道は食道癌・頭頸部癌の多発の危険</b></span>。<br/><span class=\"kw4\"><b>ヨード染色は範囲を見る。深さは拡大内視鏡（IPCL）・超音波内視鏡</b></span>。<br/><span class=\"kw3\"><b>EP・LPM は ESD の対象。全周近い切除は狭窄に注意</b></span>。"
       }
      ],
      "imgs": [
@@ -12303,22 +12308,27 @@
       }
      ],
      "ans_label": "ａ　下行大動脈\nｄ　肺静脈\nｅ　気　管",
-     "ans_sub": "胸部食道は後縦隔を走行し、下行大動脈・気管・気管支・肺静脈と接触→これらに直接浸潤しやすい。",
+     "ans_sub": "胸部食道は後縦隔を通り、前に<b>気管</b>・左主気管支・左心房（とそこへ入る<b>肺静脈</b>）、左後ろに<b>下行大動脈</b>が接している——食道癌はこれらに直接浸潤しやすい。肺動脈は気管分岐部より前方にあり、上大静脈は右前方の離れた位置で、食道とは直接接していない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📐 食道の解剖と周囲臓器浸潤",
-       "c": "<span class=\"kw\">胸部食道の解剖学的関係</span>：<br/>・前方：気管・気管支→<span class=\"kw\">e気管浸潤（正答）</span>（気管食道瘻の原因）<br/>・後方：下行大動脈→<span class=\"kw\">a下行大動脈浸潤（正答）</span>（出血リスク）<br/>・左後方：肺静脈→<span class=\"kw\">d肺静脈浸潤（正答）</span><br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b肺動脈：前方（食道から離れた位置）→浸潤しにくい<br/>✗ c上大静脈：食道上部に位置するが主要な浸潤臓器ではない<br/><br/><span class=\"kw\">T4b分類（切除不能）</span>：大動脈・気管・椎体などへの浸潤"
+       "h": "🌿 食道の通り道と、すぐ隣にいるもの",
+       "c": "<span class=\"kw4\"><b>食道は頸部から後縦隔を下り、横隔膜を抜けて胃へつながる——どの高さで何と接するかで、癌が浸潤する相手が決まる</b></span>。<br/><span class=\"kw\"><b>① 頸部食道</b></span><br/><span class=\"kw3\"><b>前に気管、両側に甲状腺・総頸動脈・反回神経</b></span><br/><span class=\"kw\"><b>② 胸部上部食道（胸骨上縁〜気管分岐部）</b></span><br/><span class=\"kw4\"><b>前に気管——気管浸潤・気管食道瘻（Q.175）</b></span><br/><span class=\"kw3\"><b>左に大動脈弓——左反回神経が弓の下を回る（声がれ）</b></span><br/><span class=\"kw\"><b>③ 胸部中部食道（気管分岐部の高さ）</b></span><br/><span class=\"kw4\"><b>前に左主気管支と気管分岐部、左後ろに下行大動脈</b></span><br/><span class=\"kw3\"><b>奇静脈弓が食道の右をまたぐ</b></span><br/><span class=\"kw\"><b>④ 胸部下部食道</b></span><br/><span class=\"kw4\"><b>前に心膜を隔てて左心房と肺静脈</b></span><br/><span class=\"kw3\"><b>後ろに下行大動脈・胸管・椎体</b></span><br/><span class=\"kw\"><b>⑤ 浸潤の意味</b></span><br/><span class=\"kw3\"><b>大動脈・気管・気管支・椎体への浸潤は T4b——切除できない（Q.170）</b></span><br/><span class=\"kw3\"><b>肺静脈・心膜への浸潤も高度の進行を示す</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　下行大動脈</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胸部中部〜下部食道の左後ろに接する</b></span>。</td></tr><tr><td>ｂ　肺動脈</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肺動脈幹・左右の肺動脈は気管分岐部の前にあり、食道と直接接しない</b></span>。</td></tr><tr><td>ｃ　上大静脈</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>右前方の縦隔にあり、食道から離れている</b></span>。<span class=\"kw2\"><b>上大静脈症候群は肺癌・縦隔リンパ節転移で起こる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　肺静脈</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胸部下部食道の前、左心房に入るところで接する</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　気　管</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>頸部〜胸部上中部食道の前に接する——気管食道瘻</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 食道の生理的狭窄部——異物が引っかかる場所",
+       "c": "<span class=\"kw4\"><b>食道には生理的に細くなる場所が3か所あり、異物が引っかかり、薬剤性潰瘍（Q.164）もできやすい</b></span>。<br/><span class=\"kw\"><b>① 3つの狭窄部</b></span><br/><span class=\"kw3\"><b>食道入口部（輪状咽頭筋）——最も狭く、異物が最も多い</b></span><br/><span class=\"kw3\"><b>大動脈弓・左主気管支と交わるところ</b></span><br/><span class=\"kw3\"><b>横隔膜を貫くところ（食道裂孔）</b></span><br/><span class=\"kw\"><b>② 多い異物</b></span><br/><span class=\"kw4\"><b>高齢者：PTP 包装（錠剤のシート）・義歯——角が鋭く、穿孔・縦隔炎を起こす</b></span><br/><span class=\"kw3\"><b>小児：硬貨・ボタン電池・おもちゃ</b></span><br/><span class=\"kw\"><b>③ 急ぐもの</b></span><br/><span class=\"kw4\"><b>ボタン電池：放電で数時間のうちに粘膜が壊死し穿孔する——すぐに内視鏡で取り出す</b></span><br/><span class=\"kw3\"><b>鋭い物（PTP・魚骨・針）、強い痛み・唾液も飲み込めない状態</b></span><br/><span class=\"kw\"><b>④ 取り出し方</b></span><br/><span class=\"kw3\"><b>内視鏡で把持鉗子・回収ネット。鋭い物は先端にフード（覆い）をつけて食道を傷つけないように</b></span><br/><span class=\"kw3\"><b>CT で位置・穿孔を確かめる（PTP は単純エックス線で写りにくい）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道癌浸潤好発部位：気管・下行大動脈・気管支・肺静脈</span><br/>気管食道瘻（気管浸潤後）：嚥下時の激しい咳嗽が特徴。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道癌が直接浸潤しやすいものを3つ。<br/><b>b 肺動脈／c 上大静脈</b>：直接浸潤しにくい。<br/><b>a 下行大動脈</b>：<span class=\"kw\">後方の下行大動脈へ浸潤</span>。✓<br/><b>d 肺静脈</b>：<span class=\"kw\">近接する肺静脈へ浸潤しうる</span>。✓<br/><b>e 気管</b>：<span class=\"kw\">前方の気管へ浸潤（気管食道瘻）</span>。✓"
+       "c": "<span class=\"kw4\"><b>食道癌が直接浸潤しやすい：気管・左主気管支・下行大動脈・肺静脈（左心房）</b></span>。<br/><span class=\"kw3\"><b>大動脈弓の下を左反回神経が回る——声がれ</b></span>。<br/><span class=\"kw3\"><b>大動脈・気管・椎体への浸潤は T4b で切除できない</b></span>。<br/><span class=\"kw3\"><b>生理的狭窄部：食道入口部・大動脈弓/左主気管支・横隔膜</b></span>。<br/><span class=\"kw4\"><b>ボタン電池・鋭い異物はすぐに内視鏡で除去。PTP はエックス線で写りにくい</b></span>。"
       }
      ],
      "imgs": []
@@ -12360,22 +12370,27 @@
       }
      ],
      "ans_label": "ｂ　下　痢",
-     "ans_sub": "GERDは食道・咽喉頭・気道への酸逆流が原因。大腸は影響を受けないため下痢はGERD症状ではない。",
+     "ans_sub": "胃食道逆流症は胃の内容（胃酸）が食道へ逆流する病気で、症状は食道とその上（咽頭・喉頭・気道）に出る——<b>呑酸</b>・胸やけ、<b>胸痛</b>（非心臓性胸痛）、<b>咽頭痛</b>・のどの違和感、<b>慢性咳嗽</b>。逆流は腸の側へは影響しないので、<b>下痢</b>は GERD の症状として生じにくい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔥 GERDの症状と非症状",
-       "c": "<span class=\"kw\">GERDの症状（食道症状）</span>：胸やけ・呑酸・嚥下困難<br/><span class=\"kw\">GERDの食道外症状</span>：<br/>・a胸痛（非心臓性胸痛）<br/>・c呑酸（酸が口に上がる感覚）<br/>・d咽頭痛（逆流酸による咽頭刺激）<br/>・e慢性咳嗽（気管への酸刺激）<br/><br/><span class=\"kw4\">b下痢</span>：<span class=\"kw4\">GERDの症状ではない</span><br/>GERDは胃→食道方向の逆流。大腸機能には影響しない。"
+       "h": "🌿 胸やけの患者に内視鏡を急ぐのは——警告症状",
+       "c": "<span class=\"kw3\"><b>GERD の典型症状・食道外症状は Q.168 で見た</b></span>。<span class=\"kw4\"><b>ここでは、胸やけの患者のうち、すぐに内視鏡で調べるべき人を見分ける</b></span>。<br/><span class=\"kw\"><b>① 警告症状（アラームサイン）</b></span><br/><span class=\"kw4\"><b>嚥下困難・嚥下痛、体重減少、吐血・黒色便・貧血、繰り返す嘔吐</b></span><br/><span class=\"kw3\"><b>50〜60歳以上での新しい症状、食道癌・胃癌の家族歴</b></span><br/><span class=\"kw3\"><b>これらがあれば、PPI を始める前に内視鏡で癌・潰瘍・狭窄を調べる</b></span><br/><span class=\"kw\"><b>② 警告症状がなく典型的な症状なら</b></span><br/><span class=\"kw3\"><b>PPI を試し（PPI テスト）、効けば GERD と考えて治療を続ける</b></span><br/><span class=\"kw3\"><b>日本では胃癌が多いので、早めに一度は内視鏡を勧めることが多い</b></span><br/><span class=\"kw\"><b>③ 症状の問診票</b></span><br/><span class=\"kw3\"><b>F スケール（FSSG）：逆流症状と運動不全症状（もたれ）を点数化し、治療効果の判定にも使う</b></span><br/><span class=\"kw\"><b>④ 胸痛のとき</b></span><br/><span class=\"kw4\"><b>まず心臓（急性冠症候群）を否定する——GERD はその後に考える（Q.154）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胸　痛</td><td><span class=\"kw4\">誤り</span>（生じる）。<span class=\"kw3\"><b>食道の酸刺激・痙攣による非心臓性胸痛</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　下　痢</span></td><td><span class=\"kw3\">これが「生じにくい」（＝正解）</span>。<span class=\"kw3\"><b>逆流は食道より上に症状を出す</b></span>。<span class=\"kw2\"><b>治療薬の PPI で下痢が起こることはある</b></span>。</td></tr><tr><td>ｃ　呑　酸</td><td><span class=\"kw4\">誤り</span>（生じる）。<span class=\"kw3\"><b>酸っぱい液が口まで上がる——典型的な症状</b></span>。</td></tr><tr><td>ｄ　咽頭痛</td><td><span class=\"kw4\">誤り</span>（生じる）。<span class=\"kw3\"><b>逆流した酸による咽頭・喉頭の刺激</b></span>。</td></tr><tr><td>ｅ　慢性咳嗽</td><td><span class=\"kw4\">誤り</span>（生じる）。<span class=\"kw3\"><b>食道外症状の代表</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 PPI を飲む人の下痢——薬が原因のことがある",
+       "c": "<span class=\"kw4\"><b>GERD そのものは下痢を起こさないが、治療で長く飲む PPI が下痢の原因になることがある</b></span>。<br/><span class=\"kw\"><b>① 顕微鏡的大腸炎（コラーゲン性大腸炎）</b></span><br/><span class=\"kw3\"><b>水のような下痢が続くのに、大腸内視鏡ではほぼ正常に見える</b></span><br/><span class=\"kw4\"><b>生検で上皮の下に厚いコラーゲンの帯——ランソプラゾールで多い。NSAIDs・低用量アスピリン・SSRI でも起こる</b></span><br/><span class=\"kw3\"><b>中高年の女性に多い。原因の薬をやめると良くなる</b></span><br/><span class=\"kw\"><b>② Clostridioides difficile 感染症</b></span><br/><span class=\"kw3\"><b>胃酸が減って菌が腸に届きやすくなる——抗菌薬を使った入院患者で特に注意</b></span><br/><span class=\"kw\"><b>③ 小腸の細菌の異常増殖</b></span><br/><span class=\"kw3\"><b>胃酸のバリアが弱まり、小腸で細菌が増えて下痢・腹部膨満</b></span><br/><span class=\"kw\"><b>④ 対応</b></span><br/><span class=\"kw3\"><b>PPI を飲む人の慢性の下痢では、薬の関与を考え、必要なら減量・中止・変更する</b></span><br/><span class=\"kw3\"><b>大腸内視鏡では、正常に見えても生検する</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GERD症状：胸やけ・呑酸・慢性咳嗽・嗄声・咽頭痛・胸痛</span><br/><span class=\"kw4\">下痢はGEDの症状ではない</span>（下痢→過敏性腸症候群・感染性腸炎等を考える）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "GERDの症状で生じ「にくい」もの。<br/><b>a 胸痛／c 呑酸／d 咽頭痛／e 慢性咳嗽</b>：GERDでみられる。<br/><b>b 下痢</b>：<span class=\"kw\">上部の逆流症状であり下痢は生じにくい</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw4\"><b>GERD の症状：胸やけ・呑酸・胸痛・咽頭痛・声がれ・慢性咳嗽。下痢は生じにくい</b></span>。<br/><span class=\"kw4\"><b>警告症状（嚥下困難・体重減少・出血・貧血・嘔吐）があれば先に内視鏡</b></span>。<br/><span class=\"kw3\"><b>胸痛はまず心臓を否定</b></span>。<br/><span class=\"kw3\"><b>F スケール（FSSG）で症状を点数化</b></span>。<br/><span class=\"kw3\"><b>PPI（特にランソプラゾール）でコラーゲン性大腸炎——水様下痢、生検で診断</b></span>。"
       }
      ],
      "imgs": []
@@ -12417,22 +12432,27 @@
       }
      ],
      "ans_label": "ｄ　萎縮性胃炎",
-     "ans_sub": "萎縮性胃炎はH.pylori感染による胃酸分泌低下→逆流性食道炎のリスクを下げる方向に働く。",
+     "ans_sub": "逆流性食道炎を起こしやすくするのは、腹圧を上げるもの（<b>肥満</b>、<b>亀背</b>）、下部食道括約筋や食道の働きを弱めるもの（<b>高齢</b>、<b>カルシウム拮抗薬</b>）。<b>萎縮性胃炎</b>では胃酸の分泌が減るので、逆流しても食道を傷つけにくく、むしろ逆流性食道炎は起こりにくい（Q.145）——誘因にならない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔥 逆流性食道炎の誘因と抑制因子",
-       "c": "<span class=\"kw\">誘因（リスク因子）</span>：<br/>・a肥満：腹圧↑→LES圧↓→逆流↑<br/>・b高齢：LES機能低下・食道蠕動↓<br/>・c亀背（脊柱後弯症）：腹圧↑→逆流↑<br/>・eCa拮抗薬：LES平滑筋弛緩→逆流↑（他に硝酸薬・テオフィリン）<br/>・アルコール・喫煙・高脂肪食<br/><br/><span class=\"kw\">d萎縮性胃炎（誘因にならない・正答）</span>：<br/>・H.pylori→萎縮性胃炎→胃酸分泌↓<br/>・胃酸↓→食道への逆流する酸量↓→逆流性食道炎リスクが<span class=\"kw\">下がる</span><br/>・（除菌療法後に逆流性食道炎が発症・悪化する場合もある）"
+       "h": "🌿 薬と体形——見落とされやすい逆流の誘因",
+       "c": "<span class=\"kw3\"><b>肥満・脂っこい食事・喫煙・飲酒が逆流を強めるしくみは Q.177 で見た</b></span>。<span class=\"kw4\"><b>ここでは、薬と体の形による誘因を整理する</b></span>。<br/><span class=\"kw\"><b>① 下部食道括約筋を緩める薬</b></span><br/><span class=\"kw4\"><b>カルシウム拮抗薬・硝酸薬（平滑筋を緩める）</b></span><br/><span class=\"kw3\"><b>テオフィリン・β刺激薬（気管支喘息の薬）、抗コリン薬、ベンゾジアゼピン系、オピオイド、プロゲステロン（妊娠）</b></span><br/><span class=\"kw\"><b>② 食道の粘膜を直接傷つける薬</b></span><br/><span class=\"kw3\"><b>NSAIDs・ビスホスホネート・ドキシサイクリン・KCl（Q.164）</b></span><br/><span class=\"kw\"><b>③ 体の形</b></span><br/><span class=\"kw4\"><b>亀背（脊柱後弯）：骨粗鬆症による背骨の圧迫骨折で背中が丸くなり、腹部が圧迫される——食道裂孔ヘルニアができやすい</b></span><br/><span class=\"kw3\"><b>高齢の女性に多い</b></span><br/><span class=\"kw3\"><b>妊娠：大きくなった子宮が胃を押し上げ、プロゲステロンで括約筋が緩む</b></span><br/><span class=\"kw\"><b>④ 対応</b></span><br/><span class=\"kw3\"><b>原因になりうる薬を減らす・替える（降圧薬を別の種類に）</b></span><br/><span class=\"kw3\"><b>骨粗鬆症の治療（ビスホスホネートは飲み方に注意）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　肥　満</td><td><span class=\"kw4\">誤り</span>（誘因となる）。<span class=\"kw3\"><b>腹圧が上がり、食道裂孔ヘルニアもできやすい</b></span>。</td></tr><tr><td>ｂ　高　齢</td><td><span class=\"kw4\">誤り</span>（誘因となる）。<span class=\"kw3\"><b>括約筋・食道の蠕動・唾液が弱まり、亀背・薬の増加も重なる</b></span>。</td></tr><tr><td>ｃ　亀　背</td><td><span class=\"kw4\">誤り</span>（誘因となる）。<span class=\"kw3\"><b>腹部が圧迫され、食道裂孔ヘルニアができやすい</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　萎縮性胃炎</span></td><td><span class=\"kw3\">これが「誘因とならない」（＝正解）</span>。<span class=\"kw3\"><b>胃酸が減り、逆流しても食道を傷つけにくい</b></span>。</td></tr><tr><td>ｅ　カルシウム拮抗薬</td><td><span class=\"kw4\">誤り</span>（誘因となる）。<span class=\"kw3\"><b>下部食道括約筋を緩める</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 高齢者の逆流性食道炎——症状が軽いのに食道炎は重い",
+       "c": "<span class=\"kw4\"><b>高齢者では、食道の知覚が鈍くなり、胸やけを訴えないまま重い食道炎が進んでいることがある</b></span>。<br/><span class=\"kw\"><b>① 特徴</b></span><br/><span class=\"kw3\"><b>典型的な胸やけが少なく、食欲不振・嘔吐・つかえ感・貧血・誤嚥性肺炎で見つかる</b></span><br/><span class=\"kw4\"><b>ロサンゼルス分類 C・D の重い食道炎が多い——出血・狭窄の原因になる</b></span><br/><span class=\"kw\"><b>② 重なりやすい要因</b></span><br/><span class=\"kw3\"><b>亀背・食道裂孔ヘルニア、多くの薬、唾液の減少、寝たきり・横になっている時間が長い</b></span><br/><span class=\"kw3\"><b>H. pylori の除菌の後で胃酸が戻った（Q.129）</b></span><br/><span class=\"kw\"><b>③ 治療</b></span><br/><span class=\"kw3\"><b>PPI・ボノプラザン。重いものは維持療法を続けることが多い</b></span><br/><span class=\"kw3\"><b>食後すぐ横にならない、ベッドの頭側を上げる、薬の見直し</b></span><br/><span class=\"kw\"><b>④ 長く PPI を飲むときの注意</b></span><br/><span class=\"kw3\"><b>骨折・肺炎・腸の感染などとの関連が指摘されている（Q.126）——必要な量を見直しながら続ける</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">逆流性食道炎：肥満・Ca拮抗薬・硝酸薬・高齢・高脂肪食がリスク</span><br/><span class=\"kw\">萎縮性胃炎（胃酸↓）はリスクではない</span>（むしろ保護的）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "逆流性食道炎の誘因と「ならない」もの。<br/><b>a 肥満／b 高齢／c 亀背／e カルシウム拮抗薬</b>：LES圧低下や腹圧上昇で誘因となる。<br/><b>d 萎縮性胃炎</b>：<span class=\"kw\">胃酸分泌が低下し逆流性食道炎の誘因になりにくい</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw4\"><b>逆流性食道炎の誘因：肥満・高齢・亀背・食道裂孔ヘルニア・Ca 拮抗薬/硝酸薬/テオフィリン・妊娠・脂肪食・喫煙・飲酒</b></span>。<br/><span class=\"kw4\"><b>萎縮性胃炎（胃酸低下）は誘因にならない——除菌後に逆流性食道炎が出ることがある</b></span>。<br/><span class=\"kw3\"><b>亀背は骨粗鬆症の圧迫骨折による——高齢女性</b></span>。<br/><span class=\"kw3\"><b>高齢者は症状が乏しく、重い食道炎・出血・狭窄で見つかる</b></span>。<br/><span class=\"kw3\"><b>降圧薬を変える・頭側を上げるなど生活の工夫</b></span>。"
       }
      ],
      "imgs": []
@@ -12474,22 +12494,27 @@
       }
      ],
      "ans_label": "ｂ　食道アカラシア",
-     "ans_sub": "食道アカラシアはPOEM（経口内視鏡的筋層切開術）またはバルーン拡張術（内視鏡的）で治療できる。",
+     "ans_sub": "食道アカラシアは、<b>上部消化管内視鏡</b>を使って治療できる——経口内視鏡的筋層切開術〈POEM〉（粘膜の下にトンネルを掘り、下部食道括約筋の筋層を切る）と、内視鏡的バルーン拡張術。食道憩室は症状がなければ治療不要で、症状があれば手術が中心。食道カンジダ症は抗真菌薬、食道裂孔ヘルニアは PPI と生活の工夫（大きければ手術）、NERD は酸分泌抑制薬で治療する。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 食道アカラシアの内視鏡治療",
-       "c": "<span class=\"kw\">b食道アカラシア（正答）</span>：<br/>① <span class=\"kw\">POEM（Per-Oral Endoscopic Myotomy）</span>：内視鏡で粘膜下トンネルを作成→LES筋層を切開<br/>② <span class=\"kw\">バルーン拡張術</span>：内視鏡的にバルーンを用いてLESを強制拡張<br/>③ ボツリヌス毒素注入（内視鏡的）：LESに注入→一時的弛緩<br/><br/><span class=\"kw4\">内視鏡治療にならない疾患</span>：<br/>✗ a食道憩室：手術（憩室切除）が基本<br/>✗ c食道カンジダ症：抗真菌薬（内服・静注）<br/>✗ d食道裂孔ヘルニア：生活習慣改善・PPI（手術はNissen法）<br/>✗ eNERD：PPI内服（内視鏡治療不要）"
+       "h": "🌿 POEM——口から入れた内視鏡で「筋肉だけ」を切る",
+       "c": "<span class=\"kw3\"><b>アカラシアの診断・分類は Q.157・Q.169・Q.180 で見た</b></span>。<span class=\"kw4\"><b>ここでは、内視鏡治療の中身と、その後に起こることを考える</b></span>。<br/><span class=\"kw\"><b>① POEM の手順</b></span><br/><span class=\"kw3\"><b>食道の粘膜に小さな切り口を作り、粘膜の下（粘膜下層）にトンネルを掘り進める</b></span><br/><span class=\"kw4\"><b>トンネルの中から、下部食道括約筋と食道下部の内輪筋を縦に切る</b></span><br/><span class=\"kw3\"><b>入口の切り口をクリップで閉じる——体の表面に傷が残らない</b></span><br/><span class=\"kw\"><b>② 長所</b></span><br/><span class=\"kw3\"><b>切る長さを自由に決められる——Ⅲ型（痙攣型）のように長く切る必要がある型にも向く</b></span><br/><span class=\"kw3\"><b>効果が長く続き、症状の改善は9割以上</b></span><br/><span class=\"kw\"><b>③ 合併症・後の問題</b></span><br/><span class=\"kw4\"><b>逆流性食道炎——括約筋を切るので逆流が増える。PPI で治療する</b></span><br/><span class=\"kw3\"><b>術中の気腹・皮下気腫、出血、粘膜の穴</b></span><br/><span class=\"kw\"><b>④ バルーン拡張術</b></span><br/><span class=\"kw3\"><b>太いバルーンで括約筋を引き伸ばして裂く——外来でもでき、手軽</b></span><br/><span class=\"kw3\"><b>若い人では再発しやすく、繰り返すと穿孔の危険</b></span><br/><span class=\"kw\"><b>⑤ 外科手術</b></span><br/><span class=\"kw3\"><b>腹腔鏡下 Heller 筋層切開術＋噴門形成術（逆流を防ぐ処置を同時にできる）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食道憩室</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>多くは無症状で治療不要</b></span>。<span class=\"kw3\"><b>症状があれば手術が中心</b></span>。<span class=\"kw2\"><b>咽頭食道の Zenker 憩室では、内視鏡で隔壁を切る方法も行われる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　食道アカラシア</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>POEM・バルーン拡張術</b></span>。</td></tr><tr><td>ｃ　食道カンジダ症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>抗真菌薬（フルコナゾールなど）の内服</b></span>。</td></tr><tr><td>ｄ　食道裂孔ヘルニア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>PPI と生活の工夫。大きく症状が強ければ腹腔鏡下手術（Q.172）</b></span>。</td></tr><tr><td>ｅ　非びらん性胃食道逆流症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>酸分泌抑制薬が中心（Q.176）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 食道憩室——押し出されるか、引っ張られるか",
+       "c": "<span class=\"kw4\"><b>食道憩室は、できるしくみで2つに分ける——内側から圧で押し出される（圧出性）か、外から引っ張られる（牽引性）か</b></span>。<br/><span class=\"kw\"><b>① Zenker 憩室（咽頭食道憩室：圧出性）</b></span><br/><span class=\"kw3\"><b>咽頭と食道の境目の後壁の弱い場所（Killian 三角）から、壁の一部（粘膜と粘膜下層）が押し出される</b></span><br/><span class=\"kw3\"><b>高齢者。嚥下困難、未消化の食物の逆流、口臭、首を押すとごろごろ鳴る、誤嚥</b></span><br/><span class=\"kw3\"><b>内視鏡を入れるときに憩室へ入りやすく、穿孔の危険</b></span><br/><span class=\"kw\"><b>② 中部食道の憩室（牽引性）</b></span><br/><span class=\"kw3\"><b>気管分岐部の近くで、炎症（結核など）で癒着したリンパ節が外から食道壁を引っ張る——壁の全層が袋になる</b></span><br/><span class=\"kw3\"><b>多くは無症状で治療不要</b></span><br/><span class=\"kw\"><b>③ 横隔膜上憩室（圧出性）</b></span><br/><span class=\"kw3\"><b>食道の下部。アカラシアなどの運動障害で内圧が上がって押し出される——原因の運動障害も治療する</b></span><br/><span class=\"kw\"><b>④ 治療が必要なのは</b></span><br/><span class=\"kw3\"><b>症状が強い・大きい・誤嚥を繰り返す——手術（憩室切除・筋層切開）、Zenker 憩室は内視鏡治療も</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">アカラシアの内視鏡治療：POEM（筋層切開）orバルーン拡張</span><br/>POEM：根治率が高い（食道体部の収縮異常も改善）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "上部消化管内視鏡を用いて治療が行われるもの。<br/><b>a 食道憩室／c 食道カンジダ症（薬物）／d 食道裂孔ヘルニア／e NERD（薬物）</b>：内視鏡治療の対象でない。<br/><b>b 食道アカラシア</b>：<span class=\"kw\">内視鏡的筋層切開（POEM）やバルーン拡張</span>。✓"
+       "c": "<span class=\"kw4\"><b>アカラシアの内視鏡治療：POEM（粘膜下トンネルから括約筋を切る）、バルーン拡張術</b></span>。<br/><span class=\"kw4\"><b>POEM の後は逆流性食道炎に注意——PPI</b></span>。<br/><span class=\"kw3\"><b>外科手術は腹腔鏡下 Heller 筋層切開術＋噴門形成術</b></span>。<br/><span class=\"kw3\"><b>食道カンジダ症は抗真菌薬、NERD は酸分泌抑制薬</b></span>。<br/><span class=\"kw3\"><b>Zenker 憩室は Killian 三角からの圧出性、中部食道の憩室は牽引性</b></span>。"
       }
      ],
      "imgs": []
@@ -12539,22 +12564,27 @@
       }
      ],
      "ans_label": "ａ　飲　酒  ―――――――――――― 食道癌",
-     "ans_sub": "飲酒（アルコール→アセトアルデヒド）は食道扁平上皮癌の最重要リスク因子。喫煙との相乗効果大。",
+     "ans_sub": "<b>飲酒</b>は食道扁平上皮癌の主要な危険因子（アルコールの代謝でできるアセトアルデヒドが発癌に関わる）——正しい組合せ。睡眠時無呼吸症候群の危険因子は肥満（低体重ではない）。フレイルは体重減少・筋力低下を特徴とする（体重増加ではない）。食物繊維の摂取は糖尿病を予防する方向に、n-3 系多価不飽和脂肪酸（魚油：EPA・DHA）の摂取は虚血性心疾患を予防する方向に働く——危険因子ではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍺 飲酒と食道癌のリスク",
-       "c": "<span class=\"kw\">a飲酒→食道癌（正答）</span>：<br/>・アルコール→アセトアルデヒド（ALDH2変異で蓄積）→DNA損傷→発癌<br/>・日本人のALDH2変異（flushing syndrome）は食道癌リスクをさらに高める<br/>・喫煙＋飲酒→相乗的リスク上昇<br/><br/><span class=\"kw4\">誤りの組合せ</span>：<br/>✗ b低体重→睡眠時無呼吸：SASは肥満が主リスク（低体重は逆）<br/>✗ c体重増加→フレイル：フレイルは体重減少・筋力低下が特徴<br/>✗ d食物繊維摂取→糖尿病：食物繊維は血糖スパイク↓→糖尿病予防<br/>✗ en-3系PUFA→虚血性心疾患：n-3（EPA/DHA）は心血管保護作用"
+       "h": "🌿 危険因子か、予防因子か——選択肢を1つずつ確かめる",
+       "c": "<span class=\"kw3\"><b>飲酒・喫煙と食道癌、お酒で赤くなる人（ALDH2）は Q.149 で見た</b></span>。<span class=\"kw4\"><b>ここでは、ほかの組合せがなぜ誤りかを整理する</b></span>。<br/><span class=\"kw\"><b>① 飲酒と食道癌（正しい）</b></span><br/><span class=\"kw3\"><b>アセトアルデヒドが DNA を傷つける。喫煙と重なると危険が大きく上がる</b></span><br/><span class=\"kw3\"><b>飲酒は頭頸部癌・肝癌・大腸癌・乳癌の危険因子でもある</b></span><br/><span class=\"kw\"><b>② 睡眠時無呼吸症候群</b></span><br/><span class=\"kw4\"><b>肥満で首・咽頭の周りに脂肪がつき、眠ると気道がふさがる</b></span><br/><span class=\"kw3\"><b>ほかに小さな下顎、扁桃肥大（小児）、飲酒・睡眠薬</b></span><br/><span class=\"kw\"><b>③ フレイル（Fried の基準）</b></span><br/><span class=\"kw4\"><b>体重減少、疲れやすさ、筋力（握力）低下、歩く速さの低下、身体活動の低下——3つ以上でフレイル</b></span><br/><span class=\"kw3\"><b>低栄養・サルコペニアと結びつく——体重増加は特徴ではない</b></span><br/><span class=\"kw\"><b>④ 食物繊維</b></span><br/><span class=\"kw3\"><b>糖の吸収をゆっくりにし、食後の血糖の上昇を抑える——糖尿病を予防する方向</b></span><br/><span class=\"kw\"><b>⑤ n-3 系多価不飽和脂肪酸</b></span><br/><span class=\"kw3\"><b>中性脂肪を下げ、血栓をできにくくする——虚血性心疾患を予防する方向</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　飲　酒  ―――――――――――― 食道癌</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>食道扁平上皮癌の主要な危険因子</b></span>。</td></tr><tr><td>ｂ　低体重  ―――――――――――― 睡眠時無呼吸症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>危険因子は肥満</b></span>。</td></tr><tr><td>ｃ　体重増加  ――――――――――― フレイル</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>フレイルは体重減少・筋力低下が特徴</b></span>。</td></tr><tr><td>ｄ　食物繊維の摂取  ―――――――― 糖尿病</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食物繊維は糖尿病を予防する方向に働く</b></span>。</td></tr><tr><td>ｅ　n-3 系多価不飽和脂肪酸摂取  ――― 虚血性心疾患</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>虚血性心疾患を予防する方向に働く</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 食べ物と消化器の癌——臓器ごとの危険因子",
+       "c": "<span class=\"kw4\"><b>消化器の癌は、臓器ごとに食事・生活習慣の危険因子が違う</b></span>。<br/><span class=\"kw\"><b>① 食道扁平上皮癌</b></span><br/><span class=\"kw3\"><b>飲酒・喫煙、熱い飲食物、野菜・果物の不足</b></span><br/><span class=\"kw\"><b>② 食道腺癌</b></span><br/><span class=\"kw3\"><b>GERD・Barrett 食道・肥満（Q.173）</b></span><br/><span class=\"kw\"><b>③ 胃癌</b></span><br/><span class=\"kw4\"><b>H. pylori 感染（最大の要因）、塩分の多い食事（塩蔵品）、喫煙</b></span><br/><span class=\"kw3\"><b>野菜・果物は予防的</b></span><br/><span class=\"kw\"><b>④ 大腸癌</b></span><br/><span class=\"kw4\"><b>赤身肉・加工肉、飲酒、肥満、運動不足</b></span><br/><span class=\"kw3\"><b>食物繊維・運動・カルシウムは予防的</b></span><br/><span class=\"kw\"><b>⑤ 肝細胞癌</b></span><br/><span class=\"kw3\"><b>B 型・C 型肝炎、飲酒、脂肪性肝疾患（肥満・糖尿病）、アフラトキシン（カビ毒）</b></span><br/><span class=\"kw\"><b>⑥ 膵癌</b></span><br/><span class=\"kw3\"><b>喫煙、糖尿病、慢性膵炎、肥満、家族歴</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道扁平上皮癌の2大リスク：飲酒（最重要）＋喫煙</span><br/>ALDH2変異（顔面紅潮型）の日本人はアセトアルデヒド蓄積→食道癌リスク↑。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "リスクファクターと疾患の組合せで正しいもの。<br/><b>b 低体重→SAS（肥満）／c 体重増加→フレイル／d 食物繊維→糖尿病（予防的）／e n-3系脂肪酸→虚血性心疾患（予防的）</b>：誤り。<br/><b>a 飲酒→食道癌</b>：<span class=\"kw\">飲酒・喫煙は扁平上皮癌の危険因子</span>。✓"
+       "c": "<span class=\"kw4\"><b>飲酒は食道扁平上皮癌の危険因子（アセトアルデヒド）。喫煙と相乗</b></span>。<br/><span class=\"kw3\"><b>睡眠時無呼吸症候群の危険因子は肥満</b></span>。<br/><span class=\"kw3\"><b>フレイル：体重減少・疲労・握力低下・歩行速度低下・活動低下（3つ以上）</b></span>。<br/><span class=\"kw3\"><b>食物繊維は糖尿病、n-3 系脂肪酸は虚血性心疾患を予防する方向</b></span>。<br/><span class=\"kw3\"><b>胃癌は H. pylori と塩分、大腸癌は赤身肉・加工肉・肥満・飲酒</b></span>。"
       }
      ],
      "imgs": []
