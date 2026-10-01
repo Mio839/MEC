@@ -73,6 +73,7 @@ _work/screenshots/
 *.stackdump
 _work/_mock_tmp/
 _work/_endo_tmp/
+_work/_dige_tmp/
 
 # 見た目の前後比較の出力（_work/visual_snapshot.py）
 _work/_visual/
