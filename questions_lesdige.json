@@ -134,18 +134,23 @@
             },
             {
               "cls": "ep",
-              "h": "💊 逆流性食道炎の治療",
-              "c": "<span class=\"kw\">b酸分泌抑制薬（正答）</span>：<br>逆流性食道炎（びらん確認）→<span class=\"kw\">PPI（プロトンポンプ阻害薬）</span>が第一選択<br/>→ 治癒・症状改善の両方に有効<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a「下部食道に憩室がある」→逆流性食道炎≠憩室（別病態）<br/>✗ c「バルーン拡張術が必要」→アカラシア・狭窄に使用（逆流性食道炎に不要）<br/>✗ d「足を上げて寝る」→<span class=\"kw4\">逆効果！</span>上半身を高くして寝る（頭部挙上）が正しい<br/>✗ e「食道pHモニタリングが診断に必須」→びらんがあれば内視鏡で診断可・PHは必須でない</br>"
+              "h": "🌿 この患者の逆流を強めているもの——肥満・脂っこい食事・喫煙・飲酒",
+              "c": "<span class=\"kw3\"><b>GERD の治療の全体は Q.153 で見た</b></span>。<span class=\"kw4\"><b>ここでは、本例の生活習慣のそれぞれが、なぜ逆流を起こすのかを考える</b></span>。<br/><span class=\"kw\"><b>① 肥満（BMI 31）</b></span><br/><span class=\"kw4\"><b>腹圧が上がって胃が押され、食道裂孔ヘルニアもできやすい——減量で症状が減る</b></span><br/><span class=\"kw\"><b>② 揚げ物・脂っこい食事</b></span><br/><span class=\"kw3\"><b>脂肪がコレシストキニンを出し、下部食道括約筋を緩め、胃の排出を遅らせる</b></span><br/><span class=\"kw3\"><b>食べ過ぎで胃が広がると、括約筋が一時的に緩む回数が増える</b></span><br/><span class=\"kw\"><b>③ 喫煙（40本/日）</b></span><br/><span class=\"kw3\"><b>ニコチンで括約筋が緩む、唾液（酸を中和する重炭酸）が減る</b></span><br/><span class=\"kw\"><b>④ 飲酒（3合/日）</b></span><br/><span class=\"kw3\"><b>括約筋を緩め、食道の蠕動を弱め、胃酸の分泌を増やす</b></span><br/><span class=\"kw\"><b>⑤ その他</b></span><br/><span class=\"kw3\"><b>チョコレート・コーヒー・炭酸飲料・柑橘類・ミントで悪化する人がいる</b></span><br/><span class=\"kw3\"><b>食後すぐ横になる、前かがみ、ベルトで締めつける</b></span><br/><span class=\"kw\"><b>⑥ 寝るときの工夫</b></span><br/><span class=\"kw4\"><b>ベッドの頭側を高くする（枕を重ねるより、マットレスの下に台を入れる）</b></span><br/><span class=\"kw3\"><b>左を下にして寝ると、胃が食道より低くなり逆流が減る</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　下部食道に憩室がある。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>袋状の突出はない——縦長のびらんが見える</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　酸分泌抑制薬の適応となる。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>PPI・ボノプラザンで8週治療する</b></span>。</td></tr><tr><td>ｃ　バルーン拡張術が必要である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>狭窄・アカラシアの治療——本例に狭窄はない</b></span>。</td></tr><tr><td>ｄ　足を上げて寝ることが勧められる。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>足を上げると逆流が増える——上半身（頭側）を高くする</b></span>。</td></tr><tr><td>ｅ　診断に食道pH モニタリングが必須である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>内視鏡でびらんがあれば逆流性食道炎と診断できる</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 24時間食道 pH・インピーダンス検査が必要になるとき",
+              "c": "<span class=\"kw4\"><b>鼻から細いカテーテルを入れて24時間、食道の酸（pH 4 未満の時間）と、酸以外の逆流（インピーダンス）を測る</b></span>。<br/><span class=\"kw\"><b>① 必要になる場面</b></span><br/><span class=\"kw3\"><b>内視鏡で異常がなく、PPI が効かない胸やけ——NERD・逆流過敏症・機能性胸やけを分ける（Q.176）</b></span><br/><span class=\"kw4\"><b>噴門形成術などの手術の前——本当に逆流が原因かを確かめる</b></span><br/><span class=\"kw3\"><b>咳・声がれ・胸痛など食道外症状が逆流によるか確かめる</b></span><br/><span class=\"kw\"><b>② 不要な場面</b></span><br/><span class=\"kw3\"><b>内視鏡で逆流性食道炎（びらん）がある——それで診断できる</b></span><br/><span class=\"kw3\"><b>典型的な症状で PPI が効く</b></span><br/><span class=\"kw\"><b>③ 見ること</b></span><br/><span class=\"kw3\"><b>酸にさらされた時間の割合（6％以上で異常）</b></span><br/><span class=\"kw3\"><b>症状が出た時刻と逆流の時刻の一致</b></span><br/><span class=\"kw3\"><b>弱酸・非酸の逆流——PPI を飲んでいても逆流は起こる</b></span><br/><span class=\"kw\"><b>④ ワイヤレスのカプセル型</b></span><br/><span class=\"kw3\"><b>食道に留置して48〜96時間測る——カテーテルの不快感がない</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">逆流性食道炎 → PPI（第一選択）</span><br/>生活習慣：頭部挙上で寝る・食後2〜3時間横にならない・脂肪・アルコール・喫煙を避ける。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "肥満の逆流性食道炎の患者に当てはまるもの。<br/><b>a 下部食道憩室／c バルーン拡張術／d 足を上げて寝る／e pHモニタリングが必須</b>：不適/誤り。<br/><b>b 酸分泌抑制薬の適応となる</b>：<span class=\"kw\">PPI等の酸分泌抑制薬が第一治療</span>。✓"
+              "c": "<span class=\"kw4\"><b>逆流性食道炎（びらんあり）→ 酸分泌抑制薬（PPI・ボノプラザン）</b></span>。<br/><span class=\"kw4\"><b>寝るときは頭側を高く（足ではない）。左側臥位、食後すぐ横にならない</b></span>。<br/><span class=\"kw3\"><b>減量・禁煙・節酒、脂っこい食事を控える</b></span>。<br/><span class=\"kw3\"><b>内視鏡でびらんがあれば pH モニタリングは不要</b></span>。<br/><span class=\"kw3\"><b>pH・インピーダンス検査は PPI 抵抗例・手術前・食道外症状の確認に</b></span>。"
             }
           ],
           "imgs": [
