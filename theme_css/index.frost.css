@@ -1040,9 +1040,10 @@ a.tile:hover .tile-ar { transform:translateX(3px); }
 .gear-c { animation:gearSpin calc(var(--gear-t,26s) * .417) linear infinite reverse; }
 .gear-d { animation:gearSpin calc(var(--gear-t,26s) * .583) linear infinite reverse; }
 @keyframes gearSpin { to{transform:rotate(360deg);} }
-.hero-num { transform-origin:0 100%;animation:numIn .55s var(--ease-out) backwards; }
-@keyframes numIn { from{opacity:0;transform:scale(.92);} }
-.hero.settled .hero-num { animation:none; }
+.hero-fig.num-in { transform-origin:0 100%;animation:numIn .55s var(--ease-out) backwards; }
+@keyframes numIn { from{opacity:0;scale:.92;translate:0 .12em;} }
+html:not(.hub-painted) .hero-fig.num-in,
+html:not(.hub-painted) .hero-cta a.cta-in { animation-play-state:paused; }
 .cta-main { position:relative;overflow:hidden; }
 .cta-main::after {
   content:'';position:absolute;top:0;bottom:0;left:0;width:38%;pointer-events:none;
@@ -1105,12 +1106,11 @@ a.tile:hover .tile-ar { transform:translateX(3px); }
   opacity:.30;animation:ctaRip .52s var(--ease-out) forwards;
 }
 @keyframes ctaRip { to{transform:scale(26);opacity:0;} }
-.hero-cta a {
+.hero-cta a.cta-in {
   animation:ctaIn .42s var(--ease-out) backwards;
-  animation-delay:calc(.34s + var(--i,0) * 70ms);
+  animation-delay:calc(var(--cta-in-wait,.34s) + var(--i,0) * 70ms);
 }
-@keyframes ctaIn { from{opacity:0;transform:translateY(10px) scale(.97);} }
-.hero.settled .hero-cta a { animation:none; }
+@keyframes ctaIn { from{opacity:0;translate:0 10px;scale:.97;} }
 .cta-sub[data-fx="srs"] { --cta-glow:96,165,250; }
 .cta-sub[data-fx="browse"] { --cta-glow:61,214,140; }
 .cta-sub[data-fx="redo"] { --cta-glow:255,107,107; }
@@ -3253,6 +3253,7 @@ html.ui-frost .lv-burst::after {
   .cta-main:active,
   .cta-sub:not(.is-off):active,
   .hero-cta a,
+  .hero-fig.num-in,
   .strip-c,
   .strip dd.tick,
   #statDue[data-load="3"],

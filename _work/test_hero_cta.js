@@ -386,7 +386,7 @@ sec('F 止まっていても動くボタン（常時の演出）');
 t('1要素の3層（本体・::before・::after）の分担が崩れていない', () => {
   // ⚠️ 同じ層に2つ置くと後勝ちで片方が黙って死ぬ。分担:
   //    本体=入場 / ::before=呼吸するリング / ::after=光沢（is-off では ✓）
-  assert.ok(/\.hero-cta a\{animation:ctaIn /.test(HTML), '本体が入場に使われていない');
+  assert.ok(/\.hero-cta a\.cta-in\{animation:ctaIn /.test(HTML), '本体が入場に使われていない');
   assert.ok(/\.cta-main::before,\.cta-sub:not\(\.is-off\)::before\{content:''/.test(HTML),
     '::before が呼吸するリングに使われていない');
   assert.ok(/\.cta-sub:not\(\.is-off\)::after\{content:''/.test(HTML),
@@ -492,6 +492,24 @@ t('renderHero の文言は全部 _setCtaLabel を通っている', () => {
 t('主ボタンの常時粒子は撤去したまま（2026-10-01・ユーザー判断）', () => {
   const code = HTML.replace(/\/\/.*$/mg, '').replace(/\/\*[\s\S]*?\*\//g, '');
   assert.ok(!code.includes('_startCtaAmbient('), '_startCtaAmbient が戻っている');
+});
+
+// 2026-10-01: 大きな読み値の入場はテーマの animation に上書きされて一度も走っておらず、
+// ボタンの入場は戻ってきたとき画面の外で終わっていた。どちらも JS が付けるクラスで走らせる
+t('入場は .num-in / .cta-in で走らせ、最初の描画まで止めておく', () => {
+  assert.ok(!/\.hero-num\{[^}]*numIn/.test(HTML), '.hero-num に numIn を戻している（テーマの animation に潰される）');
+  assert.ok(/\.hero-fig\.num-in\{[^}]*animation:numIn/.test(HTML), '.hero-fig.num-in に numIn が無い');
+  assert.ok(/\.hero-cta a\.cta-in\{[^}]*animation:ctaIn/.test(HTML), '.hero-cta a.cta-in に ctaIn が無い');
+  assert.ok(!/\.hero-cta a\{[^}]*animation:ctaIn/.test(HTML), '.hero-cta a に素で ctaIn を掛けている（画面外で終わる）');
+  assert.ok(/html:not\(\.hub-painted\) \.hero-fig\.num-in/.test(HTML), '最初の描画まで止めていない');
+  const arm = extract('_heroEnterArm');
+  assert.ok(/IntersectionObserver/.test(arm), 'ボタンが画面に入るのを待っていない');
+  assert.ok(/back_forward/.test(arm) && /'load'/.test(arm), '復元されたスクロール位置を load まで待っていない');
+  const enter = extract('_ctaEnter');
+  assert.ok(/animationend/.test(enter) && /remove\('cta-in'\)/.test(enter),
+    '.cta-in を走り終えても外していない（押し込みの ctaPress が潰れる）');
+  assert.ok(/pageshow[\s\S]{0,80}_heroEnterArm/.test(HTML), 'bfcache から戻ったときに張り直していない');
+  assert.ok(/setTimeout\(mark, \d+\)/.test(extract('_markHubPainted')), '描画を観測できないとき止めっぱなしになる');
 });
 
 t('_tweenNum に非表示タブ用の落とし所がある', () => {

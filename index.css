@@ -1073,11 +1073,17 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 @keyframes gearSpin{to{transform:rotate(360deg);}}
 
 
-/* ── 大きな読み値は下端を軸に立ち上がる ── */
-.hero-num{transform-origin:0 100%;animation:numIn .55s var(--ease-out) backwards;}
-@keyframes numIn{from{opacity:0;transform:scale(.92);}}
-/* 再描画で止めるのは「入場」だけ。目盛りの回転は常時演出なので止めない */
-.hero.settled .hero-num{animation:none;}
+/* ── 大きな読み値は下端を軸に立ち上がる（2026-10-01 に作り直し）──
+   ⚠️ 掛ける先は .hero-num ではなく枠の .hero-fig。.hero-num にはテーマが animation を
+      ショートハンドで持っている（Aurora の auroraNumFlow・Liquid の liquidInkFlow・全テーマの
+      目標達成の脈）ので、そこに書くと黙って上書きされて一度も走らなかった。
+   ⚠️ CSS だけで走らせない。読み込み中（テーマの CSS 待ち）に時計が進み、画面に出る前に
+      終わっていた。index.js の _heroEnterArm が rAF で .num-in を付け、最初の描画（FCP）まで
+      止めておく（rAF が来なければ付かない＝素の姿で見えている）。拡大は独立プロパティ scale で書く。 */
+.hero-fig.num-in{transform-origin:0 100%;animation:numIn .55s var(--ease-out) backwards;}
+@keyframes numIn{from{opacity:0;scale:.92;translate:0 .12em;}}
+/* 最初の描画（FCP）が済むまで入場の時計を止めておく（.hub-painted は index.js の _markHubPainted） */
+html:not(.hub-painted) .hero-fig.num-in,html:not(.hub-painted) .hero-cta a.cta-in{animation-play-state:paused;}
 
 /* ── 主ボタンをたまに光沢が走る。押せる場所だと目で分かる ── */
 .cta-main{position:relative;overflow:hidden;}
@@ -1148,11 +1154,15 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   opacity:.30;animation:ctaRip .52s var(--ease-out) forwards;}
 @keyframes ctaRip{to{transform:scale(26);opacity:0;}}
 
-/* E3: 入場は左から順に。4つ同時に出ると「並んだ」だけで席の優先順位が読めない */
-.hero-cta a{animation:ctaIn .42s var(--ease-out) backwards;
-  animation-delay:calc(.34s + var(--i,0) * 70ms);}
-@keyframes ctaIn{from{opacity:0;transform:translateY(10px) scale(.97);}}
-.hero.settled .hero-cta a{animation:none;}
+/* E3: 入場は左から順に。4つ同時に出ると「並んだ」だけで席の優先順位が読めない
+   ⚠️ 2026-10-01〜 開いた瞬間ではなく「ボタンが画面に入ったとき」に走らせる。試験から戻ると
+      スクロール位置が復元されてボタンが画面の外にあり、入場が誰にも見えずに終わっていた。
+      .cta-in は index.js の _heroEnterArm が付け、走り終えたら外す（付けたままだと
+      .cta-main:active の押し込み ctaPress を詳細度で潰す）。最初から画面内なら .34s の溜めを
+      置き、スクロールで入ったときは溜めなしで出す（--cta-in-wait）。 */
+.hero-cta a.cta-in{animation:ctaIn .42s var(--ease-out) backwards;
+  animation-delay:calc(var(--cta-in-wait,.34s) + var(--i,0) * 70ms);}
+@keyframes ctaIn{from{opacity:0;translate:0 10px;scale:.97;}}
 
 /* ══════════ F: ボタンを止まっていても生かす（2026-08-14）══════════
    E1〜E10 は「押した時」の演出しか無く、指を触れていない間に動くのは主ボタンの光沢だけ
@@ -4910,7 +4920,7 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
         入場・着地は animation:none で「最終状態のまま出す」に落とす＝数字は必ず読める */
   .cta-rip,.hero-inst::after{display:none;}
   .cta-main:active,.cta-sub:not(.is-off):active,
-  .hero-cta a,.strip-c,.strip dd.tick,
+  .hero-cta a,.hero-fig.num-in,.strip-c,.strip dd.tick,
   #statDue[data-load="3"],.hero-num[data-goal="2"]{animation:none;}
   /* 2026-08-14 追加分（F: 止まっていても動くボタン）。
      ⚠️ 常時走る層なので display:none で消す。文字（.cta-ic の絵文字）だけは

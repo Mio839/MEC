@@ -146,7 +146,7 @@ const FX = [
  { g:'入場（開いた瞬間・一度きり）', items:[
   { id:'count', nm:'数字のカウントアップ', ds:'今日解いた問題・正解率・XP・次のレベルまで・計器行（復習待ち／済／連続日数）が0から数え上がる（0.85〜1秒）。外すと最初から最終値で出る。', code:'index.js _tweenNum',
     js:'_tweenNum=function(el,to,dur,done){if(!el)return;el.textContent=_fmtN(to);if(done)done();};' },
-  { id:'numIn', nm:'大きな読み値の入場', ds:'「今日解いた問題」「正解率」の数字が下からせり上がって現れる（0.55秒）。', code:'index.css .hero-num / @keyframes numIn',
+  { id:'numIn', nm:'大きな読み値の入場', ds:'「今日解いた問題」「正解率」の数字が下からせり上がって現れる（0.55秒・最初の描画から）。', code:'index.css .hero-fig.num-in / @keyframes numIn',
     css:'@keyframes numIn{}' },
   { id:'digit', nm:'着地で桁が1つずつ立ち上がる', ds:'カウントアップが止まった瞬間、数字の桁が左から順にポンと立ち上がる。', code:'index.css .hero-num .dg / @keyframes digitIn',
     css:'@keyframes digitIn{}' },
@@ -163,7 +163,7 @@ const FX = [
     css:'@keyframes instIn{}' },
   { id:'tick', nm:'計器行の数字のひと突き', ds:'計器行の数字が数え終わった瞬間に箱がひと突きされる（前回と値が変わったときだけ）。', code:'index.js _tickStat / @keyframes instTick',
     css:'@keyframes instTick{}' },
-  { id:'cta', nm:'ボタンが左から順に入場', ds:'ヒーローの3つのボタン（復習・全科目・今日の誤答）が0.34秒後から順にせり上がる。', code:'index.css .hero-cta a / @keyframes ctaIn',
+  { id:'cta', nm:'ボタンが左から順に入場', ds:'ヒーローの3つのボタン（復習・全科目・今日の誤答）が、画面に入ったときに順にせり上がる（開いた時点で画面内なら0.34秒後）。', code:'index.css .hero-cta a.cta-in / index.js _heroEnterArm',
     css:'@keyframes ctaIn{}' },
   { id:'ring', nm:'ゲージの弧が描かれる', ds:'今日の目標ゲージの弧が0から今の達成率まで描かれる（0.25秒待って1.15秒）。外すと最初から描き終わった姿。', code:'index.css .gauge-val / @keyframes ringDraw',
     css:'.gauge-val{animation:none!important;transition:none!important}' },

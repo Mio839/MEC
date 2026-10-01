@@ -3650,6 +3650,84 @@ function _initMissionTap() {
   }, { passive: true });
 }
 
+// ── ヒーローの入場（2026-10-01 に作り直し）──────────────────────────
+// ① 大きな読み値（.hero-fig）… rAF で .num-in を付ける。CSS だけで走らせると、テーマの CSS を
+//    待つ間に時計が進み、画面に出る前に終わっていた（実測：Brass で入場の終わり 950ms・最初の描画
+//    940ms／Aurora・Liquid はテーマの animation に上書きされて一度も走っていなかった）。
+//    JS で付けても、テーマによっては最初の描画より前に時計が進む（実測：Frost は始まり 302ms・
+//    最初の描画 884ms＝ほぼ終わってから写る）。そこで .num-in / .cta-in は html に .hub-painted が
+//    付くまで止めておく（止まっている間は入場の頭の姿）。.hub-painted は最初の描画（FCP）の後に付ける。
+// ② ボタン（.hero-cta a）… 画面に入ったときに .cta-in を付ける。試験から戻るとスクロール位置が
+//    復元されてボタンが画面の外にあり、入場が見えないまま終わっていた。
+//    ⚠️ スクロール位置の復元（再読み込み・戻る）は load の後に来る。その2つは判定を load まで
+//       待つこと（先に測ると「最上部＝画面内」と誤って、画面の外で入場を走らせる）。
+// ⚠️ どちらも「付けなければ素の姿で見えている」形。opacity:0 から始めて JS で外す形にしないこと
+//    （非表示タブでは rAF が来ない＝白紙のまま残る）。
+// ⚠️ .cta-in は走り終えたら外す。付けたままだと .cta-main:active の押し込み（ctaPress）を詳細度で潰す。
+let _ctaInIO = null;
+function _ctaEnter(wait) {
+  const links = document.querySelectorAll('.hero-cta a');
+  if (!links.length) return;
+  links.forEach(a => {
+    a.classList.remove('cta-in');
+    a.style.setProperty('--cta-in-wait', wait + 's');
+    void a.offsetWidth;                       // 付け直しでもアニメを頭から走らせる
+    a.classList.add('cta-in');
+    const off = e => {
+      if (e && e.animationName !== 'ctaIn') return;
+      a.classList.remove('cta-in');
+      a.removeEventListener('animationend', off);
+    };
+    a.addEventListener('animationend', off);
+    // 非表示タブでは animationend が来ないので時間でも外す。⚠️ 時計は付けた瞬間ではなく
+    //    最初の描画から進む（読み込み中は 0.4秒ほど遅れる＝実測）ので、尺より十分長く取る
+    setTimeout(off, 4000);
+  });
+}
+// 最初の描画が済んだら html に .hub-painted を付ける（入場の時計をそこから進める）。
+// ⚠️ 観測できない環境・非表示タブでも止めっぱなしにしない＝2秒で必ず付ける。
+function _markHubPainted() {
+  const root = document.documentElement;
+  if (root.classList.contains('hub-painted')) return;
+  const mark = () => root.classList.add('hub-painted');
+  setTimeout(mark, 2000);
+  try {
+    if (performance.getEntriesByName('first-contentful-paint').length) { mark(); return; }
+    const po = new PerformanceObserver(l => {
+      if (!l.getEntries().some(e => e.name === 'first-contentful-paint')) return;
+      po.disconnect(); mark();
+    });
+    po.observe({ type: 'paint', buffered: true });
+  } catch (e) { mark(); }
+}
+function _heroEnterArm() {
+  if (_reducedMotion()) return;
+  _markHubPainted();
+  const cta = document.querySelector('.hero-cta');
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.hero-stat-row .hero-fig').forEach(el => el.classList.add('num-in'));
+  });
+  if (!cta) return;
+  const armCta = () => requestAnimationFrame(() => {
+    const inView = r => r.bottom > 0 && r.top < innerHeight;
+    if (inView(cta.getBoundingClientRect())) { _ctaEnter(.34); return; }
+    if (!('IntersectionObserver' in window)) return;
+    if (_ctaInIO) _ctaInIO.disconnect();
+    _ctaInIO = new IntersectionObserver(es => {
+      if (!es.some(e => e.isIntersecting)) return;
+      _ctaInIO.disconnect(); _ctaInIO = null;
+      _ctaEnter(0);
+    }, { threshold: .35 });
+    _ctaInIO.observe(cta);
+  });
+  // 復元されうるのは「再読み込み」と「戻る／進む」だけ。普通に開いた日は最上部から始まるので
+  // load を待たない（待つと、描画の後でボタンが一度消えてから出直して見える）
+  let nav = '';
+  try { nav = (performance.getEntriesByType('navigation')[0] || {}).type || ''; } catch (e) {}
+  if (document.readyState === 'complete' || (nav !== 'reload' && nav !== 'back_forward')) armCta();
+  else addEventListener('load', armCta, { once: true });
+}
+
 // ── スクロールで下の段を出す（scroll イベントではなく IntersectionObserver） ──
 function _initScrollReveal() {
   const targets = document.querySelectorAll('.rv-s');
@@ -4140,11 +4218,14 @@ document.addEventListener('DOMContentLoaded', () => {
   renderHub();
   checkSyncWarning();
   _initScrollReveal();
+  _heroEnterArm();     // 大きな読み値とボタンの入場（ボタンは画面に入ったとき）
   _initScrollProgress();
   _initTapBurst();
   _initCtaRipple();   // E2: ヒーローのボタンのリップル
   _initCtaExit();     // E10: 遷移直前のひと呼吸（⚠️ 内部で必ず遷移させる保険つき）
   _initSyncFx();
+  // 戻る操作で bfcache から復元されたときも、ボタンの入場を「画面に入ったとき」で張り直す
+  addEventListener('pageshow', e => { if (e.persisted) _heroEnterArm(); });
   // 1日の最初のブリーフィング（hub_opening.js）。入場の数字が落ち着いてから出す。
   if (window.MecOpening) MecOpening.maybeShow(1100);
   _initMissionTap();
