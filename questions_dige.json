@@ -13433,22 +13433,27 @@
       }
      ],
      "ans_label": "ａ　呑　酸\nｂ　胸やけ",
-     "ans_sub": "GERDの2大典型症状：胸やけ（heartburn）と呑酸（acid regurgitation）。",
+     "ans_sub": "胃食道逆流症の典型的な症状は<b>胸やけ</b>（胸骨の裏が焼けるような感じ）と<b>呑酸</b>（酸っぱい液が喉・口まで上がってくる）の2つ。体重減少は癌などを疑う警告症状、空腹時痛は十二指腸潰瘍の特徴。唾液が急に口いっぱいに湧く（water brash）ことは逆流症でも起こるが、典型的な症状ではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔥 GERDの典型症状",
-       "c": "<span class=\"kw\">a呑酸（正答）</span>：酸っぱい液が口まで上がる感覚（acid regurgitation）<br/><span class=\"kw\">b胸やけ（正答）</span>：胸骨後面の灼熱感（heartburn）—GERDの最も典型的な症状<br/><br/><span class=\"kw4\">非典型的・誤りの選択肢</span>：<br/>✗ c体重減少：進行食道癌・悪性腫瘍を示唆（GERDの典型でない）<br/>✗ d空腹時痛：消化性潰瘍（特に十二指腸潰瘍）の特徴<br/>✗ e唾液分泌過多：嘔気・食道刺激で分泌増加することあるが典型症状でない"
+       "h": "🌿 上腹部・胸の症状を言葉で聞き分ける",
+       "c": "<span class=\"kw4\"><b>食道外症状は Q.168、内視鏡で傷のない逆流症（NERD）は Q.176——ここは「患者の言葉」を症状名に置き換える練習</b></span>。<br/><span class=\"kw\"><b>① 胸やけ</b></span><br/><span class=\"kw3\"><b>みぞおちから胸骨の裏へ上がる、焼けるような熱い感じ——食後・前かがみ・横になると増える</b></span><br/><span class=\"kw\"><b>② 呑酸</b></span><br/><span class=\"kw3\"><b>酸っぱい・苦い液が喉や口まで上がってくる——吐き気を伴わず、力まずに上がる</b></span><br/><span class=\"kw\"><b>③ 嘔吐との違い</b></span><br/><span class=\"kw3\"><b>嘔吐：吐き気があり、腹筋が強く収縮して勢いよく出る</b></span><br/><span class=\"kw3\"><b>逆流（呑酸）：吐き気がなく、だらっと上がる</b></span><br/><span class=\"kw\"><b>④ 心窩部痛との違い</b></span><br/><span class=\"kw3\"><b>胃・十二指腸の痛みはみぞおちの「痛み」——胸やけは「焼ける感じ」で、胸の中央を上がる</b></span><br/><span class=\"kw\"><b>⑤ 唾液が湧く（water brash）</b></span><br/><span class=\"kw3\"><b>食道に酸が触れると反射で唾液が急に増える——逆流症に伴うことはあるが、診断の決め手にはならない</b></span><br/><span class=\"kw\"><b>⑥ 典型的な症状がそろえば</b></span><br/><span class=\"kw3\"><b>警告症状がなければ、まず PPI を試してよい</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　呑　酸</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>酸っぱい液が口まで上がる——典型的な症状</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　胸やけ</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胸骨の裏の焼けるような感じ——最も代表的な症状</b></span>。</td></tr><tr><td>ｃ　体重減少</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>警告症状——食道癌・胃癌を疑い内視鏡を急ぐ（Q.183）</b></span>。</td></tr><tr><td>ｄ　空腹時痛</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>十二指腸潰瘍の特徴——食事で和らぐ</b></span>。</td></tr><tr><td>ｅ　唾液分泌過多</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>逆流で反射的に唾液が増えることはあるが、典型的な症状ではない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：痛みの「時刻」で消化性潰瘍を見分ける",
+       "c": "<span class=\"kw\"><b>① 十二指腸潰瘍</b></span><br/><span class=\"kw4\"><b>空腹時・夜間（明け方）の心窩部痛——食べると和らぐ</b></span><br/><span class=\"kw3\"><b>胃酸が空腹時に十二指腸の潰瘍に触れるため。若い人に多い</b></span><br/><span class=\"kw\"><b>② 胃潰瘍</b></span><br/><span class=\"kw3\"><b>食後の心窩部痛——食物で胃酸が出て、潰瘍に触れる</b></span><br/><span class=\"kw3\"><b>中高年に多い</b></span><br/><span class=\"kw\"><b>③ 逆流症</b></span><br/><span class=\"kw3\"><b>食後・前かがみ・横になったときの胸やけ——痛みより焼ける感じ</b></span><br/><span class=\"kw\"><b>④ 機能性ディスペプシア</b></span><br/><span class=\"kw3\"><b>食後のもたれ・早く満腹になる（食後愁訴症候群）、みぞおちの痛み・焼ける感じ（心窩部痛症候群）</b></span><br/><span class=\"kw3\"><b>内視鏡で異常がないことが前提</b></span><br/><span class=\"kw\"><b>⑤ 注意</b></span><br/><span class=\"kw4\"><b>時刻の手がかりは目安にすぎない——高齢者・NSAIDs 服用者の潰瘍は痛みがなく、吐血・黒色便で見つかることがある</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GERD典型症状：胸やけ＋呑酸（食後・前屈・臥位で悪化）</span><br/>NERD（非びらん性GERD）：同じ症状でも内視鏡では正常→PPI試験投与で診断。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "成人のGERDの典型的な症状を2つ。<br/><b>c 体重減少／d 空腹時痛／e 唾液分泌過多</b>：典型的でない。<br/><b>a 呑酸</b>：<span class=\"kw\">胃酸の口腔内への逆流感</span>。✓<br/><b>b 胸やけ</b>：<span class=\"kw\">胸骨後部の灼熱感</span>。✓"
+       "c": "<span class=\"kw3\"><b>胃食道逆流症の典型症状＝胸やけと呑酸</b></span><br/><span class=\"kw4\"><b>体重減少・嚥下困難・貧血・吐血は警告症状——内視鏡</b></span><br/><span class=\"kw3\"><b>空腹時痛・夜間痛＝十二指腸潰瘍、食後痛＝胃潰瘍</b></span>"
       }
      ],
      "imgs": []
@@ -13494,22 +13499,27 @@
       }
      ],
      "ans_label": "ｄ　体重の減量",
-     "ans_sub": "体重減量は腹圧を下げてGERDを改善する。増悪因子ではなく改善因子（保護因子）。",
+     "ans_sub": "逆流を防いでいるのは<b>下部食道括約筋（LES）</b>と<b>横隔膜の脚</b>の締め付け。<b>臥位</b>は重力の助けがなくなり、<b>硝酸薬・カルシウム拮抗薬</b>は平滑筋をゆるめて LES 圧を下げ、<b>高脂肪食</b>は LES をゆるめ胃からの排出を遅らせる——どれも増悪因子。<b>体重の減量</b>はお腹の圧を下げて逆流を減らす改善因子。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔥 GERDの増悪・改善因子",
-       "c": "<span class=\"kw\">d体重の減量（増悪因子ではない・正答）</span>：<br/>体重↓→腹圧↓→LES圧↑→逆流↓→<span class=\"kw\">GERDが改善</span><br/><br/><span class=\"kw\">増悪因子（誤りの選択肢）</span>：<br/>✗ a臥位：重力がなくなり逆流しやすい<br/>✗ b硝酸薬（ニトログリセリン）：LES弛緩→逆流↑<br/>✗ c高脂肪食：LES弛緩・胃排出遅延→逆流↑<br/>✗ eCa拮抗薬：LES平滑筋弛緩→逆流↑<br/><br/><span class=\"kw\">他の増悪因子</span>：アルコール・喫煙・チョコレート・コーヒー・肥満・前屈姿勢"
+       "h": "🌿 逆流を防ぐ「門」の構造——どこが弱ると逆流するか",
+       "c": "<span class=\"kw4\"><b>薬・円背は Q.184、生活習慣は Q.177・Q.189——ここは逆流を防ぐしくみの側から整理する</b></span>。<br/><span class=\"kw\"><b>① 下部食道括約筋（LES）</b></span><br/><span class=\"kw3\"><b>食道の下端の平滑筋が、ふだんは締まっている</b></span><br/><span class=\"kw3\"><b>ゆるめるもの：脂肪、アルコール、喫煙、チョコレート、硝酸薬、カルシウム拮抗薬、抗コリン薬、テオフィリン、黄体ホルモン</b></span><br/><span class=\"kw\"><b>② 横隔膜の脚</b></span><br/><span class=\"kw3\"><b>食道が通る穴（食道裂孔）を外から締める——裂孔ヘルニアで効かなくなる（Q.172）</b></span><br/><span class=\"kw\"><b>③ ヒス角</b></span><br/><span class=\"kw3\"><b>食道が胃に斜めにつながる角度——弁のように働く</b></span><br/><span class=\"kw\"><b>④ 一過性下部食道括約筋弛緩</b></span><br/><span class=\"kw3\"><b>げっぷのために LES が数十秒ゆるむ生理的なしくみ——胃が膨らむと増える（過食）</b></span><br/><span class=\"kw\"><b>⑤ 押し上げる力</b></span><br/><span class=\"kw3\"><b>お腹の圧：肥満・前かがみ・妊娠・便秘のいきみ</b></span><br/><span class=\"kw3\"><b>重力：臥位で失われる</b></span><br/><span class=\"kw\"><b>⑥ 洗い流す力</b></span><br/><span class=\"kw3\"><b>食道の蠕動と唾液——逆流した酸を胃へ戻し中和する（強皮症で弱る）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　臥　位</td><td><span class=\"kw4\">誤り</span>（増悪因子）。<span class=\"kw3\"><b>重力の助けがなく、酸が食道にとどまる</b></span>。</td></tr><tr><td>ｂ　硝酸薬</td><td><span class=\"kw4\">誤り</span>（増悪因子）。<span class=\"kw3\"><b>平滑筋をゆるめ、LES 圧を下げる</b></span>。</td></tr><tr><td>ｃ　高脂肪食</td><td><span class=\"kw4\">誤り</span>（増悪因子）。<span class=\"kw3\"><b>LES をゆるめ、胃からの排出を遅らせる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　体重の減量</span></td><td><span class=\"kw3\">これが「増悪因子でない」（＝正解）</span>。<span class=\"kw3\"><b>お腹の圧を下げ、逆流を減らす——改善因子</b></span>。</td></tr><tr><td>ｅ　カルシウム拮抗薬</td><td><span class=\"kw4\">誤り</span>（増悪因子）。<span class=\"kw3\"><b>平滑筋のカルシウムの流入を抑え、LES をゆるめる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：同じ「平滑筋をゆるめる薬」が別の病気では治療になる",
+       "c": "<span class=\"kw\"><b>① アカラシア</b></span><br/><span class=\"kw3\"><b>LES がゆるまない病気——硝酸薬・カルシウム拮抗薬で LES をゆるめると症状が和らぐ</b></span><br/><span class=\"kw3\"><b>効果は弱く一時的——根本治療は拡張術・POEM（Q.185）</b></span><br/><span class=\"kw\"><b>② 食道の痙攣（びまん性食道痙攣など）</b></span><br/><span class=\"kw3\"><b>強い収縮による胸痛——同じ薬で収縮を和らげる（Q.180）</b></span><br/><span class=\"kw\"><b>③ 逆流症</b></span><br/><span class=\"kw4\"><b>同じ薬が LES をゆるめ、逆流を悪化させる</b></span><br/><span class=\"kw3\"><b>狭心症・高血圧で服用中の人の胸やけでは、薬の見直しも考える</b></span><br/><span class=\"kw\"><b>④ 逆に LES を締める方向に働くもの</b></span><br/><span class=\"kw3\"><b>消化管運動を促す薬（メトクロプラミドなど）——胃の排出も早める</b></span><br/><span class=\"kw\"><b>⑤ まとめ</b></span><br/><span class=\"kw3\"><b>「LES 圧を下げる」は逆流症では悪化因子、アカラシアでは治療——同じ薬理作用を病気ごとに読み替える</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GERDの増悪因子：肥満・高脂肪食・Ca拮抗薬・硝酸薬・臥位・前屈</span><br/><span class=\"kw\">GERD改善：体重減量・頭部挙上就寝・食後臥位禁止</span>。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "GERDの増悪因子で「ない」もの。<br/><b>a 臥位／b 硝酸薬／c 高脂肪食／e カルシウム拮抗薬</b>：LES圧低下等で増悪因子。<br/><b>d 体重の減量</b>：<span class=\"kw\">減量はむしろGERDを改善する</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>逆流症の増悪因子＝臥位・高脂肪食・肥満・硝酸薬・カルシウム拮抗薬・抗コリン薬・アルコール・喫煙</b></span><br/><span class=\"kw3\"><b>減量・頭側挙上・食後すぐに横にならない＝改善因子</b></span><br/><span class=\"kw4\"><b>硝酸薬・カルシウム拮抗薬は逆流症を悪化させ、アカラシアでは症状を和らげる</b></span>"
       }
      ],
      "imgs": []
@@ -13559,22 +13569,27 @@
       }
      ],
      "ans_label": "ａ　手　術\nｅ　酸分泌抑制薬投与",
-     "ans_sub": "小児の食道裂孔ヘルニア→GERDの原因。酸分泌抑制（PPI）で症状管理、改善しない場合は手術（Nissen術）。",
+     "ans_sub": "下部食道の 24 時間 pH モニタリングで、<b>日中を中心に pH 4 未満の時間が非常に長い</b>（夜間も明け方に低下）——<b>病的な酸逆流＝胃食道逆流症</b>。頻回のげっぷは逆流症の症状。治療は<b>酸分泌抑制薬（PPI など）</b>が基本で、薬で治らない・合併症のある重症例は<b>噴門形成術（手術）</b>。食後に横になるのは逆流を増やす。鎮痙薬・カウンセリングは逆流症の治療ではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 小児のGERD・食道裂孔ヘルニア治療",
-       "c": "<span class=\"kw\">e酸分泌抑制薬（PPI）（正答）</span>：GERDの症状管理（逆流による食道炎・症状を抑制）<br><span class=\"kw\">a手術（Nissen法）（正答）</span>：内科治療無効・重症の場合→腹腔鏡下胃底部折り畳み術（fundoplication）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b食後臥位：GERDを悪化させる（食後すぐ横にならない！）<br/>✗ c鎮痙薬：アカラシアに使用（GERDへの適応なし）<br/>✗ dカウンセリング：機能性GI疾患に有効（食道裂孔ヘルニア=器質的疾患）</br>"
+       "h": "🌿 24 時間 pH モニタリングの読み方",
+       "c": "<span class=\"kw4\"><b>pH インピーダンス検査を行う場面は Q.177——ここは記録そのものの読み方</b></span>。<br/><span class=\"kw\"><b>① 何を測るか</b></span><br/><span class=\"kw3\"><b>鼻から細い管を入れ、下部食道（LES の少し上）の pH を 24 時間記録する</b></span><br/><span class=\"kw3\"><b>食道はふだん pH 6〜7——胃酸が上がると pH 4 未満に下がる</b></span><br/><span class=\"kw\"><b>② 何を見るか</b></span><br/><span class=\"kw3\"><b>pH 4 未満の時間の割合（酸に触れている時間）——成人で 24 時間の約 4〜6％を超えると病的</b></span><br/><span class=\"kw3\"><b>逆流の回数、長く続く逆流の回数</b></span><br/><span class=\"kw3\"><b>症状（げっぷ・胸やけ）と pH 低下の時刻が一致するか</b></span><br/><span class=\"kw\"><b>③ この記録</b></span><br/><span class=\"kw4\"><b>8 時〜20 時の日中、pH が 4 未満へ何度も深く下がり続けている——酸に触れる時間が非常に長い</b></span><br/><span class=\"kw3\"><b>就寝中（21 時〜5 時ごろ）は比較的保たれ、明け方から再び低下</b></span><br/><span class=\"kw3\"><b>起きて動いている時間に多い逆流——病的な胃食道逆流症</b></span><br/><span class=\"kw\"><b>④ 結論</b></span><br/><span class=\"kw3\"><b>まず酸分泌抑制薬、効かなければ手術</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　手　術</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>薬で治らない、食道炎・狭窄・誤嚥を繰り返す重症例</b></span>。<span class=\"kw3\"><b>胃の上部で食道を包む噴門形成術（腹腔鏡下）</b></span>。</td></tr><tr><td>ｂ　食後臥位</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食後すぐに横になると逆流が増える</b></span>。</td></tr><tr><td>ｃ　鎮痙薬投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>抗コリン作用で LES がゆるみ、かえって逆流が増える</b></span>。</td></tr><tr><td>ｄ　カウンセリング</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>pH 記録で病的な逆流がはっきりしている——心因ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　酸分泌抑制薬投与</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>PPI などで酸を抑え、食道炎と症状を治す——第一選択</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：子どもの逆流——「様子を見てよい」と「治療が要る」の境目",
+       "c": "<span class=\"kw\"><b>① 乳児の吐き戻し</b></span><br/><span class=\"kw3\"><b>生後数か月の乳児は LES が未熟で、ミルクをよく吐き戻す——体重が増えていれば生理的</b></span><br/><span class=\"kw3\"><b>多くは 1 歳ごろまでに自然に治まる——授乳後に縦抱き、少量頻回の授乳</b></span><br/><span class=\"kw\"><b>② 治療が要る逆流症</b></span><br/><span class=\"kw4\"><b>体重が増えない、食道炎（不機嫌・哺乳を嫌がる）、吐血、誤嚥性肺炎・喘鳴を繰り返す</b></span><br/><span class=\"kw3\"><b>この症例のように幼児期以降まで続く逆流</b></span><br/><span class=\"kw\"><b>③ 逆流症が多い子ども</b></span><br/><span class=\"kw3\"><b>重い神経障害（脳性麻痺など）、食道閉鎖症の術後、横隔膜ヘルニアの術後</b></span><br/><span class=\"kw\"><b>④ サンディファー症候群</b></span><br/><span class=\"kw3\"><b>逆流の不快感で首を傾け体を反らせる姿勢——てんかんと間違えやすい</b></span><br/><span class=\"kw\"><b>⑤ 手術</b></span><br/><span class=\"kw3\"><b>噴門形成術（胃底部で食道下端を巻く）——重い神経障害の子では胃瘻と同時に行うことが多い</b></span><br/><span class=\"kw\"><b>⑥ 鑑別</b></span><br/><span class=\"kw4\"><b>胆汁性（緑色）の嘔吐は腸の閉塞（腸回転異常など）——逆流症と決めつけない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道裂孔ヘルニア→GERD：PPI（内科）→改善なし→Nissen法（手術）</span><br/>小児のGERDは生後6か月ピーク→多くは自然改善。重症例は外科手術。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "GERD（pHモニタで確認）の有効な治療を2つ。<br/><b>b 食後臥位／c 鎮痙薬／d カウンセリング</b>：有効でない。<br/><b>a 手術</b>：<span class=\"kw\">難治例には噴門形成術</span>。✓<br/><b>e 酸分泌抑制薬投与</b>：<span class=\"kw\">PPIが第一治療</span>。✓"
+       "c": "<span class=\"kw3\"><b>24 時間 pH モニタリング＝pH 4 未満の時間の割合で病的な逆流を判定</b></span><br/><span class=\"kw3\"><b>逆流症の治療＝酸分泌抑制薬→無効・重症なら噴門形成術</b></span><br/><span class=\"kw4\"><b>食後の臥位・抗コリン薬（鎮痙薬）は逆流を悪化させる</b></span><br/><span class=\"kw3\"><b>乳児の吐き戻しは体重が増えていれば生理的</b></span>"
       }
      ],
      "imgs": [
@@ -13626,17 +13641,27 @@
       }
      ],
      "ans_label": "ｂ　咳　嗽\nｄ　嗄　声",
-     "ans_sub": "気管食道瘻：嚥下物が気管へ漏れ→嚥下時咳嗽。反回神経浸潤→嗄声（声帯麻痺）。",
+     "ans_sub": "2 か月の嚥下障害と体重減少（6 か月で 8kg）に、<b>水を飲むとむせる</b>、発熱・呼吸困難・<b>左下肺野の湿性ラ音</b>。CT では上部の食道の壁が厚く腫瘍になり、<b>気管の後ろの壁に食い込み、食道と気管の間に交通（気管食道瘻）</b>を疑わせ、肺野の画像では左下葉の背側に浸潤影——<b>進行食道癌の気管浸潤と誤嚥性肺炎</b>。気道への流れ込みで<b>咳嗽</b>、気管の周りを走る<b>反回神経</b>が巻き込まれて<b>嗄声</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💥 気管食道瘻・食道癌の症状",
-       "c": "<span class=\"kw\">b咳嗽（正答）</span>：<br>瘻孔を通じて飲食物が気管内に流入→嚥下時の激しい咳嗽（definitive sign）<br><br><span class=\"kw\">d嗄声（正答）</span>：<br>食道癌→反回神経浸潤（左側が多い）→声帯麻痺→嗄声<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ a黄疸：肝転移で起こるが気管食道瘻の直接症状ではない<br/>✗ c下痢：GI出血・食道癌の症状ではない<br/>✗ e腹部膨満：腹水（癌性腹膜炎）で起こるが、気管食道瘻の症状ではない</br></br></br></br></br></br></br>"
+       "h": "🌿 食道癌が「隣」を侵す——高さごとに何が巻き込まれるか",
+       "c": "<span class=\"kw4\"><b>気管食道瘻の治療と化学放射線療法の合併症は Q.175——ここは CT で何が起きているかと、周りの臓器の地図</b></span>。<br/><span class=\"kw\"><b>① CT の読み</b></span><br/><span class=\"kw3\"><b>A：胸の入り口の高さで、気管の後ろに厚くなった食道——気管の後ろの壁を押している</b></span><br/><span class=\"kw4\"><b>B：気管の後ろの壁が崩れ、食道と気管の間に空気の通り道を疑う像——気管食道瘻</b></span><br/><span class=\"kw3\"><b>C（肺野の条件）：左下葉の背側に斑状の浸潤影——寝ている間に下へ流れ込んだ誤嚥性肺炎</b></span><br/><span class=\"kw\"><b>② 高さごとの隣の臓器</b></span><br/><span class=\"kw3\"><b>頸部〜胸部上部：気管・反回神経・甲状腺——嗄声・むせ・気管食道瘻</b></span><br/><span class=\"kw3\"><b>胸部中部：左主気管支・大動脈・心膜——気管支瘻、大動脈に穿通すると大量の吐血</b></span><br/><span class=\"kw3\"><b>胸部下部：心膜・横隔膜</b></span><br/><span class=\"kw\"><b>③ 反回神経</b></span><br/><span class=\"kw3\"><b>左は大動脈弓の下、右は鎖骨下動脈の下で折り返して上へ——食道の両側の溝を通る</b></span><br/><span class=\"kw3\"><b>左が長く胸の中を走るので、食道癌・肺癌・大動脈瘤で左が麻痺しやすい</b></span><br/><span class=\"kw\"><b>④ 全身の状態</b></span><br/><span class=\"kw3\"><b>アルブミン 2.6、Hb 10.1——低栄養と貧血</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　黄　疸</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝転移・胆管の閉塞で起こるが、本例は総ビリルビン正常</b></span>。<span class=\"kw3\"><b>気管浸潤の症状ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　咳　嗽</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>瘻孔から飲食物・唾液が気道へ入る——飲むたびにむせる</b></span>。<span class=\"kw3\"><b>誤嚥性肺炎の咳も加わる</b></span>。</td></tr><tr><td>ｃ　下　痢</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>気管浸潤とは関係しない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　嗄　声</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>気管の脇を走る反回神経が巻き込まれ、声帯が動かなくなる</b></span>。</td></tr><tr><td>ｅ　腹部膨満</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹膜播種・腹水で起こるが、本例の病態ではない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道癌の反回神経・気管方向への進展に伴う症状を2つ。<br/><b>a 黄疸／c 下痢／e 腹部膨満</b>：関連しない。<br/><b>b 咳嗽</b>：<span class=\"kw\">気管浸潤・気管食道瘻による咳嗽</span>。✓<br/><b>d 嗄声</b>：<span class=\"kw\">反回神経麻痺による嗄声</span>。✓"
+       "h": "🔍 別軸：むせる原因は瘻孔だけではない",
+       "c": "<span class=\"kw\"><b>① 気管食道瘻</b></span><br/><span class=\"kw4\"><b>飲むたびにすぐ咳き込む——飲水のたびに必ず起こる</b></span><br/><span class=\"kw\"><b>② 反回神経麻痺</b></span><br/><span class=\"kw3\"><b>声帯が閉じきらず、飲み込むときに気道を守れない——嗄声と一緒にむせる</b></span><br/><span class=\"kw\"><b>③ 食道の通過障害</b></span><br/><span class=\"kw3\"><b>狭窄の上にたまった食物・唾液が、横になったときに喉へ戻り気道へ入る——夜間の咳</b></span><br/><span class=\"kw\"><b>④ 口腔・咽頭の嚥下障害</b></span><br/><span class=\"kw3\"><b>脳卒中・神経筋疾患——飲み込みの始めにむせる</b></span><br/><span class=\"kw\"><b>⑤ 見分けの手がかり</b></span><br/><span class=\"kw3\"><b>嗄声があれば反回神経、体位で増えれば通過障害、飲水のたびに即座なら瘻孔</b></span><br/><span class=\"kw\"><b>⑥ 誤嚥性肺炎の好発部位</b></span><br/><span class=\"kw3\"><b>臥位では下葉の背側（S6・S10）、立位では下葉の底部——右の主気管支が太くまっすぐなので右に多い</b></span><br/><span class=\"kw3\"><b>本例は左——瘻孔の位置や体位によっては左にも起こる</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>進行食道癌の気管浸潤・気管食道瘻＝飲水時の咳嗽・誤嚥性肺炎</b></span><br/><span class=\"kw3\"><b>反回神経への浸潤＝嗄声（左が多い）</b></span><br/><span class=\"kw4\"><b>大動脈への穿通＝大量の吐血</b></span><br/><span class=\"kw3\"><b>嚥下障害＋体重減少＋むせ・発熱＝癌の進展を考える</b></span>"
       }
      ],
      "imgs": [
@@ -13686,22 +13711,27 @@
       }
      ],
      "ans_label": "ａ　上部消化管バリウム造影",
-     "ans_sub": "気管食道瘻があるとバリウムが気管・気管支内に流入→バリウム誤嚥（バリウム肺）→禁忌。",
+     "ans_sub": "気管食道瘻が疑われる状態で<b>バリウムを飲ませると、瘻孔から気管・肺へ流れ込む</b>。バリウムは肺から排出されず、残って肺の障害を起こす——<b>適切でない</b>。病変と瘻孔は<b>内視鏡</b>で直接見て生検、深さと周りへの浸潤は<b>超音波内視鏡</b>、頸部のリンパ節転移は<b>頸部超音波</b>、気管・気管支への浸潤と瘻孔の気道側の開口は<b>気管支鏡</b>で確かめる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚫 気管食道瘻の診断法",
-       "c": "<span class=\"kw4\">a上部消化管バリウム造影（禁忌・正答）</span>：<br>気管食道瘻があればバリウムが気管・肺に流入→<span class=\"kw4\">バリウム誤嚥（バリウム肺）→致死的</span><br>→ 瘻孔が疑われる場合はバリウム造影を行わない<br>→ <span class=\"kw\">水溶性造影剤（Gastrografin）</span>を使用（気管内に入っても吸収される）<br><br><span class=\"kw\">適切な診断法</span>：<br>✅ b上部消化管内視鏡：直接観察（瘻孔確認）<br>✅ c超音波内視鏡：食道壁・周囲臓器への浸潤評価<br/>✅ d頸部超音波：気管周囲リンパ節転移・浸潤<br/>✅ e気管支鏡：気管側から瘻孔・腫瘍浸潤を確認</br></br></br></br></br></br></br>"
+       "h": "🌿 造影剤の選び方——「漏れたらどうなるか」で決める",
+       "c": "<span class=\"kw\"><b>① バリウム</b></span><br/><span class=\"kw3\"><b>粘膜をきれいに描き出すが、体に吸収されない</b></span><br/><span class=\"kw4\"><b>気道に入る：肺に残り肺炎・肉芽腫</b></span><br/><span class=\"kw4\"><b>穿孔部から縦隔・腹腔に漏れる：取り除けず、強い炎症（腹膜炎・縦隔炎）</b></span><br/><span class=\"kw3\"><b>→ 瘻孔・穿孔が疑われるときは使わない</b></span><br/><span class=\"kw\"><b>② 高浸透圧の水溶性造影剤（ガストログラフイン）</b></span><br/><span class=\"kw3\"><b>腹腔・縦隔に漏れても吸収される——消化管の穿孔・縫合不全の確認に使う</b></span><br/><span class=\"kw4\"><b>ただし気道に入ると、高い浸透圧で肺に水を引き込み肺水腫を起こす——誤嚥・気管食道瘻の疑いには向かない</b></span><br/><span class=\"kw\"><b>③ 等浸透圧の非イオン性ヨード造影剤</b></span><br/><span class=\"kw3\"><b>気道に入っても障害が少ない——誤嚥・瘻孔が疑われるときの造影に使う</b></span><br/><span class=\"kw\"><b>④ この症例</b></span><br/><span class=\"kw3\"><b>瘻孔はまず内視鏡と気管支鏡で直接確かめる——造影は必須ではない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　上部消化管バリウム造影</span></td><td><span class=\"kw3\">これが「適切でない」（＝正解）</span>。<span class=\"kw3\"><b>瘻孔から気管・肺へバリウムが流れ込む</b></span>。<span class=\"kw3\"><b>肺炎を悪化させる</b></span>。</td></tr><tr><td>ｂ　上部消化管内視鏡検査</td><td><span class=\"kw4\">誤り</span>（適切）。<span class=\"kw3\"><b>腫瘍と瘻孔の食道側の開口を直接見て、生検で組織型を確かめる</b></span>。</td></tr><tr><td>ｃ　超音波内視鏡検査</td><td><span class=\"kw4\">誤り</span>（適切）。<span class=\"kw3\"><b>壁の外への浸潤と周りのリンパ節を見る</b></span>。<span class=\"kw3\"><b>狭窄が強ければ通らないことがある</b></span>。</td></tr><tr><td>ｄ　頸部超音波検査</td><td><span class=\"kw4\">誤り</span>（適切）。<span class=\"kw3\"><b>食道癌は頸部のリンパ節へ転移しやすい——上部の癌では特に</b></span>。</td></tr><tr><td>ｅ　気管支鏡検査</td><td><span class=\"kw4\">誤り</span>（適切）。<span class=\"kw3\"><b>気管の壁への浸潤、瘻孔の気道側の開口を見る</b></span>。<span class=\"kw3\"><b>治療（気管ステント）を決めるのにも要る</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：「バリウムを使わない」場面をまとめる",
+       "c": "<span class=\"kw\"><b>① 穿孔が疑われる</b></span><br/><span class=\"kw3\"><b>特発性食道破裂（嘔吐後の胸痛）、内視鏡処置後、異物——水溶性造影剤か CT</b></span><br/><span class=\"kw\"><b>② 気管食道瘻・誤嚥が強い</b></span><br/><span class=\"kw3\"><b>等浸透圧の非イオン性造影剤、または内視鏡・気管支鏡</b></span><br/><span class=\"kw\"><b>③ 腸閉塞が疑われる</b></span><br/><span class=\"kw4\"><b>口からバリウムを飲ませると、閉塞部の口側で固まり閉塞を悪化させる——大腸の閉塞では特に危険</b></span><br/><span class=\"kw3\"><b>水溶性造影剤は癒着性の小腸閉塞で診断と治療（閉塞を解く助け）を兼ねることがある</b></span><br/><span class=\"kw\"><b>④ 術後早期の吻合部の確認</b></span><br/><span class=\"kw3\"><b>水溶性造影剤——縫合不全があっても漏れが吸収される</b></span><br/><span class=\"kw\"><b>⑤ 共通する考え方</b></span><br/><span class=\"kw4\"><b>「漏れる・入り込む・固まる」おそれがあればバリウムは避ける</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">気管食道瘻疑い → バリウム造影禁忌（誤嚥）→ 水溶性造影剤or内視鏡</span><br/>同様に穿孔時もバリウム禁忌。水溶性造影剤は体内で吸収されて安全。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "進行食道癌（気管食道瘻を伴う）の診断法として「適切でない」もの。<br/><b>b 内視鏡／c 超音波内視鏡／d 頸部超音波／e 気管支鏡</b>：適切。<br/><b>a 上部消化管バリウム造影</b>：<span class=\"kw\">瘻や誤嚥のリスクでバリウムは不適切（水溶性造影剤を用いる）</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw4\"><b>気管食道瘻・穿孔・腸閉塞が疑われるときはバリウム造影を避ける</b></span><br/><span class=\"kw3\"><b>穿孔の確認＝水溶性造影剤（ガストログラフイン）、誤嚥の危険があれば等浸透圧の造影剤</b></span><br/><span class=\"kw3\"><b>食道癌の気道浸潤の評価＝気管支鏡、頸部リンパ節＝頸部超音波</b></span>"
       }
      ],
      "imgs": [
@@ -13751,17 +13781,27 @@
       }
      ],
      "ans_label": "ｂ　内視鏡的粘膜切除術",
-     "ans_sub": "EMRは早期食道癌（粘膜内癌）の切除に用いる。気管食道瘻を伴う進行癌に対してEMRは適応外（禁忌）。",
+     "ans_sub": "気管に浸潤し気管食道瘻を伴う進行食道癌に、誤嚥性肺炎と低栄養が重なっている。<b>内視鏡的粘膜切除術（EMR）は粘膜にとどまる早期癌だけの治療</b>で、この病変には意味がなく、瘻孔を広げかねない——<b>適切でない</b>。瘻孔をふさぐ<b>ステント</b>（気管側・食道側）、口から食べられない間の<b>中心静脈栄養</b>・<b>胃瘻</b>、全身治療としての<b>抗癌化学療法</b>はいずれも選択肢になる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚫 気管食道瘻の治療",
-       "c": "<span class=\"kw4\">b EMR（内視鏡的粘膜切除術）（不適切・正答）</span>：<br>・EMRは早期食道癌（T1a）の根治的内視鏡切除→進行癌+気管食道瘻には禁忌<br>・瘻孔部での内視鏡操作→瘻孔拡大・縦隔炎悪化のリスク<br><br><span class=\"kw\">適切な治療</span>：<br>✅ a気管内ステント留置：気管側から瘻孔を閉鎖<br>✅ c中心静脈栄養：経口不可→全身栄養管理<br>✅ d抗癌化学療法：進行癌の全身治療<br/>✅ e胃瘻造設：長期の栄養管理（経口摂取不能の場合）</br></br></br></br></br></br></br>"
+       "h": "🌿 何から手を付けるか——治療の順番を組み立てる",
+       "c": "<span class=\"kw4\"><b>ステントと化学放射線療法の比べ方は Q.171、気管食道瘻と照射の合併症は Q.175——ここは目の前の患者に対する手順</b></span>。<br/><span class=\"kw\"><b>① まず命にかかわるもの</b></span><br/><span class=\"kw3\"><b>口から入れるものをすべて止める（絶飲食）——瘻孔からの誤嚥を断つ</b></span><br/><span class=\"kw3\"><b>誤嚥性肺炎の治療：口の中の細菌（嫌気性菌を含む）を狙う抗菌薬、酸素</b></span><br/><span class=\"kw\"><b>② 栄養</b></span><br/><span class=\"kw3\"><b>アルブミン 2.6——口から摂れない間は中心静脈栄養</b></span><br/><span class=\"kw3\"><b>状態が落ち着けば胃瘻（または腸瘻）で腸を使う——腸が使えるなら腸から（Q.193）</b></span><br/><span class=\"kw\"><b>③ 瘻孔を閉じる</b></span><br/><span class=\"kw3\"><b>食道ステント、気管ステント、狭窄が両方にあれば両方（ダブルステント）</b></span><br/><span class=\"kw4\"><b>気管の狭窄があるのに食道ステントだけ入れると、ステントが気管を押して窒息のおそれ——気管支鏡で気道を評価してから</b></span><br/><span class=\"kw\"><b>④ 癌そのもの</b></span><br/><span class=\"kw3\"><b>全身状態が許せば化学療法——放射線は瘻孔を広げるおそれがあり慎重に</b></span><br/><span class=\"kw\"><b>⑤ 治療の目標</b></span><br/><span class=\"kw3\"><b>治すことより、むせずに過ごす・肺炎を防ぐ・栄養を保つこと——本人と話し合って決める</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　気管内ステント留置</td><td><span class=\"kw4\">誤り</span>（適切）。<span class=\"kw3\"><b>気管の側から瘻孔をふさぎ、狭くなった気道を広げる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　内視鏡的粘膜切除術</span></td><td><span class=\"kw3\">これが「適切でない」（＝正解）</span>。<span class=\"kw3\"><b>粘膜内の早期癌だけの治療</b></span>。<span class=\"kw3\"><b>気管に及ぶ進行癌は取り切れず、瘻孔を広げるおそれ</b></span>。</td></tr><tr><td>ｃ　中心静脈栄養</td><td><span class=\"kw4\">誤り</span>（適切）。<span class=\"kw3\"><b>口から入れられない間の栄養——低栄養を補う</b></span>。</td></tr><tr><td>ｄ　抗癌化学療法</td><td><span class=\"kw4\">誤り</span>（適切）。<span class=\"kw3\"><b>進行癌への全身治療</b></span>。<span class=\"kw3\"><b>肺炎が落ち着いてから</b></span>。</td></tr><tr><td>ｅ　胃瘻造設術</td><td><span class=\"kw4\">誤り</span>（適切）。<span class=\"kw3\"><b>瘻孔があっても胃から栄養を入れられる——長期の栄養経路</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "進行食道癌（気管食道瘻）の治療として「適切でない」もの。<br/><b>a 気管内ステント／c 中心静脈栄養／d 抗癌化学療法／e 胃瘻造設</b>：適切。<br/><b>b 内視鏡的粘膜切除術</b>：<span class=\"kw\">EMRは早期癌の治療で進行癌には不適切</span>。✓（これが正解肢）"
+       "h": "🔍 別軸：治せない癌の「食べること」をどう支えるか",
+       "c": "<span class=\"kw\"><b>① 選択肢を並べる</b></span><br/><span class=\"kw3\"><b>ステント：すぐ食べられるようになるが、瘻孔・痛み・ずれの問題</b></span><br/><span class=\"kw3\"><b>放射線（化学放射線）：効くまで数週かかるが、長く効く——瘻孔があれば慎重</b></span><br/><span class=\"kw3\"><b>胃瘻・腸瘻：口からは食べられないが、確実に栄養が入る</b></span><br/><span class=\"kw3\"><b>中心静脈栄養：腸が使えないときの一時的な手段</b></span><br/><span class=\"kw\"><b>② 何で選ぶか</b></span><br/><span class=\"kw3\"><b>残された時間の見通し、全身状態、本人が「口から食べたい」かどうか</b></span><br/><span class=\"kw4\"><b>唾液さえ飲み込めない（垂れ流し・むせ）なら、瘻孔を閉じない限り誤嚥が続く</b></span><br/><span class=\"kw\"><b>③ 緩和ケア</b></span><br/><span class=\"kw3\"><b>痛み・呼吸困難・不安を和らげる——病気の早い時期から並行して行う</b></span><br/><span class=\"kw3\"><b>治療の目標を、本人・家族と何度も確かめ直す</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>EMR・ESD は粘膜内の早期癌だけ——進行癌・気管食道瘻には適応外</b></span><br/><span class=\"kw3\"><b>気管食道瘻の対応＝絶飲食・肺炎の治療・栄養（中心静脈栄養→胃瘻）・ステントで閉鎖・化学療法</b></span><br/><span class=\"kw3\"><b>食道ステントの前に気道の狭窄を気管支鏡で評価</b></span>"
       }
      ],
      "imgs": [
