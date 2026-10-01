@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-10-01zi: Brass のニキシー管の止まったあとのちらつきを10秒から30秒へ延長（index.js の BR_NX_IDLE_MS）。
 2026-10-01zh: ハブの Brass のニキシー管の数字をヴィクトリア朝の活字に（Old Standard TT・SIL OFL）。数字と , - . % だけの woff2 を fonts/nixie_oldstandard.woff2 に同梱し SHELL に追加。数字の幅が広がったので Brass では折り返さず、4桁以上のときだけ管を約 0.8 倍に。
 2026-10-01zg: Brass のニキシー管のチカチカで管（ガラス・枠・後ろの8）が消えて戻っていたのを直し、数字の色と光だけを動かす（brNxFlick・br-nx-idle・brNxGlint から opacity / filter を外す）。
 2026-10-01zf: ハブの Brass のゲージが小さい（ユーザー指摘）ので、機関の svg（#gaugeBrassEngine）だけを枠の 1.3 倍に広げてはみ出させた（index.css。枠と数字の位置は変えない）。

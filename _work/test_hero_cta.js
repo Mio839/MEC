@@ -558,7 +558,7 @@ t('Brass の着地は焼き入れ（熱して蒸気で冷やす・予定表を�
   assert.ok(/html\.ui-brass \.hero-num\.br-heat\{animation:brHeat/.test(HTML), '焼き入れの CSS が無い');
 });
 
-// 2026-10-01: Brass の読み値はニキシー管＋歯車連動（_work/hub_count_demo.html の K6）。止まったあとのちらつきは10秒で終わる
+// 2026-10-01: Brass の読み値はニキシー管＋歯車連動（_work/hub_count_demo.html の K6）。止まったあとのちらつきは30秒で終わる
 t('Brass の読み値はニキシー管＋歯車連動（ちらつきは一定時間でやめる・重ねない）', () => {
   const tw = extract('_tweenNum');
   assert.ok(/_brNxIdleStop\(\)/.test(tw), '数え直す前に止まったあとのちらつきを止めていない（2本が同じ管を奪い合う）');
@@ -571,7 +571,7 @@ t('Brass の読み値はニキシー管＋歯車連動（ちらつきは一定�
   const on = extract('_brGearsOn');
   assert.ok(/br-gt bl/.test(on) && /br-gt tr/.test(on), '歯車が枠の左下と右上に付いていない');
   const idle = extract('_brNixieIdle');
-  assert.ok(/BR_NX_IDLE_MS/.test(idle) && /const BR_NX_IDLE_MS = 10000;/.test(HTML), 'ちらつきが一定時間（10秒）で終わらない');
+  assert.ok(/BR_NX_IDLE_MS/.test(idle) && /const BR_NX_IDLE_MS = 30000;/.test(HTML), 'ちらつきが一定時間（30秒）で終わらない');
   assert.ok(/_brNxIdleStop\) el\._brNxIdleStop\(\)/.test(idle), '始める前に前のちらつきを止めていない');
   assert.ok(/document\.hidden/.test(idle), '非表示タブでも動かしている');
   assert.ok(/br-nx-glint/.test(idle) && /\.dg\.br-nx-glint\{animation:brNxGlint/.test(HTML), '正しい数字へ戻る瞬間に煌めかせていない');

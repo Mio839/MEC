@@ -2237,7 +2237,7 @@ function _tweenNum(el, to, dur, done) {
    ① 数えている間：桁ごとの管の数字が切り替わるたびに管がちらっと明滅する。数字の枠の左下と右上の歯車列が
       数えた分だけ回り（数え下がると逆回り・左下と右上は逆向き）、止まるとぴたりと止まる。
       十の位が変わるたびに数字がカチッと揺れ、右上の歯車から蒸気がシュッと抜ける。数え終わると左下で火花
-   ② 数え終わると焼き入れ（_brQuenchLand）。そのあと BR_NX_IDLE_MS（10秒）の間だけ、ときどきランダムな管が
+   ② 数え終わると焼き入れ（_brQuenchLand）。そのあと BR_NX_IDLE_MS（30秒）の間だけ、ときどきランダムな管が
       ランダムな数字にチカチカ切り替わって戻る（_brNixieIdle）。
    ⚠️ ちらつきは一定時間でやめる（ユーザー判断）。ずっと続けない。1度に動かすのは1本だけ（数字はいつも読める）。
    ⚠️ 数え上げが2本重なる（開いた瞬間と同期の再描画など）と、取り残されたちらつきが同じ管を奪い合い、
@@ -2245,7 +2245,7 @@ function _tweenNum(el, to, dur, done) {
    ⚠️ 歯車の回転は SVG の transform 属性で書く。歯車は数え始めにその場で取り付ける（開いた瞬間の数え上げに間に合わせる）。 */
 const BR_NX_DEG = { heroNum: 6, heroAccVal: 9 };   // 1 増えるごとに大歯車が回る角度
 const BR_NX_DUR = 1050;
-const BR_NX_IDLE_MS = 10000;   // 数え終わってから、ちらつきを続ける時間
+const BR_NX_IDLE_MS = 30000;   // 数え終わってから、ちらつきを続ける時間
 const BR_NX_IDLE_WAIT = 1700;  // 焼き入れ（約1.6秒）が済むのを待つ
 function _themeIs(id) {
   return !!(window.MecUITheme && MecUITheme.get && MecUITheme.get() === id);
@@ -2651,7 +2651,7 @@ function _landHeroNumber(el) {
   // Liquid は「インクが満ちる」（2026-10-01 採用）。数字が輪郭だけになり、下からネオンのインクが満ちてあふれる
   if (theme === 'liquid') { _liqFxLater(d * 55 + 120, () => _lqInkFillLand(el, g)); return; }
   // Brass は「焼き入れ」（2026-10-01 採用）。数字が赤から白へ熱され、蒸気とともに冷えて真鍮色に戻る
-  // 焼き入れのあと、10秒の間だけニキシー管がときどきチカチカする（_brNixieIdle）
+  // 焼き入れのあと、30秒の間だけニキシー管がときどきチカチカする（_brNixieIdle）
   if (theme === 'brass') { _liqFxLater(d * 55 + 120, () => _brQuenchLand(el, g)); _brNixieIdle(el); return; }
 
   const cfg = THEME_LANDING_CONFIG[theme] || THEME_LANDING_CONFIG.aurora;
