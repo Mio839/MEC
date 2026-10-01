@@ -3052,6 +3052,7 @@ function _driveGauge(pct) {
 }
 
 // D6: 目標達成の刻印。テーマごとに固有の祝砲を放つ
+// ⚠️ ハブの紙吹雪（MecFX.confetti）は 2026-10-01 に全テーマで撤去した（うるさい・ユーザー判断）。刻印・ミッション全達成・昇格・週の結果発表も含めて、ハブでは撒かないこと。
 function _stampGoalSeal() {
   if (!_fxOk()) return;
   const box = document.getElementById('gaugeBox');
@@ -3072,7 +3073,6 @@ function _stampGoalSeal() {
       shapes: ['gem', 'star', 'shard'], tier: 6, scale: 2.0, speed: 720, glow: true, additive: true
     });
     MecFX.gears(c.x, c.y, { count: 28, spread: 400, min: 14, max: 30, gravity: 520, w: 20, delay: .1 });
-    MecFX.confetti({ count: 120, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
     // 全方位スチーム大爆発（四方八方からの大蒸気噴出）
     MecFX.steam(c.x - c.r * .8, c.y + c.r * .3, { count: 10, w: c.r * .8, rise: 190, min: 40, max: 80, alpha: .45, vx: -170 });
     MecFX.steam(c.x + c.r * .8, c.y + c.r * .3, { count: 10, w: c.r * .8, rise: 190, min: 40, max: 80, alpha: .45, vx: 170 });
@@ -3085,7 +3085,6 @@ function _stampGoalSeal() {
       count: 50, colors: ['#00DFD8', '#7928CA', '#FFFFFF', '#0070F3', '#FF0080'],
       shapes: ['gem', 'star'], tier: 6, scale: 2.0, speed: 650, glow: true, additive: true
     });
-    MecFX.confetti({ count: 80, colors: ['#00DFD8', '#7928CA', '#FFFFFF', '#FF0080'], big: true });
     return;
   }
 
@@ -3094,7 +3093,6 @@ function _stampGoalSeal() {
       count: 50, colors: ['#00E5FF', '#00FF9D', '#FFFFFF', '#0070F3'],
       shapes: ['shard', 'star'], tier: 6, scale: 2.0, speed: 700, glow: true, additive: true
     });
-    MecFX.confetti({ count: 80, colors: ['#00E5FF', '#00FF9D', '#FFFFFF'], big: true });
     return;
   }
 
@@ -3119,7 +3117,6 @@ function _stampGoalSeal() {
       });
     }
     if (MecFX.slashRibbon) MecFX.slashRibbon(c.x, c.y, { color: '#F5D061', len: 320 });
-    MecFX.confetti({ count: 90, colors: ['#F5D061', '#D9383A', '#FFFFFF', '#D4AF37', '#FFF8DC'], big: true });
     return;
   }
 
@@ -3129,7 +3126,6 @@ function _stampGoalSeal() {
       count: 55, colors: ['#FFFDF0', '#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'],
       shapes: ['star', 'gem'], tier: 6, scale: 2.2, speed: 680, glow: true, additive: true
     });
-    MecFX.confetti({ count: 90, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0', '#FFFFFF'], big: true });
     return;
   }
 
@@ -3140,7 +3136,6 @@ function _stampGoalSeal() {
       shapes: ['circle', 'gem'], tier: 6, scale: 2.0, speed: 620, glow: true, additive: true
     });
     MecFX.bubbles(c.x, c.y, { count: 24, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
-    MecFX.confetti({ count: 80, colors: ['#00FFA3', '#00B4D8', '#64FFDA', '#FFFFFF'], big: true });
     return;
   }
 
@@ -3150,7 +3145,6 @@ function _stampGoalSeal() {
       count: 50, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5', '#00DFD8'],
       shapes: ['shard', 'star'], tier: 6, scale: 2.0, speed: 700, glow: true, additive: true
     });
-    MecFX.confetti({ count: 80, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5', '#E0F7FA'], big: true });
     return;
   }
 }
@@ -3374,7 +3368,6 @@ function _sparkleMissions() {
       MecFX.burst(c.x, c.y, {
         tier: 4, count: 36, colors: themeColors, shapes: themeShapes
       });
-      MecFX.confetti({ colors: themeColors, count: 40 });
     }, doneRows.length * 130 + 120);
   }
 }
@@ -3388,10 +3381,6 @@ function _fireGrandCeremony() {
   if (_grandCeremonyFired || !_fxOk()) return;
   _grandCeremonyFired = true;
   const w = window.innerWidth, h = window.innerHeight;
-  MecFX.confetti(0, 0, { count: 40, spread: 90, speed: 700 });
-  MecFX.confetti(w, 0, { count: 40, spread: 90, speed: 700 });
-  MecFX.confetti(0, h, { count: 40, spread: 90, speed: 700 });
-  MecFX.confetti(w, h, { count: 40, spread: 90, speed: 700 });
   MecFX.burst(w / 2, h / 3, {
     tier: 6, count: 60, colors: ['#FFD700', '#FFD166', '#3DD68C', '#FFFFFF'],
     shapes: ['star', 'gem'], glow: true, additive: true
@@ -3405,7 +3394,6 @@ function openAscension(newLv, title) {
   document.getElementById('ascensionTitle').textContent = 'Lv.' + newLv;
   document.getElementById('ascensionDesc').textContent = '臨床称号「' + (title || '医師') + '」に昇格しました！';
   overlay.style.display = 'flex';
-  if (_fxOk()) MecFX.confetti(window.innerWidth / 2, window.innerHeight / 2, { count: 60, spread: 360 });
 }
 function closeAscension() {
   const overlay = document.getElementById('ascensionOverlay');

@@ -478,7 +478,6 @@ html.op-fx .op-medal.hit{animation:opPop .5s cubic-bezier(.3,1.7,.5,1) both;anim
         MecFX.rings && MecFX.rings(x, y, { count: 3, maxR: 220, color: col, thickness: 3, additive: true, stagger: .1 });
         MecFX.burst(x, y, { tier: 5, count: 60, colors: [col, '#FFFFFF', '#FFD166'], shapes: ['star', 'circle', 'square'] });
         const rk = mk.textContent;
-        if ((rk === 'S' || rk === 'A') && MecFX.confetti) MecFX.confetti({ count: rk === 'S' ? 160 : 90 });
         if (rk === 'S' && MecFX.fireworks) MecFX.fireworks({ tier: 6, count: 5 });
       }, 620);
     } else if (kind === 'today') {

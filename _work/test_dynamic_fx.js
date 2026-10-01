@@ -128,9 +128,11 @@ test('目標達成の刻印が生きた経路から出て、全方位に大き�
   assert(drive.includes('_stampGoalSeal('), '_driveGauge から刻印が押されていない');
   assert(/tier >= 5 && wasTier < 5/.test(drive), '段5へ上がった一度きり、という条件が消えている');
   assert(/MecFX\.gears\(/.test(seal), '真鍮の歯車が撒かれていない');
-  assert(/MecFX\.confetti\(/.test(seal), '金貨（紙吹雪）が撒かれていない');
+  // ハブの紙吹雪は 2026-10-01 に撤去（ユーザー判断）
+  assert(!/MecFX\.confetti\(/.test(indexSrc), 'ハブに紙吹雪が戻っている');
   assert(/MecFX\.steam\(/.test(seal), '全方位スチームが無い');
-  assert(maxNumAfter(seal, 'count') >= 100,
+  // 100 は紙吹雪（120）が担っていた。紙吹雪を撤去したので、残る粒（burst 50〜60）で見る
+  assert(maxNumAfter(seal, 'count') >= 50,
     '撒く量が小さすぎる（実際 ' + maxNumAfter(seal, 'count') + '）');
   assert(maxNumAfter(seal, 'rise') >= 150,
     'スチームの高さが足りない（実際 ' + maxNumAfter(seal, 'rise') + '）');
