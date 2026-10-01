@@ -142,6 +142,11 @@ t('同じ値で何度 set しても伸び直さない（同期のたびに rende
 });
 
 console.log('── 色 ──');
+t('canvas は枠の 2 倍に広げて中心をそろえる（今の倍に＝ユーザー指示）', () => {
+  const CSSI = require('fs').readFileSync(require('path').join(__dirname, '..', 'index.css'), 'utf8');
+  const m = CSSI.match(/html\.ui-liquid \.liq-canvas \{[^}]*\}/);
+  assert.ok(m && /left:\s*-50%/.test(m[0]) && /top:\s*-50%/.test(m[0]) && /width:\s*200%/.test(m[0]) && /height:\s*200%/.test(m[0]), '2 倍・中心合わせになっていない');
+});
 t('100% を超えても色は変えない（金色の配色が無い）', () => {
   assert.ok(!/PALG|gold|#FFD166|255,\s*209,\s*102/i.test(SRC));
 });

@@ -2101,9 +2101,10 @@ html.ui-liquid .gear { display: none !important; }
 html.ui-liquid .liq-canvas {
   display: block;
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
   pointer-events: none;
 }
 .liquid-caustics { display: none; }
