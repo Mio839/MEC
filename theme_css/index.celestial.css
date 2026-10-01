@@ -1203,8 +1203,6 @@ a.tile:hover .tile-ar { transform:translateX(3px); }
   0%{filter:brightness(1);}
   100%{filter:brightness(1.24) drop-shadow(0 0 14px rgba(255,215,0,.7));}
 }
-.hero.booting .hero-cnr { animation:bootCnr .9s var(--ease-out) both; }
-@keyframes bootCnr { from{opacity:0;transform:scale(.7);}60%{opacity:1;}to{opacity:1;transform:none;} }
 .tiles.in .tile {
   animation:tileIn var(--dur-long) var(--ease-out) backwards;
   animation-delay:calc(var(--i,0) * 80ms);
@@ -3233,8 +3231,6 @@ html.ui-celestial .lv-burst::after { background-image:linear-gradient(90deg,tran
   .mfx .gm-mission.done .gm-mission-lbl::after,
   .mfx .gm-mission.done .gm-mission-fill::after { display:none; }
   .gauge-dot { transition:none; }
-  .hero.booting::after { display:none; }
-  .hero.booting .hero-cnr,
   .hero-lv-bar span.near,
   .hero.settled .hero-lv-bar span.near,
   #statStreak[data-ember="4"] { animation:none; }

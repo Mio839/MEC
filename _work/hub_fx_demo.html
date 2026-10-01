@@ -141,13 +141,9 @@ h1{font-size:17px;margin-bottom:4px;}
    off.js  … 外したときに index.js の後で実行する（関数を空にする）
    off.css … 外したときに </head> の直前へ足す（入場の @keyframes を空にする等）
    need    … 「これだけ」で見るときに満たす条件（pct / opening / absorb / grand / theme）
-   ⚠️ 名前は 2026-10-01p の index.js / index.css に合わせてある。 */
+   ⚠️ 名前は 2026-10-01q の index.js / index.css に合わせてある（2026-10-01q で撤去した9件は台帳から外した）。 */
 const FX = [
  { g:'入場（開いた瞬間・一度きり）', items:[
-  { id:'rv', nm:'ヒーロー全体のフェードイン', ds:'ヒーローの枠ごと、下から10pxせり上がりながら現れる（約0.5秒）。', code:'index.css .rv / @keyframes rv',
-    css:'.rv{animation:none!important;opacity:1!important;transform:none!important}' },
-  { id:'boot', nm:'起動シーケンス（四隅の金具＋蒸気）', ds:'ヒーローの四隅の金具が縮んだ状態から開き（0.9秒）、0.18秒後にゲージの軸から蒸気がひと吹き。', code:'index.js _bootSequence / .hero.booting .hero-cnr',
-    js:'_bootSequence=function(){};' },
   { id:'count', nm:'数字のカウントアップ', ds:'今日解いた問題・正解率・XP・次のレベルまで・計器行（復習待ち／済／連続日数）が0から数え上がる（0.85〜1秒）。外すと最初から最終値で出る。', code:'index.js _tweenNum',
     js:'_tweenNum=function(el,to,dur,done){if(!el)return;el.textContent=_fmtN(to);if(done)done();};' },
   { id:'numIn', nm:'大きな読み値の入場', ds:'「今日解いた問題」「正解率」の数字が下からせり上がって現れる（0.55秒）。', code:'index.css .hero-num / @keyframes numIn',
@@ -171,10 +167,6 @@ const FX = [
     css:'@keyframes ctaIn{}' },
   { id:'ring', nm:'ゲージの弧が描かれる', ds:'今日の目標ゲージの弧が0から今の達成率まで描かれる（0.25秒待って1.15秒）。外すと最初から描き終わった姿。', code:'index.css .gauge-val / @keyframes ringDraw',
     css:'.gauge-val{animation:none!important;transition:none!important}' },
-  { id:'checkpoint', nm:'25／50／75% 通過の小祝砲', ds:'弧が描かれる途中、通過した節目のノードの位置で粒子が弾ける（25%以上の日）。', code:'index.js _checkpointFx', cond:'達成率25%以上', theme:true, need:{pct:80},
-    js:'_checkpointFx=function(){};' },
-  { id:'celebrate', nm:'段の祝砲', ds:'弧を描き終えたところで、達成率の段に応じた花火。100%以上の日は全画面に広がる。', code:'index.js _gaugeCelebrate', cond:'1問以上解いた日', theme:true, need:{pct:110},
-    js:'_gaugeCelebrate=function(){};' },
   { id:'seal', nm:'目標達成の刻印', ds:'100% に届いた日、ゲージに刻印が押され、テーマ固有の祝砲が出る。', code:'index.js _stampGoalSeal', cond:'達成率100%以上', theme:true, need:{pct:110},
     js:'_stampGoalSeal=function(){};' },
   { id:'themegauge', nm:'Celestial／Frost の節目演出', ds:'Celestial＝天球儀の腕が節目ごとにロックし波紋、100%で回転。Frost＝節目で霜の枝がパキッと伸び、100%で雪の結晶が開いて光芒と氷片。', code:'index.js _celProgressFx / _frostProgressFx', cond:'Celestial か Frost', theme:true, need:{pct:110, theme:'celestial'},
@@ -197,18 +189,8 @@ const FX = [
     css:'@keyframes tileIn{}.tile-bar span{animation:none!important}', js:'_tickLeadTile=function(){};' },
  ]},
  { g:'開いている間ずっと（参考）', note:'読み込みと同時に始まり、ハブを開いている間くり返すもの。', items:[
-  { id:'ctaAmb', nm:'主ボタンから立ち上る粒子', ds:'1.9秒ごとに主ボタンの下から粒子が3つ立ち上る（色は中身：復習＝青／全科目＝緑）。', code:'index.js _startCtaAmbient',
-    js:'_startCtaAmbient=function(){};' },
   { id:'ctaLoop', nm:'ボタンの呼吸・光沢・絵文字の跳ね', ds:'ボタンの縁が呼吸するように光り、光沢が横切り、先頭の絵文字がときどき跳ねる。', code:'index.css ctaBreath / sheen / ctaHop',
     css:'.cta-main::before,.cta-sub::before{animation:none!important}.cta-main::after,.cta-sub:not(.is-off)::after{animation:none!important;opacity:0!important}.cta-ic{animation:none!important}' },
-  { id:'gaugeAmb', nm:'ゲージの常時粒子', ds:'約2秒ごとにゲージの周りへテーマ別の微粒子（Brass は火花・蒸気・歯車）。達成率の段が上がるほど多い。', code:'index.js _startGaugeAmbient', theme:true,
-    js:'_startGaugeAmbient=function(){};' },
-  { id:'dust', nm:'ヒーローの星屑', ds:'7秒ごとに画面へ微細な星屑が6粒（画面最上部を見ているときだけ）。', code:'index.js _startHeroDust',
-    js:'_startHeroDust=function(){};' },
-  { id:'embers', nm:'連続日数の熾火', ds:'連続3日以上の日、連続日数の数字から 🔥 がときどき上がる（日数が多いほど頻繁）。', code:'index.js _startStreakEmbers', cond:'連続3日以上',
-    js:'(function(){var o=_startStreakEmbers;_startStreakEmbers=function(s){o(s);clearInterval(_emberTimer);};})();' },
-  { id:'missionAmb', nm:'達成ミッション行からひと粒', ds:'達成済みのミッション行から、ときどき1〜2粒の光が出る。', code:'index.js _startMissionAmbient', cond:'達成済みミッションがある', theme:true,
-    js:'_startMissionAmbient=function(){};' },
  ]},
 ];
 const ALL = FX.flatMap(g => g.items);

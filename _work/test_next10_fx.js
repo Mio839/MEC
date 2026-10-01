@@ -40,10 +40,10 @@ test('progress.js と study.css に flag-pinned が連携されている', () =>
   assert(cssSrc.includes('.qc.flag-pinned'), 'Missing .qc.flag-pinned in study.css');
 });
 
-console.log('── 4. ストリーク蒼炎・プラズマ炉心 (案5) ──');
-test('index.html にプラズマ青火花と蒸気の放出がある', () => {
-  assert(indexSrc.includes('isPlasma ? [\'⚡\', \'🔥\'] : [\'🔥\']'), 'Missing plasma glyphs in index.html');
-  assert(indexSrc.includes('colors: cols'), 'Missing plasma colors in index.html');
+// ⚠️ 連続日数の熾火（🔥・⚡の粒子）は 2026-10-01 に撤去した（ユーザー判断）。戻っていないことだけを見る。
+console.log('── 4. ストリーク蒼炎・プラズマ炉心 (案5)：撤去済み ──');
+test('index.html に熾火の粒子が戻っていない', () => {
+  assert(!indexSrc.includes('isPlasma ?'), 'streak ember particles are back in index.html');
 });
 
 console.log('── 5. 再履修シリンダーのスタンバイ呼吸 (案6) ──');

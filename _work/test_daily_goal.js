@@ -134,30 +134,21 @@ assert.ok(GAUGE_C > 0, 'GAUGE_C を読み取れない');
 // 「もう鳴らした段」を覚えている関数外の変数。宣言ごと本文から借りる
 const TIER_STATE = (HTML.match(/^let _gaugeTierShown = .+;$/m) || [])[0];
 assert.ok(TIER_STATE, '_gaugeTierShown の宣言が index.html に無い');
-// 常時演出（火花・蒸気・定期の祝砲）のタイマー。_driveGauge から呼ばれるので器に要る
-const AMBIENT_STATE = (HTML.match(/^let _gaugeFxTimer = .+;$/m) || [])[0];
-assert.ok(AMBIENT_STATE, '_gaugeFxTimer の宣言が index.html に無い');
-
-// 弧・光点・段だけを見る器。祝砲（_gaugeCelebrate）は撒かれた段を記録するだけにする
+// 弧・光点・段・刻印だけを見る器
 function makeGauge() {
   const mk = () => ({ style: {}, dataset: {} });
   const els = { gaugeBox: mk(), gaugeVal: mk(), gaugeOvf: mk(), gaugeDot: mk() };
-  const fired = [];
   const stamps = [];                       // D6: 目標達成の刻印を押した回数
   const ctx = {
     console, GAUGE_C, setTimeout: (fn) => { fn(); return 0; },
     setInterval: () => 0, clearInterval: () => {},
-    // 常時演出は「撒くか撒かないか」ではなく弧・段・祝砲を見るテストなので、
-    // reduced-motion 扱いにして即 return させる（タイマーを回さない）
     _reducedMotion: () => true,
-    _gaugeCelebrate: tier => fired.push(tier),
     _stampGoalSeal: () => stamps.push(1),
     document: { getElementById: id => els[id] || null },
   };
   ctx.globalThis = ctx;
   vm.createContext(ctx);
-  vm.runInContext([TIER_STATE, AMBIENT_STATE, extract('_goalTier'),
-                   extract('_startGaugeAmbient'), extract('_driveGauge')].join('\n'), ctx);
+  vm.runInContext([TIER_STATE, extract('_goalTier'), extract('_driveGauge')].join('\n'), ctx);
   // 弧の残り長さ → 描かれた割合（%）
   const pctOf = el => Math.round((1 - Number(el.style.strokeDashoffset) / GAUGE_C) * 1000) / 10;
   return {
@@ -166,7 +157,7 @@ function makeGauge() {
     base: () => pctOf(els.gaugeVal), over: () => pctOf(els.gaugeOvf),
     tier: () => Number(els.gaugeBox.dataset.tier),
     dotDeg: () => Number(String(els.gaugeDot.style.transform).replace(/[^\d.-]/g, '')),
-    fired, stamps,
+    stamps,
   };
 }
 
@@ -207,16 +198,6 @@ t('達成率の数字そのものは頭打ちにしない（描画側で min を
   assert.ok(/goal\.pct/.test(line), '#statPct が dailyGoal() の値を出していない: ' + line);
 });
 
-t('段が上がったときだけ祝砲が鳴る（同期の再描画で毎回は鳴らない）', () => {
-  const g = makeGauge();
-  g.drive(10); g.drive(10); g.drive(12);      // 段1のまま
-  assert.deepStrictEqual(g.fired, [1]);
-  g.drive(80);                                 // 段4へ
-  assert.deepStrictEqual(g.fired, [1, 4]);
-  g.drive(30);                                 // 下がる方向では鳴らない
-  assert.deepStrictEqual(g.fired, [1, 4]);
-});
-
 // D6(2026-08-14): 目標達成の刻印は「その日はじめて 100% に届いた1回」だけ。
 // 同期の再描画や、達成後にさらに伸びた（150%超＝段6）ときに押し直さないこと。
 t('達成の刻印は 100% に届いた一度だけ押す', () => {
@@ -235,10 +216,10 @@ t('0% から一気に達成した日も刻印は1回だけ', () => {
   assert.strictEqual(g.stamps.length, 1);
 });
 
-t('0% では祝砲を撒かない', () => {
+t('0% では段0のまま・刻印も押さない', () => {
   const g = makeGauge(); g.drive(0);
   assert.strictEqual(g.tier(), 0);
-  assert.deepStrictEqual(g.fired, []);
+  assert.strictEqual(g.stamps.length, 0);
 });
 
 t('ゲージが読む値は index.html ではなく dailyGoal() が正本', () => {
@@ -365,30 +346,15 @@ t('速さは --gear-t 1本で決まる（個別に duration を上書きして�
   assert.ok(tiers.length >= 5, '段ごとの --gear-t が足りない');
 });
 
-// ── 常時演出（開いている間ずっと機械が動いて見える） ──────────────────────
-sec('ゲージの常時演出（_startGaugeAmbient）');
+// ── 撤去した演出（2026-10-01・ユーザー判断）が戻っていないか ──────────────
+sec('撤去した演出（段の祝砲・小祝砲・常時粒子・星屑・熾火・起動シーケンス）');
 
-const AMBIENT_SRC = extract('_startGaugeAmbient');
-
-t('段が変わらない限りタイマーを作り直さない（同期の再描画で多重起動しない）', () => {
-  assert.ok(/if \(tier === _gaugeFxTier\) return;/.test(AMBIENT_SRC),
-    '同じ段で呼ばれたときに早期 return していない＝再描画のたびにタイマーが増える');
-  assert.ok(/clearInterval\(_gaugeFxTimer\)/.test(AMBIENT_SRC) &&
-            /clearInterval\(_gaugeFxBoom\)/.test(AMBIENT_SRC),
-    '張り替え前に前のタイマーを止めていない');
-});
-
-t('reduced-motion・非表示タブ・画面外では撒かない', () => {
-  assert.ok(/if \(_reducedMotion\(\)\) return;/.test(AMBIENT_SRC), 'reduced-motion を見ていない');
-  assert.ok(/_fxOk\(\)/.test(AMBIENT_SRC), '_fxOk()（非表示タブ・MecFX の有無）を見ていない');
-  assert.ok(/getBoundingClientRect\(\)/.test(AMBIENT_SRC), 'ゲージが画面内にいるかを見ていない');
-});
-
-t('0%の日は定期の祝砲を鳴らさない（火花だけは出る）', () => {
-  const i = AMBIENT_SRC.indexOf('_gaugeFxBoom = setInterval');
-  assert.ok(i > 0, '定期の祝砲が無い');
-  assert.ok(/if \(tier <= 0\) return;/.test(AMBIENT_SRC.slice(0, i)),
-    '段0でも祝砲が鳴る（「やった」ことの合図でなくなる）');
+t('撤去した関数が index.js に戻っていない', () => {
+  const code = HTML.replace(/\/\/.*$/mg, '').replace(/\/\*[\s\S]*?\*\//g, '');
+  ['_gaugeCelebrate', '_checkpointFx', '_startGaugeAmbient', '_startHeroDust',
+   '_startStreakEmbers', '_startMissionAmbient', '_startCtaAmbient', '_bootSequence'].forEach(fn => {
+    assert.ok(!code.includes(fn + '('), fn + ' が戻っている');
+  });
 });
 
 // ── fx_engine.js のスチームパンク粒子 ─────────────────────────────────────

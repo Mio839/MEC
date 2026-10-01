@@ -45,13 +45,11 @@ test('MecFX に 5つの新エミッタが公開されている', () => {
   assert(fxSrc.includes('bearingOrbit: bearingOrbit'), 'Missing bearingOrbit in MecFX');
 });
 
-console.log('── 4. index.html: ハブの _gaugeCelebrate と _stampGoalSeal での活用 ──');
-test('index.html で同心円アニメーション（アイリス・クロノス・ベアリング等）が活用され、点線円(astrolabe)は撤廃されている', () => {
+// ⚠️ ハブでこれらを使っていた段の祝砲（_gaugeCelebrate）は 2026-10-01 に撤去した（ユーザー判断）。
+//    ハブ側では「点線円が戻っていない」ことだけを見る。
+console.log('── 4. index.html: 点線円(astrolabe)は撤廃されている ──');
+test('index.html に点線円(astrolabe)が戻っていない', () => {
   assert(!indexSrc.includes('MecFX.astrolabeRings'), 'astrolabeRings must be removed from index.html');
-  assert(indexSrc.includes('MecFX.irisShutter'), 'Missing irisShutter in index.html');
-  assert(indexSrc.includes('MecFX.rippleInterference'), 'Missing rippleInterference in index.html');
-  assert(indexSrc.includes('MecFX.chronosDial'), 'Missing chronosDial in index.html');
-  assert(indexSrc.includes('MecFX.bearingOrbit'), 'Missing bearingOrbit in index.html');
 });
 
 // ⚠️ 失敗があるときは件数を先に出す（以前は合格数だけを「全 N 件 ok」と出していて、

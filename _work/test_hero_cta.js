@@ -489,15 +489,9 @@ t('renderHero の文言は全部 _setCtaLabel を通っている', () => {
     '_setCtaLabel の呼び出しが足りない（席ごとに due の有無で2通りある）');
 });
 
-t('主ボタンの常時粒子は段が変わらない限りタイマーを張り替えない', () => {
-  // ⚠️ renderHero は同期完了で何度も走る。毎回 setInterval すると多重に撒かれる
-  const src = extract('_startCtaAmbient');
-  assert.ok(/if \(key === _ctaFxKey && _ctaFxTimer\) return;/.test(src),
-    '同じ段で早期 return していない（タイマーが増える）');
-  assert.ok(/clearInterval\(_ctaFxTimer\)/.test(src), '張り替え時に古いタイマーを止めていない');
-  assert.ok(/_reducedMotion\(\)/.test(src), 'reduced-motion で撒くのを止めていない');
-  assert.ok(/_fxOk\(\)/.test(src) && /scrollY/.test(src),
-    '非表示タブ・画面外で撒くのを止めていない');
+t('主ボタンの常時粒子は撤去したまま（2026-10-01・ユーザー判断）', () => {
+  const code = HTML.replace(/\/\/.*$/mg, '').replace(/\/\*[\s\S]*?\*\//g, '');
+  assert.ok(!code.includes('_startCtaAmbient('), '_startCtaAmbient が戻っている');
 });
 
 t('_tweenNum に非表示タブ用の落とし所がある', () => {

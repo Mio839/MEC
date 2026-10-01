@@ -1111,7 +1111,7 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   filter:drop-shadow(0 0 5px #FFD166);}
 @keyframes crownFloat{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-2.5px);}}
 
-/* D5(2026-08-14): 連続日数の炎。段が上がるほど数字が熱を持つ（粒子は canvas 側） */
+/* D5(2026-08-14): 連続日数の炎。段が上がるほど数字が熱を持つ（🔥 の粒子は 2026-10-01 に撤去） */
 #statStreak[data-ember="2"]{color:#FFB347;}
 #statStreak[data-ember="3"]{color:#FF9A3C;text-shadow:0 0 9px rgba(255,154,60,.45);}
 #statStreak[data-ember="4"]{color:#FF7A2F;text-shadow:0 0 12px rgba(255,122,47,.6);
@@ -1269,8 +1269,6 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   100%{filter:brightness(1.24) drop-shadow(0 0 14px rgba(255,215,0,.7));}
 }
 
-.hero.booting .hero-cnr{animation:bootCnr .9s var(--ease-out) both;}
-@keyframes bootCnr{from{opacity:0;transform:scale(.7);}60%{opacity:1;}to{opacity:1;transform:none;}}
 
 /* ── タイルは1枚ずつ立ち上がる。読み込み時ではなくスクロールで面に入った時（.in） ── */
 .tiles.in .tile{animation:tileIn var(--dur-long) var(--ease-out) backwards;
@@ -1459,7 +1457,7 @@ html.ui-brass .brass-piston-layer{display:inline;}
 /* ── 今日の目標の達成率で盤面の熱が上がる ─────────────────────────
    data-tier は _goalTier() が入れる（0=未着手 / 1〜4=途中 / 5=達成 / 6=大幅超過）。
    段が上がるごとに層を1つずつ積む: 光る → 目盛りが速く回る → 盤面が脈打つ →
-   達成色に変わる。粒子（花火・紙吹雪）は JS 側の _gaugeCelebrate() が撒く。
+   達成色に変わる。段の祝砲（粒子）は 2026-10-01 に撤去した。
    ⚠️ 動かすのは transform / opacity / filter / text-shadow だけ。 */
 
 /* 層1: 円弧の発光。tier が上がるほど滲みを強くする */
@@ -4903,9 +4901,8 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
   .mfx .gm-mission.done .gm-mission-lbl::after,
   .mfx .gm-mission.done .gm-mission-fill::after{display:none;}
   .gauge-dot{transition:none;}
-  /* 2026-08-14 追加分（D1 起動シーケンス / D3 レベル間近 / D4 記録更新 / D5 炎の段） */
-  .hero.booting::after{display:none;}
-  .hero.booting .hero-cnr,.hero-lv-bar span.near,
+  /* 2026-08-14 追加分（D3 レベル間近 / D4 記録更新 / D5 炎の段） */
+  .hero-lv-bar span.near,
   .hero.settled .hero-lv-bar span.near,
   #statStreak[data-ember="4"]{animation:none;}
   /* 2026-08-14 追加分（E: ボタン＋計器ベイ）。
