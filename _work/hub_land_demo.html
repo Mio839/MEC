@@ -76,7 +76,7 @@ h1{font-size:17px;margin-bottom:4px;}
   <header class="top">
     <h1>読み値の着地の作り直し</h1>
     <p class="lead">
-      「今日解いた問題」の数字が数え上がって止まった瞬間の演出を、<b>テーマごとに</b>作り直す。いまは <b>Liquid の5案</b>（＋現行）。Celestial は超新星を採用済み。
+      「今日解いた問題」の数字が数え上がって止まった瞬間の演出を、<b>テーマごとに</b>作り直す。いまは <b>Brass の5案</b>（＋現行）。Celestial は超新星・Liquid はインクが満ちるを採用済み。
       行の<b>「▶ 見る」</b>で本物のハブをその案に差し替えて読み込み、<b>「もう一度」</b>で読み込み直さずに着地だけを出し直す。
       数字が0だと桁が1つしか無いので、右上の<b>「数字」</b>で仮の値にして見るとよい（本物の進捗には書かない）。
       気に入った案に<b>「採用」</b>の印を付けて<b>結果をコピー</b>で貼ってください。
@@ -149,6 +149,35 @@ function PRELUDE() {
     return e;
   };
   window.__isCel = function () { return document.documentElement.classList.contains('ui-celestial'); };
+  // 桁の輪郭の上の点を K 個、一筆書きの順で返す（画面座標）。字形を canvas に描いて縁の画素を拾う
+  window.__outlinePts = function (sp, K) {
+    var r = sp.getBoundingClientRect(), cs = getComputedStyle(sp);
+    var W = Math.ceil(r.width) + 8, H = Math.ceil(r.height) + 8;
+    var cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    var cx = cv.getContext('2d');
+    cx.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+    var m = cx.measureText(sp.textContent), ink = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+    cx.fillStyle = '#000'; cx.textBaseline = 'alphabetic'; cx.textAlign = 'center';
+    cx.fillText(sp.textContent, W / 2, (H - ink) / 2 + m.actualBoundingBoxAscent);
+    var px = cx.getImageData(0, 0, W, H).data, edge = [];
+    var A = function (x, y) { return (x < 0 || y < 0 || x >= W || y >= H) ? 0 : px[(y * W + x) * 4 + 3]; };
+    for (var y = 0; y < H; y += 2) for (var x = 0; x < W; x += 2)
+      if (A(x, y) > 140 && (A(x - 2, y) < 60 || A(x + 2, y) < 60 || A(x, y - 2) < 60 || A(x, y + 2) < 60)) edge.push([x, y]);
+    if (!edge.length) return [];
+    var pick = [edge[0]], dist = edge.map(function (p) { return Math.hypot(p[0] - edge[0][0], p[1] - edge[0][1]); });
+    while (pick.length < Math.min(K, edge.length)) {
+      var bi = 0; for (var i = 1; i < dist.length; i++) if (dist[i] > dist[bi]) bi = i;
+      pick.push(edge[bi]);
+      for (var j = 0; j < dist.length; j++) dist[j] = Math.min(dist[j], Math.hypot(edge[j][0] - edge[bi][0], edge[j][1] - edge[bi][1]));
+    }
+    var rest = pick.slice(1), path = [pick[0]];
+    while (rest.length) {
+      var last = path[path.length - 1], ni = 0;
+      for (var k = 1; k < rest.length; k++) if (Math.hypot(rest[k][0] - last[0], rest[k][1] - last[1]) < Math.hypot(rest[ni][0] - last[0], rest[ni][1] - last[1])) ni = k;
+      path.push(rest.splice(ni, 1)[0]);
+    }
+    return path.map(function (p) { return { x: r.left - 4 + p[0], y: r.top - 4 + p[1] }; });
+  };
   // 仮の数字（デモ用）：数え上がりの行き先だけ差し替える
   if (window.__forceN != null) {
     var tw = _tweenNum;
@@ -585,6 +614,203 @@ const THEMES_DEF = [
           rp.animate([{ scale: .3, opacity: .95 }, { scale: 2.8, opacity: 0 }], { duration: 900, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'both' });
           MecFX.burst(c.x, c.y, { tier: 2, count: g ? 28 : 18, colors: [Q.mag, Q.pink, Q.cyan, Q.white], shapes: ['circle'], speed: 340, upBias: 180, gravity: 1000, glow: true });
         }, 1080);
+      }, d * 55 + 120);
+    } }
+ ]},
+ { key: 'brass', name: 'Brass', items: [
+  { id: 'cur', nm: '現行', ds: '時計仕掛けの爆発（brassClockworkBurst）・歯車・蒸気。数字の下からグリフ（⚙️✦・）と金の粒。目標達成の日は粒が増え、衝撃波の輪。' },
+
+  { id: 'B1', nm: 'ドラムカウンターが回る', ds: '各桁が機械式カウンターのドラムになって縦にぐるぐる回り、左の桁から順に「カチッ」と少し行き過ぎて止まる。止まるたびに桁の下で火花と小さな蒸気。全部止まると窓の上から蒸気がひと吹き。目標達成の日は回転が長く、蒸気が太い。',
+    fn: function (el) {
+      if (!document.documentElement.classList.contains('ui-brass')) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var B = { gold: '#E0C25E', hi: '#FFF3C4', copper: '#B87333', orange: '#FFA040', white: '#FFFFFF' }, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var spans = Array.from(el.querySelectorAll('.dg')), last = 0;
+        spans.forEach(function (sp, i) {
+          var r = sp.getBoundingClientRect(), h = r.height, t = parseInt(sp.textContent, 10) || 0;
+          var turns = 10 + i * 3 + (g ? 6 : 0), seq = [];
+          for (var k = 0; k <= turns; k++) seq.push(((t - turns + k) % 10 + 10) % 10);
+          var keep = sp.getAttribute('style') || '';
+          // 幅も固定する（ドラムの列は一番広い字の幅になる＝桁の間が開いて数字が揺れる）
+          sp.style.cssText = keep + ';width:' + r.width + 'px;height:' + h + 'px;line-height:' + h + 'px;overflow:hidden;vertical-align:bottom;text-align:center;';
+          var col = document.createElement('span');
+          col.style.cssText = 'display:block;line-height:' + h + 'px;';
+          col.innerHTML = seq.join('<br>');
+          sp.textContent = ''; sp.appendChild(col);
+          var dur = 650 + i * 230 + (g ? 250 : 0);
+          last = Math.max(last, dur);
+          col.animate([
+            { translate: '0 0' },
+            { translate: '0 ' + (-turns * h - h * .2) + 'px', offset: .88 },
+            { translate: '0 ' + (-turns * h) + 'px' }
+          ], { duration: dur, easing: 'cubic-bezier(.25,.6,.25,1)', fill: 'forwards' });
+          setTimeout(function () {
+            sp.textContent = String(t); sp.setAttribute('style', keep);
+            var q = sp.getBoundingClientRect();
+            MecFX.sparks(q.left + q.width / 2, q.bottom - 4, { count: 8, colors: [B.hi, B.gold, B.orange] });
+            MecFX.steam(q.left + q.width / 2, q.bottom - 6, { count: 2, w: q.width * .6, rise: 40, min: 10, max: 22, alpha: .3 });
+          }, dur);
+        });
+        setTimeout(function () {
+          var fig = el.closest('.hero-fig'), f = fig && fig.getBoundingClientRect();
+          if (!f) return;
+          __pulse(fig, '__flare', 820);
+          MecFX.steam(f.left + f.width * .5, f.top + 4, { count: g ? 9 : 6, w: f.width * .6, rise: 90, min: 18, max: 40, alpha: .38 });
+          MecFX.burst(f.left + f.width * .5, f.top + f.height * .3, { tier: 2, count: g ? 22 : 14, colors: [B.gold, B.hi, B.copper], shapes: ['circle', 'shard'], speed: 300, upBias: 160, gravity: 900 });
+        }, last + 60);
+      }, d * 55 + 120);
+    } },
+
+  { id: 'B2', nm: 'プレスの刻印', ds: 'リベット打ちの真鍮のプレスが上から降りてきて数字を「ガシャン」と打つ。数字は潰れて真っ赤に熱を帯び、ゆっくり真鍮色へ冷める。打った瞬間に左右へ火花と蒸気が噴き出す。目標達成の日は火花と蒸気が多い。',
+    css: `
+.__br-press{position:fixed;z-index:62;pointer-events:none;border-radius:4px 4px 6px 6px;
+  background:linear-gradient(180deg,#8D6E1C 0%,#E0C25E 35%,#C9A227 60%,#5A3F0E 100%);
+  border:2px solid #3D2B0F;box-shadow:0 6px 14px rgba(0,0,0,.7),inset 0 2px 2px rgba(255,243,196,.6),inset 0 -3px 4px rgba(0,0,0,.5);}
+.__br-press::before,.__br-press::after{content:'';position:absolute;top:28%;width:9px;height:9px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#FFF3B0 0%,#C9A227 55%,#3D2B0F 100%);}
+.__br-press::before{left:10px;} .__br-press::after{right:10px;}
+.hero-num.__br-stamp{animation:__brStamp 1.5s cubic-bezier(.2,.8,.3,1)!important;transform-origin:50% 100%;}
+@keyframes __brStamp{
+  0%{scale:1.1 .78;filter:brightness(2.2) saturate(1.8) drop-shadow(0 0 12px #FF5A00) drop-shadow(0 0 26px #FF2A00);}
+  14%{scale:.97 1.04;}
+  24%{scale:1;filter:brightness(1.8) saturate(1.6) drop-shadow(0 0 10px #FF6A00) drop-shadow(0 0 22px #FF3D00);}
+  100%{scale:1;filter:drop-shadow(0 2px 0 #3D2B0F) drop-shadow(0 0 10px rgba(224,194,94,.65));}}`,
+    fn: function (el) {
+      if (!document.documentElement.classList.contains('ui-brass')) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var B = { gold: '#E0C25E', hi: '#FFF3C4', copper: '#B87333', orange: '#FFA040', red: '#FF5A00', white: '#FFFFFF' }, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var c = _centerOf(el); if (!c) return;
+        var W = c.r.width * 1.12, PH = c.r.height * .5, top = c.r.top - PH;
+        var press = __layer('<div class="__br-press"></div>', 'left:' + (c.x - W / 2) + 'px;top:' + top + 'px;width:' + W + 'px;height:' + PH + 'px;', 1000);
+        press.animate([
+          { translate: '0 ' + (-c.r.height * 1.4) + 'px', opacity: 0 },
+          { translate: '0 ' + (-c.r.height * 1.1) + 'px', opacity: 1, offset: .12 },
+          { translate: '0 ' + (c.r.height * .08) + 'px', opacity: 1, offset: .32, easing: 'cubic-bezier(.6,0,1,.6)' },
+          { translate: '0 ' + (c.r.height * .08) + 'px', opacity: 1, offset: .46 },
+          { translate: '0 ' + (-c.r.height * 1.4) + 'px', opacity: 0 }
+        ], { duration: 900, fill: 'forwards' });
+        setTimeout(function () {
+          __pulse(el, '__br-stamp', 1550);
+          var y = c.r.bottom - c.r.height * .2;
+          MecFX.burst(c.r.left - 4, y, { tier: 2, count: g ? 22 : 14, colors: [B.hi, B.orange, B.red, B.gold], shapes: ['shard', 'circle'], speed: 420, upBias: 120, gravity: 1100 });
+          MecFX.burst(c.r.right + 4, y, { tier: 2, count: g ? 22 : 14, colors: [B.hi, B.orange, B.red, B.gold], shapes: ['shard', 'circle'], speed: 420, upBias: 120, gravity: 1100 });
+          MecFX.steam(c.r.left - 6, y, { count: g ? 6 : 4, w: 26, rise: 70, min: 16, max: 34, alpha: .4, vx: -140 });
+          MecFX.steam(c.r.right + 6, y, { count: g ? 6 : 4, w: 26, rise: 70, min: 16, max: 34, alpha: .4, vx: 140 });
+          MecFX.sparks(c.x, c.r.top, { count: 16, colors: [B.white, B.hi, B.orange] });
+        }, 290);
+      }, d * 55 + 120);
+    } },
+
+  { id: 'B3', nm: '歯車が噛み合う', ds: '数字の両脇に真鍮の歯車が2枚せり出して互いに逆向きに回り、数字を下から押し上げて「ガチャン」と所定の位置に固定する。固定した瞬間に小さな歯車と火花が弾け、歯車は回りながら引っ込む。ハブのゲージ（歯車列）と同じ言葉。目標達成の日は歯車が速く、弾けが大きい。',
+    css: `
+.__br-gear{position:fixed;z-index:61;pointer-events:none;overflow:visible;}
+.__br-gear path{fill:url(#__brGrad);stroke:#3D2B0F;stroke-width:1.2;}
+.hero-num.__br-lock{animation:__brLock .9s cubic-bezier(.3,1.4,.4,1)!important;transform-origin:50% 100%;}
+@keyframes __brLock{0%{translate:0 .35em;}45%{translate:0 .35em;}70%{translate:0 -.08em;scale:1.04 .97;}85%{translate:0 .02em;}100%{translate:0 0;scale:1;}}`,
+    fn: function (el) {
+      if (!document.documentElement.classList.contains('ui-brass')) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var B = { gold: '#E0C25E', hi: '#FFF3C4', copper: '#B87333', orange: '#FFA040', white: '#FFFFFF' }, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var c = _centerOf(el); if (!c) return;
+        var R = c.r.height * .5, S = R * 2.3;
+        var mk = function (x, dir) {
+          var svg = '<svg class="__br-gear" width="' + S + '" height="' + S + '" viewBox="' + (-S / 2) + ' ' + (-S / 2) + ' ' + S + ' ' + S + '">' +
+            '<defs><radialGradient id="__brGrad"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".45" stop-color="#E0C25E"/><stop offset="1" stop-color="#8D6E1C"/></radialGradient></defs>' +
+            '<path fill-rule="evenodd" d="' + _gearPath(0, 0, R * .82, R, 12) + _holePath(0, 0, R * .26) + '"/></svg>';
+          var gEl = __layer(svg, 'left:' + (x - S / 2) + 'px;top:' + (c.y - S / 2) + 'px;', 1400);
+          gEl.animate([
+            { scale: .2, opacity: 0, rotate: '0deg' },
+            { scale: 1, opacity: 1, rotate: (dir * 90) + 'deg', offset: .3 },
+            { scale: 1, opacity: 1, rotate: (dir * (g ? 300 : 220)) + 'deg', offset: .62 },
+            { scale: .3, opacity: 0, rotate: (dir * (g ? 420 : 320)) + 'deg' }
+          ], { duration: 1300, easing: 'cubic-bezier(.4,0,.5,1)', fill: 'forwards' });
+        };
+        mk(c.r.left - R * .55, 1);
+        mk(c.r.right + R * .55, -1);
+        __pulse(el, '__br-lock', 950);
+        setTimeout(function () {
+          MecFX.gears(c.x, c.y, { count: g ? 10 : 6, spread: g ? 300 : 220, min: 8, max: 16, gravity: 700 });
+          MecFX.sparks(c.x, c.r.bottom - 6, { count: g ? 22 : 14, colors: [B.white, B.hi, B.orange] });
+          MecFX.steam(c.x, c.r.bottom - 6, { count: 3, w: c.r.width * .7, rise: 50, min: 12, max: 26, alpha: .3 });
+          var fig = el.closest('.hero-fig'); if (fig) __pulse(fig, '__flare', 820);
+        }, 640);
+      }, d * 55 + 120);
+    } },
+
+  { id: 'B4', nm: '焼き入れ', ds: '数字が赤く、さらに白く光るまで熱され、ふつふつと火の粉が上がる。一瞬で冷やされて数字の全面からジュッと蒸気が立ちのぼり、真鍮色に戻る（戻る瞬間に表面を光がすべる）。目標達成の日は蒸気と火の粉が多い。',
+    css: `
+.hero-num.__br-heat{animation:__brHeat 1.6s ease-in-out!important;}
+@keyframes __brHeat{
+  0%{filter:drop-shadow(0 2px 0 #3D2B0F) drop-shadow(0 0 10px rgba(224,194,94,.65));}
+  22%{filter:brightness(1.7) saturate(2) hue-rotate(-18deg) drop-shadow(0 0 12px #FF3D00) drop-shadow(0 0 26px #FF2A00);}
+  42%{filter:brightness(2.6) saturate(1.2) drop-shadow(0 0 16px #FFE0B0) drop-shadow(0 0 34px #FF6A00);}
+  52%{filter:brightness(2.6) saturate(1.2) drop-shadow(0 0 16px #FFE0B0) drop-shadow(0 0 34px #FF6A00);}
+  66%{filter:brightness(.8) saturate(.7) drop-shadow(0 0 4px rgba(255,255,255,.3));}
+  82%{filter:brightness(1.5) drop-shadow(0 0 12px #FFF3C4);}
+  100%{filter:drop-shadow(0 2px 0 #3D2B0F) drop-shadow(0 0 10px rgba(224,194,94,.65));}}`,
+    fn: function (el) {
+      if (!document.documentElement.classList.contains('ui-brass')) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var B = { gold: '#E0C25E', hi: '#FFF3C4', orange: '#FFA040', red: '#FF5A00', ember: '#FF3D00', white: '#FFFFFF' }, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var c = _centerOf(el); if (!c) return;
+        __pulse(el, '__br-heat', 1650);
+        // 熱される間、火の粉がふつふつと上がる
+        var ne = g ? 16 : 10;
+        for (var i = 0; i < ne; i++) (function (i) {
+          setTimeout(function () {
+            MecFX.burst(c.r.left + Math.random() * c.r.width, c.r.top + c.r.height * (.2 + Math.random() * .6), { count: 1, tier: 1, speed: 40, upBias: 140, gravity: -160, colors: [B.ember, B.orange, B.hi], shapes: ['circle'], glow: true });
+          }, 120 + i * 45);
+        })(i);
+        // 冷やした瞬間に全面から蒸気
+        setTimeout(function () {
+          var n = Math.max(3, Math.round(c.r.width / 26)) + (g ? 2 : 0);
+          for (var k = 0; k < n; k++) MecFX.steam(c.r.left + c.r.width * (k + .5) / n, c.r.top + c.r.height * .3, { count: g ? 3 : 2, w: c.r.width / n, rise: 110, min: 18, max: 40, alpha: .42 });
+          MecFX.sparks(c.x, c.y, { count: 18, colors: [B.white, B.hi, B.orange] });
+        }, 880);
+      }, d * 55 + 120);
+    } },
+
+  { id: 'B5', nm: '溶接の火花', ds: '溶接の火が桁の輪郭を1つずつなぞり、通った跡に橙色に光る溶接の線が残る（線はすぐ真鍮色へ冷める）。火の当たる所から細かな火花が下へ散る。全部なぞり終えると数字が輝き、小さな蒸気。目標達成の日は火花が多い。',
+    fn: function (el) {
+      if (!document.documentElement.classList.contains('ui-brass')) return __origLand(el);
+      if (!el || _reducedMotion()) return;
+      var d = __wrapDigits(el);
+      if (!_centerOf(el) || !_fxOk()) return;
+      var B = { gold: '#E0C25E', hi: '#FFF3C4', orange: '#FFA040', white: '#FFFFFF' }, g = parseInt(el.dataset.goal || '0', 10) || 0;
+      setTimeout(function () {
+        var paths = Array.from(el.querySelectorAll('.dg')).map(function (sp) { return __outlinePts(sp, 12); });
+        var step = 32, n = 0;
+        paths.forEach(function (path) {
+          path.forEach(function (p, i) {
+            var t = n++ * step;
+            setTimeout(function () {
+              MecFX.sparks(p.x, p.y, { count: g ? 7 : 4, colors: [B.white, B.hi, B.orange] });
+              MecFX.burst(p.x, p.y, { count: 2, tier: 1, speed: 160, upBias: -40, gravity: 900, colors: [B.orange, B.hi], shapes: ['circle'], glow: true });
+              if (i > 0) {
+                var q = path[i - 1];
+                MecFX.ribbon(q.x, q.y, p.x, p.y, { color: '#FF8C2A', width: 2.4, bow: 0, tail: 1, grow: .3, ttl: .9 });
+                MecFX.ribbon(q.x, q.y, p.x, p.y, { color: B.gold, width: 1.6, bow: 0, tail: 1, grow: .3, ttl: 1.3, delay: .25 });
+              }
+            }, t);
+          });
+        });
+        setTimeout(function () {
+          var c = _centerOf(el); if (!c) return;
+          var fig = el.closest('.hero-fig'); if (fig) __pulse(fig, '__flare', 820);
+          MecFX.steam(c.x, c.r.top + 6, { count: g ? 6 : 4, w: c.r.width * .7, rise: 70, min: 14, max: 30, alpha: .32 });
+        }, n * step + 200);
       }, d * 55 + 120);
     } }
  ]}
