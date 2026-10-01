@@ -3402,18 +3402,6 @@ function _sparkleMissions() {
 // 達成の緑。
 const MISSION_GREEN = '#3DD68C';
 
-// 全達成なら見出しの件数を緑にして脈打たせ、四隅からグランド祝砲を放つ
-let _grandCeremonyFired = false;
-function _fireGrandCeremony() {
-  if (_grandCeremonyFired || !_fxOk()) return;
-  _grandCeremonyFired = true;
-  const w = window.innerWidth, h = window.innerHeight;
-  MecFX.burst(w / 2, h / 3, {
-    tier: 6, count: 60, colors: ['#FFD700', '#FFD166', '#3DD68C', '#FFFFFF'],
-    shapes: ['star', 'gem'], glow: true, additive: true
-  });
-}
-
 // 🏆 レベルアップ・アセンション（昇格）カットイン
 function openAscension(newLv, title) {
   const overlay = document.getElementById('ascensionOverlay');
@@ -3427,6 +3415,8 @@ function closeAscension() {
   if (overlay) overlay.style.display = 'none';
 }
 
+// 全達成なら見出しの件数を緑にして脈打たせる。
+// ⚠️ 画面中央の紙吹雪（旧 _fireGrandCeremony）は 2026-10-01 に撤去した（ユーザー判断）。戻さないこと。
 function _markAllDone() {
   const host = document.getElementById('gmDaily');
   const cnt = document.getElementById('gmDailyCnt');
@@ -3434,7 +3424,6 @@ function _markAllDone() {
   const core = [...host.querySelectorAll('.gm-mission[data-tier="core"]')];
   const allDone = core.length > 0 && core.every(r => r.classList.contains('done'));
   cnt.classList.toggle('all', allDone);
-  if (allDone) _fireGrandCeremony();
 }
 
 function _watchGamifyPanel() {

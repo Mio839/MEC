@@ -121,7 +121,6 @@ h1{font-size:17px;margin-bottom:4px;}
         <option value="160">160%（大幅超過）</option>
       </select></label>
       <label><input type="checkbox" id="fOpening"> ブリーフィングを出す</label>
-      <label><input type="checkbox" id="fGrand"> ミッション全達成の儀式を出す</label>
     </div>
     <div class="status" id="status">読み込み中…</div>
     <div class="stage" id="stage"><div class="scaler" id="scaler"><iframe id="frame" title="ハブのプレビュー"></iframe></div></div>
@@ -139,7 +138,7 @@ h1{font-size:17px;margin-bottom:4px;}
 /* ═══ 演出の台帳 ═══
    off.js  … 外したときに index.js の後で実行する（関数を空にする）
    off.css … 外したときに </head> の直前へ足す（入場の @keyframes を空にする等）
-   need    … 「これだけ」で見るときに満たす条件（pct / opening / grand / theme）
+   need    … 「これだけ」で見るときに満たす条件（pct / opening / theme）
    ⚠️ 名前は 2026-10-01q の index.js / index.css に合わせてある（2026-10-01q で撤去した9件は台帳から外した）。 */
 const FX = [
  { g:'入場（開いた瞬間・一度きり）', items:[
@@ -178,8 +177,6 @@ const FX = [
     css:'@keyframes noteIn{}' },
   { id:'missions', nm:'達成済みミッションのキラキラ', ds:'0.7秒後、達成済みのミッション行ぜんぶに粒子が撒かれる（週間は画面に入ったとき）。', code:'index.js _sparkleMissions', cond:'達成済みミッションがある', theme:true,
     js:'_sparkleMissions=function(){};' },
-  { id:'grand', nm:'今日のミッション全達成の儀式', ds:'今日の必須ミッションが全部済んでいる日、四隅から紙吹雪＋中央に大きな花火。', code:'index.js _markAllDone / _fireGrandCeremony', cond:'必須ミッション全達成', need:{grand:true},
-    js:'_fireGrandCeremony=function(){};' },
   { id:'reveal', nm:'下の段がスクロールで現れる', ds:'見出し・タイル・週間ミッションの段が、画面に入ったときに下から現れる。外すと最初から見えている。', code:'index.css .rv-s / index.js _initScrollReveal',
     css:'.rv-s{opacity:1!important;transform:none!important;transition:none!important}' },
   { id:'tiles', nm:'タイルが1枚ずつ立ち上がる', ds:'タイルの段が画面に入ると、タイルが順に立ち上がり、タイルの中の棒が伸び、縦長タイルの % が数え上がる。', code:'index.css .tiles.in .tile・.tile-bar span / index.js _tickLeadTile',
@@ -312,7 +309,6 @@ async function play(opt) {
   let pct = $('pct').value;
   if (need.pct != null && (pct === '' || Number(pct) < need.pct)) pct = String(need.pct);
   const fOpening = $('fOpening').checked || !!need.opening;
-  const fGrand   = $('fGrand').checked   || !!need.grand;
 
   const ls = snapshot(), ss = {};
   if (theme) ls.mec_ui_theme_v1 = theme;
@@ -324,9 +320,6 @@ async function play(opt) {
   if (pct !== '') {
     js += '(function(){var G=window.MecGamify;if(!G||!G.dailyGoal)return;var o=G.dailyGoal;G.dailyGoal=function(){var g=o.apply(G,arguments)||{};var p=' + Number(pct) + ';' +
           'var t=g.target||200;return Object.assign({},g,{pct:p,count:Math.round(t*p/100),target:t});};})();\n';
-  }
-  if (fGrand && !off.has('grand')) {
-    js += 'document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){try{_grandCeremonyFired=false;_fireGrandCeremony();}catch(e){}},1200);});\n';
   }
 
   let h = src;
@@ -340,7 +333,6 @@ async function play(opt) {
   if (theme) conds.push('テーマ ' + theme);
   if (pct !== '') conds.push('達成率 ' + pct + '%');
   if (fOpening) conds.push('ブリーフィングあり');
-  if (fGrand) conds.push('全達成の儀式あり');
   $('status').innerHTML = '▶ ' + esc(what) + 'で再生' + (conds.length ? '（' + esc(conds.join('・')) + '）' : '');
   $('frame').srcdoc = h;
   fit();

@@ -1296,7 +1296,7 @@ html:not(.hub-painted) .hero-fig.num-in,html:not(.hub-painted) .hero-cta a.cta-i
      行::before = 下を回る光    行::after = 面を横切る光沢
      ✅::after / ラベル::after / 数字::after = 明滅する✨（位相をずらす）
      バーの中身::after = 満タンのバーを走る光
-   読み込み時と全達成の粒子は MecFX（_sparkleMissions）が撒く */
+   粒子は撒かない（達成行のひと粒・全達成の紙吹雪は 2026-10-01 に撤去） */
 .mfx .gm-mission{position:relative;overflow:hidden;
   transition:transform var(--dur-short) var(--ease-out),box-shadow var(--dur-short) var(--ease-out);}
 .mfx .gm-mission.done{transform:translateY(-1px);
