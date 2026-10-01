@@ -17134,17 +17134,27 @@
       }
      ],
      "ans_label": "ｂ　経過観察",
-     "ans_sub": "胃底腺ポリープは悪性化リスクが極めて低く経過観察でよい。内視鏡切除・手術は不要。",
+     "ans_sub": "病変は PPI 長期内服者の胃体部に多発する<b>胃底腺ポリープ</b>（Q.251・252）。癌化はきわめてまれで、<b>経過観察</b>でよい。本人は「早期癌なら内視鏡で治せる」と調べて治療を望んでいるが、これは癌ではなく、取る必要がないことを説明する。胸やけの再燃は逆流性食道炎の問題として別に手当てする。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 胃底腺ポリープの対応",
-       "c": "<span class=\"kw\">b経過観察（正答）</span>：<br/>・悪性化リスク：散発性では&lt;1%（FAPでは低リスクだが定期観察）<br/>・PPI中止で縮小することもある<br/>・通常は定期内視鏡検査（1〜2年ごと）で経過観察<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a胃切除術：過剰な治療<br/>✗ c放射線療法：適応なし<br/>✗ dESD：良性病変には不要<br/>✗ eポリープ切除：不要（悪性化リスク低い）"
+       "h": "🌿 「治療してほしい」に、治療しない理由を伝える",
+       "c": "<span class=\"kw4\"><b>胃底腺ポリープの見分け方と組織は Q.251・252、背景胃の読み方は Q.243——ここは本人の希望と医学的判断が食い違うときの説明</b></span>。<br/><span class=\"kw\"><b>① 本人が持ってきた情報</b></span><br/><span class=\"kw3\"><b>「早期の癌は内視鏡で治療できる」——内容は正しい</b></span><br/><span class=\"kw4\"><b>ただし前提の「この病変は癌」が違う</b></span><br/><span class=\"kw\"><b>② 伝えること</b></span><br/><span class=\"kw3\"><b>病変は胃底腺ポリープで、腫瘍ではなく、胃の腺が袋状に広がったもの</b></span><br/><span class=\"kw3\"><b>癌になることはほとんどない</b></span><br/><span class=\"kw3\"><b>PPI を飲んでいると増えたり大きくなったりするが、それ自体は心配ない</b></span><br/><span class=\"kw3\"><b>取る処置にも出血・穿孔の危険がある——得るものがないのに危険だけ負うことになる</b></span><br/><span class=\"kw\"><b>③ 不安を残さない</b></span><br/><span class=\"kw3\"><b>形が変わる・急に大きくなる・赤くなるなどがあれば、そのとき生検する</b></span><br/><span class=\"kw3\"><b>検診の内視鏡で見ていく</b></span><br/><span class=\"kw\"><b>④ 本当の困りごと</b></span><br/><span class=\"kw3\"><b>1 か月前からの胸やけの再燃——こちらを治療する</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>良性で癌化しにくい病変に、胃を切る理由がない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　経過観察</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃底腺ポリープは治療不要</b></span>。<span class=\"kw3\"><b>変化があれば生検する</b></span>。</td></tr><tr><td>ｃ　放射線療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腫瘍ではない</b></span>。</td></tr><tr><td>ｄ　内視鏡的粘膜下層剝離術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期胃癌の治療</b></span>。<span class=\"kw3\"><b>本人の希望の手技だが、この病変は癌ではない</b></span>。</td></tr><tr><td>ｅ　内視鏡的ポリープ切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腺腫や大きな過形成性ポリープを取る手技</b></span>。<span class=\"kw3\"><b>多発する胃底腺ポリープを取る意味はない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃の良性病変への対応。<br/><b>a 胃切除／c 放射線／d ESD／e ポリープ切除</b>：不要。<br/><b>b 経過観察</b>：<span class=\"kw\">良性病変で経過観察</span>。✓"
+       "h": "🔍 別軸：PPI を飲んでいても胸やけが戻るとき",
+       "c": "<span class=\"kw\"><b>① まず確かめる</b></span><br/><span class=\"kw3\"><b>毎日飲めているか、飲む時刻（PPI は食前がよく効く）</b></span><br/><span class=\"kw3\"><b>夜遅い食事・食べてすぐ横になる・肥満・前かがみの姿勢</b></span><br/><span class=\"kw\"><b>② 薬を強める</b></span><br/><span class=\"kw3\"><b>PPI を倍量や分 2 にする</b></span><br/><span class=\"kw3\"><b>カリウムイオン競合型アシッドブロッカー（ボノプラザン）に替える——酸の抑え方が強く速い</b></span><br/><span class=\"kw\"><b>③ 酸以外の原因</b></span><br/><span class=\"kw3\"><b>食道裂孔ヘルニアが大きい、非酸逆流、食道の知覚過敏（機能性胸やけ）</b></span><br/><span class=\"kw3\"><b>好酸球性食道炎、アカラシア——内視鏡で生検、食道内圧検査</b></span><br/><span class=\"kw3\"><b>食道 pH・インピーダンスモニタリングで、症状と逆流が一致するか調べる</b></span><br/><span class=\"kw\"><b>④ 夜の症状</b></span><br/><span class=\"kw3\"><b>寝る 3 時間前までに食べ終える、上半身を少し高くして寝る</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>胃底腺ポリープ→経過観察（ESD・ポリペクトミー・手術は不要）</b></span><br/><span class=\"kw3\"><b>患者の希望が医学的に不要な治療なら、理由を説明して経過観察を選ぶ</b></span><br/><span class=\"kw4\"><b>PPI 抵抗性の胸やけは、服薬状況の確認→強化（P-CAB）→酸以外の原因の検索</b></span>"
       }
      ],
      "imgs": [
@@ -17193,22 +17203,27 @@
       }
      ],
      "ans_label": "ｄ　④",
-     "ans_sub": "0-IIc型（表面陥凹型）早期胃癌：粘膜面が周囲より陥凹（わずかに低い）する形態。",
+     "ans_sub": "①は食道胃接合部の直上に、縦に伸びる発赤とびらん——<b>逆流性食道炎</b>。②は反転して見た噴門部の、表面に凹凸のある大きな<b>隆起性病変</b>。③はひだが太く蛇行して腫れ、奥に白苔の潰瘍——<b>4 型を思わせる進行癌</b>。④は前庭部の、周りよりわずかに<b>低く、境界が不整で発赤した浅い陥凹</b>——<b>0-Ⅱc 型</b>。⑤は黄白色の苔をのせた深い潰瘍を、<b>周堤</b>が囲む——<b>2〜3 型の進行癌</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 早期胃癌の0型分類（Paris分類）",
-       "c": "<table class=\"tb\"><tr><th>型</th><th>形態</th><th>特徴</th></tr><tr><td>型</td><td>形態</td><td>特徴</td></tr><tr><td>0-I</td><td>隆起型</td><td>粘膜面より著明に隆起（腫瘤状）</td></tr><tr><td>0-IIa</td><td>表面隆起型</td><td>わずかに隆起（高さ&lt;5mm）</td></tr><tr><td>0-IIb</td><td>表面平坦型</td><td>粘膜面と同高（変色のみ）</td></tr><tr><td><span class=\"kw\">0-IIc</span></td><td><span class=\"kw\">表面陥凹型</span></td><td><span class=\"kw\">わずかに陥凹</span>（最も多い型）</td></tr><tr><td>0-III</td><td>陥凹型</td><td>深い陥凹（潰瘍様）</td></tr></table>"
+       "h": "🌿 5 枚を見分ける——高さと境界で並べる",
+       "c": "<span class=\"kw4\"><b>0 型の細分と進行癌との区別の全体は Q.220、1〜4 型の見分け方は Q.246——ここはこの 5 枚の読み</b></span>。<br/><span class=\"kw\"><b>① 食道の下端</b></span><br/><span class=\"kw3\"><b>食道の内腔と、その下端の粘膜に沿った発赤・白いびらん</b></span><br/><span class=\"kw3\"><b>＝逆流性食道炎（胃ではない）</b></span><br/><span class=\"kw\"><b>② 噴門部の隆起</b></span><br/><span class=\"kw3\"><b>内視鏡を反転して見上げた像——黒い管が内視鏡そのもの</b></span><br/><span class=\"kw3\"><b>そのそばに、表面に凹凸のある盛り上がった病変</b></span><br/><span class=\"kw\"><b>③ 太いひだと潰瘍</b></span><br/><span class=\"kw3\"><b>ひだが太く、腫れ、蛇行して、奥に白苔の潰瘍</b></span><br/><span class=\"kw\"><b>④ 浅い陥凹（正解）</b></span><br/><span class=\"kw4\"><b>周りよりわずかに低い、発赤した面——境界がぎざぎざ（蚕食像）</b></span><br/><span class=\"kw3\"><b>盛り上がりも深い潰瘍もない＝表面陥凹型 0-Ⅱc</b></span><br/><span class=\"kw\"><b>⑤ 周堤をもつ潰瘍</b></span><br/><span class=\"kw3\"><b>中央の深い潰瘍を、堤防のように盛り上がった縁が囲む——進行癌（2 型または 3 型）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の病変——逆流性食道炎</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>隆起型の病変</b></span>。<span class=\"kw3\"><b>0-Ⅱc は陥凹する</b></span>。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ひだの腫大と潰瘍——4 型を思わせる進行癌の像</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　④</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>わずかに低い発赤した面</b></span>。<span class=\"kw3\"><b>境界が不整——0-Ⅱc</b></span>。</td></tr><tr><td>ｅ　⑤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>深い潰瘍＋周堤——進行癌（2〜3 型）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：0-Ⅱc と良性のびらんをどう分けるか",
+       "c": "<span class=\"kw\"><b>① 通常の観察</b></span><br/><span class=\"kw3\"><b>0-Ⅱc：境界がはっきりしてぎざぎざ（蚕食像）、色は発赤か退色、周りのひだが途中でやせる・途切れる</b></span><br/><span class=\"kw3\"><b>びらん：境界がぼんやり、多発、形がそろう</b></span><br/><span class=\"kw\"><b>② 色素内視鏡（インジゴカルミン）</b></span><br/><span class=\"kw3\"><b>青い色素がくぼみにたまり、陥凹の範囲と縁がはっきりする</b></span><br/><span class=\"kw\"><b>③ 拡大内視鏡＋NBI</b></span><br/><span class=\"kw4\"><b>境界線（demarcation line）がある＋その内側に不整な微小血管か不整な表面構造→癌</b></span><br/><span class=\"kw3\"><b>どちらもなければ癌らしくない</b></span><br/><span class=\"kw\"><b>④ 最後は生検</b></span><br/><span class=\"kw3\"><b>疑わしいところから生検し、Group 分類で判断</b></span><br/><span class=\"kw\"><b>未分化型の 0-Ⅱc</b></span><br/><span class=\"kw3\"><b>退色した（白っぽい）陥凹が多い——範囲が見た目より広い</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">0-IIc = 表面陥凹型 = 最多の早期胃癌肉眼型</span><br>ルゴール染色（食道）やインジゴカルミン散布（胃）で境界明確化。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "0-Ⅱc型（表面陥凹型）胃癌の内視鏡像。<br/><b>a ①／b ②／c ③／e ⑤</b>：型が合わない。<br/><b>d ④</b>：<span class=\"kw\">わずかな陥凹を呈する0-Ⅱc型</span>。✓"
+       "c": "<span class=\"kw3\"><b>0-Ⅱc＝周りよりわずかに低い、境界不整（蚕食像）の発赤または退色</b></span><br/><span class=\"kw3\"><b>周堤を伴う深い潰瘍は進行癌（2・3 型）</b></span><br/><span class=\"kw4\"><b>範囲の確認は色素内視鏡、癌かどうかは拡大 NBI（境界線＋不整な血管・表面構造）</b></span>"
       }
      ],
      "imgs": [
@@ -17260,17 +17275,27 @@
       }
      ],
      "ans_label": "ｃ　胃局所切除術",
-     "ans_sub": "胃GISTは3cm以上（or 増大傾向）で手術適応→リンパ節郭清不要の局所切除（胃局所切除術）。",
+     "ans_sub": "1 年前から GIST を疑って経過を見ていた胃体上部の粘膜下腫瘍。内視鏡（A）では、正常な粘膜におおわれ、なだらかに立ち上がる大きな隆起。造影 CT（B）では胃の内腔へ突出する境界明瞭な腫瘤で、胃以外に病変はない。<b>1 年で直径が約 1.5 倍</b>——増大する SMT は悪性を疑う所見で、手術の適応。リンパ節郭清は要らないので<b>胃局所切除術</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 胃GISTの手術方針",
-       "c": "<span class=\"kw\">c胃局所切除術（正答）</span>：<br>3cm以上のGIST→手術適応（自然退縮しない）<br>→ 腫瘍辺縁を含む胃局所切除（部分切除）<br/>→ リンパ節郭清は通常不要<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a抗癌化学療法：切除不能・再発GISTにイマチニブ（切除可能例は手術）<br/>✗ b放射線療法：GISTは放射線抵抗性<br/>✗ d噴門側胃切除：胃上部の癌（GISTには過剰切除）<br/>✗ e胃全摘術：GISTには過剰（D2郭清不要）</br></br>"
+       "h": "🌿 経過観察中の SMT——どこで手術に切り替えるか",
+       "c": "<span class=\"kw4\"><b>SMT を見つけたあとの流れは Q.242、GIST の手術の原則（郭清なし・破らない・LECS）は Q.249——ここは経過観察から手術へ切り替える根拠</b></span>。<br/><span class=\"kw\"><b>① 画像の読み</b></span><br/><span class=\"kw3\"><b>A：表面は周りと同じ正常な粘膜、なだらかに盛り上がる——粘膜下腫瘍</b></span><br/><span class=\"kw3\"><b>B：胃の内腔へ丸く出っぱる、内部が均一な腫瘤。肝・リンパ節に異常なし</b></span><br/><span class=\"kw\"><b>② 手術に切り替える所見</b></span><br/><span class=\"kw4\"><b>増大している（この症例は 1 年で 1.5 倍）</b></span><br/><span class=\"kw3\"><b>5cm 以上</b></span><br/><span class=\"kw3\"><b>潰瘍・出血、辺縁不整、内部が不均一</b></span><br/><span class=\"kw3\"><b>生検で GIST と確定（2cm 以上）</b></span><br/><span class=\"kw\"><b>③ 手術</b></span><br/><span class=\"kw3\"><b>腫瘍のまわりを少しつけて胃壁ごと切る局所切除——郭清なし</b></span><br/><span class=\"kw3\"><b>噴門や幽門に近いと、局所切除で胃が変形・狭窄することがある——そのときは術式を工夫する</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　抗癌化学療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GIST に殺細胞性の抗癌薬は効かない</b></span>。<span class=\"kw3\"><b>切除できる GIST はまず手術</b></span>。</td></tr><tr><td>ｂ　放射線療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GIST は放射線が効きにくい</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　胃局所切除術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>増大する SMT・GIST に対し、郭清なしで腫瘍を切り取る</b></span>。</td></tr><tr><td>ｄ　噴門側胃切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃上部の早期癌の術式</b></span>。<span class=\"kw3\"><b>郭清の要らない GIST に胃の上半分を取る必要はない</b></span>。</td></tr><tr><td>ｅ　胃全摘術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>過大な手術</b></span>。<span class=\"kw3\"><b>術後の栄養障害だけが残る</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃病変（転移なし・GIST等）。<br/><b>a 抗癌化学療法／b 放射線／d 噴門側切除／e 胃全摘</b>：過大/不適。<br/><b>c 胃局所切除術</b>：<span class=\"kw\">限局病変を局所切除</span>。✓"
+       "h": "🔍 別軸：GIST の育ち方と、大きいときの手順",
+       "c": "<span class=\"kw\"><b>① 育つ向き</b></span><br/><span class=\"kw3\"><b>管腔内発育型——胃の内側へ（この症例）。内視鏡で見つかりやすい</b></span><br/><span class=\"kw3\"><b>壁内発育型——壁の中で大きくなる</b></span><br/><span class=\"kw3\"><b>管腔外発育型——胃の外側へ。内視鏡では小さく見えるのに CT では大きい</b></span><br/><span class=\"kw\"><b>② 大きくて切りにくいとき</b></span><br/><span class=\"kw3\"><b>切除で周りの臓器まで取ることになる・機能が大きく失われる</b></span><br/><span class=\"kw3\"><b>術前にイマチニブで縮めてから切る（術前補助療法）</b></span><br/><span class=\"kw\"><b>③ 切ったあと</b></span><br/><span class=\"kw3\"><b>大きさ・核分裂像・部位・破綻で再発リスクを判定する</b></span><br/><span class=\"kw3\"><b>高リスクならイマチニブを 3 年飲む（術後補助療法）</b></span><br/><span class=\"kw3\"><b>再発は肝と腹膜——定期的に CT</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>経過観察中の SMT が増大→手術（GIST を疑う）</b></span><br/><span class=\"kw3\"><b>GIST の手術は局所切除——リンパ節郭清は要らない</b></span><br/><span class=\"kw4\"><b>抗癌薬・放射線は効かない／大きければ術前イマチニブ、高リスクは術後 3 年</b></span>"
       }
      ],
      "imgs": [
@@ -17319,22 +17344,27 @@
       }
      ],
      "ans_label": "ｅ　Ⅳ",
-     "ans_sub": "腹膜播種はM1（遠隔転移）= Stage IV。肝転移・肺転移・骨転移・腹膜播種が遠隔転移に含まれる。",
+     "ans_sub": "75 歳男性、3 か月の心窩部痛と食欲低下、臍周囲に固い腫瘤。内視鏡（A）では黄白色の壊死をのせた大きな潰瘍を、不整な周堤が囲む——進行胃癌。造影 CT（B）では<b>肝右葉に、縁が輪状に造影され中が低吸収の結節</b>——<b>肝転移</b>。大動脈のまわりにも腫大したリンパ節の塊がある。遠隔転移（M1）があれば T・N によらず<b>ステージⅣ</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📊 胃癌のStage分類",
-       "c": "<table class=\"tb\"><tr><th>Stage</th><th>主な条件</th></tr><tr><td>Stage</td><td>主な条件</td></tr><tr><td>IA</td><td>T1a-N0 or T1b-N0</td></tr><tr><td>IB</td><td>T1-N1 or T2-N0</td></tr><tr><td>II</td><td>T2-N1〜3 or T3-N0〜1</td></tr><tr><td>III</td><td>T3〜T4-N2〜3</td></tr><tr><td><span class=\"kw\">IV</span></td><td><span class=\"kw\">M1（遠隔転移）= 腹膜播種・肝転移・肺転移・骨転移・Virchow転移等</span></td></tr></table>"
+       "h": "🌿 CT で M1 を拾う——ステージは M が最優先",
+       "c": "<span class=\"kw4\"><b>大動脈周囲リンパ節が M1 になる話と、M1 のあとの薬の選び方は Q.236——ここは CT の読みとステージの決まり方</b></span>。<br/><span class=\"kw\"><b>① A の読み</b></span><br/><span class=\"kw3\"><b>大きな潰瘍、底に黄白色の壊死物質、縁は不整に盛り上がって崩れかける——3 型を思わせる進行癌</b></span><br/><span class=\"kw\"><b>② B の読み</b></span><br/><span class=\"kw3\"><b>肝右葉の結節：縁が輪のように白く造影され、中心が低吸収（ターゲット状）——転移の典型</b></span><br/><span class=\"kw3\"><b>大動脈の左右・前に低吸収の塊——腫大したリンパ節が融合している</b></span><br/><span class=\"kw3\"><b>臍周囲で触れた固い腫瘤も、このリンパ節の塊と考えられる</b></span><br/><span class=\"kw\"><b>③ ステージの決め方</b></span><br/><span class=\"kw3\"><b>まず M（遠隔転移）があるか——あれば T・N に関係なくⅣ</b></span><br/><span class=\"kw3\"><b>M0 なら T（深さ）と N（リンパ節の数）の組み合わせでⅠ〜Ⅲ</b></span><br/><span class=\"kw\"><b>④ 胃癌の M1 になるもの</b></span><br/><span class=\"kw3\"><b>肝・肺・骨・脳への転移、腹膜播種（P1）、腹腔洗浄細胞診陽性（CY1）</b></span><br/><span class=\"kw3\"><b>領域外のリンパ節——大動脈周囲（No.16）、Virchow（左鎖骨上）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ⅠA</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>T1N0 の早期癌</b></span>。</td></tr><tr><td>ｂ　ⅠB</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>T1N1 か T2N0</b></span>。</td></tr><tr><td>ｃ　Ⅱ</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>M0 で T・N の組み合わせが中間</b></span>。</td></tr><tr><td>ｄ　Ⅲ</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>M0 のまま、深くリンパ節転移の多いもの</b></span>。<span class=\"kw3\"><b>この症例は肝転移がある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Ⅳ</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>肝転移（M1）</b></span>。<span class=\"kw3\"><b>遠隔転移があればそれだけでⅣ</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：CT で見る肝の結節——転移と他の病変",
+       "c": "<span class=\"kw\"><b>① 転移</b></span><br/><span class=\"kw3\"><b>多発することが多い、縁が輪状に造影される（リング状濃染）、中心は壊死で低吸収</b></span><br/><span class=\"kw3\"><b>消化器癌は門脈を通って肝へ——胃・大腸の血行性転移の第一の行き先</b></span><br/><span class=\"kw\"><b>② 肝細胞癌</b></span><br/><span class=\"kw3\"><b>動脈相で濃く染まり、門脈相・平衡相で抜ける（ウォッシュアウト）</b></span><br/><span class=\"kw3\"><b>慢性肝炎・肝硬変が背景</b></span><br/><span class=\"kw\"><b>③ 肝血管腫</b></span><br/><span class=\"kw3\"><b>辺縁から結節状に染まり、時間とともに中へ広がって最後は全体が染まる</b></span><br/><span class=\"kw\"><b>④ 肝嚢胞</b></span><br/><span class=\"kw3\"><b>まったく造影されない、水と同じ濃度</b></span><br/><span class=\"kw\"><b>⑤ 肝膿瘍</b></span><br/><span class=\"kw3\"><b>リング状に染まり中は低吸収——転移に似る。発熱・炎症反応で見分ける</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">腹膜播種・肝転移・Virchow転移 = M1 = Stage IV</span><br>Stage IV：根治切除不能→化学療法が主体（一部の症例は減量手術を検討）。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌のTNM分類による進行度。<br/><b>a ⅠA／b ⅠB／c Ⅱ／d Ⅲ</b>：合わない。<br/><b>e Ⅳ</b>：<span class=\"kw\">遠隔転移を伴う進行度Ⅳ</span>。✓"
+       "c": "<span class=\"kw3\"><b>遠隔転移（肝・肺・骨・腹膜・大動脈周囲リンパ節）があればステージⅣ</b></span><br/><span class=\"kw3\"><b>CT の肝のリング状濃染の結節→転移</b></span><br/><span class=\"kw4\"><b>ステージⅣは切除より化学療法が主体</b></span>"
       }
      ],
      "imgs": [
@@ -17379,17 +17409,27 @@
       }
      ],
      "ans_label": "ｅ　ダンピング症候群",
-     "ans_sub": "胃切除後に食後数時間後の動悸→後期ダンピング症候群（急速な糖吸収→インスリン過剰→低血糖）。",
+     "ans_sub": "幽門側胃切除の半年後、食事量が増えてから、<b>食後 2〜3 時間</b>に気分不良・冷汗・動悸が出て 30〜40 分で消え、<b>間食をとると楽になる</b>——<b>後期ダンピング症候群</b>（食後の反応性低血糖）。糖が急に吸収されて血糖が跳ね上がり、遅れて出すぎたインスリンが血糖を下げる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍽️ ダンピング症候群（後期型）",
-       "c": "<span class=\"kw\">e後期ダンピング症候群（正答）</span>：<br>胃切除後→幽門機能消失→食物が急速に小腸へ→急速な糖吸収<br/>→ インスリン過剰分泌 → 低血糖 → 動悸・冷汗・脱力<br/>発症時期：食後1〜3時間<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a狭心症：食後に限らず動悸・胸痛（心電図変化）<br/>✗ b悪性貧血：内因子不足→B12欠乏→貧血（動悸は慢性的）<br/>✗ c心房細動：不整脈（心電図で確認）<br/>✗ d逆流性食道炎：胸やけが主体（動悸は主症状でない）</br>"
+       "h": "🌿 「食後の動悸」を時刻と食べ物の効き方で読む",
+       "c": "<span class=\"kw4\"><b>早期と後期のダンピングの区別と食事指導は Q.222、再建法ごとの違いと低血糖の手当ては Q.245——ここは選択肢の病気との見分け方と、低血糖をどう確かめるか</b></span>。<br/><span class=\"kw\"><b>① この症例の鍵</b></span><br/><span class=\"kw3\"><b>食後 2〜3 時間で出る——食べてすぐではない</b></span><br/><span class=\"kw3\"><b>30〜40 分で自然に消える</b></span><br/><span class=\"kw4\"><b>食べると治る——低血糖の決め手</b></span><br/><span class=\"kw3\"><b>食事量が増えた時期に始まる——糖が一度にたくさん流れ込む</b></span><br/><span class=\"kw\"><b>② 動悸の見分け</b></span><br/><span class=\"kw3\"><b>狭心症：運動で胸痛、安静で治る——食べて治ることはない</b></span><br/><span class=\"kw3\"><b>心房細動：脈が不整。この患者は整</b></span><br/><span class=\"kw3\"><b>胸やけがない——逆流性食道炎らしくない</b></span><br/><span class=\"kw3\"><b>悪性貧血：ビタミン B12 の貯えは数年もつ——半年では出ない、発作的でもない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　狭心症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>運動時の胸痛がない</b></span>。<span class=\"kw3\"><b>食べて治ることはない</b></span>。</td></tr><tr><td>ｂ　悪性貧血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃切除後の B12 欠乏は数年たってから</b></span>。<span class=\"kw3\"><b>発作的に出たり消えたりしない</b></span>。</td></tr><tr><td>ｃ　心房細動</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>脈は整</b></span>。<span class=\"kw3\"><b>食後の決まった時刻に出る理由がない</b></span>。</td></tr><tr><td>ｄ　逆流性食道炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食後の胸やけはないとはっきり書いてある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　ダンピング症候群</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>食後 2〜3 時間、間食で軽快——後期ダンピング（低血糖）</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃切除後の食後症状。<br/><b>a 狭心症／b 悪性貧血／c 心房細動／d 逆流性食道炎</b>：合わない。<br/><b>e ダンピング症候群</b>：<span class=\"kw\">急速な食物流入による症状</span>。✓"
+       "h": "🔍 別軸：低血糖を確かめる・インスリノーマと分ける",
+       "c": "<span class=\"kw\"><b>① 確かめ方</b></span><br/><span class=\"kw3\"><b>症状が出たときに血糖を測る（自己血糖測定）</b></span><br/><span class=\"kw3\"><b>持続血糖モニター（CGM）で、食後の急上昇とその後の急降下を記録</b></span><br/><span class=\"kw3\"><b>ブドウ糖負荷試験：30〜60 分で高い山、2〜3 時間で基準以下に落ちる</b></span><br/><span class=\"kw\"><b>② Whipple の三徴</b></span><br/><span class=\"kw3\"><b>低血糖の症状がある・そのとき血糖が低い・糖をとると治る</b></span><br/><span class=\"kw3\"><b>この症例は 3 つとも当てはまる</b></span><br/><span class=\"kw\"><b>③ インスリノーマとの違い</b></span><br/><span class=\"kw3\"><b>後期ダンピング：食後に起こる、空腹時は正常</b></span><br/><span class=\"kw4\"><b>インスリノーマ：空腹時（朝・運動のあと）に起こる。低血糖なのにインスリンが抑えられない——72 時間絶食試験</b></span><br/><span class=\"kw\"><b>④ 胃切除後の低血糖のもう一つ</b></span><br/><span class=\"kw3\"><b>食べる量が少なく、肝のグリコーゲンが少ない人の空腹時低血糖——アルコールで悪化</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>胃切除後、食後 2〜3 時間の動悸・冷汗、間食で軽快→後期ダンピング（低血糖）</b></span><br/><span class=\"kw3\"><b>食後に起こる低血糖＝ダンピング、空腹時の低血糖＝インスリノーマを考える</b></span><br/><span class=\"kw4\"><b>悪性貧血（B12 欠乏）は術後数年——半年では出ない</b></span>"
       }
      ],
      "imgs": []
@@ -17435,22 +17475,27 @@
       }
      ],
      "ans_label": "ａ　胃切除術",
-     "ans_sub": "GIST（固有筋層由来・3cm）は手術適応→胃局所切除術（腫瘍切除）。",
+     "ans_sub": "58 歳男性、2 か月の心窩部鈍痛、軽い貧血（Hb 11.5）。内視鏡では胃角〜前庭部に、<b>不整な浅い陥凹と白苔</b>があり、そこへ集まる<b>ひだの先が太まり・途切れて</b>いる。生検で腺癌、CT で転移なし。ひだの太まり・途絶は<b>粘膜下層より深い浸潤</b>や潰瘍を伴う病変を示し、内視鏡切除の適応外——<b>胃切除術</b>（＋リンパ節郭清）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 GIST（消化管間質腫瘍）の治療",
-       "c": "<span class=\"kw\">a胃切除術（局所切除）（正答）</span>：<br>3cm以上のGIST→手術適応<br/>→ 腫瘍辺縁に十分なマージンをとった局所切除<br/>→ リンパ節郭清は原則不要（GISTはリンパ節転移が稀）<br/><br/><span class=\"kw\">GIST（GI間質腫瘍）の特徴</span>：<br/>・CD117（c-kit）陽性<br/>・固有筋層（Cajal様細胞）に発生<br/>・胃に最多（60%）、次いで小腸（25%）<br/>・切除不能→イマチニブ（分子標的薬）</br>"
+       "h": "🌿 内視鏡切除か外科切除か——この像で外科に回る理由",
+       "c": "<span class=\"kw4\"><b>ESD の適応の全体は Q.220、深い浸潤を示す所見の一覧は Q.228——ここはこの像の読みと、手技の違い</b></span>。<br/><span class=\"kw\"><b>① この像</b></span><br/><span class=\"kw3\"><b>胃角の近くに、白苔をのせた不整な陥凹</b></span><br/><span class=\"kw3\"><b>まわりからひだが集まる</b></span><br/><span class=\"kw4\"><b>ひだの先が棍棒のように太まり、融け合う・急に途切れる——癌が粘膜下層より深く入っているサイン</b></span><br/><span class=\"kw\"><b>② だから</b></span><br/><span class=\"kw3\"><b>リンパ節転移の危険が無視できない——粘膜だけを取る内視鏡治療では足りない</b></span><br/><span class=\"kw3\"><b>CT で遠隔転移なし→胃切除＋リンパ節郭清で根治を目指す</b></span><br/><span class=\"kw\"><b>③ 貧血と痛み</b></span><br/><span class=\"kw3\"><b>陥凹面からのじわじわした出血、潰瘍の痛み——食事と関係しない鈍痛</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胃切除術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>転移のない胃癌で、内視鏡切除の適応を外れる</b></span>。<span class=\"kw3\"><b>リンパ節郭清を伴う胃切除</b></span>。</td></tr><tr><td>ｂ　放射線治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃癌は放射線が効きにくい</b></span>。<span class=\"kw3\"><b>出血や痛みを和らげる目的に限る</b></span>。</td></tr><tr><td>ｃ　レーザー焼灼術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>病変を焼くだけで組織が残らず、取り切れたか確かめられない</b></span>。<span class=\"kw3\"><b>胃癌の標準治療ではない</b></span>。</td></tr><tr><td>ｄ　ホルモン補充療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃癌には関係しない</b></span>。</td></tr><tr><td>ｅ　内視鏡的粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>深く浸潤した癌には適応外</b></span>。<span class=\"kw3\"><b>EMR は一度に取れる大きさも限られる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：EMR と ESD、そして早期胃癌の手術",
+       "c": "<span class=\"kw\"><b>① EMR（内視鏡的粘膜切除術）</b></span><br/><span class=\"kw3\"><b>粘膜の下に液を入れて持ち上げ、スネア（輪）をかけて焼き切る</b></span><br/><span class=\"kw3\"><b>一度に取れるのは 2cm 程度まで——大きいと分割になり、取り残しの評価ができない</b></span><br/><span class=\"kw\"><b>② ESD（内視鏡的粘膜下層剝離術）</b></span><br/><span class=\"kw3\"><b>まわりを切り、粘膜下層を電気メスで少しずつはがす</b></span><br/><span class=\"kw3\"><b>大きな病変や潰瘍の瘢痕があっても一括で取れる——いまの主流</b></span><br/><span class=\"kw3\"><b>欠点：時間がかかる、穿孔・出血がやや多い</b></span><br/><span class=\"kw\"><b>③ 取ったあと</b></span><br/><span class=\"kw3\"><b>切除標本の深さ・脈管侵襲・断端で治癒したかを判定し、足りなければ追加の外科切除</b></span><br/><span class=\"kw\"><b>④ 早期胃癌の手術</b></span><br/><span class=\"kw3\"><b>郭清は D1 または D1+（進行癌は D2）</b></span><br/><span class=\"kw3\"><b>腹腔鏡下の手術が多い</b></span><br/><span class=\"kw3\"><b>機能を残す術式（幽門保存胃切除・噴門側胃切除）も選べる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GIST診断：超音波内視鏡で固有筋層由来の低エコー腫瘍</span><br/><span class=\"kw\">GIST治療：手術（局所切除）＋切除不能はイマチニブ</span>（CD117陽性が特徴）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "腺癌・転移なしの胃癌。<br/><b>b 放射線／c レーザー焼灼／d ホルモン補充／e EMR</b>：第一でない。<br/><b>a 胃切除術</b>：<span class=\"kw\">外科的切除が根治治療</span>。✓"
+       "c": "<span class=\"kw3\"><b>ひだの先の太まり・融合・途絶→粘膜下層深くへの浸潤→外科切除</b></span><br/><span class=\"kw3\"><b>転移のない胃癌で内視鏡切除の適応外→胃切除＋郭清</b></span><br/><span class=\"kw4\"><b>レーザー焼灼・放射線は胃癌の根治治療ではない</b></span>"
       }
      ],
      "imgs": [
