@@ -87,8 +87,9 @@ body { font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;back
 }
 .hub-main { max-width:var(--hub-max);margin:0 auto;padding:19px var(--sp-4) var(--sp-7); }
 @media (min-width:721px) {
-  .hub-header { padding-top:3px;padding-bottom:3px; }
-  .hub-main { padding-top:15px; }
+  .hub-header { padding-top:1px;padding-bottom:1px; }
+  .hub-icon { width:26px;height:26px; }
+  .hub-main { padding-top:12px; }
 }
 .hero {
   position:relative;isolation:isolate;overflow:hidden;
