@@ -10189,22 +10189,27 @@
       }
      ],
      "ans_label": "ａ　クリッピング",
-     "ans_sub": "Mallory-Weiss症候群の活動性出血に対しては、内視鏡的クリッピングで出血点を把持・止血する。",
+     "ans_sub": "大量の飲酒の後、胃液を何度か吐いてから新鮮血を吐いた23歳——Mallory-Weiss 症候群。内視鏡では食道胃接合部に縦に走る裂創があり、底に凝血が付き、その周りから出血がにじんでいる。来院後も吐血が続いており、内視鏡で止血する——裂創の出血点を<b>クリップで挟む</b>のが第一選択。硬化療法は静脈瘤の治療、粘膜切除術は早期癌の切除、ステント留置は狭窄や穿孔の治療、Hassab 手術は胃静脈瘤に対する血行遮断と脾摘。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔧 Mallory-Weiss症候群の内視鏡的止血",
-       "c": "<span class=\"kw\">a クリッピング（正答）</span>：<br>・金属クリップで裂傷部の出血点を直接把持・止血<br/>・Mallory-Weiss症候群の活動性出血に最も適した方法<br/>・80%以上は自然止血するが、活動性出血には内視鏡的止血が有効<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b硬化療法（EIS）：静脈瘤に使用（粘膜裂傷には不適）<br/>✗ c粘膜切除（EMR）：早期癌切除<br/>✗ dステント留置：狭窄・癌向け<br/>✗ eHassab手術：食道離断術（門脈圧亢進症の静脈瘤に対する外科手術）</br>"
+       "h": "🌿 Mallory-Weiss の出血——止まるのを待つか、止めるか",
+       "c": "<span class=\"kw3\"><b>内視鏡像と鑑別は Q.105、裂ける深さの比較は Q.127、検査の使い分けは Q.143 で見た</b></span>。<span class=\"kw4\"><b>ここでは、内視鏡でどの裂創を止め、何を使うかを考える</b></span>。<br/><span class=\"kw\"><b>① 自然経過</b></span><br/><span class=\"kw3\"><b>8〜9割は自然に止まり、裂創は数日で治る</b></span><br/><span class=\"kw\"><b>② 内視鏡で止血するもの</b></span><br/><span class=\"kw4\"><b>内視鏡のときに出血が続いている（湧き出る・噴き出す）、露出血管がある</b></span><br/><span class=\"kw3\"><b>凝血だけで出血が止まっていれば、処置せず PPI で様子を見ることが多い</b></span><br/><span class=\"kw\"><b>③ 方法</b></span><br/><span class=\"kw3\"><b>クリッピング：裂創を縫い寄せるように挟んで止める——第一選択</b></span><br/><span class=\"kw3\"><b>エピネフリンを加えた高張食塩水の局注、EVL（裂創をゴムバンドで縛る）</b></span><br/><span class=\"kw3\"><b>熱凝固は、壁の薄い食道では穿孔の危険があり控えめに</b></span><br/><span class=\"kw\"><b>④ 止まりにくい人</b></span><br/><span class=\"kw4\"><b>肝硬変（門脈圧亢進・凝固障害・血小板減少）、抗凝固薬・抗血小板薬、食道裂孔ヘルニア</b></span><br/><span class=\"kw3\"><b>食道静脈瘤があると裂創から大出血することがある</b></span><br/><span class=\"kw\"><b>⑤ その後</b></span><br/><span class=\"kw3\"><b>PPI、制吐薬で嘔吐を止める、絶食から再開</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　クリッピング</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>裂創の出血点を挟み、縫い寄せて止める</b></span>。</td></tr><tr><td>ｂ　硬化療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>静脈瘤に硬化剤を注入する方法——裂創は静脈瘤ではない</b></span>。</td></tr><tr><td>ｃ　粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期癌・腺腫を切り取る方法</b></span>。</td></tr><tr><td>ｄ　ステント留置</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の悪性狭窄や穿孔・瘻孔をふさぐ</b></span>。<span class=\"kw2\"><b>食道静脈瘤の止まらない出血に、圧迫用の特殊なステントを使うことはある</b></span>。</td></tr><tr><td>ｅ　Hassab 手術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃静脈瘤に対する手術（胃上部の血行遮断＋脾摘）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 急性アルコール中毒——若者の飲み会で起こること",
+       "c": "<span class=\"kw4\"><b>本例は日本酒5合以上で記憶がない——急性アルコール中毒の一歩手前</b></span>。<br/><span class=\"kw\"><b>① 血中濃度と症状（目安）</b></span><br/><span class=\"kw3\"><b>0.05〜0.1％：陽気、判断力の低下</b></span><br/><span class=\"kw3\"><b>0.1〜0.3％：ふらつき、嘔吐、記憶がとぶ（ブラックアウト）</b></span><br/><span class=\"kw4\"><b>0.3〜0.4％：昏睡、0.4％以上：呼吸抑制で死亡しうる</b></span><br/><span class=\"kw\"><b>② 危ないこと</b></span><br/><span class=\"kw4\"><b>吐物の誤嚥・窒息——横向き（回復体位）に寝かせる、一人にしない</b></span><br/><span class=\"kw3\"><b>低血糖（肝臓での糖新生が抑えられる）、低体温、転倒・頭部外傷</b></span><br/><span class=\"kw3\"><b>嘔吐による Mallory-Weiss 症候群・特発性食道破裂</b></span><br/><span class=\"kw\"><b>③ 医療機関での対応</b></span><br/><span class=\"kw3\"><b>呼吸・意識の確認、血糖測定、外傷・ほかの中毒（薬物）の否定、輸液</b></span><br/><span class=\"kw3\"><b>意識障害を「酔っているだけ」と決めつけない——頭部外傷・低血糖・ほかの薬を考える</b></span><br/><span class=\"kw\"><b>④ 予防</b></span><br/><span class=\"kw3\"><b>一気飲み・飲酒の強要（アルコールハラスメント）をしない</b></span><br/><span class=\"kw3\"><b>お酒で赤くなる人（ALDH2 の働きが弱い：Q.149）は特に危ない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Mallory-Weiss出血 → 内視鏡的クリッピングが第一選択</span><br/>多くは自然止血（80%）→ 活動性出血のみ内視鏡治療。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道の出血病変（Mallory-Weiss等）の内視鏡治療。<br/><b>b 硬化療法／c 粘膜切除／d ステント／e Hassab手術</b>：本病変に不適。<br/><b>a クリッピング</b>：<span class=\"kw\">裂創部の露出血管をクリップで止血</span>。✓"
+       "c": "<span class=\"kw4\"><b>Mallory-Weiss の出血が続いていれば内視鏡でクリッピング</b></span>。<br/><span class=\"kw3\"><b>8〜9割は自然に止まる。凝血だけなら PPI で経過観察</b></span>。<br/><span class=\"kw3\"><b>止まりにくい：肝硬変・抗凝固薬・抗血小板薬</b></span>。<br/><span class=\"kw3\"><b>硬化療法は静脈瘤、Hassab 手術は胃静脈瘤の治療</b></span>。<br/><span class=\"kw4\"><b>急性アルコール中毒：誤嚥・低血糖・低体温・外傷に注意、回復体位で一人にしない</b></span>。"
       }
      ],
      "imgs": [
@@ -10248,22 +10253,27 @@
       }
      ],
      "ans_label": "ｄ　左腎静脈",
-     "ans_sub": "BRTOは左腎静脈→脾腎短絡路（胃腎静脈短絡）→胃静脈瘤に逆行性にカテーテルを挿入して塞栓する。",
+     "ans_sub": "BRTO は、胃静脈瘤（主に穹窿部の Lg-f）の血液の出口である<b>胃腎シャント</b>を、カテーテルで逆向きにたどって治療する。大腿静脈（または内頸静脈）から下大静脈へ進み、<b>左腎静脈</b>からシャントへ入れてバルーンで血流を止め、硬化剤を静脈瘤の中へ逆行性に注入してとどめる。奇静脈は食道静脈瘤の出口だが胃腎シャントにはつながらない。脾静脈・左胃静脈・下腸間膜静脈は門脈系の静脈で、体の静脈から直接は入れない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔧 BRTO（バルーン閉塞下逆行性経静脈塞栓術）",
-       "c": "<span class=\"kw\">BRTO（Balloon-occluded Retrograde Transvenous Obliteration）</span>：<br/>・<span class=\"kw\">左腎静脈（正答d）</span>からカテーテルを挿入<br/>・脾腎静脈短絡（胃腎短絡路）を経由して逆行性に胃静脈瘤に到達<br/>・バルーンで短絡路を閉塞 → 硬化剤（エタノールアミンオレイン酸）を注入 → 静脈瘤塞栓<br/><br/><span class=\"kw\">主な対象</span>：胃底部静脈瘤（Lg-f型）→EVL/EISより治療困難<br/><br/><span class=\"kw4\">なぜ左腎静脈か</span>：胃静脈瘤の血流は門脈→胃静脈→脾腎短絡→<span class=\"kw\">左腎静脈</span>→下大静脈の経路で体循環に合流"
+       "h": "🌿 BRTO のカテーテルの道筋——出口から逆にたどる",
+       "c": "<span class=\"kw3\"><b>胃静脈瘤の分類と治療の選び方は Q.132、BRTO の後に門脈圧が上がることも Q.132 で見た</b></span>。<span class=\"kw4\"><b>ここでは、カテーテルが通る血管を順にたどる</b></span>。<br/><span class=\"kw\"><b>① 胃静脈瘤の流れ（穹窿部の Lg-f）</b></span><br/><span class=\"kw3\"><b>入口：門脈 → 脾静脈 → 後胃静脈・短胃静脈 → 胃静脈瘤</b></span><br/><span class=\"kw3\"><b>出口：胃静脈瘤 → 胃腎シャント（左下横隔静脈・左副腎静脈の経路）→ 左腎静脈 → 下大静脈</b></span><br/><span class=\"kw\"><b>② カテーテルの道筋</b></span><br/><span class=\"kw4\"><b>大腿静脈（または右内頸静脈）→ 下大静脈 → 左腎静脈 → 胃腎シャント → 静脈瘤の近く</b></span><br/><span class=\"kw3\"><b>出口から流れに逆らって入るので「逆行性」</b></span><br/><span class=\"kw\"><b>③ バルーンを膨らませる理由</b></span><br/><span class=\"kw4\"><b>シャントの血流を止め、硬化剤が下大静脈・肺へ流れ去らず、静脈瘤の中にとどまる</b></span><br/><span class=\"kw3\"><b>硬化剤：5％エタノールアミンオレイン酸を造影剤と混ぜ、透視で広がりを見ながら注入</b></span><br/><span class=\"kw\"><b>④ 前提</b></span><br/><span class=\"kw3\"><b>胃腎シャントがあること——術前の造影 CT で確かめる</b></span><br/><span class=\"kw3\"><b>シャントがなければ BRTO はできない——内視鏡でのシアノアクリレート注入など</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　奇静脈</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道静脈瘤の血液が流れ出る先（上大静脈へ）</b></span>。<span class=\"kw3\"><b>胃腎シャントにはつながらない</b></span>。</td></tr><tr><td>ｂ　脾静脈</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>門脈系——静脈瘤の入口側</b></span>。<span class=\"kw3\"><b>体の静脈から直接は入れない</b></span>。</td></tr><tr><td>ｃ　左胃静脈</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>門脈系で、食道静脈瘤・噴門部静脈瘤の入口</b></span>。<span class=\"kw2\"><b>経皮経肝的に門脈から入る方法（PTO）なら左胃静脈を塞栓できる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　左腎静脈</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃腎シャントの出口——下大静脈から入ってシャントへ進む</b></span>。</td></tr><tr><td>ｅ　下腸間膜静脈</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>門脈系——直腸・S 状結腸からの血液を脾静脈へ運ぶ</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃静脈瘤に対するBRTOでバルーンカテーテルを挿入する血管。a 奇静脈：食道静脈瘤の流出路だが穿刺経路にはならない。b 脾静脈：門脈系で経静脈的に到達できない。c 左胃静脈：食道静脈瘤の供血路。e 下腸間膜静脈：門脈系。d 左腎静脈：大腿静脈→下大静脈→左腎静脈から胃腎短絡路へ進め、バルーンで血流を止めて逆行性に硬化剤を注入する。✓"
+       "h": "🔍 左腎静脈——長くて、いろいろな静脈が流れ込む",
+       "c": "<span class=\"kw4\"><b>左腎静脈は右より長く、大動脈の前を横切って下大静脈に入る——途中で多くの静脈を受け取る</b></span>。<br/><span class=\"kw\"><b>① 流れ込む静脈</b></span><br/><span class=\"kw3\"><b>左精巣（卵巣）静脈、左副腎静脈、左下横隔静脈</b></span><br/><span class=\"kw3\"><b>右の精巣静脈・副腎静脈は下大静脈に直接入る——左右で違う</b></span><br/><span class=\"kw\"><b>② 胃腎シャントができる理由</b></span><br/><span class=\"kw3\"><b>門脈圧が上がると、胃の静脈と左副腎・左下横隔静脈の間の細い交通が太くなり、左腎静脈へ抜ける近道になる</b></span><br/><span class=\"kw\"><b>③ ナットクラッカー現象</b></span><br/><span class=\"kw4\"><b>左腎静脈が大動脈と上腸間膜動脈の間で挟まれ、腎のうっ血が起こる</b></span><br/><span class=\"kw3\"><b>やせた若い人に多く、血尿（肉眼的）・左の腰痛</b></span><br/><span class=\"kw3\"><b>左精巣静脈へ逆流すると左の精索静脈瘤</b></span><br/><span class=\"kw\"><b>④ 左の精索静脈瘤</b></span><br/><span class=\"kw3\"><b>左精巣静脈は左腎静脈へ直角に入り、逆流しやすい——精索静脈瘤は左に多い</b></span><br/><span class=\"kw4\"><b>高齢者で急に右の精索静脈瘤や、左でも横になって消えないものは、腎癌の腫瘍塞栓を疑う</b></span>"
       },
       {
-       "cls": "em",
-       "h": "💡 覚え方",
-       "c": "BRTO：<span class=\"kw\">左腎静脈から逆に上る（Retrograde）</span>→胃底部静脈瘤を塞栓<br/>食道静脈瘤→EVL/EIS（内視鏡）、胃底部→BRTO（経静脈）"
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>BRTO：大腿静脈 → 下大静脈 → 左腎静脈 → 胃腎シャントへ。バルーンで流れを止め、硬化剤を逆行性に注入</b></span>。<br/><span class=\"kw3\"><b>対象は胃腎シャントを持つ穹窿部の胃静脈瘤（Lg-f）</b></span>。<br/><span class=\"kw3\"><b>脾静脈・左胃静脈・下腸間膜静脈は門脈系、奇静脈は食道静脈瘤の出口</b></span>。<br/><span class=\"kw3\"><b>左腎静脈には左精巣（卵巣）静脈・左副腎静脈・左下横隔静脈が流れ込む</b></span>。<br/><span class=\"kw3\"><b>ナットクラッカー現象：大動脈と上腸間膜動脈で左腎静脈が挟まれ血尿</b></span>。"
       }
      ],
      "imgs": []
@@ -10305,22 +10315,27 @@
       }
      ],
      "ans_label": "ｂ　逆流性食道炎",
-     "ans_sub": "逆流性食道炎（GERD）はH.pylori感染とは無関係であり、除菌の適応にならない。",
+     "ans_sub": "H. pylori の除菌の適応は、胃潰瘍・十二指腸潰瘍、特発性血小板減少性紫斑病〈ITP〉、胃 MALT リンパ腫、早期胃癌の内視鏡治療後、H. pylori 感染胃炎。<b>逆流性食道炎</b>は胃酸が食道へ逆流して起こる病気で、H. pylori が原因ではなく、除菌の適応ではない（除菌の後にかえって出てくることもある）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 H.pylori除菌の適応・非適応",
-       "c": "<table class=\"tb\"><tr><th>疾患</th><th>除菌適応</th></tr><tr><td>疾患</td><td>除菌適応</td></tr><tr><td><span class=\"kw\">胃潰瘍（a）</span></td><td><span class=\"kw\">適応</span></td></tr><tr><td><span class=\"kw4\">逆流性食道炎（b）</span></td><td><span class=\"kw4\">非適応（正答）</span>：GERDのメカニズムにHpは関与しない</td></tr><tr><td><span class=\"kw\">十二指腸潰瘍（c）</span></td><td><span class=\"kw\">適応</span></td></tr><tr><td><span class=\"kw\">特発性血小板減少性紫斑病ITP（d）</span></td><td><span class=\"kw\">適応</span>：除菌で血小板↑することあり</td></tr><tr><td><span class=\"kw\">胃MALTリンパ腫（e）</span></td><td><span class=\"kw\">適応</span>：80〜90%が除菌単独で寛解</td></tr></table>"
+       "h": "🌿 逆流性食道炎の治療——酸を抑える・逆流を減らす",
+       "c": "<span class=\"kw3\"><b>除菌の適応の一覧は Q.129、H. pylori と逆流性食道炎の逆の関係は Q.145 で見た</b></span>。<span class=\"kw4\"><b>ここでは、逆流性食道炎そのものの治療を考える</b></span>。<br/><span class=\"kw\"><b>① しくみ</b></span><br/><span class=\"kw3\"><b>下部食道括約筋が一時的に緩む、食道裂孔ヘルニア、腹圧の上昇（肥満・前かがみ）、胃の排出の遅れ</b></span><br/><span class=\"kw\"><b>② 生活の工夫</b></span><br/><span class=\"kw3\"><b>減量、食べてすぐ横にならない（就寝の2〜3時間前までに食べ終える）、寝るときに上半身を高くする</b></span><br/><span class=\"kw3\"><b>脂っこい食事・アルコール・喫煙を控える</b></span><br/><span class=\"kw\"><b>③ 薬</b></span><br/><span class=\"kw4\"><b>PPI またはボノプラザン——第一選択。食道炎を治す（8週）</b></span><br/><span class=\"kw3\"><b>重い食道炎（LA 分類 C・D）にはボノプラザンが勧められる</b></span><br/><span class=\"kw3\"><b>治った後：症状が出たときだけ飲む（オンデマンド）、または少量で維持</b></span><br/><span class=\"kw3\"><b>補助：アルギン酸塩、運動機能改善薬</b></span><br/><span class=\"kw\"><b>④ 薬で治らない・やめられない人</b></span><br/><span class=\"kw3\"><b>腹腔鏡下噴門形成術（Nissen 法など）、内視鏡治療</b></span><br/><span class=\"kw\"><b>⑤ 長く続くと</b></span><br/><span class=\"kw3\"><b>食道の狭窄、Barrett 食道（食道腺癌の素地）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃潰瘍</td><td><span class=\"kw4\">誤り</span>（適応である）。<span class=\"kw3\"><b>除菌で再発がほぼなくなる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　逆流性食道炎</span></td><td><span class=\"kw3\">これが「適応でない」（＝正解）</span>。<span class=\"kw3\"><b>H. pylori が原因ではない——治療は PPI・ボノプラザン</b></span>。</td></tr><tr><td>ｃ　十二指腸潰瘍</td><td><span class=\"kw4\">誤り</span>（適応である）。<span class=\"kw3\"><b>多くは H. pylori が原因</b></span>。</td></tr><tr><td>ｄ　特発性血小板減少性紫斑病〈ITP〉</td><td><span class=\"kw4\">誤り</span>（適応である）。<span class=\"kw3\"><b>除菌で血小板が増える人がいる</b></span>。</td></tr><tr><td>ｅ　胃MALT〈粘膜関連リンパ組織〉リンパ腫</td><td><span class=\"kw4\">誤り</span>（適応である）。<span class=\"kw3\"><b>除菌だけで寛解することが多い</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 ITP と H. pylori——血液の病気をなぜ除菌で治すのか",
+       "c": "<span class=\"kw4\"><b>ITP は血小板に対する自己抗体で血小板が壊される病気——H. pylori 陽性の ITP の一部は、除菌だけで血小板が増える</b></span>。<br/><span class=\"kw\"><b>① 考えられているしくみ</b></span><br/><span class=\"kw3\"><b>H. pylori の成分（CagA など）に対する抗体が、血小板の表面の蛋白にも反応する（分子相同性）</b></span><br/><span class=\"kw3\"><b>感染による免疫のかたよりが除菌で戻る</b></span><br/><span class=\"kw\"><b>② 効果</b></span><br/><span class=\"kw4\"><b>日本の H. pylori 陽性の ITP では、除菌に成功した人の半数前後で血小板が増える</b></span><br/><span class=\"kw3\"><b>地域差が大きく、欧米では効果が小さい</b></span><br/><span class=\"kw\"><b>③ 実際の流れ</b></span><br/><span class=\"kw3\"><b>ITP と診断したら、まず H. pylori を調べる</b></span><br/><span class=\"kw3\"><b>陽性なら除菌——ステロイドなどより先に試せる、副作用の少ない治療</b></span><br/><span class=\"kw3\"><b>効果がなければ、ステロイド、トロンボポエチン受容体作動薬、脾摘など</b></span><br/><span class=\"kw\"><b>④ 注意</b></span><br/><span class=\"kw3\"><b>血小板がとても少なく出血している人では、除菌の効果を待たずに治療する</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">H.pylori除菌非適応：逆流性食道炎（GERD）</span><br/>GERDはLES（下部食道括約筋）機能不全が主原因→PPI・H₂ブロッカー・生活習慣改善が治療。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "Helicobacter pylori除菌治療の「適応でない」もの。<br/><b>a 胃潰瘍／c 十二指腸潰瘍／d ITP／e 胃MALTリンパ腫</b>：除菌の適応。<br/><b>b 逆流性食道炎</b>：<span class=\"kw\">GERDは除菌の適応でない（むしろ除菌で悪化しうる）</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw4\"><b>逆流性食道炎は除菌の適応ではない（H. pylori が原因ではない）</b></span>。<br/><span class=\"kw3\"><b>逆流性食道炎の治療：生活の工夫＋PPI・ボノプラザン。重症（LA 分類 C・D）はボノプラザン</b></span>。<br/><span class=\"kw3\"><b>薬でだめなら腹腔鏡下噴門形成術（Nissen 法）</b></span>。<br/><span class=\"kw4\"><b>ITP は H. pylori を調べ、陽性なら除菌——半数前後で血小板が増える</b></span>。<br/><span class=\"kw3\"><b>除菌の適応：潰瘍・ITP・MALT リンパ腫・早期胃癌の内視鏡治療後・感染胃炎</b></span>。"
       }
      ],
      "imgs": []
@@ -10366,22 +10381,27 @@
       }
      ],
      "ans_label": "ｂ　冷　汗",
-     "ans_sub": "心筋梗塞（特に下壁梗塞）は迷走神経反射により冷汗・嘔気・心窩部痛が起こる。冷汗は交感神経興奮の所見。",
+     "ans_sub": "半年前から続く心窩部痛は、それだけでは急ぐ理由にならない。今朝から加わった<b>冷汗</b>は、交感神経が強く働いているしるしで、ショック（出血・穿孔）や急性心筋梗塞など、命に関わる病態を示す。嘔気は多くの病気で見られ特異性が低い。変形性膝関節症と複数の市販薬（鎮痛薬）は NSAIDs 潰瘍の素地を示す情報だが、それ自体が今の緊急性を示すものではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🫀 心筋梗塞の非典型症状",
-       "c": "<span class=\"kw\">b冷汗（正答）</span>：<br>心筋梗塞 → 交感神経亢進 → 発汗（冷汗）・頻脈<br>下壁梗塞（右冠動脈支配）→ 迷走神経反射 → 嘔気・嘔吐・心窩部痛<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a嘔気：消化管疾患でも起こる→非特異的<br/>✗ c心窩部痛：消化性潰瘍・胆石でも起こる→非特異的<br/>✗ d変形性膝関節症：NSAIDs服用歴として関連するが心筋梗塞示唆しない<br/>✗ e複数の市販薬服用：NSAIDs潰瘍のリスク（消化管疾患を示唆）</br></br>"
+       "h": "🌿 心窩部痛の「危ないサイン」——消化器の外にも目を向ける",
+       "c": "<span class=\"kw4\"><b>心窩部痛の多くは胃の病気だが、急いで見つけなければならない病気が消化器の外にもある</b></span>。<br/><span class=\"kw\"><b>① 危ないサイン</b></span><br/><span class=\"kw4\"><b>冷汗・顔面蒼白・意識の変化・血圧低下・頻脈——ショックや重い病気</b></span><br/><span class=\"kw3\"><b>突然の発症、これまでにない強さ、痛みが背中へ抜ける、腹膜刺激症状</b></span><br/><span class=\"kw\"><b>② 見逃してはいけない病気</b></span><br/><span class=\"kw4\"><b>急性心筋梗塞（特に下壁）：心窩部痛・嘔気・冷汗だけのことがある</b></span><br/><span class=\"kw3\"><b>消化性潰瘍の穿孔・出血（NSAIDs を飲む高齢者）</b></span><br/><span class=\"kw3\"><b>大動脈解離・腹部大動脈瘤の破裂</b></span><br/><span class=\"kw3\"><b>急性膵炎、急性胆嚢炎・胆管炎、上腸間膜動脈閉塞症</b></span><br/><span class=\"kw\"><b>③ 本例でまずすること</b></span><br/><span class=\"kw3\"><b>バイタルサイン、心電図（来院から10分以内）、トロポニン</b></span><br/><span class=\"kw3\"><b>腹部の診察（腹膜刺激症状）、直腸指診（黒色便）、採血（Hb）</b></span><br/><span class=\"kw\"><b>④ 高齢者・糖尿病・女性</b></span><br/><span class=\"kw3\"><b>胸痛のない心筋梗塞が多い——心窩部痛＋冷汗なら必ず心電図</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　嘔　気</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃腸炎から心筋梗塞まで多くの病気で見られ、緊急性の目安になりにくい</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　冷　汗</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>交感神経の強い興奮——ショック・心筋梗塞を示す</b></span>。</td></tr><tr><td>ｃ　心窩部痛</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>半年前から繰り返しており、それだけでは急ぐ理由にならない</b></span>。</td></tr><tr><td>ｄ　変形性膝関節症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>鎮痛薬を飲む理由として大切だが、緊急性は示さない</b></span>。</td></tr><tr><td>ｅ　複数の市販薬の服用</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>NSAIDs 潰瘍の危険を示す情報で、確かめておくべきだが、今の緊急性そのものではない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "心窩部痛の患者で緊急性を示唆する病歴情報。a 嘔気：消化器疾患でも広くみられ特異性が低い。c 心窩部痛：半年前から反復しており今回の緊急性を示さない。d 変形性膝関節症：既往であり緊急性と直結しない。e 複数の市販薬の服用：NSAIDs潰瘍のリスクだが緊急性そのものではない。b 冷汗：交感神経の急激な亢進を示す所見で、心筋梗塞など重篤な病態を示唆する。✓"
+       "h": "🔍 下壁梗塞はなぜ「胃の痛み」に見えるのか",
+       "c": "<span class=\"kw4\"><b>心臓の下壁は横隔膜に接し、心臓と上腹部の感覚は同じ高さの脊髄に入る——痛みが心窩部に感じられる</b></span>。<br/><span class=\"kw\"><b>① 関連痛</b></span><br/><span class=\"kw3\"><b>心臓の感覚神経は第1〜5胸髄に入り、同じ高さの皮膚の範囲（胸・腕・心窩部）に痛みを感じる</b></span><br/><span class=\"kw\"><b>② 迷走神経の反射</b></span><br/><span class=\"kw4\"><b>下壁の梗塞では迷走神経の反射（Bezold-Jarisch 反射）で嘔気・嘔吐・徐脈・低血圧が起こりやすい——「胃腸の病気」に見える</b></span><br/><span class=\"kw3\"><b>下壁を養う右冠動脈は洞結節・房室結節も養うことが多く、徐脈・房室ブロックを伴う</b></span><br/><span class=\"kw\"><b>③ 心電図</b></span><br/><span class=\"kw3\"><b>Ⅱ・Ⅲ・aVF の ST 上昇</b></span><br/><span class=\"kw4\"><b>右室梗塞を合併することがある（V<sub>4</sub>R の ST 上昇）——硝酸薬で血圧が急に下がるので注意、輸液で前負荷を保つ</b></span><br/><span class=\"kw\"><b>④ 冷汗の意味</b></span><br/><span class=\"kw3\"><b>痛みや血圧低下に対する交感神経の興奮で、汗腺（交感神経のコリン作動性）が働く</b></span><br/><span class=\"kw3\"><b>皮膚の血管が締まって冷たい——「冷たい汗」</b></span>"
       },
       {
-       "cls": "em",
-       "h": "💡 高齢者・糖尿病患者の非典型的心筋梗塞",
-       "c": "<span class=\"kw\">Silent MI（無痛性心筋梗塞）</span>：高齢者・糖尿病患者に多い<br/>胸痛なし→冷汗・嘔気・心窩部痛・失神のみで発症<br/>→ 心筋梗塞を常に鑑別に入れる"
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>心窩部痛＋冷汗 → 緊急性が高い。心電図（10分以内）とトロポニン</b></span>。<br/><span class=\"kw3\"><b>見逃さない：下壁梗塞・潰瘍の穿孔/出血・大動脈解離・膵炎・上腸間膜動脈閉塞症</b></span>。<br/><span class=\"kw3\"><b>下壁梗塞：心窩部痛・嘔気・徐脈・低血圧、Ⅱ・Ⅲ・aVF の ST 上昇</b></span>。<br/><span class=\"kw3\"><b>右室梗塞では硝酸薬を避け輸液</b></span>。<br/><span class=\"kw3\"><b>高齢者・糖尿病・女性は胸痛のない心筋梗塞が多い</b></span>。"
       }
      ],
      "imgs": []
@@ -10423,17 +10443,27 @@
       }
      ],
      "ans_label": "ｄ　上部消化管内視鏡検査",
-     "ans_sub": "肝硬変患者の大量吐血→食道静脈瘤破裂が最有力。緊急上部消化管内視鏡で診断＋内視鏡的止血。",
+     "ans_sub": "肝硬変（血小板7.2万、アルブミン2.9、腹部の膨隆＝腹水）の患者の大量の吐血——<b>食道・胃静脈瘤の破裂</b>を最も疑う。BUN 45 と Cr 1.4 の比が大きいのは、上部消化管の出血で血液の蛋白が吸収されたため。血管を確保して輸液を始めたら、<b>緊急の上部消化管内視鏡検査</b>で出血源を確かめ、EVL などで止血する。抗菌薬の投与も肝硬変の消化管出血では勧められる大切な治療だが、まず行うのは止血。腹腔穿刺は腹水の診断・治療、Ca 拮抗薬は門脈圧を下げず血圧を下げるので不適、トロンビンは内服（または内視鏡で散布）する薬で静注すると全身の血管内で血液が固まり危険——禁忌。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 肝硬変＋大量吐血の対応",
-       "c": "<span class=\"kw\">d上部消化管内視鏡（正答）</span>：<br>・肝硬変→門脈圧亢進→食道・胃静脈瘤形成→破裂→大量吐血<br>・緊急内視鏡：出血源同定（静脈瘤 or 潰瘍 or AGML）＋EVL/EIS<br>・ただし輸液で循環動態安定後に内視鏡（ショック状態では輸液先行）<br><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a腹腔穿刺：腹水処置（出血対応ではない）<br/>✗ b抗菌薬点滴：肝硬変患者のSBP予防に有用だが止血が優先<br/>✗ cCa拮抗薬静注：不整脈・高血圧に使用（出血止血に無効）<br/>✗ eトロンビン末溶解液静注：全身的な止血効果は限定的（局所投与の方が有効）</br></br></br></br>"
+       "h": "🌿 肝硬変の人の消化管出血——止血の周りで気をつけること",
+       "c": "<span class=\"kw3\"><b>静脈瘤破裂の初期治療は Q.94、Child-Pugh 分類は Q.115 で見た</b></span>。<span class=\"kw4\"><b>ここでは、肝硬変だからこそ気をつける点を並べる</b></span>。<br/><span class=\"kw\"><b>① 輸血を入れすぎない</b></span><br/><span class=\"kw4\"><b>Hb 7〜8g/dL を目安にとどめる——入れすぎると門脈圧が上がり、再出血しやすい</b></span><br/><span class=\"kw\"><b>② 抗菌薬</b></span><br/><span class=\"kw4\"><b>肝硬変の消化管出血では細菌感染（特発性細菌性腹膜炎・菌血症）が多く、予防的な抗菌薬（セフトリアキソンなど）で感染・再出血・死亡が減る</b></span><br/><span class=\"kw\"><b>③ 門脈圧を下げる薬</b></span><br/><span class=\"kw3\"><b>バソプレシン（＋硝酸薬）、ソマトスタチン類似薬——内視鏡の前から使う</b></span><br/><span class=\"kw\"><b>④ 肝性脳症を防ぐ</b></span><br/><span class=\"kw3\"><b>腸にたまった血液の蛋白からアンモニアができる——ラクツロース、浣腸で腸の血液を出す</b></span><br/><span class=\"kw\"><b>⑤ 腎機能</b></span><br/><span class=\"kw3\"><b>出血・感染で肝腎症候群が起こりやすい——本例は Cr 1.4。腎毒性のある薬・造影剤を控えめに</b></span><br/><span class=\"kw\"><b>⑥ 凝固</b></span><br/><span class=\"kw3\"><b>PT の延長・血小板の減少があっても、それを補正するために新鮮凍結血漿を大量に入れることはしない（容量が増えて門脈圧が上がる）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　腹腔穿刺</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹水の性状を調べる・大量の腹水を抜く処置——今は止血が先</b></span>。<span class=\"kw2\"><b>発熱・腹痛・状態の悪化があれば、特発性細菌性腹膜炎を調べるために行う</b></span>。</td></tr><tr><td>ｂ　抗菌薬点滴静注</td><td><span class=\"kw4\">誤り</span>（まず行うものではない）。<span class=\"kw3\"><b>肝硬変の消化管出血では勧められる治療で、行うべき</b></span>。<span class=\"kw3\"><b>ただし最優先は出血源の確認と止血</b></span>。</td></tr><tr><td>ｃ　カルシウム拮抗薬静注</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血圧を下げるだけで、出血性ショックを悪化させる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　上部消化管内視鏡検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>静脈瘤の破裂を確かめ、EVL などで止血する</b></span>。</td></tr><tr><td>ｅ　トロンビン末溶解液静注</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>静注は禁忌——全身の血管内で血液が固まる</b></span>。<span class=\"kw3\"><b>上部消化管出血では内服、または内視鏡で散布して使う</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管出血で血管確保後にまず行うこと。<br/><b>a 腹腔穿刺／b 抗菌薬／c カルシウム拮抗薬／e トロンビン静注</b>：不適。<br/><b>d 上部消化管内視鏡検査</b>：<span class=\"kw\">出血源の同定と内視鏡的止血</span>。✓"
+       "h": "🔍 特発性細菌性腹膜炎——腹水のある人の「静かな」感染",
+       "c": "<span class=\"kw4\"><b>肝硬変の腹水に、はっきりした感染源なしに細菌が入り込む——腸の細菌が腸の壁を越えて移ると考えられている</b></span>。<br/><span class=\"kw\"><b>① 症状</b></span><br/><span class=\"kw3\"><b>発熱・腹痛・腹部の圧痛が典型だが、症状が乏しく、肝性脳症の悪化・腎機能の悪化・消化管出血だけのこともある</b></span><br/><span class=\"kw\"><b>② 診断</b></span><br/><span class=\"kw4\"><b>腹水の好中球数 250/μL 以上</b></span><br/><span class=\"kw3\"><b>腹水の培養（血液培養ボトルに入れると陽性率が上がる）——大腸菌・肺炎桿菌など1種類の菌</b></span><br/><span class=\"kw3\"><b>複数の菌、腹水の糖が低い・LD が高い——消化管穿孔による二次性腹膜炎を疑う</b></span><br/><span class=\"kw\"><b>③ 治療</b></span><br/><span class=\"kw3\"><b>第3世代セフェム系抗菌薬、腎障害を防ぐためにアルブミンの点滴</b></span><br/><span class=\"kw\"><b>④ 予防</b></span><br/><span class=\"kw3\"><b>消化管出血のとき（本例）、一度かかった人、腹水の蛋白が低い人</b></span><br/><span class=\"kw\"><b>⑤ 腹腔穿刺をためらわない</b></span><br/><span class=\"kw3\"><b>腹水のある人の入院・状態の悪化では、診断のための穿刺を行う——凝固異常があっても出血はまれ</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>肝硬変＋大量吐血 → 静脈確保・輸液の後、緊急上部消化管内視鏡で静脈瘤を止血（EVL）</b></span>。<br/><span class=\"kw4\"><b>肝硬変の消化管出血では予防的抗菌薬、輸血は Hb 7〜8 にとどめる（入れすぎると再出血）</b></span>。<br/><span class=\"kw3\"><b>BUN/Cr が大きいのは上部消化管出血のしるし</b></span>。<br/><span class=\"kw3\"><b>トロンビンは静注禁忌（内服・内視鏡散布）</b></span>。<br/><span class=\"kw3\"><b>特発性細菌性腹膜炎：腹水の好中球 250/μL 以上、第3世代セフェム＋アルブミン</b></span>。"
       }
      ],
      "imgs": []
@@ -10479,17 +10509,27 @@
       }
      ],
      "ans_label": "ｃ　硬化療法",
-     "ans_sub": "食道静脈瘤（EIS硬化療法orEVL結紮術）が内視鏡的治療。写真の所見から硬化療法（EIS）が選択される。",
+     "ans_sub": "内視鏡像では、食道下部に青白く太い結節状の静脈瘤が内腔へ大きく張り出し、表面に赤い細い血管が見える——<b>食道静脈瘤</b>（F3 相当、RC sign の疑い）。出血を防ぐ内視鏡治療が必要で、選択肢では<b>硬化療法（EIS）</b>。凝固・レーザーは静脈瘤に穴をあけて出血させる。クリッピングは潰瘍の露出血管の止血に使い、太い静脈瘤は挟みきれない。切除は腫瘍の治療。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🫀 食道静脈瘤の内視鏡治療",
-       "c": "<span class=\"kw\">c硬化療法（EIS）（正答）</span>：<br>・硬化剤（オレイン酸エタノールアミン等）を静脈瘤内注射→血栓・線維化→消失<br/>・太い食道静脈瘤に適している<br/><br/><span class=\"kw4\">他の選択肢</span>：<br/>✗ a凝固：消化性潰瘍出血の止血（APC等）<br/>✗ bクリッピング：消化性潰瘍の点状出血に適応<br/>✗ d切除：早期癌・ポリープ<br/>✗ eレーザー：腫瘍の止血・縮小に使用（現在は稀）</br>"
+       "h": "🌿 硬化療法の中身——2つの注入法と、起こりうる合併症",
+       "c": "<span class=\"kw3\"><b>所見の書き方と EIS・EVL の違いは Q.93、予防的治療の対象は Q.133 で見た</b></span>。<span class=\"kw4\"><b>ここでは、硬化療法を実際にどう行い、何に気をつけるかを考える</b></span>。<br/><span class=\"kw\"><b>① 静脈瘤の中へ注入（血管内注入）</b></span><br/><span class=\"kw3\"><b>5％エタノールアミンオレイン酸（EO）——造影剤を混ぜ、透視で供血路（左胃静脈）まで広がるのを確かめる</b></span><br/><span class=\"kw3\"><b>静脈瘤と供血路を血栓で詰める——再発が少ない</b></span><br/><span class=\"kw\"><b>② 静脈瘤の外へ注入（血管外注入）</b></span><br/><span class=\"kw3\"><b>1％ポリドカノール（AS）——静脈瘤の周りの粘膜下を線維化させて、残った細い静脈瘤を固める（地固め）</b></span><br/><span class=\"kw\"><b>③ 合併症</b></span><br/><span class=\"kw4\"><b>EO は赤血球を壊す（溶血）→ ヘモグロビン尿・腎障害——ハプトグロビンを投与して防ぐ</b></span><br/><span class=\"kw3\"><b>発熱・胸痛・胸水、食道潰瘍・狭窄、門脈血栓症、肺塞栓</b></span><br/><span class=\"kw\"><b>④ 向かない人</b></span><br/><span class=\"kw3\"><b>肝機能が非常に悪い（高度の黄疸・Child-Pugh C の後半）、腎不全——EVL を選ぶ</b></span><br/><span class=\"kw\"><b>⑤ 治療の後</b></span><br/><span class=\"kw3\"><b>1〜2週ごとに繰り返し、静脈瘤が消えたら地固め、その後は定期的な内視鏡</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　凝　固</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>熱で焼く方法——太い静脈瘤に穴をあけて大出血を起こす</b></span>。</td></tr><tr><td>ｂ　クリッピング</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍の露出血管・Mallory-Weiss の裂創の止血に使う（Q.151）</b></span>。<span class=\"kw3\"><b>太い静脈瘤は挟みきれない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　硬化療法</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>硬化剤で静脈瘤と供血路を固める</b></span>。</td></tr><tr><td>ｄ　切　除</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腫瘍・ポリープの治療</b></span>。</td></tr><tr><td>ｅ　レーザー</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腫瘍の焼灼や狭窄の治療に使われてきた——静脈瘤には行わない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道静脈瘤の内視鏡治療。<br/><b>a 凝固／b クリッピング／d 切除／e レーザー</b>：静脈瘤治療でない。<br/><b>c 硬化療法</b>：<span class=\"kw\">静脈瘤に硬化剤を注入（EIS）</span>。✓"
+       "h": "🔍 アルゴンプラズマ凝固〈APC〉——静脈瘤の「仕上げ」と、広く浅い出血",
+       "c": "<span class=\"kw4\"><b>APC は、アルゴンガスに高周波を流して、粘膜の表面だけを浅く焼く方法——深く焼けにくいのが長所</b></span>。<br/><span class=\"kw\"><b>① 静脈瘤治療の地固め</b></span><br/><span class=\"kw3\"><b>EIS・EVL で太い静脈瘤を消した後、食道下部の粘膜を帯状に焼いて、細い血管を消し、再発を減らす</b></span><br/><span class=\"kw\"><b>② 胃前庭部毛細血管拡張症〈GAVE〉</b></span><br/><span class=\"kw3\"><b>前庭部に赤い筋が幽門へ向かって放射状に並ぶ（スイカの皮の模様）</b></span><br/><span class=\"kw3\"><b>肝硬変・強皮症・慢性腎臓病に多く、慢性の出血で鉄欠乏性貧血</b></span><br/><span class=\"kw3\"><b>門脈圧亢進症性胃症（体部のモザイク状の発赤）と区別する——こちらは門脈圧を下げる治療</b></span><br/><span class=\"kw\"><b>③ 血管拡張症（angioectasia）</b></span><br/><span class=\"kw3\"><b>小腸・大腸の小さな赤い血管の病変——高齢者の原因不明の消化管出血（Q.7）</b></span><br/><span class=\"kw\"><b>④ 放射線性直腸炎の出血</b></span><br/><span class=\"kw3\"><b>前立腺癌・子宮頸癌の放射線治療の後に、直腸の粘膜の血管が増えて出血する</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>太い食道静脈瘤（F3・RC sign）→ 内視鏡治療（EIS・EVL）</b></span>。<br/><span class=\"kw3\"><b>EIS：EO を静脈瘤の中へ（供血路まで）、AS を外へ（地固め）</b></span>。<br/><span class=\"kw4\"><b>EO の溶血 → 腎障害——ハプトグロビンで防ぐ。肝・腎機能が悪い人は EVL</b></span>。<br/><span class=\"kw3\"><b>凝固・レーザー・切除は静脈瘤に行わない</b></span>。<br/><span class=\"kw3\"><b>APC：静脈瘤治療の地固め、GAVE（スイカの皮の模様）、血管拡張症</b></span>。"
       }
      ],
      "imgs": [
