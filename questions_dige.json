@@ -8597,22 +8597,27 @@
       }
      ],
      "ans_label": "ｂ　特発性食道破裂\nｅ　Mallory-Weiss 症候群",
-     "ans_sub": "激しい嘔吐により食道内圧が急上昇し、食道破裂（Boerhaave）または食道胃接合部粘膜裂傷（Mallory-Weiss）が起こる。",
+     "ans_sub": "嘔吐の瞬間の急な腹圧・食道内圧の上昇で起こるのは、食道胃接合部の粘膜が縦に裂ける<b>Mallory-Weiss 症候群</b>と、食道下部の壁が全層で破れる<b>特発性食道破裂（Boerhaave 症候群）</b>。食道アカラシアは下部食道括約筋が開かない慢性の病気で、嚥下困難が長く続く。Bochdalek 孔ヘルニアは先天性の横隔膜ヘルニアで、新生児の呼吸困難で見つかる。機能性ディスペプシアは器質的な異常のない慢性の上腹部症状。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💥 嘔吐後に急発症する疾患",
-       "c": "<span class=\"kw\">b特発性食道破裂（Boerhaave症候群）（正答）</span>：<br/>激しい嘔吐→食道内圧急上昇→食道壁全層破裂→縦隔炎・胸水<br/><br/><span class=\"kw\">e Mallory-Weiss症候群（正答）</span>：<br/>激しい嘔吐→食道内圧急上昇→食道胃接合部の縦走粘膜裂傷→吐血<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a食道アカラシア：食道括約筋弛緩不全（慢性疾患、嘔吐後に急発症しない）<br/>✗ cBochdalek孔ヘルニア：先天性横隔膜ヘルニア（新生児期に発症）<br/>✗ d機能性ディスペプシア：慢性の心窩部症状（急発症しない）"
+       "h": "🌿 嘔吐の後に急に起こる食道の病気——裂ける深さで3つに並べる",
+       "c": "<span class=\"kw3\"><b>Boerhaave 症候群は Q.101、Mallory-Weiss 症候群は Q.105 で見た</b></span>。<span class=\"kw4\"><b>ここでは、嘔吐で食道が傷つく病気を「どこまで深く裂けるか」で並べて整理する</b></span>。<br/><span class=\"kw\"><b>① 粘膜だけ——Mallory-Weiss 症候群</b></span><br/><span class=\"kw3\"><b>食道胃接合部の小弯側の縦走する裂創</b></span><br/><span class=\"kw3\"><b>症状：何度か吐いた後の鮮血の吐血。多くは自然に止まる</b></span><br/><span class=\"kw\"><b>② 粘膜の下に血がたまる——食道壁内血腫</b></span><br/><span class=\"kw3\"><b>粘膜下層の血管が破れて、粘膜の下に血腫が広がる</b></span><br/><span class=\"kw3\"><b>症状：急な胸痛・嚥下痛・嚥下困難、少量の吐血。抗凝固薬の内服者に多い</b></span><br/><span class=\"kw3\"><b>治療：絶食・輸液で多くは自然に吸収される</b></span><br/><span class=\"kw\"><b>③ 全層——特発性食道破裂（Boerhaave 症候群）</b></span><br/><span class=\"kw3\"><b>食道下部の左後壁の全層の破裂</b></span><br/><span class=\"kw4\"><b>症状：激しい胸痛・呼吸困難・皮下気腫。吐血は少ない。縦隔炎・膿胸・敗血症へ</b></span><br/><span class=\"kw3\"><b>治療：24時間以内の手術</b></span><br/><span class=\"kw\"><b>④ 見分け方</b></span><br/><span class=\"kw4\"><b>胸痛が強く、胸水・気胸・縦隔気腫があれば全層の破裂を疑い、内視鏡より先に CT</b></span><br/><span class=\"kw3\"><b>吐血が主で胸部の所見がなければ、内視鏡で Mallory-Weiss を確かめる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食道アカラシア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>下部食道括約筋が弛緩しない慢性の通過障害——数年かけて嚥下困難・食物の逆流・体重減少が進む</b></span>。<span class=\"kw3\"><b>嘔吐のように見えるのは、食道にたまった食物の逆流</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　特発性食道破裂</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>嘔吐で食道の内圧が急に上がり、下部食道が全層で破れる</b></span>。</td></tr><tr><td>ｃ　Bochdalek 孔ヘルニア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>横隔膜の後外側の先天的な欠損——左側に多く、新生児の呼吸困難（腸管が胸腔に入り肺が育たない）で見つかる</b></span>。</td></tr><tr><td>ｄ　機能性ディスペプシア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>検査で異常がないのに、胃もたれ・早期満腹感・心窩部痛が慢性に続く</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Mallory-Weiss 症候群</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>嘔吐で食道胃接合部の粘膜が縦に裂ける</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 機能性ディスペプシア——「何もないのに胃がつらい」を病気として扱う",
+       "c": "<span class=\"kw4\"><b>内視鏡などで症状を説明する器質的な病気がないのに、上腹部の症状が慢性に続く</b></span>。<br/><span class=\"kw\"><b>① 診断の目安（Rome Ⅳ）</b></span><br/><span class=\"kw3\"><b>食後のもたれ感・早期満腹感・心窩部痛・心窩部の灼熱感のいずれかが、半年以上前から始まり、最近3か月続いている</b></span><br/><span class=\"kw3\"><b>内視鏡で潰瘍・癌などがない</b></span><br/><span class=\"kw3\"><b>食後愁訴症候群（もたれ・早期満腹）と心窩部痛症候群（痛み・灼熱感）に分ける</b></span><br/><span class=\"kw\"><b>② しくみ</b></span><br/><span class=\"kw3\"><b>胃の運動の異常（排出の遅れ、食後に胃の上部が広がらない）、内臓の知覚過敏、心理的なストレス、感染後</b></span><br/><span class=\"kw\"><b>③ まず除外すること</b></span><br/><span class=\"kw4\"><b>警告症状（体重減少・嚥下困難・吐血や黒色便・貧血・嘔吐の反復・50歳以上の新規発症）があれば内視鏡で器質的な病気を調べる</b></span><br/><span class=\"kw3\"><b>H. pylori 感染があれば除菌——症状が良くなる人がいる</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>酸分泌抑制薬、運動機能改善薬（アコチアミド）、漢方薬（六君子湯）、抗うつ薬・抗不安薬</b></span><br/><span class=\"kw3\"><b>食事の工夫と生活リズム、病気の説明で安心してもらうこと</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">嘔吐後急発症：Boerhaave（全層破裂）＋Mallory-Weiss（粘膜裂傷）</span><br/>Boerhaaveは縦隔炎を伴う重症→死亡率高い（緊急手術）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "嘔吐の後に急に発症するものを2つ。<br/><b>a 食道アカラシア／c Bochdalek孔ヘルニア／d 機能性ディスペプシア</b>：急性発症でない。<br/><b>b 特発性食道破裂（Boerhaave）</b>：<span class=\"kw\">激しい嘔吐で食道が全層破裂</span>。✓<br/><b>e Mallory-Weiss症候群</b>：<span class=\"kw\">嘔吐後の噴門部粘膜裂傷</span>。✓"
+       "c": "<span class=\"kw4\"><b>嘔吐の後に急に起こる：Mallory-Weiss 症候群（粘膜の裂創）と特発性食道破裂（全層）</b></span>。<br/><span class=\"kw3\"><b>食道壁内血腫は粘膜下の血腫——抗凝固薬の内服者、保存的に治る</b></span>。<br/><span class=\"kw3\"><b>胸痛・胸水・縦隔気腫なら全層の破裂を疑い CT を先に</b></span>。<br/><span class=\"kw3\"><b>アカラシアは慢性、Bochdalek 孔ヘルニアは新生児、機能性ディスペプシアは慢性の上腹部症状</b></span>。<br/><span class=\"kw3\"><b>機能性ディスペプシアでも警告症状があれば内視鏡</b></span>。"
       }
      ],
      "imgs": []
@@ -8654,22 +8659,27 @@
       }
      ],
      "ans_label": "ｅ　除菌治療成功後も定期的な上部消化管内視鏡検査が必要である。",
-     "ans_sub": "H.pylori除菌で潰瘍は治癒するが、胃癌リスクは完全にはなくなら。定期内視鏡フォローが必要。",
+     "ans_sub": "H. pylori 陽性の出血していない胃潰瘍は、<b>外来で</b>治療できる。第一選択は H<sub>2</sub> 受容体拮抗薬ではなく<b>PPI（またはボノプラザン）</b>で潰瘍を治し、<b>除菌（内服で1週間）</b>で再発を防ぐ。除菌に成功すれば再発はまれで、粘膜保護薬などの維持療法は通常必要ない。ただし、萎縮した胃粘膜には胃癌ができやすいので、<b>除菌に成功した後も定期的な内視鏡検査</b>が必要。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 H.pylori陽性胃潰瘍の管理",
-       "c": "<span class=\"kw\">e正：除菌後も定期的内視鏡が必要</span>：<br/>・胃潰瘍の悪性除外が必要（潰瘍から癌が見つかる場合あり）<br/>・除菌成功後も胃癌リスクは完全に消えない→6〜12か月後に内視鏡確認<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a「入院での加療が必要」→軽症・非出血性なら外来管理可<br/>✗ bH2ブロッカーが第一選択→<span class=\"kw4\">PPI（プロトンポンプ阻害薬）</span>が第一選択<br/>✗ c「除菌成功後も粘膜保護薬が必要」→除菌成功後は通常不要（PPIのみで十分）<br/>✗ d「PPI＋抗菌薬の静脈内投与で除菌」→除菌は<span class=\"kw4\">経口投与</span>（静脈投与は標準でない）"
+       "h": "🌿 出血していない胃潰瘍の外来での治療——治す・除菌する・癌を見逃さない",
+       "c": "<span class=\"kw4\"><b>胃潰瘍の治療は、①潰瘍を治す ②再発の原因を除く ③癌を否定し、将来の癌に備える、の3段で考える</b></span>。<br/><span class=\"kw\"><b>① 治す</b></span><br/><span class=\"kw3\"><b>PPI（またはボノプラザン）を内服——胃潰瘍は8週まで</b></span><br/><span class=\"kw3\"><b>出血・穿孔・狭窄がなく、食事ができれば外来でよい</b></span><br/><span class=\"kw\"><b>② 原因を除く</b></span><br/><span class=\"kw4\"><b>H. pylori 陽性なら除菌（内服で1週間）——除菌に成功すると潰瘍の再発はまれになる</b></span><br/><span class=\"kw3\"><b>NSAIDs の中止</b></span><br/><span class=\"kw3\"><b>除菌の判定は治療終了から4週以上あけて（Q.118）</b></span><br/><span class=\"kw\"><b>③ 癌を見逃さない</b></span><br/><span class=\"kw4\"><b>胃潰瘍は癌との区別が必要——最初の内視鏡で生検し、治った後にもう一度内視鏡で確かめる</b></span><br/><span class=\"kw3\"><b>十二指腸潰瘍は癌がまれで、生検は通常しない</b></span><br/><span class=\"kw\"><b>④ 将来の癌に備える</b></span><br/><span class=\"kw4\"><b>除菌しても萎縮した粘膜は残る——定期的な内視鏡（Q.117）</b></span><br/><span class=\"kw\"><b>⑤ 維持療法が要るのは</b></span><br/><span class=\"kw3\"><b>除菌できない・除菌に失敗した、NSAIDs・低用量アスピリンを続ける人——PPI を続ける</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　入院での加療が必要である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血・穿孔・狭窄がなければ外来で治療できる</b></span>。</td></tr><tr><td>ｂ　ヒスタミンH2 受容体拮抗薬が第一選択である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍の治癒が早く確実な PPI（ボノプラザン）が第一選択</b></span>。<span class=\"kw2\"><b>H<sub>2</sub> 受容体拮抗薬は PPI が使えないときの選択肢</b></span>。</td></tr><tr><td>ｃ　除菌治療成功後も粘膜保護薬の投与が必要である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>除菌に成功すれば再発はまれ——維持療法は通常不要</b></span>。</td></tr><tr><td>ｄ　プロトンポンプ阻害薬と抗菌薬の静脈内投与で除菌を行う。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>除菌は内服薬で、外来で1週間行う</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　除菌治療成功後も定期的な上部消化管内視鏡検査が必要である。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>萎縮した粘膜が残り、胃癌の危険はゼロにならない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 胃潰瘍の治り方——内視鏡のステージ（崎田・三輪分類）",
+       "c": "<span class=\"kw4\"><b>潰瘍は内視鏡で、活動期 → 治癒期 → 瘢痕期の順に変わっていく</b></span>。<br/><span class=\"kw\"><b>① 活動期（A）</b></span><br/><span class=\"kw3\"><b>A1：厚い白苔、周りの粘膜が腫れて盛り上がる、出血・凝血があることも</b></span><br/><span class=\"kw3\"><b>A2：白苔が厚く、周りの腫れが引き始め、辺縁に再生上皮が少し見える</b></span><br/><span class=\"kw\"><b>② 治癒期（H）</b></span><br/><span class=\"kw3\"><b>H1：白苔が薄くなり、再生上皮が潰瘍の中へ伸びる。ひだが集まってくる</b></span><br/><span class=\"kw3\"><b>H2：白苔がさらに小さくなり、ほとんど再生上皮に覆われる</b></span><br/><span class=\"kw\"><b>③ 瘢痕期（S）</b></span><br/><span class=\"kw3\"><b>S1：赤色瘢痕——白苔がなくなり、再生上皮が赤い</b></span><br/><span class=\"kw3\"><b>S2：白色瘢痕——瘢痕が白くなり、成熟した状態。再発しにくい</b></span><br/><span class=\"kw\"><b>④ 臨床での使い方</b></span><br/><span class=\"kw3\"><b>治療の効果判定と、治療を終える目安（S1〜S2）</b></span><br/><span class=\"kw4\"><b>治りにくい・形が不整な潰瘍は、癌の可能性を考えて再び生検する</b></span><br/><span class=\"kw2\"><b>潰瘍型の早期胃癌も、治療で一時的に小さくなり、治ったように見えることがある（悪性サイクル）——だから生検で確かめる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃潰瘍（H.pylori陽性）：PPI＋除菌療法＋除菌後内視鏡フォロー</span><br/>胃潰瘍は悪性の除外が必要→必ず生検（十二指腸潰瘍は生検不要）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "H.pylori陽性の非出血性胃潰瘍の治療で正しいもの。<br/><b>a 入院が必要／b H2拮抗薬が第一／c 除菌後も粘膜保護薬が必要／d 静脈内投与で除菌</b>：誤り。<br/><b>e 除菌成功後も定期的な上部消化管内視鏡検査が必要である</b>：<span class=\"kw\">胃癌のサーベイランスのため内視鏡を継続</span>。✓"
+       "c": "<span class=\"kw4\"><b>出血のない胃潰瘍は外来で PPI（ボノプラザン）＋H. pylori 除菌（内服1週間）</b></span>。<br/><span class=\"kw3\"><b>除菌に成功すれば維持療法は通常不要。NSAIDs・アスピリン継続者は PPI を続ける</b></span>。<br/><span class=\"kw4\"><b>胃潰瘍は生検し、治った後も内視鏡で癌を否定する。除菌後も定期的な内視鏡</b></span>。<br/><span class=\"kw3\"><b>崎田・三輪分類：A（活動期）→ H（治癒期）→ S（瘢痕期）</b></span>。<br/><span class=\"kw3\"><b>潰瘍型の早期胃癌は治ったように見えることがある（悪性サイクル）</b></span>。"
       }
      ],
      "imgs": []
@@ -8715,22 +8725,27 @@
       }
      ],
      "ans_label": "ａ　胃潰瘍\nｅ　胃MALT リンパ腫",
-     "ans_sub": "胃潰瘍とMALTリンパ腫はH.pylori除菌の保険適応。MALTリンパ腫は除菌単独で80〜90%が寛解。",
+     "ans_sub": "H. pylori の除菌治療の適応（保険適用）は、H. pylori 感染が確かめられた<b>胃潰瘍</b>・十二指腸潰瘍、<b>胃 MALT リンパ腫</b>、特発性血小板減少性紫斑病、早期胃癌の内視鏡治療後、H. pylori 感染胃炎。胃 GIST は H. pylori と関係しない間葉系腫瘍。3型の進行胃癌は手術・化学療法が治療で、除菌は治療にならない。逆流性食道炎は H. pylori とは関係が薄く、除菌で胃酸が増えてかえって悪化することもある。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 H.pylori除菌療法の適応（日本）",
-       "c": "<table class=\"tb\"><tr><th>疾患</th><th>除菌適応</th></tr><tr><td>疾患</td><td>除菌適応</td></tr><tr><td><span class=\"kw\">胃潰瘍（a）</span></td><td><span class=\"kw\">適応（保険）</span>：再発率↓</td></tr><tr><td>十二指腸潰瘍</td><td><span class=\"kw\">適応（保険）</span>：根治的</td></tr><tr><td><span class=\"kw\">胃MALTリンパ腫（e）</span></td><td><span class=\"kw\">適応（保険）</span>：80〜90%で完全寛解</td></tr><tr><td>早期胃癌ESD後</td><td>適応（保険）：異時性癌発生リスク↓</td></tr><tr><td>萎縮性胃炎</td><td>適応（保険）</td></tr><tr><td>特発性血小板減少性紫斑病（ITP）</td><td>適応（保険）：血小板↑する場合あり</td></tr><tr><td><span class=\"kw4\">胃GIST（b）</span></td><td><span class=\"kw4\">除菌非適応</span>（Hp関連なし）</td></tr><tr><td><span class=\"kw4\">3型胃癌（c）</span></td><td><span class=\"kw4\">除菌は治療にならない</span>（進行癌は手術・化学療法）</td></tr><tr><td><span class=\"kw4\">逆流性食道炎（d）</span></td><td><span class=\"kw4\">除菌非適応</span>（Hpは逆流性食道炎とは無関係）</td></tr></table>"
+       "h": "🌿 除菌の対象——「H. pylori が原因・誘因になる病気」",
+       "c": "<span class=\"kw4\"><b>除菌の対象は、H. pylori が原因になる病気と、除菌で将来の病気を防げる状態</b></span>。<br/><span class=\"kw\"><b>① 保険で除菌できる病気</b></span><br/><span class=\"kw3\"><b>胃潰瘍・十二指腸潰瘍：再発をほぼなくす</b></span><br/><span class=\"kw3\"><b>胃 MALT リンパ腫：除菌だけで6〜8割が寛解（Q.91）</b></span><br/><span class=\"kw3\"><b>特発性血小板減少性紫斑病〈ITP〉：除菌で血小板が増える人がいる（菌の抗原に似た血小板の抗原への交差反応と考えられている）</b></span><br/><span class=\"kw3\"><b>早期胃癌の内視鏡治療後：新たな胃癌を減らす（Q.117）</b></span><br/><span class=\"kw4\"><b>H. pylori 感染胃炎（内視鏡で胃炎を確かめる）——事実上、感染者はすべて除菌の対象</b></span><br/><span class=\"kw\"><b>② 除菌の前に必要なこと</b></span><br/><span class=\"kw3\"><b>感染の確認（Q.103）</b></span><br/><span class=\"kw3\"><b>感染胃炎で除菌する場合は、内視鏡で胃炎の確認と胃癌がないことを確かめる</b></span><br/><span class=\"kw\"><b>③ 対象にならないもの</b></span><br/><span class=\"kw3\"><b>H. pylori と関係しない腫瘍（GIST・神経内分泌腫瘍の一部）</b></span><br/><span class=\"kw3\"><b>進行胃癌：癌そのものは除菌で治らない（感染があれば、治療とは別に除菌を考えることはある）</b></span><br/><span class=\"kw3\"><b>逆流性食道炎：H. pylori と関係が薄い</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胃潰瘍</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>除菌で潰瘍の再発がほぼなくなる</b></span>。</td></tr><tr><td>ｂ　胃GIST</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>消化管の筋層の間質細胞（Cajal 介在細胞）から生じる間葉系腫瘍——KIT・PDGFRA の遺伝子変異で起こり、H. pylori とは関係しない</b></span>。<span class=\"kw3\"><b>治療は切除、再発の危険が高ければイマチニブ</b></span>。</td></tr><tr><td>ｃ　3 型胃癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍浸潤型の進行癌——手術・化学療法で治療する</b></span>。<span class=\"kw3\"><b>除菌では癌は治らない</b></span>。</td></tr><tr><td>ｄ　逆流性食道炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>H. pylori と関係が薄い</b></span>。<span class=\"kw3\"><b>除菌で胃酸の分泌が回復し、逆流性食道炎がかえって出てくる・悪くなることがある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　胃MALT リンパ腫</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>除菌だけで寛解することが多い——第一選択の治療</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 除菌の「その後」——良いことと、起こりうる変化",
+       "c": "<span class=\"kw4\"><b>除菌は多くの病気を減らすが、胃の環境が変わることで起こる変化もある</b></span>。<br/><span class=\"kw\"><b>① 減るもの</b></span><br/><span class=\"kw3\"><b>消化性潰瘍の再発、胃癌（特に若いうちの除菌ほど効果が大きい）、MALT リンパ腫、ITP の一部</b></span><br/><span class=\"kw3\"><b>家族内感染の連鎖——親が除菌すると子への感染の機会が減る</b></span><br/><span class=\"kw\"><b>② 起こりうる変化</b></span><br/><span class=\"kw4\"><b>胃酸の分泌が回復し、胸やけ・逆流性食道炎が出てくることがある（多くは軽い）</b></span><br/><span class=\"kw3\"><b>体重が増えることがある（食欲の回復）</b></span><br/><span class=\"kw\"><b>③ 除菌後も残るもの</b></span><br/><span class=\"kw4\"><b>萎縮・腸上皮化生は残り、胃癌の危険はゼロにならない——定期的な内視鏡</b></span><br/><span class=\"kw3\"><b>除菌後の胃癌は平坦で見つけにくい（Q.117）</b></span><br/><span class=\"kw\"><b>④ 再感染</b></span><br/><span class=\"kw3\"><b>成人の再感染はまれ（年に1％未満）——除菌後に陽性に戻ったら、判定が偽陰性だった（除菌できていなかった）可能性を考える</b></span><br/><span class=\"kw\"><b>⑤ 若い世代での除菌</b></span><br/><span class=\"kw3\"><b>中高生での検査と除菌を行う自治体もある——萎縮が進む前の除菌が最も胃癌を減らすため</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Hp除菌保険適応：胃・十二指腸潰瘍、MALTリンパ腫、早期胃癌ESD後、萎縮性胃炎、ITP</span><br/><span class=\"kw4\">逆流性食道炎・胃GIST・進行胃癌は非適応</span>。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "Helicobacter pylori除菌治療の適応となるものを2つ。<br/><b>b 胃GIST／c 3型胃癌／d 逆流性食道炎</b>：除菌の適応でない。<br/><b>a 胃潰瘍</b>：<span class=\"kw\">H.pylori陽性の消化性潰瘍は除菌適応</span>。✓<br/><b>e 胃MALTリンパ腫</b>：<span class=\"kw\">除菌で退縮</span>。✓"
+       "c": "<span class=\"kw4\"><b>除菌の適応：胃・十二指腸潰瘍、胃 MALT リンパ腫、ITP、早期胃癌の内視鏡治療後、H. pylori 感染胃炎</b></span>。<br/><span class=\"kw3\"><b>GIST（KIT・PDGFRA 変異）・進行胃癌・逆流性食道炎は対象外</b></span>。<br/><span class=\"kw3\"><b>感染胃炎の除菌は内視鏡で胃炎と胃癌がないことを確かめてから</b></span>。<br/><span class=\"kw3\"><b>除菌後に逆流性食道炎が出ることがある</b></span>。<br/><span class=\"kw3\"><b>除菌後も萎縮は残り、胃癌の危険はゼロにならない</b></span>。"
       }
      ],
      "imgs": []
@@ -8776,22 +8791,27 @@
       }
      ],
      "ans_label": "ｄ　医療機関での処方内容",
-     "ans_sub": "胃潰瘍の主要原因はH.pylori感染とNSAIDs。処方内容（NSAIDs・アスピリン等）確認が最重要。",
+     "ans_sub": "黒色便・貧血・ふらつき・労作時の息切れ——上部消化管出血による貧血。1か月前から<b>別の診療所で処方された鎮痛薬</b>（NSAIDs の可能性が高い）を飲み、心房細動で通院中の内科では PT-INR 1.9 と抗凝固薬（ワルファリン）が効いている状態。NSAIDs は潰瘍を作り、ワルファリンの作用を強め、血小板の働きも抑える——<b>どの医療機関で何を処方されているかを確かめる</b>ことが診断の鍵になる。食物アレルギー・感染症・海外渡航・家庭のストレスは、今の病態の説明につながらない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 胃潰瘍の原因と問診",
-       "c": "<span class=\"kw\">d医療機関での処方内容（正答）</span>：<br>・NSAIDs（ロキソプロフェン・ジクロフェナク等）→胃粘膜プロスタグランジン↓→潰瘍<br>・低用量アスピリン→COX-1阻害→胃粘膜防御↓<br>→ 処方内容確認でNSAIDs・抗血小板薬使用歴を把握<br><br><span class=\"kw4\">優先度が低い確認事項</span>：<br>✗ a食物アレルギー：胃潰瘍の直接原因にならない<br>✗ b感染性疾患：Hp以外の感染→通常の胃潰瘍原因ではない<br>✗ c2週間以内の海外渡航：旅行者下痢は考慮するが胃潰瘍の直接原因ではない<br/>✗ eストレスの程度：ストレス潰瘍の原因にはなるが、処方内容の確認が最も重要</br></br></br></br></br></br></br></br>"
+       "h": "🌿 複数の医療機関にかかる高齢者——薬の全体像を一枚にする",
+       "c": "<span class=\"kw4\"><b>高齢者は複数の医療機関から薬をもらうことが多く、どの医師も全体を把握していないことがある——それが薬の害の大きな原因</b></span>。<br/><span class=\"kw\"><b>① 本例の構図</b></span><br/><span class=\"kw3\"><b>内科：高血圧・心房細動 → 抗凝固薬（PT-INR 1.9 からワルファリンと読める）</b></span><br/><span class=\"kw3\"><b>近所の診療所：膝の痛み → 鎮痛薬（NSAIDs の可能性が高い）</b></span><br/><span class=\"kw4\"><b>NSAIDs ＋ 抗凝固薬——潰瘍ができやすく、できた潰瘍から出血しやすい最悪の組み合わせ</b></span><br/><span class=\"kw\"><b>② 確かめ方</b></span><br/><span class=\"kw3\"><b>お薬手帳、薬そのもの（袋・包装）を持ってきてもらう、処方した医療機関・薬局に問い合わせる</b></span><br/><span class=\"kw3\"><b>市販薬・サプリメント・漢方薬まで聞く（Q.95）</b></span><br/><span class=\"kw\"><b>③ 本例のほかの手がかり</b></span><br/><span class=\"kw3\"><b>3週前の検査で Hb 10.6——すでに貧血が始まっていた。その後も黒色便が続き、今はもっと低い可能性</b></span><br/><span class=\"kw3\"><b>BUN 15 は3週前の値で、今の出血を反映していない</b></span><br/><span class=\"kw3\"><b>血小板10万・Na 131 も、出血の危険と全身状態の評価で確かめ直す</b></span><br/><span class=\"kw\"><b>④ 再発を防ぐ</b></span><br/><span class=\"kw3\"><b>処方の重複・相互作用を、かかりつけ医と薬剤師で一元的に管理する</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食物アレルギー歴</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>黒色便・貧血の原因の説明につながらない</b></span>。<span class=\"kw2\"><b>内視鏡や薬の選択の前には、薬のアレルギーを確かめる</b></span>。</td></tr><tr><td>ｂ　感染性疾患の有無</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>発熱や炎症所見はなく、今の病態に結びつかない</b></span>。</td></tr><tr><td>ｃ　2 週間以内の海外渡航</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>旅行者下痢症・寄生虫の評価には役立つが、黒色便と貧血には関係が薄い</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　医療機関での処方内容</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>診療所の鎮痛薬（NSAIDs）と、内科の抗凝固薬の両方を確かめる</b></span>。</td></tr><tr><td>ｅ　家庭でのストレスの程度</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ストレスは急性胃粘膜病変の誘因になるが、本例でまず確かめるべきは薬</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 NSAIDs とワルファリン——二重に危ない理由",
+       "c": "<span class=\"kw4\"><b>NSAIDs はワルファリンと一緒に使うと、出血の危険を何重にも高める</b></span>。<br/><span class=\"kw\"><b>① 潰瘍を作る</b></span><br/><span class=\"kw3\"><b>プロスタグランジンを減らして胃・小腸の粘膜防御を弱める（Q.96）</b></span><br/><span class=\"kw\"><b>② 血小板の働きを抑える</b></span><br/><span class=\"kw3\"><b>COX-1 を阻害してトロンボキサン A<sub>2</sub> を減らす——血小板が固まりにくい</b></span><br/><span class=\"kw3\"><b>アスピリンは不可逆（効果が血小板の寿命の約10日続く）、ほかの NSAIDs は可逆</b></span><br/><span class=\"kw\"><b>③ ワルファリンの作用を強める</b></span><br/><span class=\"kw3\"><b>一部の NSAIDs は、ワルファリンと血漿蛋白の結合を奪い合い、遊離したワルファリンが増える</b></span><br/><span class=\"kw\"><b>④ 腎機能を落とす</b></span><br/><span class=\"kw3\"><b>腎血流を減らし、高齢者・脱水・利尿薬併用で急性腎障害を起こす</b></span><br/><span class=\"kw\"><b>⑤ 抗凝固薬を飲む人の痛み止め</b></span><br/><span class=\"kw4\"><b>アセトアミノフェンを選ぶ（大量・長期ではワルファリンの作用を強めることがあるので INR を確かめる）</b></span><br/><span class=\"kw3\"><b>外用薬（貼付剤）、関節内注射、リハビリテーション</b></span><br/><span class=\"kw3\"><b>やむを得ず NSAIDs を使うなら、短期間・最小量・PPI の併用</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃潰瘍 → まずNSAIDs・アスピリン服用歴を確認</span><br/>NSAIDs潰瘍：プロスタグランジン産生↓→粘液産生↓・血流↓→潰瘍形成。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化性潰瘍の診断のため再確認すべきこと。<br/><b>a 食物アレルギー／b 感染性疾患／c 海外渡航／e 家庭のストレス</b>：主要でない。<br/><b>d 医療機関での処方内容</b>：<span class=\"kw\">NSAIDs等の潰瘍誘発薬の使用を確認</span>。✓"
+       "c": "<span class=\"kw4\"><b>黒色便・貧血の高齢者 → 全医療機関の処方内容を確かめる（NSAIDs・抗凝固薬・抗血小板薬）</b></span>。<br/><span class=\"kw4\"><b>NSAIDs＋ワルファリン：潰瘍・血小板機能低下・ワルファリン増強で出血の危険が重なる</b></span>。<br/><span class=\"kw3\"><b>お薬手帳・市販薬まで確かめる</b></span>。<br/><span class=\"kw3\"><b>抗凝固薬を飲む人の鎮痛はアセトアミノフェン・外用薬</b></span>。<br/><span class=\"kw3\"><b>持参した検査は過去の値——今の状態は測り直す</b></span>。"
       }
      ],
      "imgs": []
@@ -8837,17 +8857,27 @@
       }
      ],
      "ans_label": "ｅ　上部消化管内視鏡検査",
-     "ans_sub": "消化管出血（黒色便等）が疑われる貧血患者→まず上部消化管内視鏡で食道〜十二指腸を精査。",
+     "ans_sub": "2週間続く黒色便、眼瞼結膜の貧血、ふらつき・息切れ——<b>上部消化管出血</b>による貧血で、NSAIDs と抗凝固薬の内服がある。出血源（潰瘍が最も疑わしい）を確かめて止血するために<b>上部消化管内視鏡検査</b>を行う。神経所見に異常がなく頭部 CT の優先度は低い。直腸鏡は肛門・直腸の出血（鮮血）の検査。骨髄穿刺は血球減少の原因が骨髄にある場合、ビタミン B<sub>12</sub> 測定は大球性貧血の評価で、出血による貧血の検索には先に行わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 消化管出血の検索",
-       "c": "<span class=\"kw\">e上部消化管内視鏡（正答）</span>：<br>出血源として食道静脈瘤・消化性潰瘍・AGML等を検索<br>→ 同時に止血処置が可能<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ a頭部CT：神経症状がなければ不要（今回は貧血・GI出血が主病態）<br>✗ b直腸鏡：下部消化管出血の評価→タール便（上部消化管出血）には上部内視鏡が先<br>✗ c骨髄穿刺：白血病・MDS等を疑う場合（消化管出血による貧血なら不要）<br>✗ dビタミンB12測定：巨赤芽球性貧血の評価→消化管出血が原因の鉄欠乏性貧血では二次的</br></br></br></br></br></br></br></br>"
+       "h": "🌿 黒色便の患者に、次に何をするか——ほかの検査より内視鏡が先",
+       "c": "<span class=\"kw4\"><b>黒色便は上部消化管出血のしるし（Q.96）——出血源を見つけて止めるのが最優先で、それができるのは上部消化管内視鏡</b></span>。<br/><span class=\"kw\"><b>① 内視鏡の前に</b></span><br/><span class=\"kw3\"><b>今の Hb・血小板・PT-INR・BUN を測り直す（持参したのは3週前の値）</b></span><br/><span class=\"kw3\"><b>起立で血圧が下がらないか（Q.120）、静脈路の確保</b></span><br/><span class=\"kw3\"><b>抗凝固薬の効きすぎ（INR 1.9 は心房細動の目標の範囲内だが、NSAIDs で強まる）</b></span><br/><span class=\"kw\"><b>② 内視鏡で見つかりやすいもの</b></span><br/><span class=\"kw3\"><b>NSAIDs 潰瘍（胃の前庭部の多発・浅い潰瘍）、十二指腸潰瘍、急性胃粘膜病変、胃癌</b></span><br/><span class=\"kw\"><b>③ 内視鏡の後</b></span><br/><span class=\"kw3\"><b>NSAIDs を中止し、PPI</b></span><br/><span class=\"kw4\"><b>抗凝固薬は、止血の確認後に早めに再開する——心房細動の脳梗塞予防を長く止めない</b></span><br/><span class=\"kw3\"><b>NSAIDs の代わりの膝の痛みの治療を考える</b></span><br/><span class=\"kw\"><b>④ ほかの検査が後回しになる理由</b></span><br/><span class=\"kw3\"><b>神経所見が正常で、ふらつきは貧血で説明できる——頭部 CT は優先しない</b></span><br/><span class=\"kw3\"><b>黒色便は直腸・肛門の出血ではない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　頭部CT</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>眼振・麻痺・歩行障害などの神経所見がない</b></span>。<span class=\"kw3\"><b>ふらつき・目覚めの悪さは貧血で説明できる</b></span>。<span class=\"kw2\"><b>抗凝固薬の内服者で頭部打撲や神経症状があれば撮る（Q.121）</b></span>。</td></tr><tr><td>ｂ　直腸鏡検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>鮮血便・排便時の出血の検査</b></span>。<span class=\"kw3\"><b>黒色便は上部消化管出血を示す</b></span>。</td></tr><tr><td>ｃ　骨髄穿刺検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血球減少が骨髄の病気（白血病・骨髄異形成症候群）による場合に行う</b></span>。<span class=\"kw2\"><b>血小板10万は軽い減少——出血源を調べた後で必要なら評価する</b></span>。</td></tr><tr><td>ｄ　血清ビタミンB12 測定</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大球性貧血の原因を調べる検査</b></span>。<span class=\"kw3\"><b>本例の MCV ＝ 33 ÷ 343万 × 1,000 ≒ 96fL で正球性——出血による貧血に合う</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　上部消化管内視鏡検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>出血源を確かめ、その場で止血できる</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管出血が疑われる患者で次に行うべき検査。<br/><b>a 頭部CT／b 直腸鏡／c 骨髄穿刺／d B12測定</b>：第一でない。<br/><b>e 上部消化管内視鏡検査</b>：<span class=\"kw\">出血源の検索</span>。✓"
+       "h": "🔍 貧血の原因を MCV で絞る",
+       "c": "<span class=\"kw4\"><b>貧血をみたら、まず MCV（平均赤血球容積 ＝ Ht ÷ 赤血球数 × 1,000）で3つに分ける</b></span>。<br/><span class=\"kw\"><b>① 小球性（MCV 80 未満）</b></span><br/><span class=\"kw3\"><b>鉄欠乏性貧血（最多）——慢性の失血（消化管・月経）、吸収不良</b></span><br/><span class=\"kw3\"><b>サラセミア、慢性炎症（一部）、鉄芽球性貧血</b></span><br/><span class=\"kw\"><b>② 正球性（80〜100）</b></span><br/><span class=\"kw4\"><b>急性の出血（鉄欠乏になる前）、溶血、腎性貧血、慢性炎症、骨髄の病気（再生不良性貧血・骨髄異形成症候群）</b></span><br/><span class=\"kw3\"><b>網赤血球で分ける：増えていれば出血・溶血（骨髄は反応している）、減っていれば骨髄の造血の低下</b></span><br/><span class=\"kw\"><b>③ 大球性（100 超）</b></span><br/><span class=\"kw3\"><b>ビタミン B<sub>12</sub>・葉酸欠乏（巨赤芽球性貧血：Q.102）、肝障害、アルコール、甲状腺機能低下症、骨髄異形成症候群、薬（メトトレキサート・ヒドロキシカルバミド）</b></span><br/><span class=\"kw\"><b>④ 本例</b></span><br/><span class=\"kw3\"><b>MCV ≒ 96（正球性）——数週の出血で、まだ鉄欠乏になりきっていない</b></span><br/><span class=\"kw3\"><b>出血が数か月続くと、鉄が尽きて小球性へ移っていく（Q.92）</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>黒色便＋貧血 → 上部消化管内視鏡で出血源の検索と止血</b></span>。<br/><span class=\"kw3\"><b>神経所見がなければ頭部 CT は優先しない。直腸鏡は鮮血便の検査</b></span>。<br/><span class=\"kw3\"><b>止血後は NSAIDs を中止し PPI、抗凝固薬は早めに再開</b></span>。<br/><span class=\"kw4\"><b>MCV で貧血を分類：小球性＝鉄欠乏、正球性＝急性出血・溶血・腎性、大球性＝B<sub>12</sub>・葉酸欠乏</b></span>。<br/><span class=\"kw3\"><b>正球性貧血は網赤血球で、骨髄が反応しているかを見る</b></span>。"
       }
      ],
      "imgs": []
@@ -8889,22 +8919,27 @@
       }
      ],
      "ans_label": "ｄ　内視鏡的静脈瘤硬化療法",
-     "ans_sub": "食道胃接合部周囲（噴門部）静脈瘤（Lg-c）は内視鏡的硬化療法（EIS）が適応。EVLより深部まで治療可能。",
+     "ans_sub": "胃静脈瘤は場所で分ける。<b>噴門部の静脈瘤（Lg-c）</b>は食道静脈瘤と連続していることが多く、供血路も左胃静脈で食道静脈瘤と同じ——食道静脈瘤と同じく<b>内視鏡的静脈瘤硬化療法〈EIS〉</b>で供血路ごと固める。穹窿部の孤立した静脈瘤（Lg-f）は胃腎シャントを持つことが多く、BRTO の対象。EVL は食道の静脈瘤の治療で、噴門部の太い静脈瘤では縛りきれず、脱落後の潰瘍から大出血する危険がある。肝動脈塞栓術は肝細胞癌の治療、内視鏡的粘膜切除術は早期癌・腺腫の治療。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🫀 食道・胃静脈瘤の治療選択",
-       "c": "<table class=\"tb\"><tr><th>部位・型</th><th>治療</th><th>備考</th></tr><tr><td>部位・型</td><td>治療</td><td>備考</td></tr><tr><td>食道静脈瘤</td><td><span class=\"kw\">EVL（結紮術）</span>または<span class=\"kw\">EIS</span></td><td>EVLが第一選択</td></tr><tr><td><span class=\"kw\">噴門部静脈瘤（Lg-c）</span></td><td><span class=\"kw\">EIS（硬化療法）（正答d）</span></td><td>EVLでは届きにくい位置に硬化剤注射</td></tr><tr><td>胃底部静脈瘤（Lg-f）</td><td><span class=\"kw\">BRTO（バルーン閉塞下逆行性経静脈塞栓術）</span></td><td>腎静脈→脾腎短絡路から逆行性に塞栓</td></tr></table>"
+       "h": "🌿 胃静脈瘤の治療は「どこにあり、どの血管から来て、どこへ抜けるか」で選ぶ",
+       "c": "<span class=\"kw4\"><b>胃静脈瘤は場所によって、血液の入口（供血路）と出口（排血路）が違う——治療は流れに合わせて選ぶ</b></span>。<br/><span class=\"kw\"><b>① 噴門部の静脈瘤（Lg-c）</b></span><br/><span class=\"kw3\"><b>食道静脈瘤から続いて噴門へ広がる</b></span><br/><span class=\"kw4\"><b>供血路は主に左胃静脈、排血路は食道静脈瘤を経て奇静脈——食道静脈瘤と同じ流れ</b></span><br/><span class=\"kw4\"><b>治療：EIS（5％エタノールアミンオレイン酸を静脈瘤の中へ）で供血路まで固める</b></span><br/><span class=\"kw3\"><b>食道静脈瘤の治療に合わせて、一緒に消えていくことも多い</b></span><br/><span class=\"kw\"><b>② 穹窿部の静脈瘤（Lg-f）</b></span><br/><span class=\"kw3\"><b>食道静脈瘤と離れて、孤立して大きくなる</b></span><br/><span class=\"kw4\"><b>供血路は後胃静脈・短胃静脈、排血路は胃腎シャント（左腎静脈へ）</b></span><br/><span class=\"kw4\"><b>治療：BRTO（左腎静脈からシャントをバルーンで止めて硬化剤を入れる：Q.152）</b></span><br/><span class=\"kw3\"><b>出血しているときは、内視鏡でシアノアクリレート系の組織接着剤を注入して固める</b></span><br/><span class=\"kw\"><b>③ 胃静脈瘤の性質</b></span><br/><span class=\"kw3\"><b>食道静脈瘤より出血しにくいが、出血すると大量で止まりにくい</b></span><br/><span class=\"kw\"><b>④ EVL を噴門部・穹窿部に使わない理由</b></span><br/><span class=\"kw3\"><b>太く深い静脈瘤は縛りきれず、ゴムバンドが外れた後の潰瘍から大出血しやすい</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　肝動脈塞栓術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝細胞癌の治療（栄養している肝動脈を詰める）</b></span>。<span class=\"kw3\"><b>静脈瘤は門脈系の静脈の病気</b></span>。</td></tr><tr><td>ｂ　内視鏡的粘膜切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期癌・腺腫を切り取る方法——静脈瘤に行えば大出血する</b></span>。</td></tr><tr><td>ｃ　内視鏡的静脈瘤結紮術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道静脈瘤の治療</b></span>。<span class=\"kw3\"><b>噴門部の太い静脈瘤は縛りきれず、脱落後の潰瘍から大出血する危険がある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　内視鏡的静脈瘤硬化療法</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>Lg-c は食道静脈瘤と連続し、左胃静脈から供血される——EIS で供血路ごと固める</b></span>。</td></tr><tr><td>ｅ　バルーン閉塞下逆行性経静脈塞栓術〈BRTO〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃腎シャントを持つ穹窿部の孤立した静脈瘤（Lg-f）の治療</b></span>。<span class=\"kw3\"><b>Lg-c は胃腎シャントを経由しないことが多い</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 門脈の「出口」を閉じる治療と、作る治療——BRTO と TIPS",
+       "c": "<span class=\"kw4\"><b>静脈瘤は、門脈圧が高いために血液が側副路へ逃げてできる——治療で出口を閉じるか、新しい出口を作るかで、門脈圧への影響が逆になる</b></span>。<br/><span class=\"kw\"><b>① BRTO（出口を閉じる）</b></span><br/><span class=\"kw3\"><b>胃腎シャントを閉じて、胃静脈瘤を固める</b></span><br/><span class=\"kw4\"><b>行き場を失った門脈血が肝へ向かい、肝性脳症（シャントによる）が良くなることがある</b></span><br/><span class=\"kw4\"><b>一方で門脈圧が上がり、食道静脈瘤・腹水が悪化することがある——治療後に内視鏡で食道静脈瘤を確かめる</b></span><br/><span class=\"kw\"><b>② TIPS（出口を作る）</b></span><br/><span class=\"kw3\"><b>頸静脈からカテーテルを入れ、肝の中で肝静脈と門脈をステントでつなぐ</b></span><br/><span class=\"kw4\"><b>門脈圧が下がり、静脈瘤の出血・難治性の腹水に効く</b></span><br/><span class=\"kw4\"><b>肝を通らない血が増え、肝性脳症が悪化しやすい</b></span><br/><span class=\"kw\"><b>③ 部分的脾動脈塞栓術〈PSE〉</b></span><br/><span class=\"kw3\"><b>脾臓の一部を塞栓して、脾機能亢進（血小板減少）と門脈血流を減らす</b></span><br/><span class=\"kw\"><b>④ 手術</b></span><br/><span class=\"kw3\"><b>Hassab 手術（胃上部の血行遮断と脾摘）、シャント手術——今は少ない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道静脈瘤 → EVL（or EIS）</span> ｜ <span class=\"kw\">胃底部静脈瘤 → BRTO</span> ｜ <span class=\"kw\">噴門部静脈瘤 → EIS</span><br/>BRTO：左腎静脈から逆行性にバルーンカテーテル挿入→胃腎短絡路を閉塞。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃噴門周囲の静脈瘤（Lg-c）の治療法。<br/><b>a 肝動脈塞栓／b EMR／c EVL（食道向け）／e BRTO（孤立性胃静脈瘤向け）</b>：本病変に第一でない。<br/><b>d 内視鏡的静脈瘤硬化療法</b>：<span class=\"kw\">噴門部に連続する静脈瘤の硬化療法</span>。✓"
+       "c": "<span class=\"kw4\"><b>噴門部の静脈瘤（Lg-c）→ EIS（食道静脈瘤と連続、左胃静脈から供血）</b></span>。<br/><span class=\"kw4\"><b>穹窿部の孤立した静脈瘤（Lg-f）→ BRTO（胃腎シャント経由）、出血中は組織接着剤</b></span>。<br/><span class=\"kw3\"><b>EVL は食道静脈瘤の治療。胃の太い静脈瘤には向かない</b></span>。<br/><span class=\"kw3\"><b>BRTO 後は門脈圧が上がり、食道静脈瘤・腹水が悪化しうる</b></span>。<br/><span class=\"kw3\"><b>TIPS は門脈圧を下げるが、肝性脳症が悪化しやすい</b></span>。"
       }
      ],
      "imgs": []

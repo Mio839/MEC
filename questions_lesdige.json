@@ -1332,18 +1332,23 @@
             },
             {
               "cls": "ep",
-              "h": "🦠 H.pylori除菌療法の適応（日本）",
-              "c": "<table class=\"tb\"><tr><th>疾患</th><th>除菌適応</th></tr><tr><td>疾患</td><td>除菌適応</td></tr><tr><td><span class=\"kw\">胃潰瘍（a）</span></td><td><span class=\"kw\">適応（保険）</span>：再発率↓</td></tr><tr><td>十二指腸潰瘍</td><td><span class=\"kw\">適応（保険）</span>：根治的</td></tr><tr><td><span class=\"kw\">胃MALTリンパ腫（e）</span></td><td><span class=\"kw\">適応（保険）</span>：80〜90%で完全寛解</td></tr><tr><td>早期胃癌ESD後</td><td>適応（保険）：異時性癌発生リスク↓</td></tr><tr><td>萎縮性胃炎</td><td>適応（保険）</td></tr><tr><td>特発性血小板減少性紫斑病（ITP）</td><td>適応（保険）：血小板↑する場合あり</td></tr><tr><td><span class=\"kw4\">胃GIST（b）</span></td><td><span class=\"kw4\">除菌非適応</span>（Hp関連なし）</td></tr><tr><td><span class=\"kw4\">3型胃癌（c）</span></td><td><span class=\"kw4\">除菌は治療にならない</span>（進行癌は手術・化学療法）</td></tr><tr><td><span class=\"kw4\">逆流性食道炎（d）</span></td><td><span class=\"kw4\">除菌非適応</span>（Hpは逆流性食道炎とは無関係）</td></tr></table>"
+              "h": "🌿 除菌の対象——「H. pylori が原因・誘因になる病気」",
+              "c": "<span class=\"kw4\"><b>除菌の対象は、H. pylori が原因になる病気と、除菌で将来の病気を防げる状態</b></span>。<br/><span class=\"kw\"><b>① 保険で除菌できる病気</b></span><br/><span class=\"kw3\"><b>胃潰瘍・十二指腸潰瘍：再発をほぼなくす</b></span><br/><span class=\"kw3\"><b>胃 MALT リンパ腫：除菌だけで6〜8割が寛解（Q.91）</b></span><br/><span class=\"kw3\"><b>特発性血小板減少性紫斑病〈ITP〉：除菌で血小板が増える人がいる（菌の抗原に似た血小板の抗原への交差反応と考えられている）</b></span><br/><span class=\"kw3\"><b>早期胃癌の内視鏡治療後：新たな胃癌を減らす（Q.117）</b></span><br/><span class=\"kw4\"><b>H. pylori 感染胃炎（内視鏡で胃炎を確かめる）——事実上、感染者はすべて除菌の対象</b></span><br/><span class=\"kw\"><b>② 除菌の前に必要なこと</b></span><br/><span class=\"kw3\"><b>感染の確認（Q.103）</b></span><br/><span class=\"kw3\"><b>感染胃炎で除菌する場合は、内視鏡で胃炎の確認と胃癌がないことを確かめる</b></span><br/><span class=\"kw\"><b>③ 対象にならないもの</b></span><br/><span class=\"kw3\"><b>H. pylori と関係しない腫瘍（GIST・神経内分泌腫瘍の一部）</b></span><br/><span class=\"kw3\"><b>進行胃癌：癌そのものは除菌で治らない（感染があれば、治療とは別に除菌を考えることはある）</b></span><br/><span class=\"kw3\"><b>逆流性食道炎：H. pylori と関係が薄い</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胃潰瘍</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>除菌で潰瘍の再発がほぼなくなる</b></span>。</td></tr><tr><td>ｂ　胃GIST</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>消化管の筋層の間質細胞（Cajal 介在細胞）から生じる間葉系腫瘍——KIT・PDGFRA の遺伝子変異で起こり、H. pylori とは関係しない</b></span>。<span class=\"kw3\"><b>治療は切除、再発の危険が高ければイマチニブ</b></span>。</td></tr><tr><td>ｃ　3 型胃癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍浸潤型の進行癌——手術・化学療法で治療する</b></span>。<span class=\"kw3\"><b>除菌では癌は治らない</b></span>。</td></tr><tr><td>ｄ　逆流性食道炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>H. pylori と関係が薄い</b></span>。<span class=\"kw3\"><b>除菌で胃酸の分泌が回復し、逆流性食道炎がかえって出てくる・悪くなることがある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　胃MALT リンパ腫</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>除菌だけで寛解することが多い——第一選択の治療</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 除菌の「その後」——良いことと、起こりうる変化",
+              "c": "<span class=\"kw4\"><b>除菌は多くの病気を減らすが、胃の環境が変わることで起こる変化もある</b></span>。<br/><span class=\"kw\"><b>① 減るもの</b></span><br/><span class=\"kw3\"><b>消化性潰瘍の再発、胃癌（特に若いうちの除菌ほど効果が大きい）、MALT リンパ腫、ITP の一部</b></span><br/><span class=\"kw3\"><b>家族内感染の連鎖——親が除菌すると子への感染の機会が減る</b></span><br/><span class=\"kw\"><b>② 起こりうる変化</b></span><br/><span class=\"kw4\"><b>胃酸の分泌が回復し、胸やけ・逆流性食道炎が出てくることがある（多くは軽い）</b></span><br/><span class=\"kw3\"><b>体重が増えることがある（食欲の回復）</b></span><br/><span class=\"kw\"><b>③ 除菌後も残るもの</b></span><br/><span class=\"kw4\"><b>萎縮・腸上皮化生は残り、胃癌の危険はゼロにならない——定期的な内視鏡</b></span><br/><span class=\"kw3\"><b>除菌後の胃癌は平坦で見つけにくい（Q.117）</b></span><br/><span class=\"kw\"><b>④ 再感染</b></span><br/><span class=\"kw3\"><b>成人の再感染はまれ（年に1％未満）——除菌後に陽性に戻ったら、判定が偽陰性だった（除菌できていなかった）可能性を考える</b></span><br/><span class=\"kw\"><b>⑤ 若い世代での除菌</b></span><br/><span class=\"kw3\"><b>中高生での検査と除菌を行う自治体もある——萎縮が進む前の除菌が最も胃癌を減らすため</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">Hp除菌保険適応：胃・十二指腸潰瘍、MALTリンパ腫、早期胃癌ESD後、萎縮性胃炎、ITP</span><br/><span class=\"kw4\">逆流性食道炎・胃GIST・進行胃癌は非適応</span>。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "Helicobacter pylori除菌治療の適応となるものを2つ。<br/><b>b 胃GIST／c 3型胃癌／d 逆流性食道炎</b>：除菌の適応でない。<br/><b>a 胃潰瘍</b>：<span class=\"kw\">H.pylori陽性の消化性潰瘍は除菌適応</span>。✓<br/><b>e 胃MALTリンパ腫</b>：<span class=\"kw\">除菌で退縮</span>。✓"
+              "c": "<span class=\"kw4\"><b>除菌の適応：胃・十二指腸潰瘍、胃 MALT リンパ腫、ITP、早期胃癌の内視鏡治療後、H. pylori 感染胃炎</b></span>。<br/><span class=\"kw3\"><b>GIST（KIT・PDGFRA 変異）・進行胃癌・逆流性食道炎は対象外</b></span>。<br/><span class=\"kw3\"><b>感染胃炎の除菌は内視鏡で胃炎と胃癌がないことを確かめてから</b></span>。<br/><span class=\"kw3\"><b>除菌後に逆流性食道炎が出ることがある</b></span>。<br/><span class=\"kw3\"><b>除菌後も萎縮は残り、胃癌の危険はゼロにならない</b></span>。"
             }
           ],
           "imgs": []
