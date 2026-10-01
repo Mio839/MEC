@@ -9288,22 +9288,27 @@
             }
           ],
           "ans_label": "ｄ　④",
-          "ans_sub": "PICCは肘関節より中枢側の上腕（肘窩近位）の静脈から挿入し、先端を上大静脈に留置する。",
+          "ans_sub": "PICC は<b>上腕の静脈（尺側皮静脈・上腕静脈・橈側皮静脈）</b>から超音波ガイド下に挿入し、先端を上大静脈に置く——写真では<b>④（上腕の内側）</b>。①は頸部（内頸静脈）、②・③は鎖骨の下の前胸部（鎖骨下静脈・腋窩静脈）で、通常の中心静脈カテーテルや皮下埋め込み型ポートの穿刺部位。⑤は前腕で、カテーテルが長くなり、肘の屈曲で折れ曲がる・静脈炎を起こしやすいので、成人の PICC の刺入部位として適切でない。",
           "eg": [
             {
               "cls": "ep",
-              "h": "💉 PICCの刺入部位",
-              "c": "<span class=\"kw\">PICC（Peripherally Inserted Central Catheter）</span>：<br>・挿入部位：肘関節より<span class=\"kw\">中枢側（上腕）の静脈</span><br/>　- 橈側皮静脈（cephalic vein）<br/>　- 尺側皮静脈（basilic vein）← 最も多く使用<br/>　- 上腕静脈（brachial vein）<br/>・先端位置：上大静脈（SVC）と右房の接合部<br/><br/><span class=\"kw\">④上腕の静脈（正答）</span>：肘窩近位〜上腕中部<br/><br/><span class=\"kw4\">誤りの部位</span>：<br/>①②③：頸部・前胸部 → CVC（内頸・鎖骨下）の挿入部位<br/>⑤：前腕・手背 → 末梢静脈留置（IVH不可能）</br>"
+              "h": "🌿 PICC をどこから入れるか——上腕の静脈の解剖と、肘より上を選ぶ理由",
+              "c": "<span class=\"kw3\"><b>PICC の利点と、末梢か中心かの選び方は Q.63 で見た</b></span>。<span class=\"kw4\"><b>ここでは刺入部位の解剖と、なぜ上腕なのかを整理する</b></span>。<br/><span class=\"kw\"><b>① 写真の番号</b></span><br/><span class=\"kw3\"><b>①：頸部の胸鎖乳突筋の付近——内頸静脈の穿刺部位（Q.74・Q.75）</b></span><br/><span class=\"kw3\"><b>②：鎖骨の直下——鎖骨下静脈の穿刺部位</b></span><br/><span class=\"kw3\"><b>③：その下の前胸部——腋窩静脈の穿刺、皮下埋め込み型ポートを置く場所</b></span><br/><span class=\"kw4\"><b>④：上腕の内側（肘より上）——PICC の刺入部位</b></span><br/><span class=\"kw3\"><b>⑤：前腕——末梢静脈路をとる場所</b></span><br/><span class=\"kw\"><b>② 上腕の静脈</b></span><br/><span class=\"kw4\"><b>尺側皮静脈：上腕の内側を走り、太く、腋窩静脈へまっすぐつながる——PICC の第一選択</b></span><br/><span class=\"kw3\"><b>上腕静脈：上腕動脈・正中神経と並走する（誤穿刺に注意）</b></span><br/><span class=\"kw3\"><b>橈側皮静脈：上腕の外側。鎖骨下静脈に直角に近く合流するので、カテーテルが進みにくい</b></span><br/><span class=\"kw\"><b>③ 肘より上（上腕）を選ぶ理由</b></span><br/><span class=\"kw4\"><b>肘の屈曲でカテーテルが折れ曲がらない、動きによる静脈の刺激・静脈炎が少ない</b></span><br/><span class=\"kw3\"><b>上腕の静脈は太く、カテーテルの太さに対して余裕があり血栓ができにくい</b></span><br/><span class=\"kw3\"><b>超音波で深い静脈も確実に穿刺できる</b></span><br/><span class=\"kw2\"><b>かつては肘窩の静脈から盲目的に入れていたが、静脈炎・閉塞が多かった</b></span><br/><span class=\"kw\"><b>④ 先端の位置</b></span><br/><span class=\"kw4\"><b>上大静脈の下部〜右房との接合部——エックス線写真で確認する</b></span><br/><span class=\"kw3\"><b>内頸静脈へ逆行する、反対側の腕頭静脈へ進むなどの迷入がある</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>頸部——内頸静脈の穿刺部位で、通常の中心静脈カテーテル（CVC）を入れる場所</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>鎖骨の直下——鎖骨下静脈の穿刺部位</b></span>。<span class=\"kw3\"><b>気胸の危険がある（PICC はこれを避けるための方法）</b></span>。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>前胸部——腋窩静脈の穿刺部位や、皮下埋め込み型ポートの本体を置く場所</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　④</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>上腕の内側——尺側皮静脈・上腕静脈を超音波ガイド下に穿刺する</b></span>。</td></tr><tr><td>ｅ　⑤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>前腕——肘関節をまたぐので、屈曲でカテーテルが折れ、静脈炎・閉塞を起こしやすい</b></span>。<span class=\"kw3\"><b>静脈が細く、カテーテルも長くなる</b></span>。<span class=\"kw2\"><b>小児・新生児では手背・足背などからも挿入する</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 PICC の合併症と、入れてはいけない人",
+              "c": "<span class=\"kw4\"><b>PICC は気胸がほぼないが、合併症がないわけではない</b></span>。<br/><span class=\"kw\"><b>① 主な合併症</b></span><br/><span class=\"kw4\"><b>上肢の深部静脈血栓症：最も多い——腕の腫れ・痛み。癌・カテーテルの太さ・先端位置の不良で増える</b></span><br/><span class=\"kw3\"><b>閉塞：細く長いので血栓・薬剤の析出で詰まりやすい。使用後のフラッシュ</b></span><br/><span class=\"kw3\"><b>静脈炎（機械的・化学的）、カテーテル関連血流感染症（CVC と同程度）</b></span><br/><span class=\"kw3\"><b>先端の迷入（内頸静脈・対側の腕頭静脈）</b></span><br/><span class=\"kw3\"><b>カテーテルの断裂・抜けかけ（固定の工夫）</b></span><br/><span class=\"kw\"><b>② 入れるべきでない人</b></span><br/><span class=\"kw4\"><b>慢性腎臓病（CKD ステージ3b 以上）・透析患者：上肢の静脈を傷めると将来のシャント（Q.75）が作れなくなる——静脈を温存する</b></span><br/><span class=\"kw3\"><b>乳癌の手術でリンパ節郭清をした側の腕、片麻痺側、上肢の静脈血栓の既往</b></span><br/><span class=\"kw\"><b>③ PICC が向いている人</b></span><br/><span class=\"kw3\"><b>数週間〜数か月の静脈栄養・抗菌薬・化学療法、末梢静脈路が確保できない人、出血傾向（圧迫止血ができる）、頸部・胸部に穿刺したくない人</b></span><br/><span class=\"kw\"><b>④ 管理</b></span><br/><span class=\"kw3\"><b>週1回のドレッシングと固定具の交換、毎回の使用前後のフラッシュ、腕の腫れ・発赤の観察</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">PICC刺入部位 = 上腕の静脈（橈側皮静脈・尺側皮静脈）</span><br/>PICC利点：気胸リスクなし、超音波ガイドで安全に挿入可能。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "成人のPICC（末梢挿入中心静脈カテーテル）の適切な刺入部位。<br/><b>a ①／b ②／c ③／e ⑤</b>：適切でない。<br/><b>d ④</b>：<span class=\"kw\">上腕（尺側皮静脈等）から挿入する</span>。✓"
+              "c": "<span class=\"kw4\"><b>PICC の刺入部位：上腕の静脈（尺側皮静脈が第一選択）、肘より上を超音波ガイド下で</b></span>。<br/><span class=\"kw3\"><b>肘窩・前腕は屈曲で折れ、静脈炎・閉塞が多い</b></span>。<br/><span class=\"kw3\"><b>頸部（内頸）・鎖骨下・腋窩は通常の CVC・ポートの部位</b></span>。<br/><span class=\"kw3\"><b>先端は上大静脈下部〜右房接合部、エックス線で確認</b></span>。<br/><span class=\"kw4\"><b>PICC の合併症は上肢の深部静脈血栓症が最多。CKD・透析患者は静脈温存のため避ける</b></span>。"
             },
             {
               "cls": "ept",
