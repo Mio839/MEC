@@ -64,6 +64,14 @@
   <button class="hub-upd-btn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）" aria-label="最新に更新">♻️</button>
   <!-- 版数（progress.js が入れる）。Pages に新しい版が出ていれば「↑版数」になる＝push の反映確認 -->
   <span class="hub-ver mec-build-ver" title="この画面の版数">…</span>
+  <!-- 今日の日付と国試までの日数（2026-10-01 にヒーローの見出し行から移した）。中身は renderHero() が入れる。
+       ⚠️ 日付は JST で切る（_todayLabelJa）。タップで今日のブリーフィングを開く -->
+  <span class="hub-day">
+    <span class="hero-date" id="heroDate" role="button" tabindex="0" title="タップで今日のブリーフィングを開く" style="cursor:pointer" onclick="window.MecOpening&&MecOpening.open({manual:true})" onkeydown="if(event.key==='Enter'){event.preventDefault();window.MecOpening&&MecOpening.open({manual:true});}"></span>
+    <span class="exam-countdown" id="examCountdownChronos" title="第120回医師国家試験までの残り日数">
+      <span class="cd-lbl">国試まで</span><b class="cd-num" id="examCountdownDays">--</b><span class="cd-unit">日</span>
+    </span>
+  </span>
   <div class="hub-tools">
     <!-- 同期状態は常時見えていてほしい（stale/error を progress.js が data-status で塗る） -->
     <span class="mec-sync-badge">⚙️ 未設定</span>
@@ -89,7 +97,7 @@
 
   <!-- 計器盤ヒーロー: 大きな読み値＝いま何をすべきか。中身は renderHero() が入れる。
        ⚠️ 数字は必ず実データ由来にすること。架空の数字を置くくらいなら数字を出さない -->
-  <section class="hero rv" style="--i:0" aria-labelledby="heroLabelTx">
+  <section class="hero rv" style="--i:0" aria-label="今日の学習">
     <div class="hero-bloom" aria-hidden="true"></div>
     <!-- 💎 Liquid：Hero の地に揺れる水面の光（liquid 以外では display:none） -->
     <div class="liquid-caustics" aria-hidden="true"><i></i><i></i></div>
@@ -105,20 +113,6 @@
 
     <div class="hero-body">
       <div class="hero-console">
-        <!-- 日付は「今日解いた問題」と同じ行に置く。日をまたいで開きっぱなしにしていると
-             数字が0に戻る日があるので、どの日の集計かをここで名指しする -->
-        <p class="hero-label">
-          <span class="hero-live" aria-hidden="true"></span>
-          <span class="lb" id="heroLabelTx">読み込み中…</span>
-          <span class="hero-label-acc" id="heroLabelAcc"><span class="acc-ic" aria-hidden="true">🎯</span>正解率</span>
-          <span class="hero-label-meta">
-            <span class="hero-date" id="heroDate" role="button" tabindex="0" title="タップで今日のブリーフィングを開く" style="cursor:pointer" onclick="window.MecOpening&&MecOpening.open({manual:true})" onkeydown="if(event.key==='Enter'){event.preventDefault();window.MecOpening&&MecOpening.open({manual:true});}"></span>
-            <!-- ⏳ 国試カウントダウン・クロノス -->
-            <span class="exam-countdown" id="examCountdownChronos" title="第120回医師国家試験までの残り日数">
-              <span class="cd-lbl">国試まで</span><b class="cd-num" id="examCountdownDays">--</b><span class="cd-unit">日</span>
-            </span>
-          </span>
-        </p>
         <div class="hero-stat-row">
           <p class="hero-fig"><span class="hero-num" id="heroNum">0</span><span class="hero-unit" id="heroUnit">問</span></p>
           <p class="hero-fig hero-acc-fig" id="heroAccBadge" title="本日の試験・復習問題の正解率">

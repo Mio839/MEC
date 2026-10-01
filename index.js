@@ -1560,15 +1560,14 @@ function renderHero() {
 
   const td = getTodayLearning();
 
-  const label = document.getElementById('heroLabelTx');
   const say   = document.getElementById('heroSay');
   const p1    = document.getElementById('heroPrimary');
   const p2    = document.getElementById('heroSecondary');
   const p3    = document.getElementById('heroTertiary');
 
   // 大きな読み値は常に「今日どれだけやったか」。何をすべきかは主ボタンと計器行が担う。
-  label.textContent = '今日解いた問題';
-  // 同じ行に日付。⚠️ 端末のローカル日付ではなく JST で切ること
+  // 見出し（今日解いた問題・正解率）は 2026-10-01 に撤去し、日付と国試までの日数はヘッダーへ移した。
+  // 日付は ⚠️ 端末のローカル日付ではなく JST で切ること
   //    （activity_v1・ミッション・attempts と同じ日境界＝数字と日付が食い違わない）
   const dateEl = document.getElementById('heroDate');
   if (dateEl) dateEl.textContent = _todayLabelJa();

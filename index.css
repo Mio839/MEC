@@ -132,27 +132,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hero-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--sp-5);align-items:center;}
 /* ── ヒーロー左列：計器コンソール＆情報ブロック ── */
 .hero-console{position:relative;min-width:0;z-index:2;}
-.hero-label{display:flex;align-items:center;gap:6px;min-width:0;flex-wrap:nowrap;
-  font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--tx);}
-/* 見出し語（今日解いた問題）は省略（...）させず全文字表示を死守 */
-.hero-label .lb{flex-shrink:0;white-space:nowrap;min-width:max-content;letter-spacing:.04em;}
-/* 🎯 正解率の見出しラベル。「今日解いた問題」の右に程よく配置し、下の特大正解率バッジと整列 */
-.hero-label-acc{display:inline-flex;align-items:center;gap:3px;flex-shrink:0;
-  font-size:11.5px;font-weight:800;letter-spacing:.02em;color:var(--ts);
-  margin-left:clamp(10px,2vw,18px);padding-left:9px;border-left:1.5px solid var(--hair-2);
-  white-space:nowrap;}
-.hero-label-acc .acc-ic{font-size:11.5px;line-height:1;}
-/* 生体バイタルサイン調の鼓動ダブルパルス */
-.hero-live{width:8px;height:8px;flex-shrink:0;border-radius:50%;
-  background:var(--or);box-shadow:0 0 0 3px var(--orl),0 0 10px var(--or);
-  animation:vitalPulse 2.4s ease-in-out infinite;}
-@keyframes vitalPulse{
-  0%,100%{transform:scale(1);box-shadow:0 0 0 3px var(--orl),0 0 8px var(--or);}
-  50%{transform:scale(1.25);box-shadow:0 0 0 6px var(--orl),0 0 16px var(--or),0 0 24px var(--or);}
-}
-/* 右側のメタ情報（日付＋国試カウントダウン）コンテナ：同一行の右端に固定収容 */
-.hero-label-meta{display:inline-flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0;white-space:nowrap;}
-/* 日付。磨かれたガラスプレート調ピルバッジ（今日解いた問題と同じ行に必ず収める） */
+/* 日付と国試までの日数はヘッダーの1行に置く（2026-10-01 にヒーローの見出し行から移した） */
+.hub-day{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap;}
+/* 日付。磨かれたガラスプレート調ピルバッジ */
 .hero-date{flex-shrink:0;padding:2px 8px;border-radius:999px;
   border:1px solid var(--hair-2);background:rgba(var(--glass-rgb),.08);
   font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--ts);
@@ -345,6 +327,10 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
    1段目の高さを数字の塊に合わせる。2026-10-01 にゲージを10%大きく（208→229px）したので -20px → -30px。⚠️ 1列（≤560px）ではゲージは待機列の下に回るので触らない。 */
 @media (min-width:561px){
   .hero-body>.gauge{align-self:start;margin-top:-30px;}
+  /* 見出し行（今日解いた問題・正解率・日付）を 2026-10-01 に撤去したので、左の数字の塊（約170px）はゲージ（229px）より低い。
+     上に寄せると左下に空きが溜まるので、ゲージの高さの中で上下中央に置く（1段目の高さはゲージが決める） */
+  .hero-body>.hero-console{align-self:center;}
+  .hero-console>.hero-stat-row{margin-top:0;}
 }
 @media (max-width:560px){
   .hero-body>.hero-console{order:0;}
@@ -599,14 +585,17 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 @media (max-width:560px){
   .hero-body{grid-template-columns:minmax(0,1fr);gap:var(--sp-4);}
   .gauge{width:min(189px,64vw);justify-self:end;}
-  .hero-label{gap:5px;}
-  .hero-label-acc{margin-left:8px;padding-left:8px;}
-  .hero-label-meta{gap:4px;}
+  .hub-day{gap:4px;}
   .hero-date{padding:2px 6px;font-size:10px;}
   .exam-countdown{padding:2px 6px;font-size:10px;}
 }
-@media (max-width:400px){
-  .exam-countdown .cd-lbl{display:none;} /* 幅400px未満の極小端末でも日付バッジと同一行を完全死守 */
+/* 狭い画面（≤720px）では日付と国試までの日数をヘッダーの2行目へ折り返す。
+   1行に要る幅は約630px（♻️・日付の段 約230px・右の道具 約240px・余白）＋ロゴ。1行のままだと横にはみ出す */
+@media (max-width:720px){
+  .hub-header{flex-wrap:wrap;row-gap:4px;}
+  /* 1行目は縮めて収める（基準幅0＝折り返しの判定に使わせない）。2行目は日付の段だけ */
+  .hub-mark,.hub-upd{flex:1 1 0;}
+  .hub-day{order:10;flex-basis:100%;justify-content:center;}
 }
 
 .hero-body{position:relative;}
@@ -1078,12 +1067,6 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 .gear-d{animation:gearSpin calc(var(--gear-t,26s) * .583) linear infinite reverse;}
 @keyframes gearSpin{to{transform:rotate(360deg);}}
 
-/* ── 在線灯。点そのものではなく外側の輪が広がって消える ── */
-.hero-live{position:relative;}
-.hero-live::after{content:'';position:absolute;inset:-4px;border-radius:50%;
-  border:1.5px solid var(--or);
-  animation:livePing 2.4s var(--ease-out) infinite;}
-@keyframes livePing{0%{transform:scale(.6);opacity:.9;}70%,100%{transform:scale(2);opacity:0;}}
 
 /* ── 大きな読み値は下端を軸に立ち上がる ── */
 .hero-num{transform-origin:0 100%;animation:numIn .55s var(--ease-out) backwards;}
@@ -3535,10 +3518,6 @@ html.ui-aurora .strip-c{
   box-shadow:0 2px 10px rgba(0,0,0,.2),inset 0 0 12px rgba(0,223,216,.08);
 }
 html.ui-aurora .exam-countdown{border-color:rgba(0,223,216,.4);box-shadow:0 0 12px rgba(0,223,216,.25);}
-html.ui-aurora .hero-label-acc{
-  border-left-color:rgba(0,223,216,.4);color:#00DFD8;
-  text-shadow:0 0 8px rgba(0,223,216,.3);
-}
 html.ui-aurora .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(0,223,216,.18) 0%,rgba(121,40,202,.14) 45%,transparent 70%);}
 html.ui-aurora .ambient-grid{opacity:.25;background-image:radial-gradient(rgba(0,223,216,.25) 1px,transparent 1px);background-size:20px 20px;}
 html.ui-aurora .cta-main{background:linear-gradient(135deg,#00DFD8,#7928CA 60%,#FF0080);color:#FFF;box-shadow:0 4px 18px rgba(0,223,216,.35),inset 0 1px 1px rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.4);text-shadow:0 1px 2px rgba(0,0,0,.4);}
@@ -3691,9 +3670,6 @@ html.ui-brass .strip-c{
   box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(224,194,94,.2);
 }
 html.ui-brass .exam-countdown{border-color:rgba(201,162,39,.45);background:rgba(201,162,39,.08);box-shadow:0 0 10px rgba(201,162,39,.25);}
-html.ui-brass .hero-label-acc{
-  font-family:"Georgia",serif;border-left-color:rgba(201,162,39,.4);color:#E0C25E;
-}
 html.ui-brass .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(201,162,39,.18) 0%,rgba(184,115,51,.12) 45%,transparent 70%);}
 html.ui-brass .ambient-grid{opacity:.28;background-image:repeating-linear-gradient(45deg,rgba(201,162,39,.08) 0 1px,transparent 1px 12px);}
 html.ui-brass .cta-main{background:linear-gradient(180deg,#E0C25E 0%,#C9A227 45%,#967018 100%);color:#231604;font-weight:900;box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 1px 1px #FFFDF0,inset 0 -2px 3px rgba(0,0,0,.35);border:1.5px solid #E0C25E;text-shadow:0 1px 0 rgba(255,255,255,.4);}
@@ -3851,10 +3827,6 @@ html.ui-cyber .strip-c::after{
   border-top:1.5px solid #00FF9D;border-right:1.5px solid #00FF9D;
 }
 html.ui-cyber .exam-countdown{border-radius:2px;border:1px solid #00E5FF;background:rgba(0,229,255,.08);box-shadow:0 0 12px rgba(0,229,255,.3);}
-html.ui-cyber .hero-label-acc{
-  font-family:monospace;border-left-color:rgba(0,229,255,.45);color:#00E5FF;
-  text-shadow:0 0 6px rgba(0,229,255,.4);
-}
 html.ui-cyber .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(0,229,255,.18) 0%,rgba(0,255,157,.10) 45%,transparent 70%);}
 html.ui-cyber .ambient-grid{opacity:.35;background-image:linear-gradient(rgba(0,229,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.12) 1px,transparent 1px);background-size:16px 16px;}
 html.ui-cyber .cta-main{border-radius:3px;background:linear-gradient(135deg,#00FF9D 0%,#00E5FF 100%);color:#02120A;font-weight:900;box-shadow:0 0 18px rgba(0,255,157,.45),inset 0 0 8px #FFF;border:1px solid #00FF9D;letter-spacing:0.04em;}
@@ -4006,9 +3978,6 @@ html.ui-liquid .strip-c{
   border-color:rgba(255,0,127,.35);box-shadow:0 4px 14px rgba(255,0,127,.15);
 }
 html.ui-liquid .exam-countdown{border-radius:14px;border-color:rgba(255,0,127,.45);background:rgba(255,0,127,.08);}
-html.ui-liquid .hero-label-acc{
-  border-left-color:rgba(255,0,127,.4);color:#FF52A0;
-}
 html.ui-liquid .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(255,0,127,.18) 0%,rgba(0,242,254,.12) 45%,transparent 70%);}
 html.ui-liquid .ambient-grid{opacity:.2;background-image:radial-gradient(rgba(255,0,127,.25) 1.5px,transparent 1.5px);background-size:24px 24px;}
 html.ui-liquid .cta-main{border-radius:18px;background:linear-gradient(135deg,#FF52A0 0%,#FF007F 50%,#00F2FE 100%);color:#FFF;box-shadow:0 4px 20px rgba(255,0,127,.4),inset 0 2px 2px rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.4);text-shadow:0 1px 3px rgba(0,0,0,.3);}
@@ -4167,9 +4136,6 @@ html.ui-kintsugi .strip-c{
   box-shadow:0 4px 14px rgba(0,0,0,.6),inset 0 0 10px rgba(245,208,97,.1);
 }
 html.ui-kintsugi .exam-countdown{border-color:rgba(245,208,97,.45);background:rgba(245,208,97,.08);box-shadow:0 0 12px rgba(245,208,97,.2);}
-html.ui-kintsugi .hero-label-acc{
-  font-family:"Yu Mincho",serif;border-left-color:rgba(245,208,97,.4);color:#F5D061;
-}
 html.ui-kintsugi .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(245,208,97,.14) 0%,rgba(212,175,55,.08) 45%,transparent 70%);}
 html.ui-kintsugi .ambient-grid{opacity:.18;background-image:repeating-linear-gradient(0deg,rgba(245,208,97,.08) 0 1px,transparent 1px 18px);}
 html.ui-kintsugi .cta-main{background:linear-gradient(180deg,#F5D061 0%,#E5B83A 40%,#B8860B 100%);color:#100C04;font-weight:900;box-shadow:0 4px 16px rgba(0,0,0,.6),inset 0 1px 1px #FFF8D6;border:1.5px solid #F5D061;text-shadow:0 1px 0 rgba(255,255,255,.5);}
@@ -4331,10 +4297,6 @@ html.ui-celestial .strip-c{
   border:1px solid rgba(255,209,102,.35);box-shadow:0 0 14px rgba(138,43,226,.25);
 }
 html.ui-celestial .exam-countdown{border-color:rgba(255,209,102,.45);background:rgba(138,43,226,.12);box-shadow:0 0 14px rgba(255,209,102,.3);}
-html.ui-celestial .hero-label-acc{
-  font-family:"Cinzel",serif;border-left-color:rgba(255,209,102,.45);color:#FFD166;
-  text-shadow:0 0 8px rgba(255,209,102,.4);
-}
 html.ui-celestial .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(255,209,102,.18) 0%,rgba(138,43,226,.15) 45%,transparent 70%);}
 html.ui-celestial .ambient-grid{opacity:.25;background-image:radial-gradient(rgba(255,209,102,.3) 1px,transparent 1px);background-size:28px 28px;}
 html.ui-celestial .cta-main{background:linear-gradient(135deg,#FFD166 0%,#8A2BE2 60%,#1A0B2E 100%);color:#FFF;font-weight:800;box-shadow:0 4px 20px rgba(138,43,226,.4),inset 0 1px 1px rgba(255,255,255,.5);border:1.5px solid #FFD166;text-shadow:0 1px 2px rgba(0,0,0,.5);}
@@ -4506,10 +4468,6 @@ html.ui-abyss .strip-c{
 }
 html.ui-abyss .exam-countdown{border-radius:9px;border:1.5px solid #00FFA3;background:linear-gradient(145deg,rgba(2,18,36,.95),rgba(1,10,24,.98));box-shadow:0 0 16px rgba(0,255,163,.4),0 0 28px rgba(0,229,255,.2),inset 0 1px 0 rgba(255,255,255,.6),inset 0 0 12px rgba(0,255,163,.15);}
 html.ui-abyss .exam-countdown .cd-num{color:#00FFA3;text-shadow:0 0 12px #00FFA3,0 0 20px #00E5FF;}
-html.ui-abyss .hero-label-acc{
-  font-family:monospace;border-left-color:#00FFA3;color:#00FFA3;
-  text-shadow:0 0 10px rgba(0,255,163,.6);
-}
 html.ui-abyss .ambient-nebula{background:radial-gradient(circle at 75% 25%,rgba(0,255,163,.24) 0%,rgba(0,180,216,.18) 40%,transparent 68%),radial-gradient(circle at 25% 70%,rgba(157,78,221,.16) 0%,transparent 55%);}
 html.ui-abyss .ambient-grid{opacity:.26;background-image:repeating-linear-gradient(180deg,rgba(0,255,163,.08) 0 1px,transparent 1px 16px),repeating-linear-gradient(90deg,rgba(0,229,255,.05) 0 1px,transparent 1px 32px);}
 html.ui-abyss .cta-main{border-radius:9px;background:linear-gradient(135deg,#A7F3D0 0%,#00FFA3 25%,#00D2B4 55%,#0077B6 100%);color:#001814;font-weight:900;box-shadow:0 6px 25px rgba(0,255,163,.5),0 0 35px rgba(0,229,255,.35),inset 0 1.5px 1px #FFF,inset 0 -3px 0 rgba(0,50,70,.5);border:1.5px solid #00FFA3;text-shadow:0 1px 2px rgba(0,0,0,.5),0 0 10px rgba(255,255,255,.5);transition:transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s cubic-bezier(.16,1,.3,1);}
@@ -4672,10 +4630,6 @@ html.ui-frost .strip-c{
   box-shadow:0 0 14px rgba(112,214,255,.25),inset 0 0 10px rgba(255,255,255,.08);
 }
 html.ui-frost .exam-countdown{border:1px solid #A0E7E5;background:rgba(160,231,229,.09);box-shadow:0 0 14px rgba(112,214,255,.35);}
-html.ui-frost .hero-label-acc{
-  border-left-color:rgba(160,231,229,.45);color:#A0E7E5;
-  text-shadow:0 0 8px rgba(160,231,229,.4);
-}
 html.ui-frost .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(160,231,229,.2) 0%,rgba(112,214,255,.14) 45%,transparent 70%);}
 html.ui-frost .ambient-grid{opacity:.28;background-image:radial-gradient(rgba(160,231,229,.35) 1px,transparent 1px);background-size:20px 20px;}
 html.ui-frost .cta-main{background:linear-gradient(135deg,#FFF 0%,#A0E7E5 50%,#70D6FF 100%);color:#041824;font-weight:900;box-shadow:0 4px 20px rgba(112,214,255,.45),inset 0 1px 2px #FFF;border:1.5px solid #FFF;text-shadow:0 1px 0 rgba(255,255,255,.5);}
@@ -4929,7 +4883,7 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
 
 @media (prefers-reduced-motion:reduce){
   .rv-s{opacity:1;transform:none;}
-  .gear,.hero-live::after,.cta-main::after,.bar.today::after,.bar-crown,.gauge-dot .halo,
+  .gear,.cta-main::after,.bar.today::after,.bar-crown,.gauge-dot .halo,
   .gauge-ring,.gauge-mid,
   .hero-num .dg,.hero-xp.pop,.sec-n.all,
   .mfx .gm-mission.done::before,.mfx .gm-mission.done::after,
@@ -4937,7 +4891,7 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
   .mfx .gm-mission.done .gm-mission-fill::after{animation:none;}
   /* 段ごとの脈動は詳細度が1段高いので、同じ詳細度で後から打ち消す */
   .gauge[data-tier] .gauge-ring,.gauge[data-tier] .gauge-mid{animation:none;}
-  .hero-live::after,.cta-main::after,.bar.today::after,.bar-crown,
+  .cta-main::after,.bar.today::after,.bar-crown,
   .mfx .gm-mission.done::before,.mfx .gm-mission.done::after,
   .mfx .gm-mission.done .gm-mission-ic::after,
   .mfx .gm-mission.done .gm-mission-num::after,
@@ -4974,7 +4928,7 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
      CSS だけでも必ず止まるようにしておく＝片方だけ直されても動きが残らない */
   .lv-burst,.lv-burst.on{display:none!important;}
   /* 2026-09-05 追加分（Heroゲージ以外の文字・表示・コンソール演出強化） */
-  .hero-live,.exam-countdown::before,.hero-acc::after,.sec-h::before,.sec-h .ln::after,
+  .exam-countdown::before,.hero-acc::after,.sec-h::before,.sec-h .ln::after,
   .hero-num[data-goal="1"],.hero-num[data-goal="2"],
   html.ui-aurora .hero-num[data-goal="1"],html.ui-aurora .hero-num[data-goal="2"],
   html.ui-brass .hero-num[data-goal="1"],html.ui-brass .hero-num[data-goal="2"],
