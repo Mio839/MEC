@@ -178,7 +178,8 @@ function _srsSubjColor(sid) {
 // プロトコル待機列の図（2026-10-01・デモ _work/protocol_feed_demo.html の E 案）:
 //   本日消化の大きいリング／今後14日の予定（今日は数字の箱・明日以降は別の縮尺の棒）／科目別の復習待ち（上位5科目の横棒）。
 // ⚠️ 数字の正本はカード上段（本日消化・復習待ち）と同じ値を受け取って描くだけ＝ここで数え直さない。
-function _srsVizHtml(done, goal, fc, due) {
+// burn（2026-10-01・day_progress.js の MecDay.srsBurn）があれば、横幅いっぱいの段に「今日の復習の減り方」を足す。
+function _srsVizHtml(done, goal, fc, due, burn) {
   const ringR = 40, ringC = 2 * Math.PI * ringR;
   const ratio = goal > 0 ? Math.min(1, done / goal) : (done > 0 ? 1 : 0);
   const ok = goal > 0 && done >= goal;
@@ -240,7 +241,22 @@ function _srsVizHtml(done, goal, fc, due) {
         rows +
       '</div>';
   }
-  return '<div class="srs-viz' + (subj ? '' : ' no-band') + '">' + ring + forecast + subj + '</div>';
+  // 今日の復習の減り方（右下がりの階段・点線＝目標の高さ）。今日 SRS で1問も解いていない日は出さない。
+  // ⚠️ 起点は保存しない（いまの復習待ち＋今日 SRS で解いた数）＝終点は上段の「復習待ち」と必ず一致する。
+  let burnHtml = '';
+  if (burn && burn.done > 0 && window.MecDay) {
+    const goalOk = burn.goal > 0 && burn.done >= burn.goal;
+    burnHtml =
+      '<div class="srs-viz-bn srs-viz-pane' + (goalOk ? ' is-ok' : '') + '">' +
+        '<div class="srs-viz-hd"><span class="srs-viz-t">今日の復習の減り方</span>' +
+          '<span class="srs-viz-note">はじめ <b>' + _fmtN(burn.start) + '</b> → いま <b>' + _fmtN(burn.left) + '</b>（−' + _fmtN(burn.done) + '）</span></div>' +
+        MecDay.burnSvg(burn) +
+        '<div class="bn-axis"><span>' + MecDay.hm(burn.pts[0].ms) + '</span>' +
+          (burn.goal > 0 ? '<span class="bn-goal-l">┄ 目標ライン（' + _fmtN(burn.goal) + '問）' + (goalOk ? ' 通過 ✓' : '') + '</span>' : '') +
+          '<span>いま ' + MecDay.hm(Date.now()) + '</span></div>' +
+      '</div>';
+  }
+  return '<div class="srs-viz' + (subj ? '' : ' no-band') + '">' + ring + forecast + subj + burnHtml + '</div>';
 }
 
 // ── 今日の学習量とXP ──────────────────────────────────────────
@@ -1378,6 +1394,70 @@ function _pickHubNotes(cands, today) {
   return out;
 }
 
+// ── 今日の歩み（2026-10-01・day_progress.js）──────────────────────────
+// ヒーローのレベルの下の1段：前回ハブを開いたときからの差分／今日の定着／セッションごとの正答率の推移。
+// 前回の値は UIローカルの mec_hub_since_v1（同期しない）に、ページを離れる・裏へ回る瞬間に書く。
+// ⚠️ 開いた瞬間には書かないこと（renderHero は同期完了のたびに走る＝書くと差分が毎回0に戻る）。
+// ⚠️ 前回が今日でなければ差分は出さない（前日の結果は朝のブリーフィング hub_opening.js の役目）。
+const K_HUB_SINCE = 'mec_hub_since_v1';
+let _sinceBase = null;
+try {
+  const v = JSON.parse(localStorage.getItem(K_HUB_SINCE) || 'null');
+  if (v && v.day === _jstDay(Date.now())) _sinceBase = v;
+} catch (e) {}
+function _sinceSnap() {
+  return {
+    day: _jstDay(Date.now()), t: Date.now(),
+    solved: getTodayLearning().solved, due: getSRSDueCount(),
+    gem: window.MecDay ? MecDay.masteredTotal() : 0,
+  };
+}
+function _saveSince() {
+  const snap = _sinceSnap();
+  try { localStorage.setItem(K_HUB_SINCE, JSON.stringify(snap)); } catch (e) {}
+  _sinceBase = snap;
+}
+if (typeof document.addEventListener === 'function') document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') _saveSince();
+  else _renderHeroDay(getTodayLearning(), getSRSDueCount());
+});
+if (typeof window.addEventListener === 'function') window.addEventListener('pagehide', _saveSince);
+
+let _heroDayLast = '';
+function _renderHeroDay(td, due) {
+  const host = document.getElementById('heroDay');
+  if (!host || !window.MecDay) return;
+  const rows = MecDay.todayRows();
+  const b = _sinceBase && _sinceBase.day === _jstDay(Date.now()) ? _sinceBase : null;
+  // 1) 前回から（増えてうれしいものは緑。復習待ちだけは減ったら緑）
+  let since;
+  if (b) {
+    const chip = (lbl, v, upGood) => !v ? '' :
+      '<span class="hd-chip ' + ((upGood ? v > 0 : v < 0) ? 'is-good' : 'is-bad') + '">' + lbl + ' <b>' + (v > 0 ? '+' : '−') + _fmtN(Math.abs(v)) + '</b></span>';
+    const chips = chip('解答', td.solved - b.solved, true) + chip('復習待ち', due - b.due, false) + chip('定着', MecDay.masteredTotal() - b.gem, true);
+    since = '<div class="hd-cell hd-since" title="前回このページを離れたとき（' + MecDay.hm(b.t) + '）からの変化">' +
+      '<span class="hd-l">前回 ' + MecDay.hm(b.t) + ' から</span>' +
+      '<span class="hd-v">' + (chips || '<span class="hd-none">変化なし</span>') + '</span></div>';
+  } else {
+    since = '<div class="hd-cell hd-since"><span class="hd-l">前回から</span><span class="hd-v"><span class="hd-none">今日はじめて開きました</span></span></div>';
+  }
+  // 2) 今日の定着（今日はじめて定着した問題＝トロフィー棚の宝石が今日育ったぶん）
+  const gemToday = MecDay.masteredToday();
+  const gem = '<div class="hd-cell hd-gem" title="今日はじめて定着した問題（3回続けて正解し、間隔が十分に伸びた）">' +
+    '<span class="hd-l">今日の定着</span><span class="hd-v"><span class="hd-gem-ic" aria-hidden="true">💎</span><b>+' + _fmtN(gemToday) + '</b><small>問</small></span></div>';
+  // 3) 正答率の推移（セッションごと）
+  const sp = MecDay.sparkHtml(MecDay.sessions(rows));
+  const acc = '<div class="hd-cell hd-acc" title="今日のセッションごとの正答率（' + MecDay.SPARK_MIN_N + '問未満のセッションは除く）">' +
+    '<span class="hd-l">正答率の推移' + (sp.n ? '（' + sp.n + '回）' : '') + '</span>' +
+    (sp.html
+      ? '<span class="hd-v">' + sp.html + (sp.n > 1 ? '<small>' + sp.first + '→</small>' : '') + '<b>' + sp.last + '</b><small>%</small></span>'
+      : '<span class="hd-v"><span class="hd-none">試験・復習で解くと出ます</span></span>') + '</div>';
+  const html = since + gem + acc;
+  // ⚠️ 中身が同じなら書き換えない（同期完了のたびに走る）
+  if (html !== _heroDayLast) { host.innerHTML = html; _heroDayLast = html; }
+  host.hidden = false;
+}
+
 let _noteLastHtml = '';
 function _renderHubNotes(td, due, streak) {
   const host = document.getElementById('hubNoteList');
@@ -1457,6 +1537,7 @@ function renderHero() {
   } catch (e) {}
 
   const fc = getSrsForecast(14);
+  const burn = window.MecDay ? MecDay.srsBurn(MecDay.todayRows(), due) : null;
   if (due > 0) {
     const risk = getSrsRiskBreakdown(sessionLimit);
     say.classList.remove('is-clear');
@@ -1523,7 +1604,7 @@ function renderHero() {
         '<span class="rb-mid" style="flex:' + risk.mid + '"></span>' +
         '<span class="rb-due" style="flex:' + risk.dueToday + '"></span>' +
       '</div>' +
-      _srsVizHtml(srsDoneToday, srsGoal, fc, due);
+      _srsVizHtml(srsDoneToday, srsGoal, fc, due, burn);
   } else {
     say.classList.add('is-clear');
     say.innerHTML =
@@ -1538,7 +1619,7 @@ function renderHero() {
         '</div>' +
       '</div>' +
       '<p class="srs-card-hint">現在、復習期限を迎えた問題はありません。全 ' + _fmtN(totalQ) + '問から新しい問題を進めましょう！</p>' +
-      _srsVizHtml(srsDoneToday, srsGoal, fc, 0);
+      _srsVizHtml(srsDoneToday, srsGoal, fc, 0, burn);
   }
 
   // ボタンは3つとも席が固定: 主＝いま一番やるべきこと／副＝復習／3つ目＝今日の誤答。
@@ -1669,6 +1750,7 @@ function renderHero() {
   // 📋 今日の所見。旧「臨床スキルレーダー」の席（座標を固定係数で作っていただけの図）を
   //    その日のデータから作り直す観察に置き換えた（2026-09-12）。
   _renderHubNotes(td, due, streak);
+  _renderHeroDay(td, due);
   _renderHubRadar();
 
   // E6: 計器行も大きな読み値と同じくカウントアップさせる。

@@ -47,6 +47,7 @@ CLAUDE.md に残してあるのは各領域の不変条件の要約だけで、*
 | `hub_liquid.js` | **ハブのヒーローゲージ（UIテーマ Liquid）**（2026-09-29新設・`window.MecLiquidGauge`）。旧 Liquid ゲージ（ラバ・セル・膜のくびれ等）を撤去し、`#gaugeLiquidCanvas` 1枚に塊・漂うかけら・光の網・弧を描く。index.js は `set(pct)` を呼ぶだけ。⚠️ 100% 超でも色を変えない／かけらを周回させない／雫はその場で消さず塊へ吸い込ませる。正本のデモは `_work/gauge_liquid_demo.html`。詳細は `_work/仕様/ハブ.md`「Liquid のゲージ」。テスト: `node _work/test_hub_liquid.js` |
 | `trophy.js` | **トロフィー棚**（2026-09-23新設・`window.MecTrophy`・ハブのタイル 🏆）。定着コレクション（科目ごとの宝石）・章メダル（金銀銅＝`gamify.js` の `chapterGrade`＝章の星と同じ式）・科目制覇の👑。**新しいキーを持たず** `mec_srs_v1`/`myrate_v1`/`done_v2` から毎回計算。⚠️ **「定着」＝reps≥3 かつ 間隔≥min(21日, 試験日ゲートの上限)**。固定の「30日以上」にすると試験日ゲートで直前期に誰も届かず宝石が消えていく。study.html の `_updateSRS` が増分を拾い、試験の結果画面で1件の通知にまとめる。index.html と study.html が読む |
 | `boss.js` | **ボス戦**（2026-09-23新設・`window.MecBoss`・`study.html?mode=boss`・ハブのタイル ⚔️）。苦手（誤答率・🚩・直近30日の誤答）から決定論で20問を選び、10問で開戦・10問は控え。正解でダメージ（難問18・通常12・3連続ごとに会心×1.5）、**誤答でボスが回復(+8)し控えから1問増援**。体力0で撃破＝その場で結果画面へ。問題が尽きれば撤退。配管は今日の誤答の再履修と同じホスト出題（`_bossMode`・`_isHostSession()` に含まれる）。体力は `_tallyQuestion`（3採点経路の合流点）で動かす。⚠️ こちらの体力・敗北は作らない（ユーザー判断）。戦績 `mec_boss_v1` は UIローカル。テスト: `node _work/test_trophy_boss.js` |
+| `day_progress.js` | **今日の進み**（2026-10-01新設・`window.MecDay`）。ハブの待機列「今日の復習の減り方」・ヒーロー「今日の歩み」（前回からの差分・今日の定着・正答率の推移）・試験の結果画面「今日の進み」の集計と図を1本で持つ。index.html と study.html が読む。⚠️ 新しい同期キーを持たない（定着した日は SRS の札の `md`）。前回の値 `mec_hub_since_v1` は UIローカルで、**離れる瞬間だけ書く**。詳細は `_work/仕様/ハブ.md`「今日の進み」。テスト: `node _work/test_day_progress.js` |
 | `ward.js` | **定着プロトコル**（旧・病棟回診。2026-09-25新設・2026-09-30拡張と改名・`window.MecWard`）。**今日の復習（SRS復習）の見せ方**＝ハブのボタン「♾️ 定着プロトコル」。開始前の申し送り（状態 大きく遅れ/遅れ/予定どおり＝期限切れの日数と待たされ具合・内訳のドーナツ・科目ごとのベッド）→「はじめる」のタップで `startExam`。画面下の帯（表示だけ・押せる物は置かない）に定着ともう一度のリングと科目ごとの段組み。転帰は `_tallyQuestion` で記帳、結果画面に定着率のリング・科目別（科目の色で灯る・🏅・👑 MVP）・状態別の定着率・大きく遅れた問題の前後・次に会う日の14日間の棒、2026-10-01 からリング直下に「期限切れが減る計器」「連続の鎖（直近7日）」「今日のハイライト」と、最後に枠が一周して COMPLETE。⚠️ **作り直し案（_work/protocol_demo.html 第1〜6版）は全部却下され「現行が一番見やすい」と決まった**＝枠・配色・ベッドの形を変えないこと。⚠️ **確信度の宣言（確実/たぶん/勘）は撤去済み**（キー操作が面倒＝ユーザー判断）。戻さないこと。⚠️ SRS復習だけ（今日の誤答・統合カンファレンス・弱点強化・誤答再試験には出さない）。⚠️ 新しい localStorage キーを持たず、SRS の採点も変えない。演出は時間の決まった一回きり（infinite なし）。テスト: `node _work/test_ward.js` |
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
@@ -158,7 +159,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 - `mec_mock_v1` — 模試の自己採点（mock.js）。`{examId:{cur,rounds:{rN:{started,graded,ans:{"A10":{p,t}}}},border}}`。**保存されるのは「何を選んだか」だけで正誤は入っていない**（正誤は解答表と突き合わせて毎回計算する）。マージは1問ごとの last-writer-wins（各エントリが時刻 `t` を持つ）
 - `error_reports_v1` — 問題エラー報告。1件＝`{uid, type, reported_at}`。**自由記述コメントも同じ配列に `type:'note'` の1レコードとして入る**（`text` を持つ・下記「エラー報告」） ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
-- 演出のUIローカル（非同期・**同期対象に足さない**）: `mec_hub_opening_v1`（ブリーフィングの既視 `{day, week}`）／`mec_boss_v1`（ボス戦の戦績）
+- 演出のUIローカル（非同期・**同期対象に足さない**）: `mec_hub_opening_v1`（ブリーフィングの既視 `{day, week}`）／`mec_boss_v1`（ボス戦の戦績）／`mec_hub_since_v1`（ハブ「今日の歩み」の前回の値）
 - UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_correct_sound_v1`/`mec_select_sound_v1`/`mec_boot_sound_v1` 等
 
 ## UID フォーマット
@@ -448,6 +449,7 @@ node _work/test_hub_opening.js    1日の最初のブリーフィング／週の
 node _work/test_hub_liquid.js     ハブの Liquid ゲージ（止まらない・回らない・はみ出さない・雫は塊へ戻る・金色なし）
 node _work/test_trophy_boss.js    トロフィー棚（定着・章メダル）とボス戦
 node _work/test_ward.js           病棟回診（配線・確信度の撤去）
+node _work/test_day_progress.js   今日の進み（減り方・今日の歩み・結果画面・定着した日 md）
 node _work/test_ach_theme.js      ACHIEVEMENTS の意匠がUIテーマ全種ぶんあるか
 node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期・成績表）
 node _work/test_mock_figs.js       模試の設問図が全部あるか（138枚）

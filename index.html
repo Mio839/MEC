@@ -19,6 +19,7 @@
 <script src="gamify.js"></script>
 <script src="hub_opening.js"></script>
 <script src="trophy.js"></script>
+<script src="day_progress.js"></script>
 <link rel="stylesheet" href="vars.css">
 <script src="sounds_index.js"></script>
 <script src="theme.js"></script>
@@ -139,6 +140,9 @@
                （overflow:hidden）の中ではなく、その外に重ねる -->
           <i class="lv-burst" id="heroLvBurst" aria-hidden="true"></i>
         </div>
+        <!-- 今日の歩み（2026-10-01・day_progress.js）：前回ハブを開いたときからの差分・今日の定着・
+             セッションごとの正答率の推移。中身は renderHero() → _renderHeroDay() が入れる -->
+        <div class="hero-day" id="heroDay" hidden></div>
       </div>
       <!-- ゲージ＝「今日やるべき問題数のうち何％まで来たか」。
            数字の出どころは MecGamify.dailyGoal()（日次ミッション ans が正本）で、

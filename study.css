@@ -721,6 +721,36 @@ body.exam-mode.exam-waking .st-hdr::before{animation:examRailWake .9s ease-out;}
 .exam-detail-item .val{font-size:19px;font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;}
 .exam-subj-wrap{text-align:left;margin-bottom:12px;}
 .exam-subj-wrap h3{font-size:11px;font-weight:700;color:var(--ts);margin-bottom:6px;}
+/* ── 今日の進み（day_progress.js・2026-10-01）：このセッションで今日の目標がどこまで動いたか ──
+   バーは「前から済んでいたぶん（暗い）」と「今回のぶん（明るい）」の2段。達成した回は緑、
+   このセッションで目標を越えた回だけ見出しを強める（数字が変わるだけでなく状態が変わる）。
+   ⚠️ 常時アニメを置かない（結果画面の授与トレイ・セレモニーと競わせない）。 */
+.exam-day .ed-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;column-gap:8px;row-gap:4px;align-items:baseline;
+  font-size:12px;color:var(--tx);font-variant-numeric:tabular-nums;margin-bottom:9px;}
+.exam-day .ed-l{font-weight:700;}
+.exam-day .ed-v{color:var(--ts);text-align:right;}
+.exam-day .ed-v b{color:var(--tx);font-size:13px;}
+.exam-day .ed-st{font-size:11px;font-weight:700;color:var(--ts);white-space:nowrap;}
+.exam-day .ed-st b{color:var(--or,#f97316);}
+.exam-day .ed-st.is-ok{color:var(--gr);}
+.exam-day .ed-st.is-hit{color:#fff;background:var(--gr);padding:1px 7px;border-radius:999px;}
+.exam-day .ed-bar{grid-column:1/-1;position:relative;display:block;height:7px;border-radius:4px;overflow:hidden;
+  background:rgba(var(--glass-rgb),.10);}
+.exam-day .ed-bar i{position:absolute;top:0;bottom:0;left:0;display:block;}
+.exam-day .ed-pre{background:rgba(var(--glass-rgb),.32);}
+.exam-day .ed-now{background:linear-gradient(90deg,#38bdf8,#0ea5e9);}
+.exam-day .ed-row.is-ok .ed-pre{background:rgba(61,214,140,.45);}
+.exam-day .ed-row.is-ok .ed-now{background:linear-gradient(90deg,#3DD68C,#22c55e);}
+.exam-day .ed-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;
+  font-size:11.5px;color:var(--ts);font-weight:700;font-variant-numeric:tabular-nums;}
+.exam-day .ed-foot b{color:var(--tx);font-size:13px;}
+.exam-day .ed-gem b{color:#7dd3fc;}
+.exam-day .ed-acc{display:inline-flex;align-items:center;gap:6px;}
+.exam-day .dp-spark{width:84px;height:24px;display:block;overflow:visible;}
+.dp-spark .dp-sp-base{stroke:rgba(var(--glass-rgb),.18);stroke-width:1;}
+.dp-spark .dp-sp-line{fill:none;stroke:rgba(var(--glass-rgb),.55);stroke-width:1.5;stroke-linejoin:round;}
+.dp-spark .dp-sp-dot{fill:rgba(var(--glass-rgb),.75);}
+.dp-spark .dp-sp-dot.is-cur{fill:#38bdf8;stroke:#fff;stroke-width:1;}
 .exam-subj-table{width:100%;font-size:12px;border-collapse:collapse;color:var(--tx);font-variant-numeric:tabular-nums;}
 .exam-subj-table td{padding:3px 4px;border-bottom:1px solid rgba(255,255,255,.06);}
 .exam-flag-note{font-size:11px;color:var(--rd);font-weight:700;margin-bottom:10px;}

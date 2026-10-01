@@ -53,6 +53,7 @@
 <script src="trophy.js"></script>
 <script src="boss.js"></script>
 <script src="ward.js"></script>
+<script src="day_progress.js"></script>
 <link rel="stylesheet" href="vars.css">
 <script src="theme.js"></script>
 <script src="ui_theme.js"></script>
@@ -1882,6 +1883,9 @@ function _updateSRS(uid, grade) {
   e.g = grade;                 // 直近の自己申告（カード上の選択表示に使う・同期対象）
   e.nextReview = _addDays(_today(), e.interval);
   e.lastSeen = _today();
+  // 定着した日（day_progress.js の「今日の定着」の材料・札ごと同期される）。定着していなかった札が
+  // この回で定着したときだけ書く＝定着したまま解き直しても日付は動かない。
+  try { const T = window.MecTrophy; if (T && T.isMastered && !T.isMastered(_before) && T.isMastered(e)) e.md = _today(); } catch {}
   _srsData[uid] = e;
   // 同じ国試問題の重複コピー（dup_index.js）にも同じ予定を写す＝どれを解いても予定は1つ。
   // ⚠️ 写すのは SRS だけ（「済」と正答率は uid ごと）。件数・出題は代表だけを数える（MECSync.srsIsShadow）。

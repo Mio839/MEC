@@ -198,6 +198,32 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 /* ── レベルの進み（gamify パネルから移設） ── */
 .hero-lv{margin-top:var(--sp-4);max-width:34em;position:relative;}
 .hero-lv[hidden]{display:none;}
+/* ── 今日の歩み（2026-10-01・day_progress.js）：前回から／今日の定着／正答率の推移 ──
+   レベルのすぐ下の1段。3つの小さな区画を待機列と同じ暗い地に載せる（テーマの模様の上に直接文字を置かない）。
+   ⚠️ 常時アニメを置かない。中身が同じなら書き換えない（index.js の _renderHeroDay）。 */
+.hero-day{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--sp-3);max-width:34em;}
+.hero-day[hidden]{display:none;}
+.hd-cell{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px;padding:5px 9px;border-radius:4px;
+  background:rgba(0,0,0,.34);border:1px solid rgba(var(--glass-rgb),.10);}
+.hd-since{flex-basis:100%;}
+.hd-l{font-size:10.5px;font-weight:700;color:rgba(var(--glass-rgb),.8);white-space:nowrap;}
+.hd-v{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;font-size:11px;color:rgba(var(--glass-rgb),.85);
+  font-feature-settings:"tnum";}
+.hd-v b{font-size:15px;font-weight:800;color:rgba(var(--glass-rgb),1);line-height:1.1;}
+.hd-v small{font-size:10px;color:rgba(var(--glass-rgb),.75);}
+.hd-none{font-size:11px;color:rgba(var(--glass-rgb),.7);}
+.hd-chip{display:inline-flex;align-items:baseline;gap:3px;font-size:11px;font-weight:700;white-space:nowrap;}
+.hd-chip b{font-size:13.5px;}
+.hd-chip.is-good b{color:var(--gr,#22c55e);}
+.hd-chip.is-bad b{color:#fbbf24;}
+.hd-gem .hd-v b{color:#7dd3fc;}
+.hd-gem-ic{font-size:12px;}
+.hd-acc .dp-spark{width:92px;height:26px;display:block;overflow:visible;}
+.dp-spark .dp-sp-base{stroke:rgba(var(--glass-rgb),.18);stroke-width:1;}
+.dp-spark .dp-sp-line{fill:none;stroke:rgba(var(--glass-rgb),.55);stroke-width:1.5;stroke-linejoin:round;}
+.dp-spark .dp-sp-dot{fill:rgba(var(--glass-rgb),.75);}
+.dp-spark .dp-sp-dot.is-cur{fill:#38bdf8;stroke:#fff;stroke-width:1;}
+
 .hero-lv-top{display:flex;align-items:baseline;gap:var(--sp-2);min-width:0;}
 .hero-lv-t{flex-shrink:0;font-family:var(--font-display);font-size:13.5px;font-weight:800;
   color:var(--tx);font-variant-numeric:tabular-nums;letter-spacing:.01em;
@@ -409,6 +435,19 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .sv-sr b{text-align:right;font-weight:800;font-size:11px;color:rgba(var(--glass-rgb),1);font-feature-settings:"tnum";}
 .sv-sr.is-rest{color:rgba(var(--glass-rgb),.7);}
 .sv-sr.is-rest b{color:rgba(var(--glass-rgb),.8);}
+/* 今日の復習の減り方（2026-10-01・day_progress.js）：横幅いっぱいの段。右下がりの階段＋目標の高さの点線。
+   ⚠️ 常時アニメを置かない（renderHero は同期のたびに innerHTML を差し替える）。 */
+.srs-viz-bn{grid-column:1/-1;}
+.srs-viz-bn .dp-burn{display:block;width:100%;height:56px;}
+.dp-burn .dp-bn-area{fill:rgba(56,189,248,.16);}
+.dp-burn .dp-bn-line{fill:none;stroke:#38bdf8;stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;}
+.dp-burn .dp-bn-goal{stroke:rgba(var(--glass-rgb),.55);stroke-width:1;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;}
+.srs-viz-bn.is-ok .dp-bn-area{fill:rgba(34,197,94,.16);}
+.srs-viz-bn.is-ok .dp-bn-line{stroke:var(--gr,#22c55e);}
+.bn-axis{display:flex;justify-content:space-between;gap:8px;margin-top:3px;font-size:10px;
+  color:rgba(var(--glass-rgb),.8);font-feature-settings:"tnum";white-space:nowrap;}
+.bn-goal-l{overflow:hidden;text-overflow:ellipsis;}
+.srs-viz-bn.is-ok .bn-goal-l{color:var(--gr,#22c55e);font-weight:700;}
 /* 上段の stat 行：足したセルがある日は、余った幅を右端に溜めず各セルの間へ均等に配る
    （2026-10-01「所要の目安の右側に何もない空間が気になる」）。
    ⚠️ .srs-risk-cell の margin-left:auto が残ると space-between が効かないので、ここで 0 に戻す。 */
@@ -423,6 +462,7 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   .srs-viz{grid-template-columns:auto minmax(0,1fr);}
   /* 狭い画面：リングと科目別を上の段に並べ、14日の予定は横幅いっぱいの段へ（棒が13本あるので幅が要る） */
   .srs-viz-fc{grid-column:1/-1;order:3;}
+  .srs-viz-bn{order:4;}
   .fb-today{flex-basis:62px;}
   /* 1行死守の stat 行：狭い画面では足した「終わると残り」「所要の目安」を隠す */
   .srs-stat-extra{display:none;}

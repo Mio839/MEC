@@ -6,7 +6,7 @@ const CACHE = "mec-v672";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-10-01i";
+const SHELL_VERSION = "2026-10-01j";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -57,6 +57,8 @@ const SHELL = [
   "./hub_liquid.js",
   // トロフィー棚（定着コレクション・章メダル・科目制覇）
   "./trophy.js",
+  // 今日の進み（ハブの待機列・今日の歩み／試験の結果画面）
+  "./day_progress.js",
   // ボス戦（study.html?mode=boss）
   "./boss.js",
   // 病棟回診（SRS復習の見せ方）＋確信度の宣言

@@ -6078,6 +6078,10 @@ function showExamSummary() {
   if (_bossMode === true) { try { window.MecBoss?.decorateSummary?.(); } catch (e) {} }
   // 病棟回診の転帰と確信度の的中（ward.js）
   if (_srsReviewMode) { try { window.MecWard?.decorateSummary?.(); } catch (e) {} }
+  // 今日の進み（day_progress.js）：今日の解答・復習の目標がこのセッションでどこまで動いたか・今日の定着・正答率の推移。
+  // ⚠️ SRS は 800ms のデバウンスで書くので、先に書き出してから数える（今日の定着が1拍遅れないように）。
+  try { window._flushSRS?.(); } catch {}
+  try { window.MecDay?.decorateSummary?.({ sess: _attemptSessionId, srsMode: !!_srsReviewMode, due: window._srsDueRemaining ? window._srsDueRemaining() : 0 }); } catch {}
   // このセッションで新しく「定着」した問題を1件の通知にまとめて授与トレイへ（trophy.js）
   try { window.MecTrophy?.flushSession?.(); } catch {}
   try { window.MecGamify?.onExamFinish?.(examAnswered, examCorrect, { chPrefix: _gmChPrefix }); } catch {}
