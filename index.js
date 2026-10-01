@@ -2247,6 +2247,7 @@ const BR_NX_DEG = { heroNum: 6, heroAccVal: 9 };   // 1 増えるごとに大歯
 const BR_NX_DUR = 1050;
 const BR_NX_IDLE_MS = 30000;   // 数え終わってから、ちらつきを続ける時間
 const BR_NX_IDLE_WAIT = 1700;  // 焼き入れ（約1.6秒）が済むのを待つ
+const BR_NX_GLINT_MS = 950;    // 正しい数字へ戻る瞬間の煌めき（index.css の .br-nx-glint の尺 .9s）を外すまで
 function _themeIs(id) {
   return !!(window.MecUITheme && MecUITheme.get && MecUITheme.get() === id);
 }
@@ -2349,7 +2350,8 @@ function _brNixieIdle(el) {
   const burst = () => {
     if (!alive) return;
     if (document.hidden) { next(); return; }
-    const ds = Array.from(el.querySelectorAll('.dg')).filter(d => d.dataset.real == null && /\d/.test(d.textContent));
+    // 煌めいている最中の管は選ばない（煌めきを途中で切らない）
+    const ds = Array.from(el.querySelectorAll('.dg')).filter(d => d.dataset.real == null && !d.classList.contains('br-nx-glint') && /\d/.test(d.textContent));
     if (!ds.length) { next(); return; }
     const d = ds[Math.floor(Math.random() * ds.length)], real = d.textContent;
     d.dataset.real = real;
@@ -2367,7 +2369,7 @@ function _brNixieIdle(el) {
         // 正しい数字へ戻る瞬間は、数え終わったときの焼き入れと同じ白熱で煌めかせる（.br-nx-glint）
         d.textContent = real; d.classList.remove('br-nx-idle', 'flick'); delete d.dataset.real;
         void d.offsetWidth; d.classList.add('br-nx-glint');
-        setTimeout(() => d.classList.remove('br-nx-glint'), 600);
+        setTimeout(() => d.classList.remove('br-nx-glint'), BR_NX_GLINT_MS);
         next();
       }
     })();

@@ -3628,12 +3628,20 @@ html.ui-brass .hero-num .dg.br-nx-idle.flick{animation:brNxFlare .11s steps(2,en
 @keyframes brNxFlare{0%{
   text-shadow:0 0 1px #FFFFFF,0 0 3px #FFFFFF,0 0 6px #FFFFFF,0 0 9px #FFFFFF,0 0 14px #FFFFFF,0 0 14px #FFF0D8,
               0 0 24px #FFC070,0 0 24px #FFC070,0 0 40px #FF8A3D,0 0 40px #FF8A3D,0 0 64px #FF6A00,0 0 96px #FF5A00;}}
-/* 正しい数字へ戻った瞬間の煌めき：数字が白熱から管の橙へ落ち着く（ちらつき中と同じ光から・管は動かさない） */
-html.ui-brass .hero-num .dg.br-nx-glint{animation:brNxGlint .55s ease-out;}
+/* 正しい数字へ戻った瞬間の煌めき（管は動かさない）。2026-10-01 に「光り方が足らない」（ユーザー指摘）で強めた：
+   ちらつき中の明滅（brNxFlare）と同じいちばん強い白熱から始め、そのまま少し保ち、一度ちらっと落ちて（再点火）また白熱し、
+   0.9秒かけて管の橙へ落ち着く。⚠️ 尺を変えたら index.js の _brNixieIdle の「外す」時間（BR_NX_GLINT_MS）も揃える */
+html.ui-brass .hero-num .dg.br-nx-glint{animation:brNxGlint .9s ease-out;}
 @keyframes brNxGlint{
-  0%{-webkit-text-fill-color:#FFFFFF;color:#FFFFFF;
-     text-shadow:0 0 1px #FFFFFF,0 0 2px #FFFFFF,0 0 4px #FFFFFF,0 0 6px #FFFFFF,0 0 10px #FFF0D8,0 0 10px #FFF0D8,
-                 0 0 18px #FFC070,0 0 18px #FFC070,0 0 30px #FF8A3D,0 0 30px #FF8A3D,0 0 48px #FF6A00,0 0 72px #FF5A00;}}
+  0%,22%{-webkit-text-fill-color:#FFFFFF;color:#FFFFFF;
+     text-shadow:0 0 1px #FFFFFF,0 0 3px #FFFFFF,0 0 6px #FFFFFF,0 0 9px #FFFFFF,0 0 14px #FFFFFF,0 0 14px #FFF0D8,
+                 0 0 24px #FFC070,0 0 24px #FFC070,0 0 40px #FF8A3D,0 0 40px #FF8A3D,0 0 64px #FF6A00,0 0 96px #FF5A00;}
+  30%{-webkit-text-fill-color:#FFFFFF;color:#FFFFFF;
+     text-shadow:0 0 1px #FFFFFF,0 0 2px #FFFFFF,0 0 4px #FFFFFF,0 0 8px #FFF0D8,
+                 0 0 16px #FFC070,0 0 28px #FF8A3D,0 0 44px #FF6A00;}
+  38%,48%{-webkit-text-fill-color:#FFFFFF;color:#FFFFFF;
+     text-shadow:0 0 1px #FFFFFF,0 0 3px #FFFFFF,0 0 6px #FFFFFF,0 0 9px #FFFFFF,0 0 14px #FFFFFF,0 0 14px #FFF0D8,
+                 0 0 24px #FFC070,0 0 24px #FFC070,0 0 40px #FF8A3D,0 0 40px #FF8A3D,0 0 64px #FF6A00,0 0 96px #FF5A00;}}
 html.ui-brass .hero-num .br-nx-sep, html.ui-brass .hero-num .dg-s{display:inline-block;color:#FF8A3D;-webkit-text-fill-color:#FF8A3D;text-shadow:0 0 8px #FF6A00;}
 html.ui-brass .hero-num.br-carry{translate:0 -2px;}
 /* 歯車列：数字の枠の左下（.bl）と右上（.tr）。数えた分だけ回る（index.js の _brGearsOn / _brNixieTween）。

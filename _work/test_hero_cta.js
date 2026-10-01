@@ -575,6 +575,11 @@ t('Brass の読み値はニキシー管＋歯車連動（ちらつきは一定�
   assert.ok(/_brNxIdleStop\) el\._brNxIdleStop\(\)/.test(idle), '始める前に前のちらつきを止めていない');
   assert.ok(/document\.hidden/.test(idle), '非表示タブでも動かしている');
   assert.ok(/br-nx-glint/.test(idle) && /\.dg\.br-nx-glint\{animation:brNxGlint/.test(HTML), '正しい数字へ戻る瞬間に煌めかせていない');
+  // 煌めきの尺（CSS）と外す時間（JS）が揃っている（JS が先に外すと煌めきが途中で切れる）
+  const gSec = Number((HTML.match(/\.dg\.br-nx-glint\{animation:brNxGlint ([\d.]+)s/) || [])[1]);
+  const gMs = Number((HTML.match(/const BR_NX_GLINT_MS = (\d+);/) || [])[1]);
+  assert.ok(gSec && gMs && gMs >= gSec * 1000, '煌めきを尺より先に外している: ' + gSec + 's / ' + gMs + 'ms');
+  assert.ok(/BR_NX_GLINT_MS\)/.test(idle), '煌めきを外す時間を定数で持っていない');
   assert.ok(!/\.dg\.br-nx-idle\{[^}]*opacity:\./.test(HTML), 'ちらつき中の管を暗くしている（煌々と光らせる）');
   // チカチカで動かすのは数字だけ。opacity・filter は管ごと消えたり光ったりする（2026-10-01 ユーザー指摘）
   // ちらつき中の1回ごとの明滅は明るくする向き（暗くする brNxFlick を使わない・2026-10-01「明るさが足りない」）
