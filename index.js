@@ -936,7 +936,8 @@ document.addEventListener('keydown', e => {
 //    したがって通常モードだけで解いた日は正答率系の所見が出ない。これは仕様。
 
 const NOTE_KEY  = 'mec_hub_notes_v1';  // ⚠️ UIローカル（非同期）。Gist の payload に足さないこと
-const NOTE_SHOW = 3;                   // 一度に出す件数
+const NOTE_SHOW = 3;                   // 必ず出す件数（縦積みの画面ではこれだけ）
+const NOTE_MAX  = 10;                  // 横並びの画面で、隣の「実力の輪郭」の下端まで詰めるときの上限（2026-10-02）
 const NOTE_KEEP = 30;                  // 「いつ出したか」を覚えておく日数
 
 // 科目の表示名。正本は gamify.js の SUBJECTS（→ mindmap_data/index.js）。
@@ -1375,7 +1376,13 @@ function _buildHubNotes(td, due, streak, F, CH, S) {
 //    毎回選び直すと読んでいる途中で所見が入れ替わる。
 // ⚠️ 一度出した所見は数日ぶん重みを下げる＝日替わりはここで担保する（乱数は使わない。
 //    使うと同じ日に開き直すたびに並びが変わる）。
-function _pickHubNotes(cands, today) {
+function _pickHubNotes(cands, today, max) {
+  const out = _rankHubNotes(cands, today, max || NOTE_SHOW);
+  _recordHubNotes(out, today);
+  return out;
+}
+// 並べるだけ（記帳しない）。何件が実際に見えたかは描画してから決まる（_fitHubNotes）。
+function _rankHubNotes(cands, today, max) {
   let memo = {};
   try { memo = JSON.parse(localStorage.getItem(NOTE_KEY) || '{}'); } catch (e) {}
   const seen = memo.seen || {};
@@ -1391,22 +1398,27 @@ function _pickHubNotes(cands, today) {
     c._s = s;
   });
   cands.sort((a, b) => b._s - a._s || (a.id < b.id ? -1 : 1));
-  const out = cands.slice(0, NOTE_SHOW);
+  const out = cands.slice();
 
   // 明るい所見と指摘を必ず混ぜる（ユーザーの選択:「励ましも混ぜる」）。
-  // 片側しか候補が無い日はそのまま＝無い所見を作らない。
+  // 混ぜるのは必ず見える先頭 NOTE_SHOW 件の中＝その最後の席へ反対側の最良候補を割り込ませる
+  // （押し出された所見は1つ後ろへ下がるだけで消えない）。片側しか候補が無い日はそのまま＝無い所見を作らない。
   const isUp = n => n.tone === 'good';
   const isDown = n => n.tone === 'warn' || n.tone === 'bad';
-  if (out.length >= 2) {
-    if (!out.some(isUp)) {
-      const up = cands.find(c => isUp(c) && out.indexOf(c) < 0);
-      if (up) out[out.length - 1] = up;
-    } else if (!out.some(isDown)) {
-      const dn = cands.find(c => isDown(c) && out.indexOf(c) < 0);
-      if (dn) out[out.length - 1] = dn;
-    }
+  const head = Math.min(NOTE_SHOW, out.length);
+  if (head >= 2) {
+    const top = out.slice(0, head);
+    const want = !top.some(isUp) ? isUp : (!top.some(isDown) ? isDown : null);
+    const j = want ? out.findIndex((c, i) => i >= head && want(c)) : -1;
+    if (j >= 0) out.splice(head - 1, 0, out.splice(j, 1)[0]);
   }
+  return out.slice(0, max);
+}
 
+function _recordHubNotes(out, today) {
+  let memo = {};
+  try { memo = JSON.parse(localStorage.getItem(NOTE_KEY) || '{}'); } catch (e) {}
+  const seen = memo.seen || {};
   const nseen = {};
   for (const k in seen) if (_noteDayDiff(seen[k], today) <= NOTE_KEEP) nseen[k] = seen[k];
   out.forEach(o => { nseen[o.id] = today; });
@@ -1545,13 +1557,15 @@ function _renderHubNotes(td, due, streak) {
   let picks = [], F = null;
   try {
     F = _noteFacts(td);
-    picks = _pickHubNotes(_buildHubNotes(td, due, streak, F), _jstDay(Date.now()));
+    picks = _rankHubNotes(_buildHubNotes(td, due, streak, F), _jstDay(Date.now()), NOTE_MAX);
   } catch (e) { picks = []; }
 
   let html;
   if (picks.length) {
+    // NOTE_SHOW 件目より後ろは隠して置いておき、_fitHubNotes が隣の箱の下端まで出す
     html = picks.map((p, i) =>
-      '<li class="note-item tone-' + p.tone + '" style="--i:' + i + '">'
+      '<li class="note-item tone-' + p.tone + '" style="--i:' + i + '" data-nid="' + p.id + '"'
+        + (i >= NOTE_SHOW ? ' hidden' : '') + '>'
         + '<span class="note-ic" aria-hidden="true">' + p.ic + '</span>'
         + '<span class="note-tx">' + p.tx + '</span>'
         + (p.href ? '<a class="note-go" href="' + p.href + '">' + p.cta + ' →</a>' : '')
@@ -1563,6 +1577,7 @@ function _renderHubNotes(td, due, streak) {
   // ⚠️ 中身が同じなら書き換えないこと。renderHero() は同期完了のたびに走るので、
   //    毎回 innerHTML を差し替えると入場アニメが何度も走り直す。
   if (html !== _noteLastHtml) { host.innerHTML = html; _noteLastHtml = html; }
+  _fitHubNotes();
 
   const basis = document.getElementById('hubNoteBasis');
   if (basis) {
@@ -1571,6 +1586,52 @@ function _renderHubNotes(td, due, streak) {
       : '記録なし';
   }
 }
+
+// 📋 所見の件数を、横並びのときは隣の「🕸 実力の輪郭」の下端の線まで増やす（2026-10-02・ユーザー要望）。
+// ⚠️ 要素を足し引きせず hidden の付け外しだけで行う（innerHTML を書き換えると入場アニメが走り直す）。
+// ⚠️ 縦積み（狭い画面）では NOTE_SHOW 件のまま。比べる相手が隣に無い。
+// 記帳（翌日に退かせる「出した日」）は実際に見えた所見だけに付ける。
+function _fitHubNotes() {
+  const host = document.getElementById('hubNoteList');
+  const box = document.getElementById('hubNoteBox');
+  const radar = document.getElementById('hubRadarBox');
+  if (!host || !box || !radar || typeof host.querySelectorAll !== 'function') return;
+  const items = Array.prototype.slice.call(host.querySelectorAll('.note-item'));
+  if (!items.length) return;
+  const rb = radar.getBoundingClientRect(), nb = box.getBoundingClientRect();
+  const side = rb.height > 0 && nb.height > 0 && Math.abs(rb.top - nb.top) < 4;
+  // ⚠️ 境目の1件だけを出し入れする（全部を一度隠して数え直すと、同期のたびに4件目以降の入場アニメが走り直す）
+  let n = items.filter(li => !li.hidden).length;
+  if (!side) {
+    items.forEach((li, i) => { if (li.hidden !== (i >= NOTE_SHOW)) li.hidden = i >= NOTE_SHOW; });
+  } else {
+    const cs = getComputedStyle(box);
+    const limit = rb.bottom - (parseFloat(cs.paddingBottom) || 0) - (parseFloat(cs.borderBottomWidth) || 0) + 0.5;
+    const over = i => items[i].getBoundingClientRect().bottom > limit;
+    while (n > NOTE_SHOW && over(n - 1)) items[--n].hidden = true;
+    while (n < items.length) {
+      items[n].hidden = false;
+      if (over(n)) { items[n].hidden = true; break; }
+      n++;
+    }
+  }
+  const shown = items.filter(li => !li.hidden).map(li => ({ id: li.dataset.nid }));
+  _recordHubNotes(shown, _jstDay(Date.now()));
+}
+// レーダーの高さ（読み値の行の折り返し・フォントの読み込み）や画面幅が変わったら詰め直す
+(function () {
+  if (typeof ResizeObserver !== 'function') return;
+  let raf = 0, w = -1, h = -1;
+  const ro = new ResizeObserver(ents => {
+    const r = ents[0].contentRect;
+    if (r.width === w && r.height === h) return;
+    w = r.width; h = r.height;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(_fitHubNotes);
+  });
+  const go = () => { const el = document.getElementById('hubRadarBox'); if (el) ro.observe(el); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+})();
 
 function renderHero() {
   // 分子は calcTotalQ と同じスコープで数える（custom_ / memo_ は分母に無いので除外）
@@ -1830,8 +1891,9 @@ function renderHero() {
 
   // 📋 今日の所見。旧「臨床スキルレーダー」の席（座標を固定係数で作っていただけの図）を
   //    その日のデータから作り直す観察に置き換えた（2026-09-12）。
-  _renderHubNotes(td, due, streak);
+  // ⚠️ レーダーを先に描くこと。所見の件数はレーダーの箱の高さに合わせて決まる（_fitHubNotes）。
   _renderHubRadar();
+  _renderHubNotes(td, due, streak);
 
   // E6: 計器行も大きな読み値と同じくカウントアップさせる。
   // ⚠️ 連続日数だけ _fmtN を通さない（12日を「12」と出す桁区切りは要らないが、

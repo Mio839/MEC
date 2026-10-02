@@ -325,6 +325,14 @@ reset({});
   assert.deepStrictEqual(ids(got), ['g1', 'g2']);
   ok(true, '候補が片側だけの日は無理に混ぜない');
 
+  // 14e2. 多めに並べても、混ぜるのは必ず見える先頭3件の中（押し出された所見は1つ後ろへ）
+  store = {};
+  got = S._rankHubNotes([mk('w1', 30, 'warn'), mk('w2', 29, 'warn'), mk('w3', 28, 'bad'), mk('w4', 27, 'warn'),
+                         mk('g1', 5, 'good')], today, 10);
+  assert.deepStrictEqual(ids(got), ['w1', 'w2', 'g1', 'w3', 'w4'], '多めの並び: ' + ids(got));
+  assert.ok(!store[NOTE_KEY], '並べるだけでは記帳しない');
+  ok(true, '上限を広げても先頭3件で明暗を混ぜ、記帳は見えた分だけ');
+
   // 14f. 記帳は NOTE_KEEP 日で切り詰める
   store = {};
   S._pickHubNotes([mk('x', 10, 'good')], '2026-01-01');
@@ -361,9 +369,11 @@ reset({});
   reset({ mec_srs_v1: { a: { nextReview: '2020-01-01', interval: 1 } } });
   vm.runInContext('_noteLastHtml = "";', sandbox);
   S._renderHubNotes(td(), 99, 29);
-  const n = (written.match(/class="note-item/g) || []).length;
-  assert.ok(n > 0 && n <= NOTE_SHOW, '出すのは最大 ' + NOTE_SHOW + '件: ' + n);
-  ok(true, '一度に出すのは ' + NOTE_SHOW + '件まで');
+  const all = (written.match(/<li class="note-item[^>]*>/g) || []);
+  const n = all.filter(t => !/ hidden>/.test(t)).length;
+  assert.ok(n > 0 && n <= NOTE_SHOW, '最初に見せるのは最大 ' + NOTE_SHOW + '件: ' + n);
+  assert.ok(all.length <= K('NOTE_MAX'), '控えも含めて ' + K('NOTE_MAX') + '件まで: ' + all.length);
+  ok(true, '最初に見せるのは ' + NOTE_SHOW + '件・残りは hidden で控える（隣の箱の下端まで _fitHubNotes が出す）');
 }
 
 console.log('\nALL PASS (' + pass + ' 項目)\n');
