@@ -767,6 +767,7 @@ function startExam(overrideUids = null) {
   if (!_isHostSession()) _clearExamResume();
   document.querySelectorAll('.ch2.correct').forEach(c => c.classList.remove('correct'));
   document.querySelectorAll('.qc.fx-correct').forEach(c => c.classList.remove('fx-correct'));
+  _brsDeco.clear();   // 前の試験の brass の四隅を残さない
   examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examStreakGrace = true; examBySubj = {}; examByChapter = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
   _examCardSeenAt.clear();
@@ -3113,8 +3114,8 @@ function _spawnStreakParticles(tier, at, ctx) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00DFD8', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'brass') {
-      // 2026-09-26：歯車列＋刻印＋鋳込みの唐草（_brsBrassFx）。liquid・frost・celestial と同じく _rfCorrectFx の 0ms で
-      // 肢の位置に出している。旧 brassClockworkBurst（全画面の金の閃光・飛び散る歯車・天球儀の輪・画面全体の蒸気と粉・
+      // 2026-09-26〜：_brsBrassFx（2026-10-02 から四隅の意匠・蒸気・縁の配管・打刻スタンプ）。liquid・frost・celestial と同じく _rfCorrectFx の 0ms で
+      // 出している。旧 brassClockworkBurst（全画面の金の閃光・飛び散る歯車・天球儀の輪・画面全体の蒸気と粉・
       // 火花の二重呼び出し）は正解演出から外した（結果画面では今も使う）。
       return;
     } else if (curUi === 'cyber') {
@@ -4392,26 +4393,16 @@ function _abyAbyssFx(el, card, tier, promoted, budget) {
   _lqDrop(H, C, dur + 50);
 }
 
-/* ══════════ Brass：歯車列＋刻印＋鋳込みの唐草（2026-09-26）══════════
-   デモ（brass 正解演出ラボの案A・C・D）でユーザーが採用。旧 brassClockworkBurst（全画面の金の閃光・飛び散る歯車・
-   天球儀の輪と時計盤・輪4＋衝撃波3・画面全体の蒸気20と粉38・火花 36＋外でもう一度 18＋6×段）を置き換えた。
-   - 歯車列：タップ位置に駆動歯車がはまり、左右へ1枚ずつ噛み合って連なり、歯数比どおり（隣は逆回り）に回る。
-            枚数は 2＋段（最大9）。TIER3〜は歯車が大きくなりカードまで連なる。噛み合った瞬間に接点から火花が数粒。
-   - 刻印：肢の右端に「MEC」の楕円の刻印が打たれ、白熱 → 橙 → 真鍮色へ冷える。左に紙面の問題番号（No.0214）。
-            段の数だけ星、TIER2〜は月桂樹の葉。TIER3〜は肢からはみ出す大きさ。
-   - 唐草：タップ位置から斜め4方向へ溶けた真鍮の蔓が伸びて渦を巻き、冷えて固まる（十字の飾り＝フルーロン）。
-   - 段が上がった瞬間：画面の端から歯車が噛み合って中央へ届く「歯車の壁」（_brsGearWall）、その中央の大歯車の内側に
-            ローマ数字のメダルが打刻され、四隅から唐草の飾り金具が鋳込まれて斜めの光沢が走る。
-            （2026-09-29 に「大きな歯車列」＝_brsBigTrain を歯車の壁へ差し替えた・ユーザー判断。デモ fx_all_demo.html の新案⑥）
+/* ══════════ Brass の正解演出（2026-09-26 初版・2026-10-02 に作り直し）══════════
+   2026-10-02 にデモ（_work/fx_all_demo.html「第3弾の手直し」）の構成へ置き換えた：四隅に残って育つ意匠・通気口の蒸気・
+   段上げで縁を走って残る配管・肢の左端の打刻スタンプ（中身は下の _brsDeco）。初版の肢の歯車列・肢の右端の刻印・
+   肢の唐草・段上げの歯車の壁・ローマ数字のメダル・四隅の金具（_brsGearTrain／_brsHallmark／_brsFiligree／_brsGearWall／
+   _brsMedallion／_brsCornerCast）は削除した（送った後も肢のあった場所に約2秒浮いて残った・「地味」との評価）。
+   ここに残すのは歯車・火花・唐草の共通の部品だけ。
    ⚠️ 肢の中を横に走る長い線を作らないこと（唐草の初版が肢の文字の取り消し線・下線に見えた＝ラボで踏んだ）。
-      下線部はこの教材では意味を持つ記号（Phase 5 の R6 と同じ理由）。
-   ⚠️ 描くのはカードの裏1枚だけ（.lq-layer.fr-card）。brass の肢の地は半透明なので、frost・celestial のように
-      肢の層へ二重に描く必要がない（二重に描くと肢の中だけ半透明の絵が濃くなる）。
-   ⚠️ 文字の上に出るのは火花（MecFX.sparks・数粒）だけ。位置は発火の瞬間にカードから測り直す
-      （正解の直後に次のカードへ自動スクロールするので、最初に測った画面座標は使えない）。 */
+      下線部はこの教材では意味を持つ記号（Phase 5 の R6 と同じ理由）。 */
 const BRS_BRASS = '#E0C25E', BRS_DARK = '#8C6D1F', BRS_PALE = '#FFF3C4', BRS_AMBER = '#FFA040';
 const BRS_SERIF = 'Georgia, "Times New Roman", serif', BRS_MONO = 'ui-monospace, Menlo, Consolas, monospace';
-const BRS_ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 const BRS_MIN_H = 44;
 const _brsEio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const _brsBack = t => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
@@ -4487,34 +4478,6 @@ function _brsPhases(G, p0) {
   for (let i = 1; i < G.length; i++) ph[i] = _brsMesh(G[G[i].parent], G[i], ph[G[i].parent]);
   return ph;
 }
-function _brsGearTrain(T, px, py, lo, CW, spark) {
-  const big = T >= 3, count = Math.min(9, 2 + T);
-  const rMax = Math.min(lo.h * .42, 17), r0 = big ? 16 + T * 1.6 : rMax;
-  const root = { x: px, y: _frC(py, lo.t + 6, lo.t + lo.h - 6), r: r0, n: _brsTeeth(r0), depth: 0, theta: 0 };
-  const G = [root], tips = { R: 0, L: 0 };
-  for (let i = 1; i < count; i++) {
-    const side = i % 2 ? 1 : -1, key = side > 0 ? 'R' : 'L', pi = tips[key], par = G[pi];
-    const r = big ? _frR(.55, 1.15) * r0 : rMax * _frR(.62, .95);
-    const spread = big ? .75 : .3, theta = (side > 0 ? 0 : Math.PI) + _frR(-spread, spread);
-    const d = par.r + r - BRS_DEPTH * .95, x = par.x + Math.cos(theta) * d, y = par.y + Math.sin(theta) * d;
-    if (!big && (x - r < lo.l + 6 || x + r > lo.l + lo.w - 4 || y - r < lo.t - 3 || y + r > lo.t + lo.h + 3)) continue;
-    if (big && (x < -r * .3 || x > CW + r * .3)) continue;
-    G.push({ x, y, r, theta, n: _brsTeeth(r), parent: pi, depth: par.depth + 1 });
-    tips[key] = G.length - 1;
-  }
-  const STEP = 75, turn = (.55 + T * .1) * Math.PI * 2, dur = 1150 + G.length * STEP;
-  G.forEach(g => {
-    if (g.parent == null) return;
-    const par = G[g.parent];
-    spark(par.x + Math.cos(g.theta) * (par.r - BRS_DEPTH / 2), par.y + Math.sin(g.theta) * (par.r - BRS_DEPTH / 2), 2 + (T >= 4 ? 1 : 0), g.depth * STEP + 90);
-  });
-  return { dur: dur + 450, draw(c, e) {
-    const fade = e < dur ? 1 : _frC(1 - (e - dur) / 450);
-    _brsGlow(c, root.x, root.y, r0 * 2.6, .34 * Math.sin(Math.PI * _frC(e / 500)) * fade);
-    const ph = _brsPhases(G, turn * _brsEio(_frC(e / (dur - 150))));
-    G.forEach((g, i) => { const ki = _frC((e - g.depth * STEP) / 240); _brsDrawGear(c, g.x, g.y, g.r, g.n, ph[i], _frE(ki) * .95 * fade, _brsBack(ki)); });
-  } };
-}
 /* 火花（canvas に描く短い筋・白熱 → 真鍮色）。MecFX.sparks と違い、描いている層と一緒に消える。
    右へほぼ水平に飛ぶ向きは除く（肢の文字に線が走って見える） */
 function _brsSparkSet(x, y, n, t0, v0, life) {
@@ -4534,127 +4497,6 @@ function _brsDrawSparks(c, e, P, grav) {
     c.beginPath(); c.moveTo(q[0], q[1]); c.lineTo(p[0], p[1]); c.stroke();
   });
   c.restore();
-}
-/* 歯車の壁（段が上がった瞬間）：画面の左右（TIER3〜は上下も）の端から歯車が1枚ずつ噛み合って中央へ届き、
-   最後に中央の大歯車がはまって白熱し、全体が歯数比どおりに回る。大歯車はメダルの外周に噛ませる大きさ（R0）で、
-   その内側にメダルが打刻される＝数字はメダル側だけに出す（デモ版は大歯車に数字を刻んでいた）。
-   大歯車がはまる時刻 TR はメダルを打つ時刻 hit に合わせる（STEP を枝の長さから逆算）。
-   枝の歯車の大きさは Rc（画面の短辺の 15%・最大 90px）が基準＝大歯車に合わせて大きくしない。 */
-function _brsGearWall(T, CW, CH, cx, cy, R0, Rc, hit) {
-  const root = { x: cx, y: cy, r: R0, n: _brsTeeth(R0), depth: 0, theta: 0 };
-  const G = [root];
-  [0, Math.PI].concat(T >= 3 ? [-Math.PI / 2, Math.PI / 2] : []).forEach(d => {
-    let pi = 0;
-    for (let i = 0; i < 14; i++) {
-      const par = G[pi]; let ok = null;
-      for (let a = 0; a < 6 && !ok; a++) {
-        const r = Rc * _frR(.42, .78), theta = d + (i ? _frR(-.55, .55) : _frR(-.12, .12)), dd = par.r + r - BRS_DEPTH * .95;
-        const x = par.x + Math.cos(theta) * dd, y = par.y + Math.sin(theta) * dd;
-        if (!G.some(o => o !== par && Math.hypot(o.x - x, o.y - y) < o.r + r + 3)) ok = { x, y, r, theta, n: _brsTeeth(r), parent: pi, depth: par.depth + 1 };
-      }
-      if (!ok) break;
-      G.push(ok); pi = G.length - 1;
-      if (ok.x < -ok.r * .5 || ok.x > CW + ok.r * .5 || ok.y < -ok.r * .5 || ok.y > CH + ok.r * .5) break;
-    }
-  });
-  const maxD = Math.max(1, ...G.map(o => o.depth)), STEP = _frC(hit / maxD, 60, 110);
-  const at = o => (maxD - o.depth) * STEP, TR = at(root), dur = TR + 1900;
-  const SP = [].concat(...G.filter(o => o.parent != null).map(o => {
-    const p = G[o.parent];
-    return _brsSparkSet(p.x + Math.cos(o.theta) * (p.r - BRS_DEPTH / 2), p.y + Math.sin(o.theta) * (p.r - BRS_DEPTH / 2), p === root ? 7 : 3, at(p) + 60, 420, 380);
-  }));
-  const turn = (.45 + .08 * T) * Math.PI * 2;
-  return { dur, draw(c, e) {
-    const fade = e < dur - 600 ? 1 : _frC((dur - e) / 600), ph = _brsPhases(G, turn * _brsEio(_frC(e / (dur - 300))));
-    G.forEach((o, i) => { if (!i) return; const ki = _frC((e - at(o)) / 260); _brsDrawGear(c, o.x, o.y, o.r, o.n, ph[i], _frE(ki) * .55 * fade, .85 + .15 * _brsBack(ki), true); });
-    const kr = _frC((e - TR) / 300), kh = _frC((e - TR) / 1100);
-    if (kr > 0) {
-      _brsGlow(c, cx, cy, R0 * 1.6, .45 * (1 - kh) * fade);
-      _brsDrawGear(c, cx, cy, R0, root.n, ph[0], _frE(kr) * .6 * fade, .8 + .2 * _brsBack(kr), true);
-      c.save(); c.globalAlpha = _frE(kr) * fade; c.translate(cx, cy); c.rotate(ph[0]); _brsGearShape(c, R0, root.n, Math.max(1.6, R0 * .16));
-      c.strokeStyle = _brsHeat(kh, 1 - kh * .6); c.lineWidth = 2.4; c.stroke(); c.restore();
-      const ks = _frC((e - TR) / 300);
-      if (ks < 1) { c.save(); c.globalCompositeOperation = 'lighter'; c.strokeStyle = `rgba(255,220,140,${.7 * (1 - ks)})`; c.lineWidth = 2; c.beginPath(); c.arc(cx, cy, R0 * (1 + ks * .9), 0, Math.PI * 2); c.stroke(); c.restore(); }
-    }
-    _brsDrawSparks(c, e, SP, 500);
-  } };
-}
-
-/* ── 刻印 ── */
-function _brsLaurel(c, rx, ry, count, col) {
-  for (const s of [-1, 1]) for (let i = 0; i < count; i++) {
-    const an = Math.PI / 2 + s * (.35 + i * .32), x = Math.cos(an) * (rx + 7), y = Math.sin(an) * (ry + 6);
-    c.save(); c.translate(x, y); c.rotate(an + s * Math.PI / 2 + s * .5);
-    c.fillStyle = col; c.beginPath(); c.ellipse(0, 0, 4.2, 1.7, 0, 0, Math.PI * 2); c.fill(); c.restore();
-  }
-}
-function _brsHallmarkShape(c, x, y, rx, ry, T, col, a) {
-  c.save(); c.translate(x, y); c.globalAlpha = _frC(a);
-  const body = (dx, dy, cc) => {
-    c.save(); c.translate(dx, dy); c.strokeStyle = cc; c.fillStyle = cc;
-    c.lineWidth = 1.7; c.beginPath(); c.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2); c.stroke();
-    c.lineWidth = .8; c.beginPath(); c.ellipse(0, 0, rx - 3, ry - 3, 0, 0, Math.PI * 2); c.stroke();
-    c.font = `700 ${Math.round(ry * .78)}px ${BRS_SERIF}`; c.textAlign = 'center'; c.textBaseline = 'middle';
-    c.fillText('MEC', 0, -ry * .1);
-    const k = Math.min(7, T), sp = Math.min(5.5, (rx * 1.1) / Math.max(1, k));
-    for (let i = 0; i < k; i++) { const sx = (i - (k - 1) / 2) * sp, sy = ry * .52; c.beginPath(); c.moveTo(sx, sy - 1.8); c.lineTo(sx + 1.3, sy); c.lineTo(sx, sy + 1.8); c.lineTo(sx - 1.3, sy); c.closePath(); c.fill(); }
-    if (T >= 2) _brsLaurel(c, rx, ry, Math.min(5, T), cc);
-    c.restore();
-  };
-  body(.9, .9, 'rgba(10,6,2,.9)');          // 彫りの影
-  body(-.6, -.6, 'rgba(255,243,196,.45)');   // 縁の光
-  body(0, 0, col);
-  c.restore();
-}
-function _brsHallmark(T, lo, serial, spark, press) {
-  const big = T >= 3, rx = big ? 26 + T * 2.2 : 20 + T * 1.2, ry = big ? 15 + T * 1.3 : Math.min(lo.h * .3, 13) + T * .4;
-  const hx = lo.l + lo.w - rx - (T >= 2 ? 18 : 12), hy = lo.t + lo.h / 2, HIT = 110;
-  spark(hx, hy - ry * .3, Math.round(4 + T * 1.2), HIT);
-  press(HIT, false);
-  return { dur: 1900, draw(c, e) {
-    const fade = e < 1450 ? 1 : _frC(1 - (e - 1450) / 450);
-    if (e < HIT) {   // 型の影が近づく
-      const k = e / HIT; c.fillStyle = `rgba(0,0,0,${.45 * k})`;
-      c.beginPath(); c.ellipse(hx + 3 * (1 - k), hy + 3 * (1 - k), rx * (1.5 - .5 * k), ry * (1.5 - .5 * k), 0, 0, Math.PI * 2); c.fill(); return;
-    }
-    const k = _frC((e - HIT) / 1000), ks = _frC((e - HIT) / 320);
-    _brsGlow(c, hx, hy, rx * 1.6, .45 * (1 - k) * fade);
-    if (ks < 1) { c.save(); c.globalCompositeOperation = 'lighter'; c.strokeStyle = `rgba(255,220,140,${.7 * (1 - ks)})`; c.lineWidth = 1.5; c.beginPath(); c.ellipse(hx, hy, rx * (1 + ks * .8), ry * (1 + ks * .8), 0, 0, Math.PI * 2); c.stroke(); c.restore(); }
-    _brsHallmarkShape(c, hx, hy, rx, ry, T, _brsHeat(k), fade);
-    const nch = Math.floor(_frC((e - HIT - 180) / 45, 0, serial.length));   // 番号を1文字ずつ打つ
-    if (nch > 0) {
-      c.save(); c.globalAlpha = fade * .9; c.font = `500 11px ${BRS_MONO}`; c.fillStyle = _brsHeat(_frC(k * 1.3 + .2));
-      c.textAlign = 'right'; c.textBaseline = 'middle'; c.fillText(serial.slice(0, nch), hx - rx - (T >= 2 ? 16 : 8), hy); c.restore();
-    }
-  } };
-}
-function _brsMedallion(tier, CW, CH, my, spark, press) {
-  const R = Math.min(CW * .33, CH * .38, 150), mx = CW / 2, HIT = 300;
-  spark(mx, my - R, 10, HIT);
-  press(HIT, true);
-  const txt = 'CERTIFIED · CORRECT · CERTIFIED · CORRECT · ';
-  const shape = (c, col, rot) => {
-    const draw = (dx, dy, cc) => {
-      c.save(); c.translate(mx + dx, my + dy); c.strokeStyle = cc; c.fillStyle = cc;
-      c.lineWidth = 2; c.beginPath(); c.arc(0, 0, R, 0, Math.PI * 2); c.stroke();
-      c.lineWidth = .9; c.beginPath(); c.arc(0, 0, R * .78, 0, Math.PI * 2); c.stroke();
-      c.beginPath(); c.arc(0, 0, R * .96, 0, Math.PI * 2); c.stroke();
-      for (let i = 0; i < 48; i++) { const an = i / 48 * Math.PI * 2; c.beginPath(); c.moveTo(Math.cos(an) * R * .96, Math.sin(an) * R * .96); c.lineTo(Math.cos(an) * R, Math.sin(an) * R); c.stroke(); }
-      c.font = `700 ${Math.round(R * .1)}px ${BRS_SERIF}`; c.textAlign = 'center'; c.textBaseline = 'middle';
-      for (let i = 0; i < txt.length; i++) { c.save(); c.rotate(rot + i / txt.length * Math.PI * 2); c.fillText(txt[i], 0, -R * .87); c.restore(); }
-      c.font = `700 ${Math.round(R * .5)}px ${BRS_SERIF}`; c.fillText(BRS_ROMAN[tier] || String(tier), 0, R * .02);
-      c.font = `500 ${Math.round(R * .1)}px ${BRS_SERIF}`; c.fillText('TIER', 0, R * .45);
-      c.restore();
-    };
-    draw(1.2, 1.2, 'rgba(10,6,2,.85)'); draw(-.7, -.7, 'rgba(255,243,196,.4)'); draw(0, 0, col);
-  };
-  return { dur: 2900, draw(c, e) {
-    const fade = e < 2250 ? .62 : _frC(1 - (e - 2250) / 650) * .62;
-    if (e < HIT) { const k = e / HIT; c.fillStyle = `rgba(0,0,0,${.35 * k})`; c.beginPath(); c.arc(mx + 5 * (1 - k), my + 5 * (1 - k), R * (1.4 - .4 * k), 0, Math.PI * 2); c.fill(); return; }
-    const k = _frC((e - HIT) / 1400), ks = _frC((e - HIT) / 520);
-    if (ks < 1) { c.save(); c.globalCompositeOperation = 'lighter'; c.strokeStyle = `rgba(255,220,140,${.6 * (1 - ks)})`; c.lineWidth = 2.5; c.beginPath(); c.arc(mx, my, R * (1 + ks * .5), 0, Math.PI * 2); c.stroke(); c.restore(); }
-    c.save(); c.globalAlpha = fade; shape(c, _brsHeat(k), -.3 + e / 9000); c.restore();
-  } };
 }
 
 /* ── 鋳込みの唐草 ── */
@@ -4678,112 +4520,734 @@ function _brsVine(x, y, dir, len, amp, curlR, turns, t0, speed, w0, bend) {
   }
   return { P, t0, speed, w0, total: s };
 }
-function _brsDrawVines(c, e, V, fade, cool) {
-  c.save(); c.lineCap = 'round'; c.lineJoin = 'round';
-  V.forEach(v => {
+
+/* ── Brass の正解演出（2026-10-02・デモ _work/fx_all_demo.html の「第3弾の手直し」から移した） ──
+   ② 四隅の意匠（角板・駆動歯車・唐草・銅と青焼きの歯車・縦の配管と銅の迂回管・圧力計・月桂樹・水面計・宝石の輪・汽笛）が、
+     連続正解数が段（1・2・3・5・7・10・14・20）に届くたびにせり出して残る（誤答で連続が切れると引っ込む）。
+   A 正解のたびに四隅の通気口から蒸気・歯車と手車と圧力計が連動。
+   B 段が上がった瞬間に左右の縁を配管が走り、真ん中の分配箱の汽笛が鳴る。配管は一度出たら縁に残る（四隅と同じ層）。
+   ⑥ 正解の肢の左端に打刻機のスタンプ（APPROVED／CORRECT 交互・段上げは CERTIFIED）と小さな火花。カードと一緒に流れる。
+   残る層（.rf-full.brs-grow）は動いている間だけ描き直す。試験の終了で .rf-full ごと消える。
+   ⚠️ 扇・駆動歯車の軸の紅玉・ローマ数字のメダル・縁の歯車・スタンプの型の落下（重厚版）は削除済み（ユーザー判断）＝戻さない。
+   ⚠️ 角の部品を足すときは、歯車の下で途切れる線を作らない（歯車の群れは角から約66u まで）。詳細は _work/仕様/演出.md */
+const _brsDeco = (() => {
+  const PI = Math.PI, TAU = PI * 2, SERIF = BRS_SERIF, MONO = BRS_MONO, hot = _brsHeat, glow = _brsGlow, B = BRS_BRASS, D = BRS_DARK;
+  const rgba = (a, r, g, b) => 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+  const metal = (c, x0, y0, x1, y1) => { const g = c.createLinearGradient(x0, y0, x1, y1);
+    g.addColorStop(0, '#FFEFB0'); g.addColorStop(.35, B); g.addColorStop(.72, D); g.addColorStop(1, '#4A370C'); return g; };
+  const rrect = (c, x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
+  // 鋲の頭（丸いドーム）。q：0＝白熱 → 1＝真鍮色
+  const dome = (c, x, y, R, q, a) => { if (!(a > 0)) return;
+    c.save(); c.globalAlpha = _frC(a);
+    c.fillStyle = 'rgba(10,6,2,.85)'; c.beginPath(); c.arc(x + 1, y + 1.2, R + 1, 0, TAU); c.fill();
+    const gr = c.createRadialGradient(x - R * .35, y - R * .4, R * .1, x, y, R);
+    gr.addColorStop(0, hot(Math.max(0, q - .35))); gr.addColorStop(.55, hot(q)); gr.addColorStop(1, rgba(.4 + .55 * q, 60, 40, 10));
+    c.fillStyle = gr; c.beginPath(); c.arc(x, y, R, 0, TAU); c.fill();
+    c.fillStyle = 'rgba(255,248,220,.75)'; c.beginPath(); c.arc(x - R * .35, y - R * .38, R * .22, 0, TAU); c.fill();
+    c.restore(); };
+  // 圧力計の文字盤（肢の左端の案と全画面の蒸気管で共用）。frac：0〜1（1で振り切り）
+  const dial = (c, x, y, R, frac, a) => {
+    if (!(a > 0)) return;
+    const A0 = PI * .75, SW = PI * 1.5;
+    c.save(); c.globalAlpha = _frC(a);
+    c.fillStyle = 'rgba(10,6,2,.8)'; c.beginPath(); c.arc(x + 1.2, y + 1.5, R * 1.1, 0, TAU); c.fill();
+    c.fillStyle = '#F3E6C4'; c.beginPath(); c.arc(x, y, R, 0, TAU); c.fill();
+    c.lineWidth = R * .17; c.strokeStyle = metal(c, x - R, y - R, x + R, y + R); c.beginPath(); c.arc(x, y, R, 0, TAU); c.stroke();
+    c.lineWidth = .8; c.strokeStyle = 'rgba(40,26,6,.9)'; c.beginPath(); c.arc(x, y, R * 1.09, 0, TAU); c.stroke();
+    c.lineWidth = Math.max(2, R * .09); c.strokeStyle = '#B3261E'; c.beginPath(); c.arc(x, y, R * .7, A0 + SW * .78, A0 + SW); c.stroke();
+    c.strokeStyle = '#2A1A06';
+    for (let i = 0; i <= 10; i++) { const an = A0 + SW * i / 10, r1 = i % 5 ? R * .64 : R * .55; c.lineWidth = i % 5 ? .8 : 1.4;
+      c.beginPath(); c.moveTo(x + Math.cos(an) * r1, y + Math.sin(an) * r1); c.lineTo(x + Math.cos(an) * R * .78, y + Math.sin(an) * R * .78); c.stroke(); }
+    const na = A0 + SW * frac, L = R * .74, w = R * .075;
+    c.fillStyle = '#1E1206'; c.beginPath(); c.moveTo(x + Math.cos(na) * L, y + Math.sin(na) * L);
+    c.lineTo(x + Math.cos(na + PI / 2) * w, y + Math.sin(na + PI / 2) * w); c.lineTo(x - Math.cos(na) * R * .18, y - Math.sin(na) * R * .18);
+    c.lineTo(x + Math.cos(na - PI / 2) * w, y + Math.sin(na - PI / 2) * w); c.closePath(); c.fill();
+    c.fillStyle = metal(c, x - R * .12, y - R * .12, x + R * .12, y + R * .12); c.beginPath(); c.arc(x, y, R * .13, 0, TAU); c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = R * .06; c.beginPath(); c.arc(x, y, R * .86, PI * 1.1, PI * 1.45); c.stroke();   // 硝子の映り込み
+    c.restore();
+    return [x + Math.cos(na) * L, y + Math.sin(na) * L];
+  };
+  // 蒸気の塊はスプライト1枚を縮尺して描く（毎フレーム放射グラデーションを作らない）
+  let PUFF = null;
+  const drawPuff = (c, x, y, r, a) => {
+    if (!(a > 0) || !(r > 0)) return;
+    if (!PUFF) {
+      const s = 128, cv = document.createElement('canvas'); cv.width = cv.height = s;
+      const x2 = cv.getContext('2d'), g = x2.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+      g.addColorStop(0, 'rgba(255,250,238,1)'); g.addColorStop(.5, 'rgba(246,238,220,.5)'); g.addColorStop(1, 'rgba(240,230,210,0)');
+      x2.fillStyle = g; x2.fillRect(0, 0, s, s); PUFF = cv;
+    }
+    c.globalAlpha = _frC(a); c.drawImage(PUFF, x - r, y - r, r * 2, r * 2); c.globalAlpha = 1;
+  };
+  const GROW = { n: 0, ph: [0, 0, 0, 0], start: new Map() };
+  const SPIN_DIR = [1, -1, -1, 1];
+  const scr = (cn, p) => ({ x: cn[0] + cn[2] * p.x, y: cn[1] + cn[3] * p.y });
+  const scrAng = (cn, a) => Math.atan2(cn[3] * Math.sin(a), cn[2] * Math.cos(a));
+  const growGeo = () => {
+    const CW = innerWidth, CH = innerHeight, hb = Math.max(0, _examFxHeaderBottom() || 0), u = _frC(Math.min(CW, CH) / 480, 1, 1.6);
+    const key = [CW, CH, hb].join(',');
+    if (GROW.geo && GROW.geo.key === key) return GROW.geo;
+    const corners = [[0, hb, 1, 1], [CW, hb, -1, 1], [0, CH, 1, -1], [CW, CH, -1, -1]];
+    const Dr = 18 * u, Dl = { x: 13 * u, y: 13 * u }, g2r = 11 * u, a2 = PI / 4, g3r = 8 * u, a3 = .2;
+    const g2l = { x: Dl.x + Math.cos(a2) * (Dr + g2r - BRS_DEPTH * .95), y: Dl.y + Math.sin(a2) * (Dr + g2r - BRS_DEPTH * .95) };
+    const g3l = { x: g2l.x + Math.cos(a3) * (g2r + g3r - BRS_DEPTH * .95), y: g2l.y + Math.sin(a3) * (g2r + g3r - BRS_DEPTH * .95) };
+    const pipe = { x: 6.5 * u, y0: 29 * u, y1: 104 * u, w: 7.5 * u, gaugeY: 80 * u, gaugeX: 27 * u, gaugeR: 8.5 * u,
+      bx: 18 * u, by0: 36 * u, by1: 62 * u, bw: 4.6 * u, rb: 4 * u, valveY: 49 * u,       // 銅の迂回管（主管から出て戻る U 字・手車つき）
+      sgx: 17 * u, sgy0: 89 * u, sgy1: 108 * u };                                          // 水面計（硝子管）
+    const vine = (x, y, dir, len, curl, bend, w) => {
+      const v = _brsVine(x, y, dir, len, 3 * u, curl, 1.25, 0, .28, (w || 2.1) * Math.min(1.25, u), bend);
+      // 葉：蔓に沿って左右交互（渦巻きの手前まで）
+      v.leaves = [];
+      for (let s = 9 * u, i = 0; s < len * .9; s += 11 * u, i++) {
+        const k = v.P.findIndex(p => p.s >= s); if (k < 1) continue;
+        const a = v.P[k], b = v.P[k - 1];
+        v.leaves.push({ s, x: a.x, y: a.y, ang: Math.atan2(a.y - b.y, a.x - b.x), side: i % 2 ? 1 : -1, len: (6.2 - 2 * s / len) * u });
+      }
+      return v;
+    };
+    /* 上の縁の蔓は前の蔓の途中から枝分かれして続く（2026-10-02・以前は x=76u・130u から切り口のまま始まっていて、
+       縁の歯車があった頃の名残で途中が途切れて見えた）。枝の付け根は親の蔓の上の点・向きは親の接線・太さは親のその位置の太さ */
+    const from = (v, x) => { let k = 1; while (k < v.P.length - 1 && v.P[k].x < x) k++;
+      const a = v.P[k - 1], b = v.P[k]; return { x: a.x, y: a.y, dir: Math.atan2(b.y - a.y, b.x - a.x), w: v.w0 * (1 - .55 * a.s / v.total) / Math.min(1.25, u) }; };
+    const v2 = vine(32 * u, 5 * u, 0, 42 * u, 7 * u, -1), j5 = from(v2, 56 * u);
+    const v5 = vine(j5.x, j5.y, j5.dir - .06, 128 * u - j5.x, 8 * u, 1, j5.w), j20 = from(v5, 110 * u);
+    const V = {
+      2: [v2, vine(27 * u, 27 * u, PI / 4, 15 * u, 5 * u, 1, 1.5)],
+      5: [v5, vine(j5.x + 2 * u, j5.y + 1 * u, 1.1, 18 * u, 5 * u, -1, Math.min(1.4, j5.w))],
+      7: [vine(g3l.x + Math.cos(a3) * g3r, g3l.y + Math.sin(a3) * g3r, a3 + .45, 26 * u, 7 * u, 1, 1.7)],
+      20: [vine(j20.x, j20.y, j20.dir - .06, 196 * u - j20.x, 10 * u, -1, j20.w), vine(j20.x - 6 * u, from(v5, 104 * u).y + .5 * u, .9, 22 * u, 6 * u, 1, 1.3)],
+    };
+    const gears = corners.map(cn => {
+      const D = Object.assign(scr(cn, Dl), { r: Dr, n: _brsTeeth(Dr), theta: 0, depth: 0, L: 1 });
+      const G2 = Object.assign(scr(cn, g2l), { r: g2r, n: _brsTeeth(g2r), theta: scrAng(cn, a2), parent: 0, depth: 1, L: 3 });
+      const G3 = Object.assign(scr(cn, g3l), { r: g3r, n: _brsTeeth(g3r), theta: scrAng(cn, a3), parent: 1, depth: 2, L: 7 });
+      return [D, G2, G3];
+    });
+    return (GROW.geo = { key, CW, CH, hb, u, corners, Dr, Dl, g2l, g3l, V, gears, pipe });
+  };
+  const drivePh = (ci, now) => {
+    const s = GROW.spin; let p = GROW.ph[ci];
+    if (s) p += SPIN_DIR[ci] * s.amt * _brsEio(_frC((now - s.t0) / s.dur));
+    return p;
+  };
+  const foldSpin = now => { if (!GROW.spin) return; GROW.ph = GROW.ph.map((_, ci) => drivePh(ci, now)); GROW.spin = null; };
+  const cyl = (c, x0, x1, vertical) => {   // 円筒の陰影（配管の胴）
+    const g = vertical ? c.createLinearGradient(x0, 0, x1, 0) : c.createLinearGradient(0, x0, 0, x1);
+    g.addColorStop(0, '#3E2E0A'); g.addColorStop(.22, '#FFF0B8'); g.addColorStop(.45, BRS_BRASS); g.addColorStop(.8, BRS_DARK); g.addColorStop(1, '#2E2208');
+    return g;
+  };
+  /* 色味（2026-10-01 夜・ユーザー指定「色味をもっと増やせないか」）：真鍮を地に、銅（副配管・2枚目の歯車）・青焼きの鋼（細管・3枚目の歯車）・
+     赤い手車・緑青の月桂樹・七宝の帯・宝石（紅玉・青玉・翠玉・琥珀）。デモでは真鍮だけにも戻せた（本番は多色だけ） */
+  const RICH = () => true;   // デモでは「真鍮だけ」に切り替えられた（本番は多色だけ）
+  const STOPS = {
+    brass: ['#3E2E0A', '#FFF0B8', BRS_BRASS, BRS_DARK, '#2E2208'],
+    copper: ['#3A1608', '#FFD3B4', '#C8683A', '#74301A', '#260C04'],
+    steel: ['#0C1428', '#CFDCFF', '#5776B8', '#22345E', '#090F1E'],
+    red: ['#300404', '#FFB0A2', '#C0302A', '#5E0F0B', '#220303'],
+    verd: ['#0A2620', '#D2F5E8', '#46AE93', '#1C5A4C', '#08201A'],
+  };
+  const grad = (g, k) => { const S = STOPS[RICH() ? k : 'brass']; [0, .22, .45, .8, 1].forEach((t, i) => g.addColorStop(t, S[i])); return g; };
+  const cylK = (c, x0, x1, vertical, k) => grad(vertical ? c.createLinearGradient(x0, 0, x1, 0) : c.createLinearGradient(0, x0, 0, x1), k);
+  const tubeV = (c, x, y0, y1, w, k, sh) => { const a = Math.min(y0, y1), h = Math.abs(y1 - y0); if (!(h > 0)) return;
+    if (sh !== false) { c.fillStyle = 'rgba(0,0,0,.4)'; c.fillRect(x - w / 2 + 1.2, a + 1.5, w, h); }
+    c.fillStyle = cylK(c, x - w / 2, x + w / 2, true, k); c.fillRect(x - w / 2, a, w, h); };
+  const tubeH = (c, y, x0, x1, w, k, sh) => { const a = Math.min(x0, x1), h = Math.abs(x1 - x0); if (!(h > 0)) return;
+    if (sh !== false) { c.fillStyle = 'rgba(0,0,0,.4)'; c.fillRect(a + 1.2, y - w / 2 + 1.5, h, w); }
+    c.fillStyle = cylK(c, y - w / 2, y + w / 2, false, k); c.fillRect(a, y - w / 2, h, w); };
+  // 曲がり管（エルボ）：輪の断面の陰影を放射グラデーションで付ける
+  const elbow = (c, cx, cy, rb, w, a0, a1, k) => { let d = a1 - a0; while (d > PI) d -= TAU; while (d <= -PI) d += TAU;
+    c.save(); c.lineWidth = w; c.strokeStyle = 'rgba(0,0,0,.4)'; c.beginPath(); c.arc(cx + 1.2, cy + 1.5, rb, a0, a0 + d, d < 0); c.stroke();
+    c.strokeStyle = grad(c.createRadialGradient(cx, cy, Math.max(0, rb - w / 2), cx, cy, rb + w / 2), k); c.beginPath(); c.arc(cx, cy, rb, a0, a0 + d, d < 0); c.stroke(); c.restore(); };
+  const collar = (c, x, y, w, h, k) => { c.fillStyle = 'rgba(0,0,0,.4)'; rrect(c, x - w / 2 + 1, y - h / 2 + 1.3, w, h, 1.2); c.fill();
+    c.fillStyle = cylK(c, x - w / 2, x + w / 2, true, k); rrect(c, x - w / 2, y - h / 2, w, h, 1.2); c.fill(); c.strokeStyle = 'rgba(40,26,6,.8)'; c.lineWidth = .6; c.stroke(); };
+  const cglow = (c, x, y, r, a, rgb) => { if (!(a > 0)) return; c.save(); c.globalCompositeOperation = 'lighter';
+    const g = c.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, 'rgba(' + rgb + ',' + a + ')'); g.addColorStop(1, 'rgba(' + rgb + ',0)');
+    c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill(); c.restore(); };
+  const GEM = { ruby: ['#FFE2D4', '#D0312A', '#4A0807', '255,70,60'], sapphire: ['#E2ECFF', '#2F5BD0', '#0A1A4A', '90,140,255'],
+    emerald: ['#DFFFEA', '#1E9E5A', '#06331B', '70,230,140'], amber: ['#FFF2C8', '#E39A1C', '#5A3006', '255,180,60'] };
+  // 宝石：爪留めの石座・放射の陰影・八角のテーブル・映り込み。lit＝灯る強さ（動力が入ったとき）
+  const gem = (c, x, y, r, kind, a, lit) => {
+    if (!(r > 0) || !(a > 0)) return;
+    if (!RICH() && kind !== 'ruby') { dome(c, x, y, r * .8, 1, a); return; }
+    const G = GEM[kind];
+    c.save(); c.globalAlpha = _frC(a);
+    if (lit > 0) cglow(c, x, y, r * 4.5, .55 * lit, G[3]);
+    c.fillStyle = 'rgba(8,5,2,.7)'; c.beginPath(); c.arc(x + .8, y + 1, r * 1.38, 0, TAU); c.fill();
+    c.fillStyle = cylK(c, x - r * 1.4, x + r * 1.4, true, 'brass'); c.beginPath(); c.arc(x, y, r * 1.32, 0, TAU); c.fill();
+    c.strokeStyle = 'rgba(40,26,6,.8)'; c.lineWidth = .5; c.stroke();
+    const gr = c.createRadialGradient(x - r * .35, y - r * .4, r * .1, x, y, r); gr.addColorStop(0, G[0]); gr.addColorStop(.45, G[1]); gr.addColorStop(1, G[2]);
+    c.fillStyle = gr; c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.32)'; c.lineWidth = .5; c.beginPath();
+    for (let i = 0; i <= 8; i++) { const an = i / 8 * TAU + PI / 8, px = x + Math.cos(an) * r * .52, py = y + Math.sin(an) * r * .52; if (i) c.lineTo(px, py); else c.moveTo(px, py); }
+    c.stroke();
+    for (let i = 0; i < 4; i++) { const an = PI / 4 + i * PI / 2; c.fillStyle = '#FFF0B8'; c.beginPath(); c.arc(x + Math.cos(an) * r * 1.12, y + Math.sin(an) * r * 1.12, r * .26, 0, TAU); c.fill(); }
+    c.fillStyle = 'rgba(255,255,255,.75)'; c.beginPath(); c.arc(x - r * .36, y - r * .4, r * .22, 0, TAU); c.fill();
+    c.restore(); };
+  // 手車（バルブのハンドル）：赤い輪・5本のスポーク・真鍮の軸
+  const wheel = (c, x, y, wr, rot, k) => {
+    c.save(); c.translate(x, y); c.rotate(rot || 0);
+    c.strokeStyle = 'rgba(8,5,2,.6)'; c.lineWidth = 1.9 * wr / 4.6; c.beginPath(); c.arc(.6, .8, wr, 0, TAU); c.stroke();
+    c.strokeStyle = cylK(c, -wr, wr, true, k || 'red'); c.lineWidth = 1.7 * wr / 4.6; c.beginPath(); c.arc(0, 0, wr, 0, TAU); c.stroke();
+    c.lineWidth = .9 * wr / 4.6; for (let i = 0; i < 5; i++) { const a = i / 5 * TAU; c.beginPath(); c.moveTo(0, 0); c.lineTo(Math.cos(a) * wr, Math.sin(a) * wr); c.stroke(); }
+    for (let i = 0; i < 5; i++) { const a = i / 5 * TAU + TAU / 10; c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.arc(Math.cos(a) * wr, Math.sin(a) * wr, .5 * wr / 4.6, 0, TAU); c.fill(); }   // 握りの瘤
+    c.restore(); dome(c, x, y, 1.25 * wr / 4.6, 1, 1); };
+  /* 唐草を3回描く：影 → 本体（白熱から冷える）→ 細い光。葉は蔓の先が通り過ぎたところから開く */
+  const vineHQ = (c, e, v, pw, u) => {
     const head = (e - v.t0) * v.speed; if (head <= 0) return;
-    for (let i = 1; i < v.P.length; i++) {
-      const a = v.P[i - 1], b = v.P[i]; if (a.s > head) break;
-      c.strokeStyle = _brsHeat(_frC((e - v.t0 - b.s / v.speed) / cool), .95 * fade); c.lineWidth = v.w0 * (1 - .55 * b.s / v.total);
-      c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.stroke();
+    const seg = (dx, dy, col, wm) => {
+      for (let i = 1; i < v.P.length; i++) {
+        const a = v.P[i - 1], b = v.P[i]; if (a.s > head) break;
+        c.strokeStyle = typeof col === 'function' ? col(b) : col; c.lineWidth = v.w0 * (1 - .55 * b.s / v.total) * wm;
+        c.beginPath(); c.moveTo(a.x + dx, a.y + dy); c.lineTo(b.x + dx, b.y + dy); c.stroke();
+      }
+    };
+    c.save(); c.lineCap = 'round'; c.lineJoin = 'round';
+    seg(.9, 1.2, 'rgba(8,5,2,.7)', 1.35);
+    seg(0, 0, b => hot(_frC((e - v.t0 - b.s / v.speed) / 900)), 1);
+    seg(-.45, -.55, 'rgba(255,246,214,.5)', .32);
+    (v.leaves || []).forEach(L => {
+      const k = _frC((head - L.s) / (8 * u)); if (k <= 0) return;
+      const ln = L.len * _brsBack(k), w = ln * .38, col = hot(_frC((e - v.t0 - L.s / v.speed) / 900));
+      c.save(); c.translate(L.x, L.y); c.rotate(L.ang + L.side * .95);
+      const leaf = () => { c.beginPath(); c.moveTo(0, 0); c.quadraticCurveTo(ln * .45, -w, ln, 0); c.quadraticCurveTo(ln * .45, w, 0, 0); };
+      c.translate(.8, 1); leaf(); c.fillStyle = 'rgba(8,5,2,.6)'; c.fill(); c.translate(-.8, -1);
+      leaf(); const g = c.createLinearGradient(0, -w, 0, w); g.addColorStop(0, '#FFF0B8'); g.addColorStop(.5, col); g.addColorStop(1, BRS_DARK);
+      c.fillStyle = e - v.t0 - L.s / v.speed < 900 ? col : g; c.fill();
+      c.strokeStyle = 'rgba(60,40,8,.75)'; c.lineWidth = .6; c.beginPath(); c.moveTo(ln * .1, 0); c.lineTo(ln * .85, 0); c.stroke();
+      c.restore();
+    });
+    if (head < v.total) { const q = v.P.find(o => o.s >= head) || v.P[v.P.length - 1]; glow(c, q.x, q.y, 5, .9); }
+    if (pw != null && pw > 0 && pw < 1) {   // 熱が角から先へ走る
+      const q = v.P[Math.min(v.P.length - 1, Math.round(pw * (v.P.length - 1)))];
+      glow(c, q.x, q.y, 9 * u, .8 * (1 - pw));
+      c.globalCompositeOperation = 'lighter';
+      for (let i = 1; i < v.P.length; i++) { const a = v.P[i - 1], b = v.P[i], d = Math.abs(b.s / v.total - pw); if (d > .12) continue;
+        c.strokeStyle = hot(d / .12 * .6, (1 - d / .12) * .85 * (1 - pw * .5)); c.lineWidth = v.w0 * 1.3; c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.stroke(); }
     }
-    if (head < v.total) { const q = v.P.find(o => o.s >= head) || v.P[v.P.length - 1]; _brsGlow(c, q.x, q.y, 5, .9 * fade); }   // 流れる先端
-  });
-  c.restore();
-}
-function _brsSheen(c, w, y0, h, k, a) {   // 斜めの光沢（水平の線にしない）
-  if (k <= 0 || k >= 1) return;
-  const x = -w * .4 + k * w * 1.8, g = c.createLinearGradient(x - 60, 0, x + 60, 0);
-  g.addColorStop(0, 'rgba(255,243,196,0)'); g.addColorStop(.5, `rgba(255,243,196,${a * Math.sin(Math.PI * k)})`); g.addColorStop(1, 'rgba(255,243,196,0)');
-  c.save(); c.globalCompositeOperation = 'lighter'; c.translate(x, y0 + h / 2); c.transform(1, 0, -.6, 1, 0, 0); c.translate(-x, -(y0 + h / 2));
-  c.fillStyle = g; c.fillRect(x - 60, y0, 120, h); c.restore();
-}
-function _brsFiligree(T, px, lo) {
-  // 十字の飾り（フルーロン）：斜め4方向へ短い蔓が伸びて渦を巻く。
-  // ⚠️ 肢の中を横に走る長い蔓は作らない（文字の取り消し線・下線に見える）。
-  const cy = lo.t + lo.h / 2, sp = .32 + T * .02, V = [];
-  const big = T >= 3, len = big ? 26 + T * 7 : lo.h * .72 + T * 4, curl = big ? 8 + T * 1.2 : Math.min(lo.h * .22, 10);
-  [-.72, -2.42, .72, 2.42].forEach((d, j) => {
-    const side = Math.cos(d) > 0 ? 1 : -1, up = Math.sin(d) < 0 ? 1 : -1;
-    const main = _brsVine(px, cy, d, len, big ? 6 : 3, curl, 1.2, j * 30, sp, 2.2, side * up);
-    V.push(main);
-    for (let b = 0; b < Math.min(2, T - 1); b++) {
-      const base = main.P[Math.round((main.P.length - 1) * (.28 + b * .2))];
-      V.push(_brsVine(base.x, base.y, d + (b % 2 ? .95 : -.95), len * (.45 - b * .08), 2, curl * .6, 1, j * 30 + base.s / sp, sp, 1.3, b % 2 ? -side * up : side * up));
+    c.restore();
+  };
+  /* 角の飾り（鏡写しで描く部品）。k＝せり出し 0〜1・eL＝出始めてからの ms・pw＝動力の波（0〜1 か null）・vr＝手車の角度 */
+  const growParts = g => {
+    const u = g.u, R = 30 * u, P = g.pipe;
+    const vineEl = L => ({ L, z: 3, draw(c, k, eL, pw) { g.V[L].forEach(v => vineHQ(c, eL, v, pw, u)); } });
+    return [
+      { L: 1, z: 1, draw(c, k, eL) {   // 角板：落ち影・円筒の陰影・ローレットの縁・2本の彫り・鋲
+        const o = (1 - _brsBack(k)) * R;
+        c.save(); c.translate(-o, -o);
+        [3.5, 2.2, 1].forEach((d, i) => { c.fillStyle = 'rgba(0,0,0,' + (.14 + i * .08) + ')'; c.beginPath(); c.moveTo(0, 0); c.arc(d * .4, d * .6, R + d, 0, PI / 2); c.closePath(); c.fill(); });
+        c.fillStyle = metal(c, 0, 0, R, R); c.beginPath(); c.moveTo(0, 0); c.arc(0, 0, R, 0, PI / 2); c.closePath(); c.fill();
+        const hl = c.createRadialGradient(R * .28, R * .22, 0, R * .28, R * .22, R * .8); hl.addColorStop(0, 'rgba(255,248,220,.45)'); hl.addColorStop(1, 'rgba(255,248,220,0)');
+        c.fillStyle = hl; c.fill();
+        c.strokeStyle = 'rgba(40,26,6,.9)'; c.lineWidth = 1; c.stroke();
+        if (RICH()) {   // 七宝の帯（深い青緑）と金の粒
+          const r0 = R * .62 + 1, r1 = R - 4 * u - 1, eg = c.createRadialGradient(0, 0, r0, 0, 0, r1);
+          eg.addColorStop(0, '#0B3A44'); eg.addColorStop(.5, '#1F7A86'); eg.addColorStop(1, '#0B3A44');
+          c.fillStyle = eg; c.beginPath(); c.arc(0, 0, r1, .05, PI / 2 - .05); c.arc(0, 0, r0, PI / 2 - .05, .05, true); c.closePath(); c.fill();
+          for (let a = .1; a < PI / 2 - .06; a += .13) { const rm = (r0 + r1) / 2; c.fillStyle = '#FFE9A0'; c.beginPath(); c.arc(Math.cos(a) * rm, Math.sin(a) * rm, .75 * u, 0, TAU); c.fill(); }
+          c.fillStyle = 'rgba(255,255,255,.18)'; c.beginPath(); c.arc(0, 0, r1, .05, PI / 2 - .05); c.arc(0, 0, (r0 + r1) / 2, PI / 2 - .05, .05, true); c.closePath(); c.fill();
+        }
+        c.lineWidth = .7; for (let a = .02; a < PI / 2; a += .055) {   // ローレット
+          c.strokeStyle = 'rgba(40,26,6,.75)'; c.beginPath(); c.moveTo(Math.cos(a) * (R - 2.6 * u), Math.sin(a) * (R - 2.6 * u)); c.lineTo(Math.cos(a) * (R - .3), Math.sin(a) * (R - .3)); c.stroke(); }
+        [[R - 4 * u, 'rgba(40,26,6,.8)', 0], [R - 4 * u + .8, 'rgba(255,243,196,.35)', 0], [R * .62, 'rgba(40,26,6,.55)', 0], [R * .62 + .7, 'rgba(255,243,196,.25)', 0]].forEach(([rr, col]) => {
+          c.strokeStyle = col; c.lineWidth = .8; c.beginPath(); c.arc(0, 0, rr, .04, PI / 2 - .04); c.stroke(); });
+        if (eL < 1100) { c.strokeStyle = hot(eL / 1100, 1 - eL / 1100); c.lineWidth = 2; c.beginPath(); c.arc(0, 0, R, 0, PI / 2); c.stroke(); }
+        [.16, .5, .84].forEach(f => dome(c, Math.cos(f * PI / 2) * (R - 6.5 * u), Math.sin(f * PI / 2) * (R - 6.5 * u), 1.9 * u, _frC(eL / 900), 1));
+        c.restore(); } },
+      { L: 10, z: 2, draw(c, k, eL, pw) {   // 月桂樹の弧：陰影つきの葉・中肋・実
+        const RR = 74 * u, a0 = .2, a1 = 1.12, aE = a0 + (a1 - a0) * _frE(k);
+        const cool = pw != null && pw < 1 ? Math.max(pw, _frC(eL / 1100)) : _frC(eL / 1100), col = hot(cool);
+        c.save(); c.lineCap = 'round';
+        /* 2026-10-02：弧の両端が太さを保ったまま切れて「途切れた」ように見えた（ユーザー指摘・終わりが縁の歯車のあった角度）。
+           先を伸ばすと赤い手車・銅の迂回管にぶつかるので、両端を細らせて、先端を葉の芽と実で閉じる */
+        const taper = a => Math.max(0, Math.min(1, (a - a0) / .16, (aE - a) / .18));
+        const arcT = (dx, dy, r, w) => { const N = 40; for (let i = 0; i < N; i++) {
+          const p = a0 + (aE - a0) * i / N, q = a0 + (aE - a0) * (i + 1) / N, t = taper((p + q) / 2); if (t <= 0) continue;
+          c.lineWidth = w * (.12 + .88 * t); c.beginPath(); c.arc(dx, dy, r, p, q); c.stroke(); } };
+        [[1, 1.2, 'rgba(8,5,2,.6)'], [0, 0, col]].forEach(([dx, dy, cc]) => {
+          c.strokeStyle = cc; arcT(dx, dy, RR, 2 * u); arcT(dx, dy, RR - 4 * u, .8 * u); });
+        const bud = (an, fwd) => {   // 先端の芽：弧の接線の向きへ、2枚の葉が寄り添って閉じる＋小さな実
+          const x = Math.cos(an) * (RR - 2 * u), y = Math.sin(an) * (RR - 2 * u), ln = 6.5 * u, w = 2.1 * u;
+          c.save(); c.translate(x, y); c.rotate(an + fwd * PI / 2);
+          [-.32, .32].forEach((sp, j) => {
+            c.save(); c.rotate(sp * fwd);
+            const leaf = () => { c.beginPath(); c.moveTo(0, 0); c.quadraticCurveTo(ln * .45, -w, ln, 0); c.quadraticCurveTo(ln * .45, w, 0, 0); };
+            c.translate(.8, 1); leaf(); c.fillStyle = 'rgba(8,5,2,.55)'; c.fill(); c.translate(-.8, -1);
+            leaf(); c.fillStyle = cool < 1 ? col : RICH() ? grad(c.createLinearGradient(0, -w, 0, w), j ? 'verd' : 'brass') : col; c.fill();
+            c.strokeStyle = 'rgba(60,40,8,.7)'; c.lineWidth = .5; c.beginPath(); c.moveTo(ln * .1, 0); c.lineTo(ln * .85, 0); c.stroke();
+            c.restore(); });
+          c.restore();
+          dome(c, x, y, 1.3 * u, cool, 1);
+        };
+        bud(a0 + .02, -1);
+        if (k >= 1) bud(a1 - .02, 1);
+        for (let a = a0 + .1, i = 0; a < aE - .1; a += .11, i++) {
+          const s = i % 2 ? 1 : -1, rr = RR + s * 3.8 * u, ln = 5 * u, w = 2 * u;
+          c.save(); c.translate(Math.cos(a) * rr, Math.sin(a) * rr); c.rotate(a + PI / 2 + s * .5);
+          c.beginPath(); c.moveTo(-ln, 0); c.quadraticCurveTo(0, -w, ln, 0); c.quadraticCurveTo(0, w, -ln, 0);
+          const lg = c.createLinearGradient(0, -w, 0, w); lg.addColorStop(0, '#FFF0B8'); lg.addColorStop(.5, col); lg.addColorStop(1, BRS_DARK);
+          c.fillStyle = cool < 1 ? col : RICH() ? grad(c.createLinearGradient(0, -w, 0, w), i % 2 ? 'verd' : 'brass') : lg; c.fill();
+          c.strokeStyle = 'rgba(60,40,8,.7)'; c.lineWidth = .5; c.beginPath(); c.moveTo(-ln * .8, 0); c.lineTo(ln * .8, 0); c.stroke();
+          c.restore();
+          if (i % 3 === 1) { const bx = Math.cos(a) * (RR - s * 5 * u), by = Math.sin(a) * (RR - s * 5 * u);
+            if (RICH() && cool >= 1) gem(c, bx, by, 1.15 * u, 'ruby', 1, pw != null && pw < 1 ? Math.sin(PI * pw) * .6 : 0); else dome(c, bx, by, 1.4 * u, cool, 1); }
+        }
+        c.restore(); } },
+      { L: 14, z: 2.5, draw(c, k, eL, pw) {   // D を囲む鋲の輪（ローレットつき）
+        const rr = g.Dr + 5 * u, a = _frE(k);
+        c.save(); c.globalAlpha = a;
+        c.strokeStyle = 'rgba(8,5,2,.6)'; c.lineWidth = 3.4 * u; c.beginPath(); c.arc(g.Dl.x + .8, g.Dl.y + 1.1, rr, -.2, PI / 2 + .2); c.stroke();
+        c.strokeStyle = cyl(c, g.Dl.x - rr, g.Dl.x + rr, true); c.lineWidth = 3 * u; c.beginPath(); c.arc(g.Dl.x, g.Dl.y, rr, -.2, PI / 2 + .2); c.stroke();
+        c.strokeStyle = 'rgba(40,26,6,.6)'; c.lineWidth = .6;
+        for (let t = -.18; t < PI / 2 + .2; t += .07) { c.beginPath(); c.moveTo(g.Dl.x + Math.cos(t) * (rr - 1.4 * u), g.Dl.y + Math.sin(t) * (rr - 1.4 * u)); c.lineTo(g.Dl.x + Math.cos(t) * (rr + 1.4 * u), g.Dl.y + Math.sin(t) * (rr + 1.4 * u)); c.stroke(); }
+        c.restore();
+        for (let i = 0; i < 5; i++) { const an = -.1 + i / 4 * (PI / 2 + .2), x = g.Dl.x + Math.cos(an) * rr, y = g.Dl.y + Math.sin(an) * rr;
+          if (RICH() && eL > 700) gem(c, x, y, 1.75 * u, i % 2 ? 'emerald' : 'sapphire', a, pw != null && pw < 1 ? Math.sin(PI * _frC(pw * 1.3 - i * .06)) * .7 : 0);
+          else dome(c, x, y, 1.8 * u, _frC(eL / 900), a); }
+      } },
+      { L: 5, z: 2.8, draw(c, k, eL, pw, vr) {   // 縦の配管：円筒の胴・フランジ・バルブの手車・通気口（段20では汽笛）
+        const len = (P.y1 - P.y0) * _frE(k), y1 = P.y0 + len, hw = P.w / 2;
+        c.save();
+        c.fillStyle = 'rgba(0,0,0,.4)'; c.fillRect(P.x - hw + 1.2, P.y0 + 1.5, P.w, len);
+        c.fillStyle = cyl(c, P.x - hw, P.x + hw, true); c.fillRect(P.x - hw, P.y0, P.w, len);
+        if (eL < 1100) { c.fillStyle = hot(eL / 1100, .7 * (1 - eL / 1100)); c.fillRect(P.x - hw, P.y0, P.w, len); }
+        if (pw != null && pw > 0 && pw < 1) { const py = P.y0 + (P.y1 - P.y0) * pw; c.globalCompositeOperation = 'lighter'; glow(c, P.x, py, 10 * u, .9 * (1 - pw * .6)); c.globalCompositeOperation = 'source-over'; }
+        const flange = y => { c.fillStyle = 'rgba(0,0,0,.4)'; rrect(c, P.x - hw * 1.7 + 1, y - 1.5 * u + 1.3, P.w * 1.7, 3.4 * u, 1.2); c.fill();
+          c.fillStyle = cyl(c, P.x - hw * 1.7, P.x + hw * 1.7, true); rrect(c, P.x - hw * 1.7, y - 1.7 * u, P.w * 1.7, 3.4 * u, 1.2); c.fill();
+          c.strokeStyle = 'rgba(40,26,6,.8)'; c.lineWidth = .6; c.stroke();
+          [-1, 1].forEach(s => dome(c, P.x + s * hw * 1.25, y, .9 * u, 1, 1)); };
+        flange(P.y0 + 1.5 * u);
+        if (k > .35) {   // 銅の迂回管：主管の T から出て U 字に回って戻る。真ん中に赤い手車
+          const ka = _frC((k - .35) / .45), x0 = P.x + hw, bx = P.bx, rb = P.rb, bw = P.bw, y0 = P.by0, y1b = P.by1;
+          c.save(); c.globalAlpha = ka;
+          tubeH(c, y0, x0, bx - rb, bw, 'copper'); tubeH(c, y1b, x0, bx - rb, bw, 'copper');
+          elbow(c, bx - rb, y0 + rb, rb, bw, -PI / 2, 0, 'copper'); elbow(c, bx - rb, y1b - rb, rb, bw, 0, PI / 2, 'copper');
+          tubeV(c, bx, y0 + rb, y1b - rb, bw, 'copper');
+          if (pw != null && pw > 0 && pw < 1) { const q = _frC(pw * 1.4), yq = y0 + rb + (y1b - y0 - 2 * rb) * q; cglow(c, bx, yq, 7 * u, .8 * (1 - q), '255,150,90'); }
+          [[x0 + 1.4 * u, y0], [x0 + 1.4 * u, y1b]].forEach(([xx, yy]) => collar(c, xx, yy, 2.4 * u, bw * 1.5, 'brass'));   // T の継ぎ手
+          collar(c, bx, (y0 + y1b) / 2 - 6.5 * u, bw * 1.55, 2.2 * u, 'brass'); collar(c, bx, (y0 + y1b) / 2 + 6.5 * u, bw * 1.55, 2.2 * u, 'brass');
+          wheel(c, bx, P.valveY, 4.6 * u, vr, 'red');
+          c.restore();
+        }
+        if (k >= 1 && GROW.n < 20) {   // 通気口：広がる口
+          flange(y1 - 1.5 * u);
+          c.fillStyle = cyl(c, P.x - hw * 1.5, P.x + hw * 1.5, true);
+          c.beginPath(); c.moveTo(P.x - hw, y1); c.lineTo(P.x + hw, y1); c.lineTo(P.x + hw * 1.55, y1 + 6 * u); c.lineTo(P.x - hw * 1.55, y1 + 6 * u); c.closePath(); c.fill();
+          c.fillStyle = '#140C03'; c.beginPath(); c.ellipse(P.x, y1 + 6 * u, hw * 1.45, 1.3 * u, 0, 0, TAU); c.fill();
+        }
+        c.restore(); } },
+      { L: 10, z: 2.7, draw(c, k, eL, pw, vr, cn) {   // 水面計：上下の真鍮の口金・硝子管・水位（重力に従う＝下の角では向きを返す）
+        const x = P.sgx, ya = P.sgy0, yb = P.sgy1, gw = 4 * u, kb = _frE(k), hw = P.w / 2;
+        c.save(); c.globalAlpha = kb;
+        tubeH(c, ya + 2.4 * u, P.x + hw, x - gw / 2, 1.9 * u, 'steel'); tubeH(c, yb - 2.4 * u, P.x + hw, x - gw / 2, 1.9 * u, 'steel');
+        c.fillStyle = 'rgba(12,16,18,.55)'; c.fillRect(x - gw / 2, ya, gw, yb - ya);
+        const lvl = _frC(.3 + .35 * Math.min(1, GROW.n / 20) + (pw != null && pw < 1 ? .3 * Math.sin(PI * pw) : 0));
+        const H = (yb - ya - 4 * u) * lvl, down = cn && cn[3] < 0;   // 下の角は局所の y が画面の上向き
+        const wy0 = down ? ya + 2 * u : yb - 2 * u - H;
+        const wg = c.createLinearGradient(x - gw / 2, 0, x + gw / 2, 0);
+        if (RICH()) { wg.addColorStop(0, '#0B3E3A'); wg.addColorStop(.35, '#4FD1C0'); wg.addColorStop(1, '#0E4D48'); }
+        else { wg.addColorStop(0, '#5A3006'); wg.addColorStop(.35, '#F2B544'); wg.addColorStop(1, '#6A3A08'); }
+        c.fillStyle = wg; c.fillRect(x - gw / 2 + .6, wy0, gw - 1.2, H);
+        c.fillStyle = 'rgba(255,255,255,.55)'; c.fillRect(x - gw / 2 + .6, down ? wy0 + H - .7 : wy0, gw - 1.2, .7);   // 水面
+        c.fillStyle = 'rgba(255,255,255,.42)'; c.fillRect(x - gw / 2 + .9, ya + 1, .8 * u, yb - ya - 2);   // 硝子の映り込み
+        [ya, yb].forEach(yy => collar(c, x, yy, gw * 1.7, 3 * u, 'brass'));
+        c.restore(); } },
+      { L: 20, z: 2.9, draw(c, k, eL) {   // 汽笛：通気口に代わる釣鐘の筒（縁に沿って先へ）
+        const y1 = P.y1, hw = P.w / 2, L2 = 15 * u * _frE(k), bw = hw * 1.5;
+        c.save();
+        c.fillStyle = cyl(c, P.x - bw, P.x + bw, true);
+        rrect(c, P.x - bw, y1, bw * 2, L2, 1.5 * u); c.fill(); c.strokeStyle = 'rgba(40,26,6,.8)'; c.lineWidth = .7; c.stroke();
+        if (k > .6) {
+          c.fillStyle = '#140C03'; c.fillRect(P.x - bw * .8, y1 + L2 * .35, bw * 1.6, 1.6 * u);   // 鳴き口
+          [0, .7].forEach(f => { c.fillStyle = cyl(c, P.x - bw * 1.2, P.x + bw * 1.2, true); rrect(c, P.x - bw * 1.15, y1 + L2 * f, bw * 2.3, 2.4 * u, 1); c.fill(); });
+          c.fillStyle = cyl(c, P.x - bw * .5, P.x + bw * .5, true); c.beginPath(); c.arc(P.x, y1 + L2 + 1.5 * u, bw * .55, 0, TAU); c.fill();
+        }
+        if (eL < 1100) { c.globalCompositeOperation = 'lighter'; glow(c, P.x, y1 + L2 / 2, 14 * u, .7 * (1 - eL / 1100)); }
+        c.restore(); } },
+      vineEl(2), vineEl(5), vineEl(7), vineEl(20),
+      { L: 20, z: 6, draw(c, k, eL, pw) {   // 唐草の渦の芯に宝石（D の軸の紅玉は 2026-10-02 にユーザー判断で削除）
+        [[2, 'sapphire'], [5, 'emerald'], [20, 'amber']].forEach(([L, kind]) => {
+          const v = g.V[L][0], q = v.P[v.P.length - 1]; gem(c, q.x, q.y, 1.9 * u * _brsBack(k), kind, 1, pw != null && pw < 1 ? Math.sin(PI * _frC(pw * 1.2 - .15)) * .8 : 0); });
+      } },
+    ].sort((a, b) => a.z - b.z);
+  };
+  const gaugeFrac = n => Math.min(.94, .12 + .82 * Math.min(1, n / 20));
+  const growPaint = now => {
+    const g = growGeo(), c = GROW.ctx; if (!c) return;
+    c.clearRect(0, 0, g.CW, g.CH);
+    const parts = growParts(g), R = GROW.ret, s = GROW.spin, u = g.u;
+    const lvMax = R ? R.from : GROW.n, kRet = R ? 1 - _frC((now - R.t0) / 520) : 1;
+    GROW.ctx.canvas.style.opacity = String(.94 * kRet);
+    const stOf = L => {
+      if (L > lvMax) return null;
+      if (R) return { k: _frE(kRet), eL: 1e9 };
+      const t = GROW.start.get(L); if (t == null) return { k: 1, eL: 1e9 };
+      const eL = now - t; return eL <= 0 ? null : { k: _frC(eL / 450), eL };
+    };
+    const pw = s ? _frC((now - s.t0 - 80) / 650) : null, pwOK = pw != null && pw < 1 ? pw : null;
+    if (GROW.wall) { c.save(); try { wallPaint(c, wallGeo(), now - GROW.wall.t0, 1, GROW.wall, now); } finally { c.restore(); } }   // B の縁の配管（出しっぱなし・四隅の部品より下）
+    const draw = list => g.corners.forEach((cn, ci) => {
+      const vr = drivePh(ci, now) * .8 * cn[2] * cn[3];
+      c.save(); c.translate(cn[0], cn[1]); c.scale(cn[2], cn[3]);
+      list.forEach(p => { const st = stOf(p.L); if (st) { c.save(); try { p.draw(c, st.k, st.eL, pwOK, vr, cn); } finally { c.restore(); } } });
+      c.restore();
+    });
+    draw(parts.filter(p => p.z < 4));
+    g.gears.forEach((G, ci) => {   // 歯車：落ち影・本体・動力の白熱（画面の座標）
+      const ph = _brsPhases(G, drivePh(ci, now));
+      G.forEach((o, i) => {
+        const st = stOf(o.L); if (!st) return;
+        const cn = g.corners[ci], off = (1 - _brsBack(st.k)) * o.r * 1.6 * .707, x = o.x - cn[2] * off, y = o.y - cn[3] * off;
+        c.save(); c.globalAlpha = .45 * _frE(st.k); c.translate(x + 1.4, y + 2); c.rotate(ph[i]); _brsGearShape(c, o.r, o.n, Math.max(1.6, o.r * .16));
+        c.fillStyle = '#000'; c.fill('evenodd'); c.restore();
+        _brsDrawGear(c, x, y, o.r, o.n, ph[i], _frE(st.k) * .97, 1);
+        if (RICH() && i > 0) { c.save(); c.globalAlpha = .72 * _frE(st.k); c.globalCompositeOperation = 'color'; c.translate(x, y); c.rotate(ph[i]);
+          _brsGearShape(c, o.r, o.n, Math.max(1.6, o.r * .16)); c.fillStyle = i === 1 ? '#C8683A' : '#4D78C8'; c.fill('evenodd'); c.restore(); }
+        const kh = Math.min(st.eL / 1100, s ? _frC((now - s.t0 - i * 60) / 700) : 1);
+        if (kh < 1) {
+          c.save(); c.globalAlpha = 1 - kh; c.translate(x, y); c.rotate(ph[i]);
+          _brsGearShape(c, o.r, o.n, Math.max(1.6, o.r * .16)); c.strokeStyle = hot(kh); c.lineWidth = 1.8; c.stroke(); c.restore();
+        }
+      });
+      // 配管の圧力計（段7〜）：画面の座標で描く（針の向きを4隅で揃える）。動力が入ると針が跳ねて戻る
+      const stg = stOf(7);
+      if (stg && GROW.n >= 7) {
+        const cn = g.corners[ci], P = g.pipe, gp = scr(cn, { x: P.gaugeX, y: P.gaugeY }), st0 = scr(cn, { x: P.x, y: P.gaugeY });
+        const gr = P.gaugeR * _brsBack(stg.k); if (gr > 0) {
+          c.save(); c.globalAlpha = _frE(stg.k); c.lineCap = 'round';
+          const mx = (st0.x + gp.x) / 2 - cn[2] * 1.5 * u, cr = 2.6 * u, cy0 = gp.y - cn[3] * cr;
+          c.strokeStyle = 'rgba(0,0,0,.45)'; c.lineWidth = 2.1 * u; c.beginPath(); c.moveTo(st0.x + 1, st0.y + 1.3); c.lineTo(gp.x + 1, gp.y + 1.3); c.stroke();
+          c.beginPath(); c.arc(mx + 1, cy0 + 1.3, cr, 0, TAU); c.stroke();
+          c.strokeStyle = cylK(c, gp.y - 1.1 * u, gp.y + 1.1 * u, false, 'steel'); c.lineWidth = 1.8 * u; c.beginPath(); c.moveTo(st0.x, st0.y); c.lineTo(gp.x, gp.y); c.stroke();
+          c.strokeStyle = grad(c.createRadialGradient(mx, cy0, cr - .9 * u, mx, cy0, cr + .9 * u), 'steel'); c.beginPath(); c.arc(mx, cy0, cr, 0, TAU); c.stroke();
+          c.restore();
+          const t = s ? (now - s.t0) / 1000 : 9, kick = s ? .3 * Math.exp(-t / .35) * Math.abs(Math.sin(t * 9)) : 0;
+          dial(c, gp.x, gp.y, gr, _frC(gaugeFrac(GROW.n) + kick, 0, 1.02), _frE(stg.k));
+        }
+      }
+    });
+    draw(parts.filter(p => p.z >= 4));
+  };
+  const growRender = () => {
+    cancelAnimationFrame(GROW.raf);
+    const tick = now => {
+      if (!GROW.ctx || !GROW.H || !GROW.H.isConnected) return;
+      if (GROW.ret && now - GROW.ret.t0 >= 520) {
+        const then = GROW.ret.then; GROW.ret = null; GROW.n = 0; GROW.wall = null; GROW.start = new Map(); GROW.ctx.clearRect(0, 0, GROW.ctx.canvas.width, GROW.ctx.canvas.height);
+        if (then > 0) growTo(then);
+        return;
+      }
+      if (GROW.spin && now >= GROW.spin.t0 + GROW.spin.dur + 900) foldSpin(GROW.spin.t0 + GROW.spin.dur);
+      growPaint(now);
+      if (GROW.ret || GROW.spin || now < (GROW.growEnd || 0)) GROW.raf = requestAnimationFrame(tick);
+    };
+    tick(performance.now());
+  };
+  const growTo = n => {
+    const g = growGeo(); if (!g.CW || !g.CH) return;
+    if (!GROW.H || !GROW.H.isConnected) {
+      GROW.H = document.createElement('div'); GROW.H.className = 'rf-full brs-grow'; GROW.H.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(GROW.H); GROW.ctx = null; GROW.n = 0; GROW.wall = null; GROW.spin = null; GROW.ret = null; GROW.start = new Map();
     }
+    if (!GROW.ctx || GROW.w !== g.CW || GROW.h !== g.CH) { GROW.H.innerHTML = ''; GROW.ctx = _frCtx(GROW.H, g.CW, g.CH, 0, 1.5); GROW.w = g.CW; GROW.h = g.CH; }
+    const now = performance.now();
+    if (GROW.ret) { GROW.ret.then = n; return; }
+    if (n < GROW.n) { GROW.ret = { t0: now, from: GROW.n, then: n }; growRender(); return; }
+    const Ls = [...new Set(growParts(g).map(p => p.L).concat([1, 3, 7]))].filter(L => L > GROW.n && L <= n).sort((a, b) => a - b);
+    Ls.forEach((L, i) => GROW.start.set(L, now + i * 110));
+    GROW.n = n; GROW.growEnd = now + Math.max(0, Ls.length - 1) * 110 + 1200;
+    growRender();
+  };
+  /* 動力を入れる：四隅の歯車を dur の間に amt だけ回し、手車を回し、唐草と配管に熱を走らせ、圧力計の針を跳ねさせる */
+  const growPower = (dur, amt) => {
+    if (!GROW.H || !GROW.H.isConnected || GROW.n < 1) return false;
+    const now = performance.now(); foldSpin(now);
+    GROW.spin = { t0: now, dur, amt }; growRender();
+    return true;
+  };
+  const growClear = () => { cancelAnimationFrame(GROW.raf); if (GROW.H) GROW.H.remove(); GROW.H = null; GROW.ctx = null; GROW.n = 0; GROW.ret = null; GROW.spin = null; GROW.wall = null; GROW.start = new Map(); };
+
+  /* 蒸気の粒（通気口・汽笛・継ぎ目から） */
+  const steamSet = (x, y, dir, t0, emit, every, L, R, spread, life, a) => {
+    const P = [];
+    for (let t = 0; t < emit; t += every) P.push({ x, y, t0: t0 + t + _frR(0, every * .6), dir: dir + _frR(-spread, spread), L: L * _frR(.7, 1.08), R: R * _frR(.7, 1.25), ph: _frR(0, TAU), life: life * _frR(.75, 1.15), a });
+    return P;
+  };
+  const drawSteam = (c, e, P) => P.forEach(q => {
+    const lt = (e - q.t0) / q.life; if (lt <= 0 || lt >= 1) return;
+    const t = (e - q.t0) / 1000, d = q.L * (1 - Math.exp(-t / .3)), up = -14 * t * t * 60;   // 少しずつ昇る
+    const x = q.x + Math.cos(q.dir) * d + Math.sin(q.ph + t * 6) * 4 * lt, y = q.y + Math.sin(q.dir) * d + up * .02;
+    drawPuff(c, x, y, 3 + q.R * (1 - Math.exp(-t / .42)), q.a * Math.pow(1 - lt, 1.5) * _frC(t / .035));
   });
-  if (big) for (const s2 of [1, -1]) V.push(_brsVine(px, cy + s2 * 4, s2 * Math.PI / 2, 22 + T * 8, 5, 7 + T, 1.3, 120, sp, 1.7, s2));
-  const dur = Math.max(...V.map(v => v.t0 + v.total / v.speed)) + 500;
-  return { dur: dur + 500, draw(c, e) {
-    const fade = e < dur ? 1 : _frC(1 - (e - dur) / 500);
-    _brsGlow(c, px, cy, 26, .5 * (1 - _frC(e / 700)) * fade);
-    _brsDrawVines(c, e, V, fade, 750);
-  } };
-}
-function _brsCornerCast(CW, CH, hasTop, hasBot) {
-  const I = 14, BV = [], Lh = CW * .36, Lv = Math.min(CH * .3, 260);
-  [[I, I, 1, 1], [CW - I, I, -1, 1], [I, CH - I, 1, -1], [CW - I, CH - I, -1, -1]].forEach(([x, y, sx, sy], j) => {
-    if ((sy > 0 && !hasTop) || (sy < 0 && !hasBot)) return;   // 帯の端がカードの端でない側には隅が無い
-    const t0 = 80 + j * 60;
-    BV.push(_brsVine(x, y, sx > 0 ? 0 : Math.PI, Lh, 7, 12, 1.3, t0, .5, 2.4, sx * sy));
-    BV.push(_brsVine(x, y, sy > 0 ? Math.PI / 2 : -Math.PI / 2, Lv, 7, 11, 1.3, t0 + 40, .5, 2.4, -sx * sy));
-    BV.push(_brsVine(x, y, Math.atan2(sy, sx), Math.min(CW, CH) * .2, 5, 9, 1.1, t0 + 120, .5, 1.8, sx * sy));
-  });
-  const bd = BV.length ? Math.max(...BV.map(v => v.t0 + v.total / v.speed)) + 250 : 300;
-  return { dur: bd + 1300, draw(c, e) {
-    const fade = e < bd + 700 ? .8 : _frC(1 - (e - bd - 700) / 600) * .8;
-    _brsDrawVines(c, e, BV, fade, 900);
-    _brsSheen(c, CW, 0, CH, _frC((e - bd) / 700), .16);
-  } };
-}
+  /* A 四隅の通気口から蒸気（正解のたび）：動力が角から配管を通って通気口へ走り（光の粒）、通気口が白熱して、
+     縁に沿って蒸気が勢いよく噴く。四隅の歯車・手車・圧力計が連動する。段20では汽笛から細く高く噴く。
+     積み上げが段5未満（配管がまだ無い）なら、角板の縁から短く吹く */
+  const ventFx = (T, up) => {
+    const g = growGeo(), u = g.u, lv = GROW.H && GROW.H.isConnected ? GROW.n : 0, P = g.pipe;
+    const hasPipe = lv >= 5, whistle = lv >= 20, OPEN = hasPipe ? 150 : 60;
+    const emit = 280 + Math.min(T, 6) * 45 + (up ? 200 : 0);
+    const S = [], N = [];
+    g.corners.forEach(cn => {
+      const base = hasPipe ? { x: P.x, y: P.y1 + (whistle ? 15 * u : 6 * u) } : { x: 9 * u, y: 31 * u };
+      const p = scr(cn, base), dir = cn[3] > 0 ? PI / 2 : -PI / 2, inward = cn[2] > 0 ? .12 : -.12;
+      const dirIn = dir + (cn[3] > 0 ? inward : -inward);
+      N.push(p);
+      S.push(...steamSet(p.x, p.y, dirIn, OPEN, emit, 13, (whistle ? 150 : hasPipe ? 115 : 70) * u + T * 6 * u, (hasPipe ? 20 : 14) * u + T * 1.5 * u,
+        whistle ? .12 : .26, 950, .55));
+      if (hasPipe) {   // 銅の迂回管の曲がりから細く漏れる（斜め内へ）
+        const jp = scr(cn, { x: P.bx, y: P.by0 + P.rb });
+        S.push(...steamSet(jp.x, jp.y, Math.atan2(cn[3] * .5, cn[2]), OPEN + 60, emit * .6, 26, 30 * u, 9 * u, .35, 650, .38));
+      }
+      if (whistle) {   // 汽笛の鳴き口から横へ短い白い噴き
+        const wp = scr(cn, { x: P.x + P.w, y: P.y1 + 5 * u });
+        S.push(...steamSet(wp.x, wp.y, cn[2] > 0 ? 0 : PI, OPEN + 40, emit * .8, 18, 40 * u, 10 * u, .3, 700, .45));
+      }
+    });
+    const dur = OPEN + emit + 1250;
+    growPower(dur * .75, (.3 + .05 * Math.min(T, 6)) * TAU);
+    return { dur, draw(c, e) {
+      N.forEach(p => { const k = _frC((e - OPEN) / 600); if (e > OPEN - 40 && k < 1) glow(c, p.x, p.y, 16 * u, .7 * (1 - k)); });
+      drawSteam(c, e, S);
+    } };
+  };
+  /* B 段が上がった瞬間（2026-10-01 夜・「配管はもっと複雑に」）：左右の縁を2本の配管が走る。
+     外側は真鍮の主管（上下の角から真ん中へ）、内側は銅の副管（主管から T で分かれ、エルボで曲がって、少し遅れて追う）。
+     継ぎ目ごとに主管はフランジ、副管は真鍮の帯を打ち、ところどころ青焼きの鋼のつなぎで2本を結ぶ。副管の中ほどで赤い手車が回る。
+     真ん中で2本は分配箱（鋲留めの箱・七宝の窓・圧力計・安全弁）に入り、箱の内側から汽笛が鳴る（白い蒸気が横へ）。
+     継ぎ目・手車の軸・安全弁からも蒸気が漏れる。四隅の通気口も同時に噴く（A を重ねる）。メダルは出さない */
+  /* 2026-10-02：B は四隅と同じく出しっぱなし（ユーザー指定）。最初の段上げで配管が走って縁に残り、次からの段上げでは
+     配管は出直さず、熱が主管を走り・手車が回り・圧力計が跳ね・汽笛と蒸気が鳴る。残る配管は四隅の層（GROW の canvas）に描く＝
+     動いている間だけ描き直す／誤答で四隅が引っ込むときは一緒に引っ込む／「四隅を片付ける」で一緒に消える。
+     四隅の層が無いとき（②′ を外したとき）は今までどおり毎回走って消える */
+  const wallGeo = () => {
+    const g = growGeo(), u = g.u, { CW, CH, hb } = g, P = g.pipe, my = (hb + CH) / 2, RUN = 300, LAG = 120, BLOW = RUN + LAG + 60;
+    const lv = GROW.H && GROW.H.isConnected ? GROW.n : 0, yStart = lv >= 20 ? P.y1 + 22 * u : lv >= 5 ? P.sgy1 + 6 * u : P.y0;
+    const GAP = 13 * u, rb = 4 * u, hw = P.w / 2 * 1.15, bw = 5 * u, BOXH = 40 * u;
+    const sides = [0, 1].map(si => {
+      const sd = si ? -1 : 1, x = si ? CW - P.x : P.x, x2 = x + sd * GAP, inward = si ? PI : 0;
+      const xo = x - sd * hw * 1.7, xi = x2 + sd * (bw / 2 + 5 * u), bxc = (xo + xi) / 2, wy = my + 9 * u, wx1 = xi + sd * 20 * u;
+      const runs = [[hb + yStart, 1], [CH - yStart, -1]].map(([y0, s]) => {
+        const Lm = Math.max(0, Math.abs(my - y0) - BOXH / 2), yB = y0 + s * 8 * u, L2 = Math.max(0, Lm - 8 * u - rb);
+        const fl = [], br = [], vy = yB + s * (rb + L2 * .55), vat = LAG + RUN * .55;
+        for (let d = 40 * u, i = 0; d < Lm - 10 * u; d += 46 * u, i++) {
+          const y = y0 + s * d; fl.push({ y, at: RUN * d / Math.max(1, Lm) });
+          if (i % 2 === 0 && Math.abs(y - vy) > 12 * u && d > 8 * u + rb + 6 * u) br.push({ y, at: LAG + RUN * d / Math.max(1, Lm) + 40 });
+        }
+        return { y0, s, Lm, yB, L2, fl, br, vy, vat };
+      });
+      return { si, sd, x, x2, inward, xo, xi, bxc, wy, wx1, runs };
+    });
+    return { g, u, CW, CH, hb, P, my, RUN, LAG, BLOW, GAP, rb, hw, bw, BOXH, sides };
+  };
+  /* 配管そのもの。e＝走り始めてからの ms・fade＝透明度・K＝出しっぱなしのときの状態 { k: 最後に段が上がった時刻, turns: 段上げの回数 } */
+  const wallPaint = (c, w, e, fade, K, now) => {
+    const { u, my, RUN, LAG, GAP, rb, hw, bw, BOXH } = w;
+    const k1 = _frC(e / RUN), k2 = _frC((e - LAG) / RUN), tk = K && K.turns > 1 ? now - K.k : null;
+    w.sides.forEach(sd => {
+      c.save(); c.globalAlpha = fade;
+      sd.runs.forEach(r => {   // 副管（銅）：主管の T → エルボ → 縦へ
+        if (e <= LAG * .5) return;
+        const kt = _frC((e - LAG * .5) / (LAG * .5));
+        tubeH(c, r.yB, sd.x, sd.x + sd.sd * (GAP - rb) * kt, bw, 'copper');
+        if (kt < 1) return;
+        elbow(c, sd.x2 - sd.sd * rb, r.yB + r.s * rb, rb, bw, r.s > 0 ? -PI / 2 : PI / 2, sd.sd > 0 ? 0 : PI, 'copper');
+        const L2 = r.L2 * _brsEio(k2), ys = r.yB + r.s * rb;
+        tubeV(c, sd.x2, ys, ys + r.s * L2, bw, 'copper');
+        if (k2 > 0 && k2 < 1) cglow(c, sd.x2, ys + r.s * L2, 11 * u, .9, '255,140,80');
+        r.br.forEach(f => {   // 青焼きの鋼のつなぎ（2本を結ぶ）
+          if (e < f.at) return; const kf = _frC((e - f.at) / 500);
+          tubeH(c, f.y, sd.x, sd.x2, 2.4 * u, 'steel');
+          if (kf < 1) { c.save(); c.globalCompositeOperation = 'lighter'; c.fillStyle = hot(kf, .8 * (1 - kf)); c.fillRect(Math.min(sd.x, sd.x2), f.y - 1.2 * u, GAP, 2.4 * u); c.restore(); }
+        });
+        r.fl.forEach(f => {   // 副管の帯
+          if (e < f.at + LAG || Math.abs(f.y - r.y0) < 8 * u + rb + 3 * u) return;
+          collar(c, sd.x2, f.y, bw * 1.6, 2.6 * u, 'brass');
+        });
+      });
+      sd.runs.forEach(r => {   // 主管（真鍮）・T の継ぎ手・フランジ
+        const L = r.Lm * _brsEio(k1);
+        tubeV(c, sd.x, r.y0, r.y0 + r.s * L, hw * 2, 'brass');
+        if (k1 < 1) glow(c, sd.x, r.y0 + r.s * L, 12 * u, .9);
+        if (tk != null && tk < 520) {   // 2回目からの段上げ：熱が角から真ん中へ主管を走る
+          const q = _frC(tk / 420), y = r.y0 + r.s * r.Lm * _brsEio(q);
+          c.save(); c.globalCompositeOperation = 'lighter'; c.fillStyle = hot(q * .5, .55 * (1 - q * .6));
+          c.fillRect(sd.x - hw, Math.min(r.y0, y), hw * 2, Math.abs(y - r.y0)); c.restore();
+          glow(c, sd.x, y, 13 * u, .9 * (1 - q * .4));
+        }
+        if (e > LAG * .5) collar(c, sd.x, r.yB, hw * 3, 4.4 * u, 'brass');
+        r.fl.forEach(f => {
+          if (e < f.at) return; const kf = _frC((e - f.at) / 600);
+          if (kf < 1) { c.fillStyle = hot(kf); rrect(c, sd.x - hw * 1.7, f.y - 1.8 * u, hw * 3.4, 3.6 * u, 1.2); c.fill(); }
+          else collar(c, sd.x, f.y, hw * 3.4, 3.6 * u, 'brass');
+          [-1, 1].forEach(s2 => dome(c, sd.x + s2 * hw * 1.25, f.y, .9 * u, kf, 1));
+        });
+        if (e > r.vat) {   // 副管の赤い手車：段が上がるたびにひと回し半して止まる
+          const kv = _frC((e - r.vat) / 260), t = (tk != null ? tk : e - r.vat) / 1000, base = K ? K.turns - 1 : 0;
+          c.save(); c.globalAlpha = fade * _frE(kv);
+          wheel(c, sd.x2, r.vy, 5.4 * u * Math.max(.05, _brsBack(kv)), sd.sd * 9 * (base + 1 - Math.exp(-t / .45)), 'red');
+          c.restore();
+        }
+      });
+      if (e > RUN + LAG) {   // 真ん中の分配箱・圧力計・安全弁・汽笛
+        const kw = _frC((e - RUN - LAG) / 220), sc = Math.max(.01, _brsBack(kw));
+        const bx0 = Math.min(sd.xo, sd.xi), bwid = Math.abs(sd.xi - sd.xo), y0 = my - BOXH / 2;
+        c.save(); c.translate(sd.bxc, my); c.scale(sc, sc); c.translate(-sd.bxc, -my);
+        tubeH(c, sd.wy, sd.xi, sd.wx1, 3.4 * u, 'brass'); collar(c, (sd.xi + sd.wx1) / 2, sd.wy, 2.4 * u, 5 * u, 'brass');
+        const bl0 = Math.min(sd.wx1, sd.wx1 + sd.sd * 11 * u);
+        c.fillStyle = 'rgba(0,0,0,.4)'; rrect(c, bl0 + 1.2, sd.wy - 4 * u + 1.5, 11 * u, 8 * u, 1.5 * u); c.fill();
+        c.fillStyle = cylK(c, sd.wy - 4 * u, sd.wy + 4 * u, false, 'brass'); rrect(c, bl0, sd.wy - 4 * u, 11 * u, 8 * u, 1.5 * u); c.fill();
+        c.strokeStyle = 'rgba(40,26,6,.8)'; c.lineWidth = .7; c.stroke();
+        c.fillStyle = '#140C03'; c.fillRect(sd.wx1 + sd.sd * 3 * u - .8 * u, sd.wy - 3 * u, 1.6 * u, 6 * u);   // 鳴き口
+        collar(c, sd.bxc, y0 - 2.5 * u, 4 * u, 5 * u, 'brass'); dome(c, sd.bxc, y0 - 5.6 * u, 1.6 * u, 1, 1);   // 安全弁
+        c.fillStyle = 'rgba(0,0,0,.45)'; rrect(c, bx0 + 1.5, y0 + 2, bwid, BOXH, 2.5 * u); c.fill();
+        c.fillStyle = metal(c, bx0, y0, bx0 + bwid, y0 + BOXH); rrect(c, bx0, y0, bwid, BOXH, 2.5 * u); c.fill();
+        c.strokeStyle = 'rgba(40,26,6,.9)'; c.lineWidth = 1; c.stroke();
+        const lit = kw < 1 ? 1 - kw : tk != null && tk < 900 ? 1 - tk / 900 : 0;
+        if (RICH()) {   // 七宝の窓と金の縁
+          const eg = c.createLinearGradient(0, my + 3 * u, 0, my + BOXH / 2 - 3 * u); eg.addColorStop(0, '#1F7A86'); eg.addColorStop(1, '#0B3A44');
+          c.fillStyle = eg; rrect(c, bx0 + 2.6 * u, my + 3.5 * u, bwid - 5.2 * u, BOXH / 2 - 7 * u, 1.4 * u); c.fill();
+          c.strokeStyle = '#FFE9A0'; c.lineWidth = .7; c.stroke();
+          gem(c, sd.bxc, my + 3.5 * u + (BOXH / 2 - 7 * u) / 2, 1.6 * u, 'ruby', 1, lit);
+        } else { c.strokeStyle = 'rgba(40,26,6,.6)'; c.lineWidth = .8; rrect(c, bx0 + 2.6 * u, my + 3.5 * u, bwid - 5.2 * u, BOXH / 2 - 7 * u, 1.4 * u); c.stroke(); }
+        [[bx0 + 2 * u, y0 + 2 * u], [bx0 + bwid - 2 * u, y0 + 2 * u], [bx0 + 2 * u, y0 + BOXH - 2 * u], [bx0 + bwid - 2 * u, y0 + BOXH - 2 * u]].forEach(([rx, ry]) => dome(c, rx, ry, .9 * u, _frC(kw * 2), 1));
+        // 圧力計：走り終えると振り切れ、出しっぱなしのときは段に応じた値へ落ち着く。段が上がるたびに跳ね直す
+        const rest = .35 + .5 * Math.min(1, (GROW.n || 0) / 20), tg = tk != null ? tk : e - RUN - LAG - 80, from = tk != null ? rest : .1;
+        const v = tg < 700 ? from + (.96 - from) * _brsBack(_frC(tg / 700)) : K ? rest + (.96 - rest) * Math.exp(-(tg - 700) / 600) : .96;
+        dial(c, sd.bxc, my - 8 * u, Math.min(7.5 * u, bwid * .38), _frC(v, 0, 1.02), 1);
+        c.restore();
+      }
+      c.restore();
+    });
+  };
+  const pipesWall = T => {
+    const w = wallGeo(), { u, CW, my, BLOW, BOXH, RUN, LAG } = w, now = performance.now();
+    const keep = !!(GROW.H && GROW.H.isConnected && GROW.ctx), again = keep && !!GROW.wall;
+    if (keep) {
+      if (again) { GROW.wall.k = now; GROW.wall.turns++; } else GROW.wall = { t0: now, k: now, turns: 1 };
+      GROW.growEnd = Math.max(GROW.growEnd || 0, now + 2600); growRender();
+    }
+    const B0 = again ? 60 : BLOW, S = [];
+    w.sides.forEach(sd => {
+      S.push(...steamSet(sd.wx1 + sd.sd * 11 * u, sd.wy, sd.inward, B0, 900, 11, CW * .2 + T * 8 * u, 34 * u, .2, 1150, .55));   // 汽笛
+      S.push(...steamSet(sd.bxc, my - BOXH / 2 - 7 * u, -PI / 2, B0 + 120, 500, 22, 50 * u, 14 * u, .25, 900, .45));   // 安全弁（上へ）
+      sd.runs.forEach(r => {
+        r.fl.forEach(f => S.push(...steamSet(sd.x + Math.cos(sd.inward) * 6 * u, f.y, sd.inward + _frR(-.4, .4), B0 + (again ? f.at * .9 : f.at * .3), 200, 30, 30 * u, 12 * u, .5, 800, .38)));
+        S.push(...steamSet(sd.x2 + sd.sd * 5 * u, r.vy, sd.inward + _frR(-.3, .3), (again ? 120 : r.vat) + 200, 260, 26, 36 * u, 12 * u, .4, 800, .42));   // 手車の軸から
+      });
+    });
+    const dur = B0 + 900 + 1300, boxAt = again ? 0 : RUN + LAG;
+    return { dur, draw(c, e) {
+      if (!keep) wallPaint(c, w, e, e < dur - 600 ? 1 : _frC((dur - e) / 600), null, 0);   // 四隅の層が無いときは毎回走って消える
+      w.sides.forEach(sd => {
+        if (e > boxAt) { const kw = _frC((e - boxAt) / (again ? 500 : 220)); if (kw < 1) glow(c, sd.bxc, my, 26 * u, .8 * (1 - kw)); }
+        const kg = _frC((e - B0) / 700); if (e > B0 && kg < 1) glow(c, sd.wx1 + sd.sd * 11 * u, sd.wy, 30 * u, .85 * (1 - kg));
+      });
+      drawSteam(c, e, S);
+    } };
+  };
+
+  /* ⑥ 打刻機のスタンプ：正解の肢の左端に、斜め（約 -12°）に「APPROVED」「CORRECT」を打つ
+     （正解のたびに交互・段が上がった瞬間は「CERTIFIED」）。打った瞬間は白熱、そこから真鍮色へ冷える。出た瞬間に型の四隅から小さく火花。
+     カードの中の canvas に描く＝次のカードへ送るとカードと一緒に流れていく（画面の同じ場所に浮いて残らない）。
+     ⚠️ 肢の文字に重なるので、地は塗らず枠と字だけ。かすれ（字の欠け）で下の文字が透ける。
+     ⚠️ 上から型が落ちてくる段・重厚版（鋼の軸・厚みの型・彫り込み・屑）は 2026-10-02 にユーザー判断で削除＝戻さない */
+  let STAMP_I = 0;
+  const stampAt = (el, card, T, up, serial) => {
+    const cr = card.getBoundingClientRect(), er = el.getBoundingClientRect();
+    if (!cr.width || !er.width) return;
+    const word = up ? 'CERTIFIED' : ['APPROVED', 'CORRECT'][STAMP_I++ % 2];
+    const H = _frC(er.height * 2.2, 62, 86) + (up ? 10 : 0) + Math.min(T, 5) * 2, fs = Math.round(H * .44), fs2 = Math.max(8, Math.round(H * .16));
+    const m = document.createElement('canvas').getContext('2d'); m.font = '700 ' + fs + 'px ' + SERIF;
+    const W = m.measureText(word.split('').join(' ')).width + fs * .9 + H * .5;
+    const ang = -.21, cx = er.left - cr.left + W * .5 + Math.min(40, er.width * .05), cy = er.top - cr.top + er.height / 2;
+    const S = Math.ceil(Math.max(W, H) * 1.7), d = Math.min(2, window.devicePixelRatio || 1);
+    if (getComputedStyle(card).position === 'static') card.style.position = 'relative';
+    const cv = document.createElement('canvas');
+    cv.width = S * d; cv.height = S * d;
+    cv.style.cssText = 'position:absolute;left:' + (cx - S / 2) + 'px;top:' + (cy - S / 2) + 'px;width:' + S + 'px;height:' + S + 'px;pointer-events:none;z-index:4;';
+    cv.setAttribute('aria-hidden', 'true'); cv.className = 'brs-stamp';
+    card.appendChild(cv);
+    const c = cv.getContext('2d'); c.setTransform(d, 0, 0, d, 0, 0);
+    const HOLD = 1800, END = 2150, o = S / 2;
+    // かすれ：決まった位置の小さな欠け（乱数を毎フレーム引かない）
+    const rnd = (sd => () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; })(word.length * 977 + STAMP_I * 131);
+    const SPECK = Array.from({ length: 70 }, () => [(rnd() - .5) * W, (rnd() - .5) * H, .6 + rnd() * 1.8]);
+    // 火花（2026-10-02「少し火花」・前の各2〜3本・0.3秒では気づかれなかった）：型の四隅から4〜5本ずつと下の縁から少し。
+    // 出た瞬間に四隅が小さく光る。数は控えめ＝肢の文字の上を線で埋めない
+    const R2 = (lx, ly) => [o + lx * Math.cos(ang) - ly * Math.sin(ang), o + lx * Math.sin(ang) + ly * Math.cos(ang)];
+    const CORN = [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sx, sy]) => R2(sx * W / 2, sy * H / 2));
+    const SP = [].concat(...CORN.map(([x, y]) => _brsSparkSet(x, y, 4 + (up ? 1 : 0), 0, 270, 460)),
+      ...[-.25, .25].map(f => { const [x, y] = R2(f * W, H / 2); return _brsSparkSet(x, y, 3, 20, 220, 400); }));
+    const frame = (col, a) => {   // 二重の角丸の枠・上に小さく MEC と番号・真ん中に大きく単語
+      c.save(); c.globalAlpha = a; c.strokeStyle = col; c.fillStyle = col;
+      c.lineWidth = Math.max(2, H * .06); rrect(c, -W / 2, -H / 2, W, H, H * .14); c.stroke();
+      c.lineWidth = Math.max(1, H * .025); rrect(c, -W / 2 + H * .1, -H / 2 + H * .1, W - H * .2, H - H * .2, H * .09); c.stroke();
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.font = '700 ' + fs2 + 'px ' + MONO; c.fillText('MEC · ' + serial, 0, -H * .26);
+      c.font = '700 ' + fs + 'px ' + SERIF; c.fillText(word.split('').join(' '), 0, H * .1);
+      [-1, 1].forEach(s => { c.beginPath(); const x = s * (W / 2 - H * .22), y = H * .1; c.moveTo(x, y - 3); c.lineTo(x + 2.2, y); c.lineTo(x, y + 3); c.lineTo(x - 2.2, y); c.closePath(); c.fill(); });
+      c.restore();
+    };
+    const t0 = performance.now();
+    const tick = now => {
+      if (!cv.isConnected) return;
+      const e = now - t0;
+      c.clearRect(0, 0, S, S);
+      const k = _frC(e / 900), fade = e < HOLD ? 1 : _frC(1 - (e - HOLD) / (END - HOLD));
+      glow(c, o, o, W * .55, .55 * (1 - _frC(e / 450)) * fade);
+      const kr = _frC(e / 300);   // 打った瞬間の衝撃の輪（型の形のまま広がる）
+      if (kr < 1) { c.save(); c.translate(o, o); c.rotate(ang); c.scale(1 + kr * .25, 1 + kr * .5); c.globalCompositeOperation = 'lighter';
+        c.strokeStyle = 'rgba(255,220,140,' + (.75 * (1 - kr)) + ')'; c.lineWidth = 2; rrect(c, -W / 2, -H / 2, W, H, H * .14); c.stroke(); c.restore(); }
+      c.save(); c.translate(o, o); c.rotate(ang);
+      frame('rgba(10,6,2,.7)', fade); c.translate(-.8, -.8); frame('rgba(255,243,196,.35)', fade); c.translate(.8, .8);
+      frame(hot(k), .95 * fade);
+      c.globalCompositeOperation = 'destination-out'; c.fillStyle = '#000';   // かすれ
+      SPECK.forEach(([x, y, r]) => { c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill(); });
+      c.restore();
+      if (e < 180) CORN.forEach(([x, y]) => glow(c, x, y, 9, .95 * (1 - e / 180)));   // 四隅の小さな光
+      // 火花：共通の _brsDrawSparks は筋が約6px と短くて見えなかったので、ここだけ尾を長く（約45ms ぶん）・先端に光る粒
+      c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
+      SP.forEach(q => {
+        const lt = (e - q.t0) / q.life; if (lt <= 0 || lt >= 1) return;
+        const at = t => [q.x + q.vx * t, q.y + q.vy * t + 650 * t * t / 2], t = (e - q.t0) / 1000, p1 = at(t), p0 = at(Math.max(0, t - .045));
+        const g = c.createLinearGradient(p0[0], p0[1], p1[0], p1[1]); g.addColorStop(0, 'rgba(255,150,40,0)'); g.addColorStop(1, hot(lt * .8, 1 - lt * lt));
+        c.strokeStyle = g; c.lineWidth = 2 * (1 - lt * .5); c.beginPath(); c.moveTo(p0[0], p0[1]); c.lineTo(p1[0], p1[1]); c.stroke();
+        c.fillStyle = 'rgba(255,248,220,' + (1 - lt) + ')'; c.beginPath(); c.arc(p1[0], p1[1], 1.3 * (1 - lt * .6), 0, TAU); c.fill();
+      });
+      c.restore();
+      if (e < END) requestAnimationFrame(tick); else cv.remove();
+    };
+    requestAnimationFrame(tick);
+    // 打った手応え：カードが沈む（transform は既存アニメに殺されるので translate で）
+    if (card.animate) card.animate([{ translate: '0 0' }, { translate: '0 3px', offset: .22 }, { translate: '0 0' }], { duration: 260, easing: MO.spring });
+    setTimeout(() => cv.remove(), END + 200);
+  };
+
+  const fx = (el, card, tier, promoted) => {
+    const er = el.getBoundingClientRect(); if (!er.width || !er.height) return;
+    const T = Math.max(1, tier), up = promoted && tier >= 2, CW = window.innerWidth, CH = window.innerHeight;
+    if (!CW || !CH) return;
+    const qn = card.querySelector('.qn'), num = qn && (qn.textContent.match(/\d+/) || [])[0];
+    const serial = 'No.' + String(num || examAnswered || 0).padStart(4, '0');
+    growTo(Math.max(1, examStreak || 1));   // 先に積む（A が四隅の配管から噴くため）
+    const parts = [];
+    if (up) parts.push(pipesWall(T));
+    parts.push(ventFx(T, up));
+    stampAt(el, card, T, up, serial);
+    const dur = Math.max(...parts.map(p => p.dur));
+    _rfK = 1;
+    const H = _rfFullHost(dur + 50), L = _lqLayer(H, 'fr-card'), c2 = _frCtx(L, CW, CH, 0, 1.5);
+    _frRun(c2, CW, CH, dur, (c, e) => parts.forEach(p => { c.save(); try { p.draw(c, e); } finally { c.restore(); } }));
+    _lqDrop(H, L, dur + 50);
+  };
+  // 誤答で連続が切れたとき：四隅（と縁の配管）を引っ込める
+  const retract = () => { if (GROW.H && GROW.H.isConnected && GROW.n > 0) growTo(0); };
+  return { fx, retract, clear: growClear };
+})();
 
 function _brsBrassFx(el, card, tier, promoted, budget) {
   if (!el || !card || _fxOff()) return;
-  const er = el.getBoundingClientRect();
-  if (!er.width || !er.height) return;
-  const w = er.width, h = er.height;
-  let lx = w * .42, ly = h / 2;
-  const pt = _lqPtr;
-  if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
-  const T = Math.max(1, tier), up = promoted && tier >= 2;
-  // brass は肢の層を持たず、全部が全画面の層（ラボの尺のまま）。座標は画面
-  const CW = window.innerWidth, CHf = window.innerHeight;
-  if (!CW || !CHf) return;
-  const chL = er.left, chT = er.top, top = 0, CH = CHf;
-  const px = chL + lx, py = chT + ly;
-  // 大きさの基準は肢の高さ（最低 BRS_MIN_H）。実物の肢は1行だと約28pxしかなく、そのまま測ると
-  // TIER1〜2 の歯車・刻印・唐草が豆粒になる（デモの肢は46px）。肢と同じ中心で高さだけ足した箱で測る。
-  const hs = Math.max(h, BRS_MIN_H), lo = { l: chL, t: chT - top + h / 2 - hs / 2, w, h: hs };
-  const bigY = _frC(py, CH * .3, CH * .7);
-  // 火花と押し込みは部品を組む間に予約だけ集め、全長が決まって _rfFit した後に時刻を縮めて打つ
-  const later = [];
-  // 火花（数粒）。全画面の層と同じ画面座標で打つ
-  const spark = (x, y, n, ms) => later.push([ms, () => {
-    if (!examMode || !window.MecFX || !window.MecFX.sparks) return;
-    window.MecFX.sparks(x, y, { count: n, colors: [BRS_PALE, '#FFD700', BRS_AMBER, '#FFFFFF'] });
-  }]);
-  // 刻印を打った手応え（肢／カードが一瞬沈む）。transform は既存アニメに殺されるので translate で
-  const press = (ms, whole) => later.push([ms, () => {
-    const t = whole ? card : el;
-    if (t.isConnected && t.animate) t.animate([{ translate: '0 0' }, { translate: whole ? '0 2px' : '0 1.5px', offset: .25 }, { translate: '0 0' }], { duration: whole ? 260 : 200, easing: MO.spring });
-  }]);
-  const qn = card.querySelector('.qn'), num = qn && (qn.textContent.match(/\d+/) || [])[0];
-  const serial = 'No.' + String(num || examAnswered || 0).padStart(4, '0');
-
-  const parts = [];
-  if (up) {
-    const mR = Math.min(CW * .33, CH * .38, 150), Rc = Math.min(Math.min(CW, CH) * .15, 90) * 1.12;   // mR はメダルの半径（_brsMedallion と同じ式）
-    parts.push(_brsGearWall(T, CW, CH, CW / 2, bigY, mR * 1.1, Rc, 300), _brsMedallion(tier, CW, CH, bigY, spark, press), _brsCornerCast(CW, CH, top === 0, top + CH >= CHf));
-  }
-  parts.push(_brsFiligree(T, px, lo), _brsGearTrain(T, px, py, lo, CW, spark), _brsHallmark(T, lo, serial, spark, press));
-  const dur = Math.max(...parts.map(p => p.dur));
-  _rfK = 1;
-  later.forEach(([ms, f]) => setTimeout(f, ms));
-  const H = _rfFullHost(dur + 50);
-  const C = _lqLayer(H, 'fr-card');
-  const c2 = _frCtx(C, CW, CH, top, 1.5);
-  _frRun(c2, CW, CH, dur, (c, e) => parts.forEach(p => p.draw(c, e)));
-  _lqDrop(H, C, dur + 50);
+  _brsDeco.fx(el, card, tier, promoted);
 }
 
 /* コンボメーター（画面上端の帯・「次の段まで」のラベル・カード赤熱＝_updateComboMeter / _resetComboMeter）は
@@ -6353,6 +6817,7 @@ function _rfScoreWrong(card, choiceStr, choiceEl) {
   const saved = examStreak > 0 && examStreakGrace;
   if (saved) examStreakGrace = false;
   else examStreak = 0;
+  if (!saved && _rfUi() === 'brass') _brsDeco.retract();   // brass の四隅と縁の配管は連続が切れたら引っ込む
   try {
     // 誤答は静かに：赤いフラッシュも揺れも出さず、連続の状態だけを畳む
     card.classList.remove('fx-correct');
