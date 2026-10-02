@@ -2248,6 +2248,9 @@ const BR_NX_DUR = 1050;
 const BR_NX_IDLE_MS = 30000;   // 数え終わってから、ちらつきを続ける時間
 const BR_NX_IDLE_WAIT = 1700;  // 焼き入れ（約1.6秒）が済むのを待つ
 const BR_NX_GLINT_MS = 950;    // 正しい数字へ戻る瞬間の煌めき（index.css の .br-nx-glint の尺 .9s）を外すまで
+const BR_NX_GAP_MIN = 500, BR_NX_GAP_MAX = 2000;   // 1本のちらつきが終わってから次の1本までの間（2026-10-02 ユーザー指定 0.5〜2秒）
+// ⚠️ 間は「解いた数」と「正答率」の2つの読み値で共有する（別々に数えると、交互にちらついて間が無くなる）
+let _brNxGateAt = 0, _brNxGateOwner = null;   // 次のちらつきを始めてよい時刻（Infinity＝どれかがちらつき中）
 function _themeIs(id) {
   return !!(window.MecUITheme && MecUITheme.get && MecUITheme.get() === id);
 }
@@ -2325,7 +2328,8 @@ function _brNixieTween(el, from, to, done) {
   })(t0);
 }
 // 止まったあとのちらつき。着地（_landHeroNumber が桁を .dg に組み直したあと）から BR_NX_IDLE_MS の間だけ。
-// 0.6〜2.4秒おきに管を1本選び、2〜5回ランダムな数字に切り替えてから元の数字へ戻す。非表示タブでは休む。
+// 管を1本選び、2〜5回ランダムな数字に切り替えてから元の数字へ戻す。次の1本までは BR_NX_GAP_MIN〜MAX のランダムな間
+// （2つの読み値で共有）。非表示タブでは休む。
 function _brNixieIdle(el) {
   if (!el || _reducedMotion()) return;
   if (el._brNxIdleStop) el._brNxIdleStop();
@@ -2334,6 +2338,7 @@ function _brNixieIdle(el) {
   const stop = () => {
     alive = false;
     clearTimeout(timer);
+    if (_brNxGateOwner === el) { _brNxGateOwner = null; _brNxGateAt = 0; }   // ちらつきの途中で止めたら共有の門を開ける
     if (el._brNxIdleStop === stop) el._brNxIdleStop = null;
     el.querySelectorAll('.dg').forEach(d => {
       if (d.dataset.real != null) { d.textContent = d.dataset.real; delete d.dataset.real; }
@@ -2342,18 +2347,22 @@ function _brNixieIdle(el) {
   };
   el._brNxIdleStop = stop;
   const flick = d => { d.classList.remove('flick'); void d.offsetWidth; d.classList.add('flick'); };
-  const next = () => {
+  const next = wait => {
     if (!alive) return;
     if (performance.now() > until || !_themeIs('brass')) { stop(); return; }
-    timer = setTimeout(burst, 600 + Math.random() * 1800);
+    timer = setTimeout(burst, wait);
   };
   const burst = () => {
     if (!alive) return;
-    if (document.hidden) { next(); return; }
+    if (document.hidden) { next(BR_NX_GAP_MIN); return; }
+    // もう一方の読み値がちらつき中か、間が明けていなければ、門が開くまで待つ
+    const now = performance.now();
+    if (now < _brNxGateAt) { next(_brNxGateAt === Infinity ? 120 : _brNxGateAt - now); return; }
     // 煌めいている最中の管は選ばない（煌めきを途中で切らない）
     const ds = Array.from(el.querySelectorAll('.dg')).filter(d => d.dataset.real == null && !d.classList.contains('br-nx-glint') && /\d/.test(d.textContent));
-    if (!ds.length) { next(); return; }
+    if (!ds.length) { next(BR_NX_GAP_MIN); return; }
     const d = ds[Math.floor(Math.random() * ds.length)], real = d.textContent;
+    _brNxGateAt = Infinity; _brNxGateOwner = el;
     d.dataset.real = real;
     d.classList.add('br-nx-idle');
     const n = 2 + Math.floor(Math.random() * 4);
@@ -2370,11 +2379,13 @@ function _brNixieIdle(el) {
         d.textContent = real; d.classList.remove('br-nx-idle', 'flick'); delete d.dataset.real;
         void d.offsetWidth; d.classList.add('br-nx-glint');
         setTimeout(() => d.classList.remove('br-nx-glint'), BR_NX_GLINT_MS);
-        next();
+        const gap = BR_NX_GAP_MIN + Math.random() * (BR_NX_GAP_MAX - BR_NX_GAP_MIN);
+        _brNxGateAt = performance.now() + gap; _brNxGateOwner = null;
+        next(gap);
       }
     })();
   };
-  timer = setTimeout(next, BR_NX_IDLE_WAIT);
+  timer = setTimeout(() => next(0), BR_NX_IDLE_WAIT);
 }
 
 /* ══════════ D3: レベルバー（2026-08-14）══════════

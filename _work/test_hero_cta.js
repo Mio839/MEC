@@ -574,6 +574,11 @@ t('Brass の読み値はニキシー管＋歯車連動（ちらつきは一定�
   assert.ok(/BR_NX_IDLE_MS/.test(idle) && /const BR_NX_IDLE_MS = 30000;/.test(HTML), 'ちらつきが一定時間（30秒）で終わらない');
   assert.ok(/_brNxIdleStop\) el\._brNxIdleStop\(\)/.test(idle), '始める前に前のちらつきを止めていない');
   assert.ok(/document\.hidden/.test(idle), '非表示タブでも動かしている');
+  // 1本のちらつきから次の1本までは 0.5〜2秒のランダムな間（2026-10-02 ユーザー指定）。2つの読み値で共有する
+  assert.ok(/const BR_NX_GAP_MIN = 500, BR_NX_GAP_MAX = 2000;/.test(HTML), '次のちらつきまでの間が 0.5〜2秒でない');
+  assert.ok(/BR_NX_GAP_MIN \+ Math\.random\(\) \* \(BR_NX_GAP_MAX - BR_NX_GAP_MIN\)/.test(idle), '間をランダムに取っていない');
+  assert.ok(/now < _brNxGateAt/.test(idle) && /_brNxGateAt = Infinity/.test(idle), '間を2つの読み値で共有していない（交互にちらついて間が無くなる）');
+  assert.ok(/_brNxGateOwner === el\) \{ _brNxGateOwner = null; _brNxGateAt = 0; \}/.test(idle), '途中で止めたときに共有の門を開けていない');
   assert.ok(/br-nx-glint/.test(idle) && /\.dg\.br-nx-glint\{animation:brNxGlint/.test(HTML), '正しい数字へ戻る瞬間に煌めかせていない');
   // 煌めきの尺（CSS）と外す時間（JS）が揃っている（JS が先に外すと煌めきが途中で切れる）
   const gSec = Number((HTML.match(/\.dg\.br-nx-glint\{animation:brNxGlint ([\d.]+)s/) || [])[1]);
