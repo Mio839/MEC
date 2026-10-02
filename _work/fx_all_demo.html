@@ -4137,11 +4137,12 @@ const BRSEXT = `
     // かすれ：決まった位置の小さな欠け（乱数を毎フレーム引かない）
     const rnd = (sd => () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; })(word.length * 977 + STAMP_I * 131);
     const SPECK = Array.from({ length: 70 }, () => [(rnd() - .5) * W, (rnd() - .5) * H, .6 + rnd() * 1.8]);
-    // 小さな火花：型の四隅から2〜3本ずつ・短く
-    const SP = [].concat(...[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sx, sy]) => {
-      const lx = sx * W / 2, ly = sy * H / 2;
-      return _brsSparkSet(o + lx * Math.cos(ang) - ly * Math.sin(ang), o + lx * Math.sin(ang) + ly * Math.cos(ang), 2 + (up ? 1 : 0), 0, 200, 300);
-    }));
+    // 火花（2026-10-02「少し火花」・前の各2〜3本・0.3秒では気づかれなかった）：型の四隅から4〜5本ずつと下の縁から少し。
+    // 出た瞬間に四隅が小さく光る。数は控えめ＝肢の文字の上を線で埋めない
+    const R2 = (lx, ly) => [o + lx * Math.cos(ang) - ly * Math.sin(ang), o + lx * Math.sin(ang) + ly * Math.cos(ang)];
+    const CORN = [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sx, sy]) => R2(sx * W / 2, sy * H / 2));
+    const SP = [].concat(...CORN.map(([x, y]) => _brsSparkSet(x, y, 4 + (up ? 1 : 0), 0, 270, 460)),
+      ...[-.25, .25].map(f => { const [x, y] = R2(f * W, H / 2); return _brsSparkSet(x, y, 3, 20, 220, 400); }));
     const frame = (col, a) => {   // 二重の角丸の枠・上に小さく MEC と番号・真ん中に大きく単語
       c.save(); c.globalAlpha = a; c.strokeStyle = col; c.fillStyle = col;
       c.lineWidth = Math.max(2, H * .06); rrect(c, -W / 2, -H / 2, W, H, H * .14); c.stroke();
@@ -4155,7 +4156,7 @@ const BRSEXT = `
     const t0 = performance.now();
     const tick = now => {
       if (!cv.isConnected) return;
-      const e = now - t0;
+      const e = window.__brsStampFreeze != null ? window.__brsStampFreeze : now - t0;   // デモの撮影用：経過時間を固定して見る
       c.clearRect(0, 0, S, S);
       const k = _frC(e / 900), fade = e < HOLD ? 1 : _frC(1 - (e - HOLD) / (END - HOLD));
       glow(c, o, o, W * .55, .55 * (1 - _frC(e / 450)) * fade);
@@ -4168,7 +4169,17 @@ const BRSEXT = `
       c.globalCompositeOperation = 'destination-out'; c.fillStyle = '#000';   // かすれ
       SPECK.forEach(([x, y, r]) => { c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill(); });
       c.restore();
-      _brsDrawSparks(c, e, SP, 650);
+      if (e < 180) CORN.forEach(([x, y]) => glow(c, x, y, 9, .95 * (1 - e / 180)));   // 四隅の小さな光
+      // 火花：共通の _brsDrawSparks は筋が約6px と短くて見えなかったので、ここだけ尾を長く（約45ms ぶん）・先端に光る粒
+      c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
+      SP.forEach(q => {
+        const lt = (e - q.t0) / q.life; if (lt <= 0 || lt >= 1) return;
+        const at = t => [q.x + q.vx * t, q.y + q.vy * t + 650 * t * t / 2], t = (e - q.t0) / 1000, p1 = at(t), p0 = at(Math.max(0, t - .045));
+        const g = c.createLinearGradient(p0[0], p0[1], p1[0], p1[1]); g.addColorStop(0, 'rgba(255,150,40,0)'); g.addColorStop(1, hot(lt * .8, 1 - lt * lt));
+        c.strokeStyle = g; c.lineWidth = 2 * (1 - lt * .5); c.beginPath(); c.moveTo(p0[0], p0[1]); c.lineTo(p1[0], p1[1]); c.stroke();
+        c.fillStyle = 'rgba(255,248,220,' + (1 - lt) + ')'; c.beginPath(); c.arc(p1[0], p1[1], 1.3 * (1 - lt * .6), 0, TAU); c.fill();
+      });
+      c.restore();
       if (e < END) requestAnimationFrame(tick); else cv.remove();
     };
     requestAnimationFrame(tick);
