@@ -254,6 +254,13 @@ reset({});
   assert.ok(byId(ns, 'tomorrow').tx.indexOf('<b>3問</b>') >= 0);
   assert.ok(byId(ns, 'mature').tx.indexOf('<b>25問</b>') >= 0);
   ok(true, 'SRS の期限切れ・最古・明日の予告・定着した札を数える');
+
+  // lastSeen の無い札で予定日がありえないほど古い（2020-01-01）→ 学習記録の最初の日から数える（待機列の図と同じ下限）
+  reset({ mec_srs_v1: { endo_ch01_q1: { nextReview: '2020-01-01', interval: 1 } },
+          activity_v1: { [d(-20)]: 3, [d(-2)]: 1 } });
+  assert.strictEqual(S._noteSrsFacts().oldest, 20, 'lastSeen なし → 学習記録の最初の日から: ' + S._noteSrsFacts().oldest);
+  assert.strictEqual(S._noteSrsFacts().overdue, 1, '件数からは外さない');
+  ok(true, 'lastSeen の無い外れ値の札は学習記録の最初の日から遅れを数える（2467日前を出さない）');
 }
 
 // ── 12. 解き直し（一度落とした問題に戻れているか）────────────

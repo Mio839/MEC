@@ -137,11 +137,7 @@ function getSrsForecast(days = 14) {
     //  書き込み口は study.html の _updateSRS だけで、そこからは出ない値＝出どころ不明の外れ値）。
     // そういう札は、最後に解いた日（無ければ学習記録 activity_v1 の最初の日）を期限だったとみなして遅れを測る。
     // ⚠️ 件数（復習待ち・0日目）からは外さない＝上段の数字と食い違わせない。直すのは遅れの日数だけ。
-    let firstDay = '';
-    try {
-      const act = JSON.parse(localStorage.getItem('activity_v1') || '{}');
-      for (const k in act) if (/^\d{4}-\d{2}-\d{2}$/.test(k) && (!firstDay || k < firstDay)) firstDay = k;
-    } catch (e) {}
+    const firstDay = _srsFirstDay();
     for (const uid in srs) {
       const e = srs[uid];
       if (!e || !e.nextReview) continue;
@@ -153,8 +149,8 @@ function getSrsForecast(days = 14) {
         if (d < 0) {
           out.late++;
           const floor = e.lastSeen || firstDay;
-          let lateD = -d;
-          if (floor && e.nextReview < floor) { out.odd++; lateD = Math.max(0, _diffDaysStr(floor, today)); }
+          if (floor && e.nextReview < floor) out.odd++;
+          const lateD = _srsLateDays(e, today, firstDay);
           if (lateD > out.maxLate) out.maxLate = lateD;
         }
         const sid = _noteSid(uid);
@@ -1116,20 +1112,36 @@ function _noteChapterFacts() {
   return { near: near, doneBySid: bySid, totalBySid: sidTotal };
 }
 
+// 期限切れの札の「遅れの日数」（関数宣言＝ファイルの上の getSrsForecast からも呼べる）。⚠️ 待機列の図（getSrsForecast）と今日の所見（_noteSrsFacts）の正本＝両方ここを呼ぶ。
+// 予定日は必ず「最後に解いた日＋1日以上」なので、それより前の予定日はありえない値。そういう札は
+// 最後に解いた日（無ければ学習記録 activity_v1 の最初の日）を期限だったとみなして測る。
+// （2026-10-03、所見の側だけ lastSeen しか見ておらず、lastSeen の無い札で「最も古いのは 2467日前」が残った）
+function _srsFirstDay() {
+  let firstDay = '';
+  try {
+    const act = JSON.parse(localStorage.getItem('activity_v1') || '{}');
+    for (const k in act) if (/^\d{4}-\d{2}-\d{2}$/.test(k) && (!firstDay || k < firstDay)) firstDay = k;
+  } catch (e) {}
+  return firstDay;
+}
+function _srsLateDays(e, today, firstDay) {
+  const floor = e.lastSeen || firstDay;
+  const from = floor && e.nextReview < floor ? floor : e.nextReview;
+  return Math.max(0, _noteDayDiff(from, today));
+}
 function _noteSrsFacts() {
   const out = { overdue: 0, oldest: 0, tomorrow: 0, mature: 0 };
   try {
     const today = _jstDay(Date.now());
     const tmr = _jstDay(Date.now() + 86400000);
     const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
+    const firstDay = _srsFirstDay();
     for (const uid in srs) {
       const e = srs[uid]; if (!e || !e.nextReview) continue;
       if ((window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid))) continue;   // 重複コピーは代表だけ
       if (e.nextReview < today) {
         out.overdue++;
-        // 予定日が最後に解いた日より前の札はありえない値＝最後に解いた日から数える（getSrsForecast と同じ下限）
-        const from = e.lastSeen && e.nextReview < e.lastSeen ? e.lastSeen : e.nextReview;
-        const late = Math.max(0, _noteDayDiff(from, today));
+        const late = _srsLateDays(e, today, firstDay);   // 待機列の図と同じ下限（lastSeen → 学習記録の最初の日）
         if (late > out.oldest) out.oldest = late;
       }
       if (e.nextReview === tmr) out.tomorrow++;
