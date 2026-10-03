@@ -470,6 +470,7 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
       const remDate = rem.lastSeen || '0000-00-00', locDate = loc.lastSeen || '0000-00-00';
       if (locDate >= remDate) ms[uid] = loc;
     });
+    srsDropInvalid(ms);   // 問題の札でないもの（検査用の札が紛れ込んだ等）を捨てる
     srsUnifyDups(ms);     // 重複コピーの予定を揃え直す（旧版の端末が片方だけ更新して持ち込んでも直る）
     lsRaw(K_SRS, ms);
     // gamify: 数値フィールドは max（bestStreak等の単調増加カウンタ）、その他はローカル優先
@@ -1407,6 +1408,23 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     }
     return changed;
   }
+  // 問題の札でないエントリを捨てる。書き換えたら true。
+  // ⚠️ 2026-10-03、ハブに「復習の期限切れ…最も古いのは 2467日前」と出た。原因は uid が "a"・予定日 2020-01-01
+  //    の札（_work/test_hub_notes.js の検査用の札と同じ形）が実データに入り込み、Gist 同期で端末間に広がっていたこと。
+  //    書き込み口 _updateSRS は実在の uid にしか書かないので、本物の問題の札は必ず `_q<番号>` で終わる
+  //    （{prefix}_ch{nn}_q{n}・kakumon_{回}{ブロック}_q{n}）。それ以外は件数にも遅れにも数えない＝ここで捨てる。
+  //    同期のマージ直後にも呼ぶので、Gist に残った札も次の push で消える。
+  const SRS_UID_RE = /^[A-Za-z0-9]+(?:_[A-Za-z0-9]+)*_q\d+$/;
+  function srsDropInvalid(srs) {
+    if (!srs || typeof srs !== 'object') return false;
+    let changed = false;
+    for (const uid of Object.keys(srs)) {
+      const e = srs[uid];
+      if (SRS_UID_RE.test(uid) && e && typeof e === 'object') continue;
+      delete srs[uid]; changed = true;
+    }
+    return changed;
+  }
   // ── 解答ログの集計（mec_attempts_roll_v1・2026-09-28〜） ─────────────────
   // 生ログ mec_attempts_v1 は上限 ATT_CAP 件で古い方から捨てる。1日1,400問解く日があるので
   // 生ログは3〜4日分しか残らず、「週の結果発表」（今週と先週）や「今日の所見」（直近14日の比較）が
@@ -1864,13 +1882,14 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
   }
 
   // 読み込み時に一度揃える（同期を待たずに、既に分かれている予定を1つにする）
-  try { const s0 = lsGet(K_SRS); if (srsUnifyDups(s0)) lsRaw(K_SRS, s0); } catch (e) {}
+  try { const s0 = lsGet(K_SRS); const d0 = srsDropInvalid(s0); if (srsUnifyDups(s0) || d0) lsRaw(K_SRS, s0); } catch (e) {}
 
   // ── Public API ───────────────────────────────────────────────────
   window.MECSync = {
     srsSiblings,
     srsIsShadow,
     srsUnifyDups,
+    srsDropInvalid,
     srsNewBudget,
     attSid,
     attCompact,

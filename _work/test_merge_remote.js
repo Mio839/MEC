@@ -365,28 +365,28 @@ test('myrate: correct <= total 不変条件が保たれる', () => {
 console.log('mec_srs_v1 (lastSeen 新しい方)');
 
 test('srs: union of distinct UIDs', () => {
-  const env = makeEnv(seed({ [K_SRS]: { a: { lastSeen: '2026-01-01' } } }));
-  env.mergeRemote({ [K_SRS]: { b: { lastSeen: '2026-01-02' } } });
+  const env = makeEnv(seed({ [K_SRS]: { zz_ch01_q1: { lastSeen: '2026-01-01' } } }));
+  env.mergeRemote({ [K_SRS]: { zz_ch01_q2: { lastSeen: '2026-01-02' } } });
   const ms = env.getObj(K_SRS);
-  assert.ok(ms.a && ms.b);
+  assert.ok(ms.zz_ch01_q1 && ms.zz_ch01_q2);
 });
 
 test('srs: newer lastSeen wins (local newer)', () => {
-  const env = makeEnv(seed({ [K_SRS]: { a: { lastSeen: '2026-03-01', ef: 2.5 } } }));
-  env.mergeRemote({ [K_SRS]: { a: { lastSeen: '2026-01-01', ef: 1.3 } } });
-  assert.strictEqual(env.getObj(K_SRS).a.ef, 2.5);
+  const env = makeEnv(seed({ [K_SRS]: { zz_ch01_q1: { lastSeen: '2026-03-01', ef: 2.5 } } }));
+  env.mergeRemote({ [K_SRS]: { zz_ch01_q1: { lastSeen: '2026-01-01', ef: 1.3 } } });
+  assert.strictEqual(env.getObj(K_SRS).zz_ch01_q1.ef, 2.5);
 });
 
 test('srs: newer lastSeen wins (remote newer)', () => {
-  const env = makeEnv(seed({ [K_SRS]: { a: { lastSeen: '2026-01-01', ef: 1.3 } } }));
-  env.mergeRemote({ [K_SRS]: { a: { lastSeen: '2026-03-01', ef: 2.5 } } });
-  assert.strictEqual(env.getObj(K_SRS).a.ef, 2.5);
+  const env = makeEnv(seed({ [K_SRS]: { zz_ch01_q1: { lastSeen: '2026-01-01', ef: 1.3 } } }));
+  env.mergeRemote({ [K_SRS]: { zz_ch01_q1: { lastSeen: '2026-03-01', ef: 2.5 } } });
+  assert.strictEqual(env.getObj(K_SRS).zz_ch01_q1.ef, 2.5);
 });
 
 test('srs: on equal lastSeen, local wins (>= comparison)', () => {
-  const env = makeEnv(seed({ [K_SRS]: { a: { lastSeen: '2026-02-02', tag: 'local' } } }));
-  env.mergeRemote({ [K_SRS]: { a: { lastSeen: '2026-02-02', tag: 'remote' } } });
-  assert.strictEqual(env.getObj(K_SRS).a.tag, 'local');
+  const env = makeEnv(seed({ [K_SRS]: { zz_ch01_q1: { lastSeen: '2026-02-02', tag: 'local' } } }));
+  env.mergeRemote({ [K_SRS]: { zz_ch01_q1: { lastSeen: '2026-02-02', tag: 'remote' } } });
+  assert.strictEqual(env.getObj(K_SRS).zz_ch01_q1.tag, 'local');
 });
 
 // ─────────────────────────────────────────────────────────────────────────

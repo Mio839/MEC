@@ -114,6 +114,16 @@ t('同期のマージ後にも揃う（旧版の端末が片方だけ更新し�
   assert.strictEqual(out[A].interval, 6);
   assert.deepStrictEqual(out[A], out[B]);
 });
+t('問題の札でないエントリ（uid "a"・予定日 2020-01-01）は読み込み時と同期のマージ後に捨てる', () => {
+  const good = { reps: 1, interval: 1, nextReview: '2026-09-20', lastSeen: '2026-09-19' };
+  const store = { mec_srs_v1: JSON.stringify({ a: { nextReview: '2020-01-01', interval: 1 }, zzz_ch01_q1: good, kakumon_120F_q3: good, x_ch01_q2: null }) };
+  const w = loadProgress(store);
+  let out = JSON.parse(store.mec_srs_v1);
+  assert.deepStrictEqual(Object.keys(out).sort(), ['kakumon_120F_q3', 'zzz_ch01_q1']);
+  w.__mergeRemote({ mec_srs_v1: { a: { nextReview: '2020-01-01', interval: 1 }, old: good } });
+  out = JSON.parse(store.mec_srs_v1);
+  assert.deepStrictEqual(Object.keys(out).sort(), ['kakumon_120F_q3', 'zzz_ch01_q1']);
+});
 
 t('srsNewBudget: 待ちが少ない日は上限いっぱい・多い日は下限・その間は直線', () => {
   const w = loadProgress({});

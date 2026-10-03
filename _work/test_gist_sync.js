@@ -114,7 +114,7 @@ function gistRes(files) {
 // 実データと同じ形の payload を作る
 function payloadOf(over) {
   return Object.assign({
-    done_v2: { a: 1 }, mec_srs_v1: { a: { reps: 1 } },
+    done_v2: { a: 1 }, mec_srs_v1: { zz_ch01_q1: { reps: 1 } },
     myrate_v1: { a: { correct: 1, total: 2 } }, mec_attempts_v1: ['a|1|a|1|10|e|s|1'],
     mec_choice_v1: { a: { _last: 'b' } },
   }, over || {});
@@ -187,13 +187,13 @@ function test(name, fn) {
   await test('分割された複数ファイルを1つの payload に合成して取り込む', async () => {
     const env = makeEnv({}, [[API, () => gistRes({
       'mec_progress.json': { content: JSON.stringify({ done_v2: { a: 1 } }) },
-      'mec_srs.json': { content: JSON.stringify({ mec_srs_v1: { a: { reps: 3, interval: 6 } } }) },
+      'mec_srs.json': { content: JSON.stringify({ mec_srs_v1: { zz_ch01_q1: { reps: 3, interval: 6 } } }) },
       'mec_rate.json': { content: JSON.stringify({ myrate_v1: { a: { correct: 2, total: 3 } } }) },
       'mec_attempts.json': { content: JSON.stringify({ mec_attempts_v1: ['a|1|a|1|10|e|s|1'] }) },
     })]]);
     const r = await env.sync.syncFromGist();
     assert.strictEqual(r.status, 'ok');
-    assert.strictEqual(env.getObj('mec_srs_v1').a.interval, 6);
+    assert.strictEqual(env.getObj('mec_srs_v1').zz_ch01_q1.interval, 6);
     assert.strictEqual(env.getObj('myrate_v1').a.total, 3);
     assert.strictEqual(JSON.parse(env.store['mec_attempts_v1']).length, 1);
   });
@@ -201,7 +201,7 @@ function test(name, fn) {
   await test('複数ファイルが同時に truncated でも全部 raw_url で取り直す（900KiBは応答全体の合計）', async () => {
     // 実測: 4ファイルに分けても合計 content が 921,600B で頭打ちになり、後ろのファイルが切られる。
     // 分割は切り詰めを避けないので、truncated なファイルは何個あっても拾えないといけない。
-    const srs = JSON.stringify({ mec_srs_v1: { a: { reps: 5, interval: 90 } } });
+    const srs = JSON.stringify({ mec_srs_v1: { zz_ch01_q1: { reps: 5, interval: 90 } } });
     const rate = JSON.stringify({ myrate_v1: { a: { correct: 7, total: 8 } } });
     const env = makeEnv({}, [
       ['/raw/srs', () => res(srs)],
@@ -214,7 +214,7 @@ function test(name, fn) {
     ]);
     const r = await env.sync.syncFromGist();
     assert.strictEqual(r.status, 'ok', 'status: ' + JSON.stringify(r));
-    assert.strictEqual(env.getObj('mec_srs_v1').a.interval, 90);
+    assert.strictEqual(env.getObj('mec_srs_v1').zz_ch01_q1.interval, 90);
     assert.strictEqual(env.getObj('myrate_v1').a.total, 8);
     assert.strictEqual(env.calls.filter(c => c.url.includes('/raw/')).length, 2, 'raw の取り直しが2回でない');
   });
@@ -230,17 +230,17 @@ function test(name, fn) {
 
   await test('混在時は mec_progress.json（旧端末が書いた最新）が分割ファイルより優先される', async () => {
     const env = makeEnv({}, [[API, () => gistRes({
-      'mec_srs.json': { content: JSON.stringify({ mec_srs_v1: { a: { reps: 1, interval: 1 } } }) },
-      'mec_progress.json': { content: JSON.stringify({ mec_srs_v1: { a: { reps: 5, interval: 90 } } }) },
+      'mec_srs.json': { content: JSON.stringify({ mec_srs_v1: { zz_ch01_q1: { reps: 1, interval: 1 } } }) },
+      'mec_progress.json': { content: JSON.stringify({ mec_srs_v1: { zz_ch01_q1: { reps: 5, interval: 90 } } }) },
     })]]);
     await env.sync.syncFromGist();
-    assert.strictEqual(env.getObj('mec_srs_v1').a.interval, 90);
+    assert.strictEqual(env.getObj('mec_srs_v1').zz_ch01_q1.interval, 90);
   });
 
   console.log('\n書き込み: ファイル分割');
 
   await test('push は payload を5ファイルへ分け、どれも単独で JSON として妥当', async () => {
-    const env = makeEnv({ done_v2: JSON.stringify({ a: 1 }), mec_srs_v1: JSON.stringify({ a: { reps: 2 } }) },
+    const env = makeEnv({ done_v2: JSON.stringify({ a: 1 }), mec_srs_v1: JSON.stringify({ zz_ch01_q1: { reps: 2 } }) },
       [[API, (u, o) => (o.method === 'PATCH' ? res({ id: GIST_ID }) : gistRes({
         'mec_progress.json': { content: '{}' },
       }))]]);

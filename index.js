@@ -1127,7 +1127,9 @@ function _noteSrsFacts() {
       if ((window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid))) continue;   // 重複コピーは代表だけ
       if (e.nextReview < today) {
         out.overdue++;
-        const late = _noteDayDiff(e.nextReview, today);
+        // 予定日が最後に解いた日より前の札はありえない値＝最後に解いた日から数える（getSrsForecast と同じ下限）
+        const from = e.lastSeen && e.nextReview < e.lastSeen ? e.lastSeen : e.nextReview;
+        const late = Math.max(0, _noteDayDiff(from, today));
         if (late > out.oldest) out.oldest = late;
       }
       if (e.nextReview === tmr) out.tomorrow++;
