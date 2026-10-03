@@ -116,7 +116,7 @@
   // 意匠は「病棟のホワイトボード」（2026-09-25 から変えていない）。⚠️ infinite のアニメは置かない（読む道具）。
   const WARD_CSS = `
 #wardHud{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));translate:-50% 0;z-index:8000;
-  width:min(600px,calc(100% - 20px));box-sizing:border-box;padding:9px 12px 10px;border-radius:16px;display:flex;align-items:center;gap:10px;
+  width:min(960px,calc(100% - 20px));box-sizing:border-box;padding:9px 12px 10px;border-radius:16px;display:flex;align-items:center;gap:10px;
   background:linear-gradient(170deg,#12303A 0%,#0C2129 60%,#0F2630 100%);
   border:1px solid rgba(126,214,223,.55);box-shadow:inset 0 0 0 3px rgba(6,16,20,.85),inset 0 0 0 4px rgba(126,214,223,.22),0 12px 30px rgba(0,0,0,.55);
   color:#E8F6F8;pointer-events:none;transition:opacity .3s ease,translate .4s cubic-bezier(.2,1.3,.4,1);}
@@ -130,7 +130,10 @@
 #wardHud .wh-cnt{margin-left:auto;font-variant-numeric:tabular-nums;font-size:11.5px;color:rgba(232,246,248,.8);overflow:hidden;text-overflow:ellipsis;flex-shrink:0;}
 #wardHud .wh-cnt b{font-size:13px;display:inline-block;}
 #wardHud .wh-cnt .d{color:#6EE7B7}#wardHud .wh-cnt .s{color:#FCA5A5}
-#wardHud .wh-wards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 12px;margin-top:6px;}
+#wardHud .wh-wards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-flow:row dense;gap:3px 12px;margin-top:5px;}
+/* 段を低くするため、広い画面では列を増やす（2026-10-03）。ベッドの多い科目は2列ぶん使う */
+@media (min-width:700px){#wardHud .wh-wards{grid-template-columns:repeat(3,minmax(0,1fr));}#wardHud .wh-ward.wide{grid-column:span 2;}}
+@media (min-width:900px){#wardHud .wh-wards{grid-template-columns:repeat(4,minmax(0,1fr));}}
 #wardHud .wh-ward{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;min-width:0;padding:2px 4px;border-radius:6px;transition:background .3s ease;}
 #wardHud .wh-ward .n{width:5.8em;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.8;}
 #wardHud .wh-ward .bs{display:flex;gap:3px;flex-wrap:wrap;min-width:0;}
@@ -149,7 +152,7 @@
   padding:3px 10px;border-radius:99px;background:rgba(6,16,20,.85);border:1px solid currentColor;animation:whPop 1.1s cubic-bezier(.2,1,.3,1) forwards;}
 .wh-pop.discharge{color:#6EE7B7}.wh-pop.stay{color:#FCA5A5}
 @keyframes whPop{0%{opacity:0;transform:translateY(6px)}18%{opacity:1;transform:translateY(-6px)}75%{opacity:1}100%{opacity:0;transform:translateY(-30px)}}
-body.ward-on .ct{padding-bottom:130px;}
+body.ward-on .ct{padding-bottom:110px;}
 /* 申し送り */
 #wardBrief{position:fixed;left:0;top:0;width:100%;height:100dvh;z-index:9500;display:flex;align-items:center;justify-content:center;padding:14px;box-sizing:border-box;
   background:rgba(4,12,16,.72);animation:wbIn .25s ease both;}
@@ -421,7 +424,7 @@ body.ward-on .ct{padding-bottom:130px;}
     h.innerHTML = '<div class="wh-ring">' + _donut([[0, C_OK, 'rd'], [0, C_NG, 'rs']], S.order.length, 40, 6) + '</div>' +
       '<div class="wh-main"><div class="wh-top"><span class="wh-tag">♾️ 定着プロトコル</span><span class="wh-now"></span><span class="wh-cnt"></span></div>' +
       '<div class="wh-wards">' + ordered.map(([sid, uids]) => { const s = _subj(sid);
-        return '<div class="wh-ward" data-sid="' + _esc(sid) + '"><span class="n">' + _esc(s.icon) + '<span class="nm"> ' + _esc(s.name) + '</span></span><span class="bs">' +
+        return '<div class="wh-ward' + (uids.length > 8 ? ' wide' : '') + '" data-sid="' + _esc(sid) + '"><span class="n">' + _esc(s.icon) + '<span class="nm"> ' + _esc(s.name) + '</span></span><span class="bs">' +
           uids.map(u => '<i class="wh-bed ' + S.sev[u] + '" data-u="' + _esc(u) + '"></i>').join('') + '</span><span class="k"></span></div>'; }).join('') + '</div></div>';
   }
 
